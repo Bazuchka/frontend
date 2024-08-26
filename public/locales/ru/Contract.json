@@ -1,0 +1,12 @@
+{
+    "properties": {
+        "code": "Наименование",
+        "company": "Хранитель",
+        "contractNumber": "Номер",
+        "contractDate": "Дата",
+        "validFrom": "Действует с",
+        "validTo": "Действует по",
+        "currency": "Валюта",
+        "active": "Активный"
+    }
+}

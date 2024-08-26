@@ -1,0 +1,45 @@
+{
+    "menu": {
+        "all": "Товары клиентов",
+        "clientGood": "Товар клиента"
+    },
+    "properties": {
+        "code": "Наименование",
+        "client": "Клиент",
+        "item": "Артикул",
+        "unitOfMeasure": "Ед. изм.",
+        "goodType": "Вид товара",
+        "clientGoodType": "Вид товара клиента",
+        "dangerClass": "Класс опасности",
+        "active": "Активный",
+        "name": "Полное наименование",
+        "price": "Цена, руб. / ед. изм.",
+        "classification": "Классификация",
+        "additionalInfo": "Дополнительная информация",
+        "batchAccountingType": "Партионный учет",
+        "serialAccountingType": "Серийный учет",
+        "shelfLife": "Срок хранения",
+        "tempRegime": "Температурный режим",
+        "gtin": "GTIN",
+        "description": "Описание",
+        "goodProperties": "Параметры товара"
+    },
+    "tabs": {
+        "goodPackages": "Упаковки",
+        "goodPackagesBarcodes": "Штрихкоды упаковок",
+        "goodVariants": "Варианты товара"
+    },
+    "dialog": {
+        "createSuccess": "Товар клиента успешно добавлен",
+        "editSuccess": "Товар клиента успешно изменен",
+        "uploadSuccess": "Загрузка выполнена успешно"
+    },
+    "init": {
+        "initAction": "Выберите параметры товара"
+    },
+    "upload": {
+        "uploadFileAction": "Загрузить файл",
+        "chooseFile": "Выберите файл:",
+        "chooseClient": "Выберите клиента:"
+    }
+}

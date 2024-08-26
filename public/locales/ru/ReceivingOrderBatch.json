@@ -1,0 +1,20 @@
+{
+    "drawerHeader": "Партия",
+    "properties": {
+        "client": "Клиент",
+        "good": "Товар",
+        "batchAccountingType": "Партийный учет",
+        "active": "Активная",
+        "name": "Наименование",
+        "manufactureDate": "Дата производства",
+        "batchBarcode": "Штрихкод партии",
+        "goodVariant": "Вариант товара"
+    },
+    "groups": {
+        "batchSettings": "Характеристики партий"
+    },
+    "dialog": {
+        "createSuccess": "Партия к товару успешно добавлена",
+        "editSuccess": "Партия к товару успешно изменена"
+    }
+}

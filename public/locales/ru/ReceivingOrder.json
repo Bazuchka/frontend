@@ -1,0 +1,45 @@
+{
+    "menu": {
+        "orders": "Заявки на поставку",
+        "order": "Заявка на поставку"
+    },
+    "tabs": {
+        "transport": "Транспорт",
+        "goods": "Товар",
+        "cargoSpaces": "Грузоместа",
+        "operations": "Доп. операции",
+        "presentation": "Просмотр"
+    },
+    "properties": {
+        "number": "Номер",
+        "client": "Клиент",
+        "contract": "Договор",
+        "legalEntityShort": "Юр. Лицо клиента",
+        "legalEntity": "Юридическое лицо клиента",
+        "orderStatus": "Статус",
+        "planReceivingDate": "Дата исп.",
+        "planReceivingDateInfo": "Плановая дата поступления товара на площадку",
+        "planReceivingTime": "Время исп.",
+        "planReceivingTimeInfo": "Плановое время поступления (GMT +3)",
+        "storagePeriod": "Срок хранения товара (месяцев)",
+        "terminalArea": "Площадка, на которую поступит товар",
+        "terminalAreaShort": "Площадка",
+        "transportType": "На чем привезут товар",
+        "transportTypeShort": "Транспорт",
+        "currency": "Валюта стоимости груза",
+        "contact": {
+            "name": "Уполномоченный представитель",
+            "phone": "Телефон",
+            "email": "E-mail"
+        },
+        "comment": "Особые отметки и комментарии",
+        "createdAt": "Дата создания"
+    },
+    "groups": {
+        "orderParams": "Параметры заявки"
+    },
+    "dialog": {
+        "createSuccess": "Заявка на поставку успешно создана",
+        "editSuccess": "Заявка на поставку успешно изменена"
+    }
+}

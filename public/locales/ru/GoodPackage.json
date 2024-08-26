@@ -1,0 +1,20 @@
+{
+    "properties": {
+        "code": "Наименование",
+        "unitOfMeasure": "Ед. изм.",
+        "processingType": "Тип обработки",
+        "active": "Активная",
+        "conversionQty": "Вложенность",
+        "level": "Уровень",
+        "length": "Глубина, мм",
+        "width": "Ширина, мм",
+        "height": "Высота, мм",
+        "volume": "Объем, м3",
+        "weight": "Масса, кг",
+        "tareWeight": "Масса тары, кг"
+    },
+    "dialog": {
+        "createSuccess": "Упаковка успешно добавлена",
+        "editSuccess": "Упаковка успешно изменена"
+    }
+}

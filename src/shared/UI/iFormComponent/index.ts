@@ -1,0 +1,1 @@
+export { IFormComponent } from "./IFormComponent";

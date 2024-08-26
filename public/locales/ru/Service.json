@@ -1,0 +1,17 @@
+{
+    "menu": {
+        "all": "Услуги",
+        "service": "Услуга"
+    },
+    "properties": {
+        "code": "Наименование",
+        "unitOfMeasure": "Ед. изм.",
+        "terminalArea": "Площадка",
+        "accrualMethod": "Способ начисления",
+        "accrualBase": "База начисления",
+        "active": "Активная",
+        "name": "Описание",
+        "instruction": "Инструкция для исполнителя",
+        "billingParams": "Параметры биллинга"
+    }
+}

@@ -1,0 +1,14 @@
+{
+    "properties": {
+        "code": "Наименование",
+        "service": "Услуга",
+        "unitOfMeasure": "Ед. изм.",
+        "frequencyOfServices": "Периодичность",
+        "rate": "Тариф руб./ед. изм."
+    },
+    "dialog": {
+        "createSuccess": "Услуга успешно добавлена",
+        "editSuccess": "Услуга успешно изменена",
+        "deleteSeccess": "Услуга успешно удалена"
+    }
+}

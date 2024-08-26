@@ -1,0 +1,16 @@
+{
+    "drawerHeader": "Габариты 1 упаковки",
+    "properties": {
+        "width": "Ширина, мм",
+        "height": "Высота, мм",
+        "length": "Глубина, мм",
+        "weight": "Масса, кг",
+        "volume": "Объем, м3"
+    },
+    "group": "ВХГ упаковки",
+    "measurement": {
+        "length": "мм",
+        "wight": "кг",
+        "volume": "м3"
+    }
+}

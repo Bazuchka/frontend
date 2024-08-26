@@ -1,0 +1,16 @@
+{
+    "properties": {
+        "service": "Услуга",
+        "unitOfMeasure": "Ед. изм.",
+        "frequencyOfServices": "Периодичность",
+        "rate": "Тариф руб./ед. изм.",
+        "clientOrderType": "Тип заявки",
+        "required": "Обязательная",
+        "calculationMethod": "Расчет количества"
+    },
+    "dialog": {
+        "createSuccess": "Услуга успешно добавлена",
+        "editSuccess": "Услуга успешно изменена",
+        "deleteSeccess": "Услуга успешно удалена"
+    }
+}

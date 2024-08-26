@@ -1,0 +1,27 @@
+{
+    "menu": {
+        "all": "Условия оказания услуг",
+        "short": "Условие оказания услуг"
+    },
+    "properties": {
+        "code": "Наименование",
+        "client": "Клиент",
+        "legalEntity": "Юридическое лицо",
+        "contract": "Договор",
+        "terminalArea": "Площадка",
+        "validFrom": "Действует с",
+        "validTo": "Действует по",
+        "active": "Активное",
+        "currency": "Валюта тарифов",
+        "termPeriod": "Период действия условий",
+        "indefinitely": "Бессрочно"
+    },
+    "tabs": {
+        "periodicServices": "Периодические услуги",
+        "requestedServices": "Услуги по запросу"
+    },
+    "dialog": {
+        "createSuccess": "Услуга успешно добавлена",
+        "editSuccess": "Услуга успешно изменена"
+    }
+}

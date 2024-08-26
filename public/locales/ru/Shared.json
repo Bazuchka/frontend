@@ -1,0 +1,75 @@
+{
+    "appName": "ALabuga Information System",
+    "Reload": {
+        "label": "Обновить экран"
+    },
+    "Menu": {
+        "label": "Меню"
+    },
+    "Help": {
+        "label": "Помощь"
+    },
+    "AttentionMessage": "Вы уверены, что хотите перейти на другую страницу? Введенные данные на текущей странице не будут сохранены.",
+    "RequiredValidateError": "Не заполнено обязательное поле",
+    "SecuritySettings": {
+        "menu": "Настройки безопасности"
+    },
+    "Description": "Описание",
+    "AlertMessages": {
+        "title": {
+            "success": "Успешно",
+            "error": "Ошибка"
+        },
+        "success": "Запись добавлена успешно",
+        "successDelete": "Запись успешно удалена",
+        "notResponsive": "Сервис временно не доступен",
+        "snapshotConvertion": "Модель типа {{modelName}} не была создана, т.к.  содержит некорректные данные для id: {{id}}"
+    },
+    "Detailed": "Подробнее",
+    "Reference": {
+        "dictionary": "Справочники",
+        "configuration": "Конфигурация",
+        "orders": "Заявки"
+    },
+    "dateRange": {
+        "start": "С",
+        "end": "По"
+    },
+    "paginationText": "Строк на странице:",
+    "hours": "Часы",
+    "week": "Неделя",
+    "weeks": {
+        "SUNDAY": "Воскресенье",
+        "MONDAY": "Понедельник",
+        "TUESDAY": "Вторник",
+        "WEDNESDAY": "Среда",
+        "THURSDAY": "Четверг",
+        "FRIDAY": "Пятница",
+        "SATURDAY": "Суббота"
+    },
+    "search": "Поиск",
+    "noOptions": "Не найдено",
+    "loading": "Загрузка",
+    "sortingDirections": {
+        "asc": "Сортировать по возрастанию",
+        "desc": "Сортировать по убыванию",
+        "none": "Отменить сортировку"
+    },
+    "commonInfo": "Основная информация",
+    "contactInfo": "Контактная информация",
+    "menu": {
+        "new": {
+            "masculine": "Новый",
+            "feminine": "Новая",
+            "neuter": "Новое"
+        }
+    },
+    "of": "из",
+    "createdAt": "Дата создания",
+    "additionalInfo": "Дополнительная информация",
+    "chooseFile": "Выберите файл",
+    "dragAndDrop": "Переместите файл",
+    "open": "Открыть",
+    "close": "Закрыть",
+    "clean": "Очистить"
+}

@@ -1,0 +1,17 @@
+{
+    "properties": {
+        "receivingOrderGood": "Артикул, Товар, Вариант Товара",
+        "batch": "Партия",
+        "barcode": "Штрихкод",
+        "goodPackage": "Упаковка",
+        "packageQuantity": "Кол-во уп.",
+        "conversionQuantity": "Кол-во в 1 уп.",
+        "totalQuantity": "Кол-во всего",
+        "dimensions": "Габариты 1 упаковки"
+    },
+    "dialog": {
+        "createSuccess": "Грузоместо успешно создано",
+        "editSuccess": "Грузоместо успешно изменено",
+        "deleteSuccess": "Заявка на поставку успешно изменена"
+    }
+}
