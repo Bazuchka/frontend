@@ -1,0 +1,21 @@
+services:
+  frontend:
+    image: ${DOCKER_IMAGE_NAME}
+    container_name: 'frontend'
+    environment:
+      ALIS_BACKEND__SERVER_URL: 'http://10.50.3.129:8080'
+      KEYCLOACK__AUTH_SERVER_URL: 'http://10.50.3.129:8282/auth'
+      KEYCLOACK__CLIENT_ID: 'alis-front-client'
+      KEYCLOACK__REALM: 'wmskorus'
+      LOGS_JSON_CONSOLE: '1'
+      WMS_BACKEND__SERVER_URL: 'http://10.50.3.119:8080'
+    ports:
+      - '80:80'
+    restart: always
+    networks:
+      - general
+
+
+networks:
+  general:
+    external: true
