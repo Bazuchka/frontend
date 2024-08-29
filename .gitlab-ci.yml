@@ -5,7 +5,7 @@ stages:
   # - sonar # проверка sonarqube кода на уязвимость
   - build  # Сборка Front
   - build_image # Сборка Docker
-  # - deploy # Установка на стенд
+  - deploy # Установка на стенд
   
 # sonarqube-check:
 #   stage: sonar
