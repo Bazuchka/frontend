@@ -47,7 +47,7 @@ fullscreen-create-docker-image:
   image: docker:24.0.5
   variables:
     CI_REGISTRY_IMAGE: "registry-gitlab-devops1c.alabuga.ru"
-    DOCKER_IMAGE_NAME: $CI_REGISTRY_IMAGE/${CI_PROJECT_NAME}/${CI_COMMIT_REF_SLUG}:${CI_COMMIT_SHORT_SHA}
+    DOCKER_IMAGE_NAME: $CI_REGISTRY_IMAGE/${CI_PROJECT_NAMESPACE}_{CI_PROJECT_NAME}/${CI_COMMIT_REF_SLUG}:${CI_COMMIT_SHORT_SHA}
     # DOCKER_HOST: "tcp://localhost:2375"
     # DOCKER_TLS_CERTDIR: ""
     DOCKER_OPTS: "--insecure-registry=registry-gitlab-devops1c.alabuga.ru"
@@ -57,7 +57,7 @@ fullscreen-create-docker-image:
       entrypoint: ["dockerd-entrypoint.sh", "--tls=false"]
       command: ["--insecure-registry", "registry-gitlab-devops1c.alabuga.ru"]
   before_script:
-    - echo "${BUILD_VERSION}"
+    - echo "${BUILD_VERSION} | $CI_REGISTRY"
     - docker info
     - echo "$CI_DEPLOY_PASSWORD" | docker login $CI_REGISTRY_IMAGE -u $CI_DEPLOY_USER --password-stdin
   script:
