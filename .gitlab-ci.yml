@@ -47,7 +47,7 @@ fullscreen-create-docker-image:
   image: docker:24.0.5
   variables:
     CI_REGISTRY_IMAGE: "registry-gitlab-devops1c.alabuga.ru"
-    DOCKER_IMAGE_NAME: $CI_REGISTRY_IMAGE/${CI_PROJECT_NAMESPACE}_${CI_PROJECT_NAME}/${CI_COMMIT_REF_SLUG}:${CI_COMMIT_SHORT_SHA}
+    DOCKER_IMAGE_NAME: $CI_REGISTRY_IMAGE/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}/${CI_COMMIT_REF_SLUG}:${CI_COMMIT_SHORT_SHA}
     # DOCKER_HOST: "tcp://localhost:2375"
     # DOCKER_TLS_CERTDIR: ""
     DOCKER_OPTS: "--insecure-registry=registry-gitlab-devops1c.alabuga.ru"
@@ -66,9 +66,10 @@ fullscreen-create-docker-image:
 
 deploy-test:
   stage: deploy
+  image: docker:24.0.5
   variables:
     CI_REGISTRY_IMAGE: "registry-gitlab-devops1c.alabuga.ru"
-    DOCKER_IMAGE_NAME: $CI_REGISTRY_IMAGE/${CI_PROJECT_NAMESPACE}_${CI_PROJECT_NAME}/${CI_COMMIT_REF_SLUG}:${CI_COMMIT_SHORT_SHA}
+    DOCKER_IMAGE_NAME: $CI_REGISTRY_IMAGE/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}/${CI_COMMIT_REF_SLUG}:${CI_COMMIT_SHORT_SHA}
   script:
     - docker compose -f docker-compose.yml stop
     - docker compose -f docker-compose.yml rm -f
