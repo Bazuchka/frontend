@@ -48,8 +48,8 @@ fullscreen-create-docker-image:
   variables:
     CI_REGISTRY_IMAGE: "registry-gitlab-devops1c.alabuga.ru"
     DOCKER_IMAGE_NAME: $CI_REGISTRY_IMAGE/${CI_PROJECT_NAME}/${CI_COMMIT_REF_SLUG}:${CI_COMMIT_SHORT_SHA}
-    DOCKER_HOST: "tcp://localhost:2375"
-    DOCKER_TLS_CERTDIR: ""
+    # DOCKER_HOST: "tcp://localhost:2375"
+    # DOCKER_TLS_CERTDIR: ""
     DOCKER_OPTS: "--insecure-registry=registry-gitlab-devops1c.alabuga.ru"
   services:
     - name: docker:24.0.5-dind
