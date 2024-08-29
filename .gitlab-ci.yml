@@ -70,7 +70,7 @@ deploy-test:
     CI_REGISTRY_IMAGE: "registry-gitlab-devops1c.alabuga.ru"
     DOCKER_IMAGE_NAME: $CI_REGISTRY_IMAGE/${CI_PROJECT_NAMESPACE}_${CI_PROJECT_NAME}/${CI_COMMIT_REF_SLUG}:${CI_COMMIT_SHORT_SHA}
   script:
-    - docker-compose -f docker-compose.yml stop
-    - docker-compose -f docker-compose.yml rm -f
-    - docker-compose -f docker-compose.yml up -d
+    - docker compose -f docker-compose.yml stop
+    - docker compose -f docker-compose.yml rm -f
+    - docker compose -f docker-compose.yml up -d
 
