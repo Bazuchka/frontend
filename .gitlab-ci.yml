@@ -59,7 +59,7 @@ fullscreen-create-docker-image:
   before_script:
     - echo "${BUILD_VERSION}"
     - docker info
-    - echo "$CI_JOB_TOKEN" | docker login $CI_REGISTRY_IMAGE -u $CI_REGISTRY_USER --password-stdin
+    - echo "$CI_DEPLOY_PASSWORD" | docker login $CI_REGISTRY_IMAGE -u $CI_DEPLOY_USER --password-stdin
   script:
     - docker build --build-arg build_version=${BUILD_VERSION} -t $DOCKER_IMAGE_NAME .
     - docker push "$DOCKER_IMAGE_NAME"
