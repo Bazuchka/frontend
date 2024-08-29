@@ -52,8 +52,8 @@ fullscreen-create-docker-image:
     DOCKER_OPTS: "--insecure-registry=registry-gitlab-devops1c.alabuga.ru"
   services:
     - name: docker:24.0.5-dind
-  entrypoint: ["dockerd-entrypoint.sh", "--tls=false"]
-  command: ["--insecure-registry", "registry-gitlab-devops1c.alabuga.ru"]
+      entrypoint: ["dockerd-entrypoint.sh", "--tls=false"]
+      command: ["--insecure-registry", "registry-gitlab-devops1c.alabuga.ru"]
   before_script:
     - echo "${BUILD_VERSION}"
     - docker info
