@@ -51,6 +51,7 @@ fullscreen-create-docker-image:
     # DOCKER_HOST: "tcp://localhost:2375"
     # DOCKER_TLS_CERTDIR: ""
     DOCKER_OPTS: "--insecure-registry=registry-gitlab-devops1c.alabuga.ru"
+    CI_REGISTRY_USER: "MZiatdinov"
   services:
     - name: docker:24.0.5-dind
       entrypoint: ["dockerd-entrypoint.sh", "--tls=false"]
@@ -58,7 +59,7 @@ fullscreen-create-docker-image:
   before_script:
     - echo "${BUILD_VERSION}"
     - docker info
-    - docker login $CI_REGISTRY_IMAGE
+    - echo "$CI_JOB_TOKEN" | docker login $CI_REGISTRY_IMAGE -u $CI_REGISTRY_USER --password-stdin
   script:
     - docker build --build-arg build_version=${BUILD_VERSION} -t $DOCKER_IMAGE_NAME .
     - docker push "$DOCKER_IMAGE_NAME"
