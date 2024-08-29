@@ -51,7 +51,7 @@ fullscreen-create-docker-image:
     # DOCKER_HOST: "tcp://localhost:2375"
     # DOCKER_TLS_CERTDIR: ""
     DOCKER_OPTS: "--insecure-registry=registry-gitlab-devops1c.alabuga.ru"
-    # CI_REGISTRY_USER: "MZiatdinov"
+    CI_REGISTRY_USER: "MZiatdinov"
   services:
     - name: docker:24.0.5-dind
       entrypoint: ["dockerd-entrypoint.sh", "--tls=false"]
@@ -59,10 +59,10 @@ fullscreen-create-docker-image:
   before_script:
     - echo "${BUILD_VERSION} | ${CI_REGISTRY}"
     - docker info
-    # - echo "$CI_DEPLOY_PASSWORD" | docker login $CI_REGISTRY_IMAGE -u $CI_DEPLOY_USER --password-stdin
+    - echo "$CI_DEPLOY_PASSWORD" | docker login $CI_REGISTRY_IMAGE -u $CI_DEPLOY_USER --password-stdin
   script:
     - docker build --build-arg build_version=${BUILD_VERSION} -t $DOCKER_IMAGE_NAME .
-    # - docker push "$DOCKER_IMAGE_NAME"
+    - docker push "$DOCKER_IMAGE_NAME"
 
 deploy-test:
   stage: deploy
@@ -70,7 +70,14 @@ deploy-test:
   variables:
     CI_REGISTRY_IMAGE: "registry-gitlab-devops1c.alabuga.ru"
     DOCKER_IMAGE_NAME: $CI_REGISTRY_IMAGE/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}/${CI_COMMIT_REF_SLUG}:${CI_COMMIT_SHORT_SHA}
+    DOCKER_OPTS: "--insecure-registry=registry-gitlab-devops1c.alabuga.ru"
+    CI_REGISTRY_USER: "MZiatdinov"
+  before_script:
+    - echo "${BUILD_VERSION} | ${CI_REGISTRY}"
+    - docker info
+    - echo "$CI_DEPLOY_PASSWORD" | docker login $CI_REGISTRY_IMAGE -u $CI_DEPLOY_USER --password-stdin
   script:
+    - docker pull $DOCKER_IMAGE_NAME
     - docker compose -f docker-compose.yml stop
     - docker compose -f docker-compose.yml rm -f
     - docker compose -f docker-compose.yml up -d
