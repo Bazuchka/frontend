@@ -3,8 +3,8 @@ services:
     image: ${DOCKER_IMAGE_NAME}
     container_name: 'frontend'
     environment:
-      ALIS_BACKEND__SERVER_URL: 'https://185.149.50.37:55880/api'
-      KEYCLOACK__AUTH_SERVER_URL: 'https://185.149.50.37:55880/auth'
+      ALIS_BACKEND__SERVER_URL: 'http://185.149.50.37:55880/api'
+      KEYCLOACK__AUTH_SERVER_URL: 'http://185.149.50.37:55880/auth'
       KEYCLOACK__CLIENT_ID: 'alis-front-client'
       KEYCLOACK__REALM: 'wmskorus'
       LOGS_JSON_CONSOLE: '1'
