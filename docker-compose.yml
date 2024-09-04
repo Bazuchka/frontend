@@ -18,3 +18,4 @@ services:
 
 networks:
   general:
+    external: true
