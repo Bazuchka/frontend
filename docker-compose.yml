@@ -3,19 +3,35 @@ services:
     image: ${DOCKER_IMAGE_NAME}
     container_name: 'frontend'
     environment:
-      ALIS_BACKEND__SERVER_URL: 'http://185.149.50.37:55880/api'
-      KEYCLOACK__AUTH_SERVER_URL: 'http://185.149.50.37:55880/auth'
+      ALIS_BACKEND__SERVER_URL: 'http://185.149.50.37:55880/api/'
+      KEYCLOACK__AUTH_SERVER_URL: 'http://185.149.50.37:55880/auth/'
       KEYCLOACK__CLIENT_ID: 'alis-front-client'
       KEYCLOACK__REALM: 'wmskorus'
       LOGS_JSON_CONSOLE: '1'
-      WMS_BACKEND__SERVER_URL: 'http://10.50.3.119:8080'
+      WMS_BACKEND__SERVER_URL: 'http://10.50.3.119:8080/'
     restart: always
     ports:
       - '80'
     networks:
-      - general
+      - web
+
+  frontend_local:
+    image: ${DOCKER_IMAGE_NAME}
+    container_name: 'frontend_local'
+    environment:
+      ALIS_BACKEND__SERVER_URL: 'http://10.50.3.129:80/api/'
+      KEYCLOACK__AUTH_SERVER_URL: 'http://10.50.3.129:80/auth/'
+      KEYCLOACK__CLIENT_ID: 'alis-localfront-client'
+      KEYCLOACK__REALM: 'wmskorus'
+      LOGS_JSON_CONSOLE: '1'
+      WMS_BACKEND__SERVER_URL: 'http://10.50.3.119:80/api/'
+    restart: always
+    ports:
+      - '80'
+    networks:
+      - web
 
 
 networks:
-  general:
+  web:
     external: true
