@@ -32,13 +32,13 @@ export const mapFormToCreateDTO = (
 
 export const mapFormToUpdateDTO = (
     id: string,
-    receivingOrderId: string,
+    shippingOrderId: string,
     data: FieldValues
 ): IFullShippingOrderTransport => {
     return {
         id,
         shippingOrder: {
-            id: receivingOrderId,
+            id: shippingOrderId,
             code: undefined as unknown as string,
         },
         consignee: data.consignee,

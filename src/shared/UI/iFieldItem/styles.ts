@@ -12,6 +12,7 @@ export const useIFieldStyles = createUseStyles((theme: Theme) => ({
         textAlign: "left",
         marginLeft: "10px",
         fontWeight: 600,
+        wordWrap: "break-word",
         color: theme?.colors?.primary[800],
     },
     textValue: {

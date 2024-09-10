@@ -49,6 +49,7 @@ const TableWithDrawer: FunctionComponent<TableWithDrawerProps> = observer((props
         drawerShowed,
         editPromptModalRef,
         selectedRowId,
+        sorting,
     } = useTableWithDrawer(props);
 
     const tableUI = (
@@ -58,6 +59,7 @@ const TableWithDrawer: FunctionComponent<TableWithDrawerProps> = observer((props
             onRowDoubleClick={handleDoubleClick}
             isLoading={clientVehicleStore.state.isLoading}
             style={props.tableStyle}
+            sorting={sorting}
             footer={() => (
                 <Footer
                     paginator={pagination}

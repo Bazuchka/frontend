@@ -4,6 +4,7 @@ import { getBaseActions } from "../request/baseActions";
 import { BaseActionOptions } from "../request/types";
 import ViewMediator, { IViewMediator } from "../store/ViewMediator";
 import { Pagination } from "./Pagination";
+import { Sorting } from "./Sorting";
 
 type ViewMediator = IViewMediator & ReturnType<typeof createBaseStore>;
 
@@ -41,8 +42,10 @@ export const createBaseStore = <StoreListModel extends IAnyType, StoreModel exte
         .model(`${storeName}Store`, {
             state: types.optional(StoreState, {}),
             data: types.array(storeListModel),
-            filters: Pagination,
+            pagination: Pagination,
+            sorting: Sorting,
             current: types.maybeNull(storeMainInfoModel),
+            previousFilters: types.maybe(types.frozen<Record<string, unknown>>({})),
         })
         .views((self) => ({
             get dataArray() {
@@ -54,6 +57,10 @@ export const createBaseStore = <StoreListModel extends IAnyType, StoreModel exte
 
             get url() {
                 return storeName.toLowerCase();
+            },
+
+            get modelName() {
+                return `${storeName}Store`;
             },
         }))
         .actions((self) => {
@@ -68,6 +75,9 @@ export const createBaseStore = <StoreListModel extends IAnyType, StoreModel exte
             ) {
                 try {
                     self.state.isFetching = true;
+                    const requestFilters = { ...self.sorting.sortingInfo, ...filters };
+
+                    self.previousFilters = requestFilters;
 
                     const response = yield getBaseActions(
                         useMock ? storeName.toLowerCase() : `${storeName.toLowerCase()}/page`,
@@ -75,12 +85,15 @@ export const createBaseStore = <StoreListModel extends IAnyType, StoreModel exte
                     ).fetch<Instance<typeof storeListModel>[]>(
                         useMock
                             ? {
-                                  _page: self.filters.page + 1,
-                                  _per_page: self.filters.size,
+                                  _page: self.pagination.page + 1,
+                                  _per_page: self.pagination.size,
                               }
                             : {
-                                  pageInfo: { size: self.filters.size, page: self.filters.page },
-                                  filter: filters,
+                                  pageInfo: {
+                                      size: self.pagination.size,
+                                      page: self.pagination.page,
+                                  },
+                                  filter: requestFilters,
                               },
                         options
                     );
@@ -102,7 +115,7 @@ export const createBaseStore = <StoreListModel extends IAnyType, StoreModel exte
                         }
                     );
 
-                    self.filters.setTotal(
+                    self.pagination.setTotal(
                         useMock ? response.data.items : response.data.totalElements
                     );
                 } catch {
@@ -114,7 +127,11 @@ export const createBaseStore = <StoreListModel extends IAnyType, StoreModel exte
             });
 
             const paginationChagned = () => {
-                fetch();
+                fetch(self.previousFilters);
+            };
+
+            const sortingChanged = () => {
+                fetch({ ...self.previousFilters, ...self.sorting.sortingInfo });
             };
 
             const setCurrent = flow(function* (
@@ -166,7 +183,8 @@ export const createBaseStore = <StoreListModel extends IAnyType, StoreModel exte
                 model: { id: string } & (
                     | Instance<StoreModel>
                     | Record<string, number | string | boolean | object | null>
-                )
+                ),
+                options?: BaseActionOptions
             ) {
                 try {
                     self.state.isUpdating = true;
@@ -181,7 +199,8 @@ export const createBaseStore = <StoreListModel extends IAnyType, StoreModel exte
                         {
                             ...previous,
                             ...model,
-                        }
+                        },
+                        options
                     );
                     return result.data as Instance<StoreModel>;
                 } catch (err) {
@@ -195,13 +214,14 @@ export const createBaseStore = <StoreListModel extends IAnyType, StoreModel exte
             const create = flow(function* (
                 model:
                     | Record<string, number | string | boolean | object | null>
-                    | Instance<StoreModel>
+                    | Instance<StoreModel>,
+                options?: BaseActionOptions
             ) {
                 try {
                     self.state.isCreating = true;
                     const response = yield getBaseActions(storeName.toLowerCase()).create<
                         Instance<typeof storeListModel>
-                    >(model);
+                    >(model, options);
 
                     return response.data as Instance<StoreModel>;
                 } catch (err) {
@@ -239,6 +259,7 @@ export const createBaseStore = <StoreListModel extends IAnyType, StoreModel exte
                 update,
                 create,
                 remove,
+                sortingChanged,
             };
         });
 

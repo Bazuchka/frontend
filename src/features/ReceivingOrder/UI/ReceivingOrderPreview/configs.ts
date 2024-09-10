@@ -4,8 +4,13 @@ import { DictionaryType } from "src/shared/hooks/useDictionary";
 import { FieldItemType } from "src/shared/UI/iFieldItem/const";
 import { FieldGroup } from "src/shared/UI/iFieldItem/types";
 import { IReceivingOrderPreview } from "../../store/ReceivingOrderStore/models/ReceivingOrderPreview";
+import containerCargoFields from "./configs/containerCargoFields";
+import defaultCargoFields from "./configs/defaultCargoFields";
 
-export const fieldsConfiguration = (data: NonNullable<IReceivingOrderPreview["model"]>) =>
+export const fieldsConfiguration = (
+    data: NonNullable<IReceivingOrderPreview["model"]>,
+    showContainerInfo: boolean
+) =>
     [
         {
             name: t("Shared:commonInfo"),
@@ -82,43 +87,7 @@ export const fieldsConfiguration = (data: NonNullable<IReceivingOrderPreview["mo
         },
         {
             name: t("ReceivingOrderPreview:groups.cargoParams"),
-            fields: [
-                {
-                    label: t("ReceivingOrderPreview:properties.goodsCount"),
-                    name: "totalSKUQuantity",
-                    type: FieldItemType.INPUT,
-                    value: data.totalSKUQuantity,
-                    readOnly: true,
-                },
-                {
-                    label: t("ReceivingOrderPreview:properties.cargoCount"),
-                    name: "totalCargoQuantity",
-                    type: FieldItemType.INPUT,
-                    value: data.totalCargoQuantity,
-                    readOnly: true,
-                },
-                {
-                    label: t("ReceivingOrderPreview:properties.weight"),
-                    name: "totalWeight",
-                    type: FieldItemType.INPUT,
-                    value: data.totalWeight,
-                    readOnly: true,
-                },
-                {
-                    label: t("ReceivingOrderPreview:properties.palletQuantity"),
-                    name: "totalPalletQuantity",
-                    type: FieldItemType.INPUT,
-                    value: data.totalPalletQuantity,
-                    readOnly: true,
-                },
-                {
-                    label: t("ReceivingOrderPreview:properties.notPalletQuantity"),
-                    name: "totalNotPalletQuantity",
-                    type: FieldItemType.INPUT,
-                    value: data.totalNotPalletQuantity,
-                    readOnly: true,
-                },
-            ],
+            fields: showContainerInfo ? containerCargoFields(data) : defaultCargoFields(data),
         },
         {
             name: t("ReceivingOrderPreview:groups.orderPrice"),

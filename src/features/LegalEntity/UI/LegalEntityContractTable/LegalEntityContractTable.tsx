@@ -24,11 +24,11 @@ const LegalEntityContractTable: FunctionComponent<LegalEntityContractTableProps>
     }, [contractStore]);
 
     const pagination: PaginationProps = {
-        page: contractStore.filters.page,
-        size: contractStore.filters.size,
-        totalElements: contractStore.filters.total,
+        page: contractStore.pagination.page,
+        size: contractStore.pagination.size,
+        totalElements: contractStore.pagination.total,
         disabled: contractStore.state.isLoading,
-        onChange: contractStore.filters.setUserPagination,
+        onChange: contractStore.pagination.setUserPagination,
     };
 
     const table = useReactTable({
@@ -40,6 +40,7 @@ const LegalEntityContractTable: FunctionComponent<LegalEntityContractTableProps>
     return (
         <TSBaseTableUI
             table={table}
+            sorting={contractStore.sorting}
             isLoading={legalEntityStore.state.isLoading}
             footer={() => <Footer paginator={pagination} />}
         />

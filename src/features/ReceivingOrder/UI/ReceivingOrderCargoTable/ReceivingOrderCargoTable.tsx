@@ -38,24 +38,31 @@ const ReceivingOrderCargoTable: FunctionComponent<ReceivingOrderCargoTableProps>
                     receivingOrder: {
                         id: receivingOrderStore.current!.id,
                     },
-                    length: parseFloat(formModel.dimensions.length),
-                    width: parseFloat(formModel.dimensions.width),
-                    height: parseFloat(formModel.dimensions.height),
-                    volume: parseFloat(formModel.dimensions.volume),
-                    weight: parseFloat(formModel.dimensions.weight),
+                    length: parseFloat(formModel.dimensions?.length ?? 0),
+                    width: parseFloat(formModel.dimensions?.width ?? 0),
+                    height: parseFloat(formModel.dimensions?.height ?? 0),
+                    volume: parseFloat(formModel.dimensions?.volume ?? 0),
+                    weight: parseFloat(formModel.dimensions?.weight ?? 0),
                 })}
-                onBeforeUpdateModelTransform={(formModel: FieldValues) => ({
-                    ...formModel,
-                    packageQuantity: parseInt(formModel.packageQuantity, 10),
-                    receivingOrder: {
-                        id: receivingOrderStore.current!.id,
-                    },
-                    length: parseFloat(formModel.dimensions.length),
-                    width: parseFloat(formModel.dimensions.width),
-                    height: parseFloat(formModel.dimensions.height),
-                    volume: parseFloat(formModel.dimensions.volume),
-                    weight: parseFloat(formModel.dimensions.weight),
-                })}
+                onBeforeUpdateModelTransform={(formModel: FieldValues) => {
+                    const dimensions = formModel.dimensions
+                        ? {
+                              length: parseFloat(formModel.dimensions.length),
+                              width: parseFloat(formModel.dimensions.width),
+                              height: parseFloat(formModel.dimensions.height),
+                              volume: parseFloat(formModel.dimensions.volume),
+                              weight: parseFloat(formModel.dimensions.weight),
+                          }
+                        : {};
+                    return {
+                        ...formModel,
+                        packageQuantity: parseInt(formModel.packageQuantity, 10),
+                        receivingOrder: {
+                            id: receivingOrderStore.current!.id,
+                        },
+                        ...dimensions,
+                    };
+                }}
                 messages={{
                     editSuccess: t("ReceivingOrderCargo:dialog.editSuccess"),
                     createSuccess: t("ReceivingOrderCargo:dialog.createSuccess"),

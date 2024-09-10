@@ -49,6 +49,7 @@ export interface FieldItemProps {
     fieldError?: boolean;
     renderValuePrimary?: string;
     renderValueSecondary?: string;
+    nonEditableValue?: string;
     withClearButton?: boolean;
     register?: IRegisterType;
     validateMask?: IValidateMask;
@@ -88,6 +89,7 @@ export interface FieldItem {
     fieldError?: boolean;
     renderValuePrimary?: string;
     renderValueSecondary?: string;
+    nonEditableValue?: string;
     withClearButton?: boolean;
     register?: IRegisterType;
     validateMask?: IValidateMask;
@@ -110,7 +112,7 @@ export interface FieldGroup {
     fields: FieldItem[];
 }
 
-export type renderSelectValueProps = {
+export type RenderSelectValueProps = {
     value:
         | {
               code?: string;
@@ -125,4 +127,5 @@ export type renderSelectValueProps = {
     isReadOnly: boolean;
     renderValuePrimary: string | undefined;
     renderValueSecondary: string | undefined;
+    nonEditableValue: string | undefined;
 };

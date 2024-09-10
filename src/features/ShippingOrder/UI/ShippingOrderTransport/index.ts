@@ -1,1 +1,1 @@
-export { default as ReceivingOrderTransport } from "./ShippingOrderTransport";
+export { default as ShippingOrderTransport } from "./ShippingOrderTransport";

@@ -3,7 +3,7 @@
     "properties": {
         "client": "Клиент",
         "good": "Товар",
-        "batchAccountingType": "Партийный учет",
+        "batchAccountingType": "Партионный учет",
         "active": "Активная",
         "name": "Наименование",
         "manufactureDate": "Дата производства",

@@ -1,0 +1,13 @@
+{
+    "properties": {
+        "container": "Номер контейнера",
+        "ETSNGCode": "Код ЕТСНГ",
+        "description": "Описание",
+        "price": "Цена"
+    },
+    "dialog": {
+        "createSuccess": "Товар успешно создан",
+        "editSuccess": "Товар успешно изменен",
+        "deleteSuccess": "Товар успешно удален"
+    }
+}

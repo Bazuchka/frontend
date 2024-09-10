@@ -1,13 +1,24 @@
 import { t } from "i18next";
+import { ReceivingOrderPrint } from "src/features/ReceivingOrder/UI/ReceivingOrderPrint";
+import { PermissionType } from "src/shared/services/PermissionService/types";
 import { TabsConfiguration, TabType } from "src/shared/UI/BaseTabs/types";
 import DataGuard from "src/shared/UI/DataGuard/DataGuard";
 import receivingOrderStore from "./store/ReceivingOrderStore";
+import { IReceivingOrder } from "./store/ReceivingOrderStore/ReceivingOrderStore";
 import { ReceivingOrderCargoTable } from "./UI/ReceivingOrderCargoTable";
+import { ReceivingOrderContainerItemTable } from "./UI/ReceivingOrderContainerItemTable";
+import ReceivingOrderContainerTable from "./UI/ReceivingOrderContainerTable/ReceivingOrderContainerTable";
+import { ReceivingOrderEtranInvoiceTable } from "./UI/ReceivingOrderEtranInvoice";
 import { ReceivingOrderGoodTable } from "./UI/ReceivingOrderGoodTable";
 import { ReceivingOrderInfo } from "./UI/ReceivingOrderInfo";
 import { ReceivingOrderPreview } from "./UI/ReceivingOrderPreview";
+import { ReceivingOrderRailwayCarriageTable } from "./UI/ReceivingOrderRailwayCarriage";
 import ReceivingOrderRequestedServiceTable from "./UI/ReceivingOrderRequestedServiceTable/ReceivingOrderRequestedServiceTable";
 import { ReceivingOrderTransport } from "./UI/ReceivingOrderTransport";
+
+const isRailwayContainer = (current?: IReceivingOrder | null) => {
+    return current?.transportType === "RAILWAY" && current?.terminalArea === "CONTAINER";
+};
 
 export const receivingOrderConfiguration: (isCreateMode: boolean) => TabsConfiguration = (
     isCreateMode: boolean
@@ -21,6 +32,38 @@ export const receivingOrderConfiguration: (isCreateMode: boolean) => TabsConfigu
                     {() => <ReceivingOrderInfo />}
                 </DataGuard>
             ),
+        },
+        {
+            label: t("ReceivingOrder:tabs.etranInvoice"),
+            type: TabType.LINKED_DATA,
+            component: (
+                <DataGuard whenExist={receivingOrderStore.current}>
+                    {(current) => (
+                        <ReceivingOrderEtranInvoiceTable
+                            store={current.receivingOrderEtranInvoice}
+                            isReadOnly={current.orderStatus !== "DRAFT"}
+                        />
+                    )}
+                </DataGuard>
+            ),
+            disabled: isCreateMode,
+            visibleRule: () => isRailwayContainer(receivingOrderStore.current),
+        },
+        {
+            label: t("ReceivingOrder:tabs.railwayCarriage"),
+            type: TabType.LINKED_DATA,
+            component: (
+                <DataGuard whenExist={receivingOrderStore.current}>
+                    {() => (
+                        <ReceivingOrderRailwayCarriageTable
+                            store={receivingOrderStore.current!.receivingOrderRailwayCarriage}
+                            isReadOnly={receivingOrderStore.current!.orderStatus !== "DRAFT"}
+                        />
+                    )}
+                </DataGuard>
+            ),
+            disabled: isCreateMode,
+            visibleRule: () => isRailwayContainer(receivingOrderStore.current),
         },
         {
             label: t("ReceivingOrder:tabs.transport"),
@@ -42,18 +85,49 @@ export const receivingOrderConfiguration: (isCreateMode: boolean) => TabsConfigu
                 </DataGuard>
             ),
             disabled: isCreateMode,
+            visibleRule: () => receivingOrderStore.current?.transportType === "VEHICLE",
+        },
+        {
+            label: t("ReceivingOrder:tabs.containers"),
+            type: TabType.LINKED_DATA,
+            component: (
+                <DataGuard whenExist={receivingOrderStore.current}>
+                    {(current) => (
+                        <ReceivingOrderContainerTable
+                            clientId={current.client?.id}
+                            receivingOrderId={current.id}
+                            store={
+                                isRailwayContainer(current)
+                                    ? current.receivingOrderRailwayContainer
+                                    : current.receivingOrderContainer
+                            }
+                            isReadOnly={current.orderStatus !== "DRAFT"}
+                        />
+                    )}
+                </DataGuard>
+            ),
+            disabled: isCreateMode,
+            visibleRule: () => receivingOrderStore.current?.terminalArea === "CONTAINER",
         },
         {
             label: t("ReceivingOrder:tabs.goods"),
             type: TabType.LINKED_DATA,
             component: (
                 <DataGuard whenExist={receivingOrderStore.current}>
-                    {(current) => (
-                        <ReceivingOrderGoodTable
-                            store={current.receivingOrderGood}
-                            isReadOnly={receivingOrderStore.current!.orderStatus !== "DRAFT"}
-                        />
-                    )}
+                    {(current) =>
+                        receivingOrderStore.current?.terminalArea === "CONTAINER" ? (
+                            <ReceivingOrderContainerItemTable
+                                store={current.receivingOrderContainerItem}
+                                receivingOrderId={receivingOrderStore.current!.id}
+                                isReadOnly={receivingOrderStore.current!.orderStatus !== "DRAFT"}
+                            />
+                        ) : (
+                            <ReceivingOrderGoodTable
+                                store={current.receivingOrderGood}
+                                isReadOnly={receivingOrderStore.current!.orderStatus !== "DRAFT"}
+                            />
+                        )
+                    }
                 </DataGuard>
             ),
             disabled: isCreateMode,
@@ -72,6 +146,9 @@ export const receivingOrderConfiguration: (isCreateMode: boolean) => TabsConfigu
                 </DataGuard>
             ),
             disabled: isCreateMode,
+            visibleRule: () =>
+                receivingOrderStore.current?.terminalArea !== "CONTAINER" &&
+                receivingOrderStore.current?.transportType === "VEHICLE",
         },
         {
             label: t("ReceivingOrder:tabs.operations"),
@@ -98,11 +175,29 @@ export const receivingOrderConfiguration: (isCreateMode: boolean) => TabsConfigu
                         <ReceivingOrderPreview
                             preview={current.receivingOrderPreview}
                             isDraft={current.orderStatus === "DRAFT"}
+                            showContainerInfo={
+                                receivingOrderStore.current?.terminalArea === "CONTAINER"
+                            }
                         />
                     )}
                 </DataGuard>
             ),
             disabled: isCreateMode,
+        },
+        {
+            label: t("ReceivingOrder:tabs.documentPrint"),
+            type: TabType.LINKED_DATA,
+            component: (
+                <DataGuard whenExist={receivingOrderStore.current}>
+                    {() => <ReceivingOrderPrint store={receivingOrderStore} />}
+                </DataGuard>
+            ),
+            disabled:
+                !receivingOrderStore.current || receivingOrderStore.current!.orderStatus !== "DONE",
+            permission: {
+                path: "ReceivingOrder.Report",
+                type: PermissionType.FORM,
+            },
         },
     ],
 });

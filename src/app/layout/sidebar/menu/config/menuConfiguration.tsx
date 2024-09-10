@@ -1,6 +1,6 @@
 import { t } from "i18next";
 import { ReactNode } from "react";
-import { ConfigurationFile, Dictionary, OrdersIcon } from "src/assets/svg";
+import { ConfigurationFile, Dictionary, OrdersIcon, AdministrationIcon } from "src/assets/svg";
 import { Permission } from "src/shared/services/PermissionService/types";
 
 export interface MenuItem {
@@ -259,6 +259,52 @@ export const menuConfiguration = (params?: MenuParams): MenuConfiguration => [
                         permission: {
                             path: "ShippingOrder",
                         },
+                    },
+                ],
+            },
+        ],
+    },
+    {
+        label: t("Shared:Reference.administration"),
+        icon: <AdministrationIcon />,
+        key: "configuration",
+        children: [
+            {
+                label: t("Shared:Reference.security"),
+                key: "security",
+                permission: {
+                    path: "User",
+                },
+                children: [
+                    {
+                        label: t("User:menu.users"),
+                        key: "users",
+                        path: "/users",
+                        permission: {
+                            path: "User",
+                        },
+                        children: [
+                            {
+                                breadCrumbsLabel: t("User:menu.user"),
+                                label: `${t("Shared:menu.new.masculine")}* (${t("User:menu.user")})`,
+                                key: "users-create",
+                                path: "/users/create",
+                                isInvisibleMenuItem: true,
+                                permission: {
+                                    path: "User",
+                                },
+                            },
+                            {
+                                breadCrumbsLabel: t("User:menu.user"),
+                                label: `${t("User:menu.user")} (${params?.user?.metadata?.username})`,
+                                key: "users-create",
+                                path: `/users/${params?.user?.path}`,
+                                isInvisibleMenuItem: true,
+                                permission: {
+                                    path: "User",
+                                },
+                            },
+                        ],
                     },
                 ],
             },

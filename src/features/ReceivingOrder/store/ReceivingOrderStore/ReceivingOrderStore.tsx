@@ -3,10 +3,18 @@ import { flow, Instance, types } from "mobx-state-tree";
 import { ForeignKey, IsoDate, IsoUTCDate } from "src/shared/entities";
 import { createBaseStoreWithViewMediator } from "src/shared/entities/BaseStore";
 import { ReceivingOrderCargoStore } from "../ReceivingOrderCargoStore";
+import { ReceivingOrderContainerItemStore } from "../ReceivingOrderContainerItemStore";
+import {
+    ReceivingOrderContainerStore,
+    ReceivingOrderRailwayContainerStore,
+} from "../ReceivingOrderContainerStore/ReceivingOrderContainerStore";
+import { ReceivingOrderEtranInvoiceStore } from "../ReceivingOrderEtranInvoiceStore/ReceivingOrderEtranInvoiceStore";
 import { ReceivingOrderGoodStore } from "../ReceivingOrderGood/ReceivingOrderGood";
+import { ReceivingOrderRailwayCarriageStore } from "../ReceivingOrderRailwayCarriageStore/ReceivingOrderRailwayCarriageStore";
 import { ReceivingOrderRequestedServiceStore } from "../ReceivingOrderRequestedService";
 import { ReceivingOrderTransportStore } from "../ReceivingOrderTransportStore";
 import { ReceivingOrderPreview } from "./models/ReceivingOrderPreview";
+import { getBaseActions } from "src/shared/request/baseActions";
 
 export const ReceivingOrder = types.model("ReceivingOrder", {
     id: types.identifier,
@@ -62,6 +70,30 @@ export const FullReceivingOrder = types
             ),
             receivingOrderCargo: types.optional(ReceivingOrderCargoStore, () =>
                 ReceivingOrderCargoStore.create({
+                    state: {
+                        isFetching: true, // set true as default state
+                    },
+                })
+            ),
+            receivingOrderContainer: types.optional(ReceivingOrderContainerStore, () =>
+                ReceivingOrderContainerStore.create()
+            ),
+            receivingOrderRailwayContainer: types.optional(
+                ReceivingOrderRailwayContainerStore,
+                () => ReceivingOrderRailwayContainerStore.create()
+            ),
+            receivingOrderContainerItem: types.optional(ReceivingOrderContainerItemStore, () =>
+                ReceivingOrderContainerItemStore.create()
+            ),
+            receivingOrderEtranInvoice: types.optional(ReceivingOrderEtranInvoiceStore, () =>
+                ReceivingOrderEtranInvoiceStore.create({
+                    state: {
+                        isFetching: true, // set true as default state
+                    },
+                })
+            ),
+            receivingOrderRailwayCarriage: types.optional(ReceivingOrderRailwayCarriageStore, () =>
+                ReceivingOrderRailwayCarriageStore.create({
                     state: {
                         isFetching: true, // set true as default state
                     },
@@ -125,6 +157,28 @@ const ReceivingOrderStore = createBaseStoreWithViewMediator({
     storeName: "ReceivingOrder",
     storeListModel: ReceivingOrder,
     storeMainInfoModel: FullReceivingOrder,
+}).actions((self) => {
+    const getReceivingOrderMx1Print = flow(function* () {
+        try {
+            self.state.isFetching = true;
+            const response = yield getBaseActions("ReceivingOrder".toLowerCase()).downloadFile(
+                {},
+                `/report/receivingorder/mx1/${self.current?.id}/download`,
+                "application/json"
+            );
+
+            const blob = new Blob([response.data], { type: "application/pdf" });
+            window.open(URL.createObjectURL(blob))!.print();
+        } catch (err) {
+            self.state.isError = true;
+            throw new Error(err as string);
+        } finally {
+            self.state.isFetching = false;
+        }
+    });
+    return {
+        getReceivingOrderMx1Print,
+    };
 });
 
 export default ReceivingOrderStore;

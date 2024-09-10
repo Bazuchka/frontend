@@ -24,6 +24,7 @@ const IFieldItemReadOnly: React.FC<FieldItemProps> = (props) => {
         [FieldItemType.VALIDATE_INPUT]: typeMapping[FIELD_TYPE.DEFAULT],
         [FieldItemType.TIME]: typeMapping[FIELD_TYPE.TIME],
         [FieldItemType.BUTTON]: typeMapping[FIELD_TYPE.BUTTON],
+        [FieldItemType.PASSWORD]: typeMapping[FIELD_TYPE.PASSWORD],
     };
 
     return fieldMapping[type] ?? typeMapping[FIELD_TYPE.DEFAULT];

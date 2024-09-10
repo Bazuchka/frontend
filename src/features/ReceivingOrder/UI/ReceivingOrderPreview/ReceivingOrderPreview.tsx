@@ -1,5 +1,5 @@
 import { observer } from "mobx-react";
-import { FC, useLayoutEffect, useMemo } from "react";
+import { FC, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { WithPermission } from "src/shared/services/PermissionService";
 import { PermissionType } from "src/shared/services/PermissionService/types";
@@ -13,23 +13,25 @@ import { fieldsConfiguration } from "./configs";
 interface ReceivingOrderProps {
     preview: IReceivingOrderPreview;
     isDraft: boolean;
+    showContainerInfo: boolean;
 }
 
 const ReceivingOrderInfo: FC<ReceivingOrderProps> = observer(
-    ({ preview, isDraft }): JSX.Element => {
+    ({ preview, isDraft, showContainerInfo }): JSX.Element => {
         const { t } = useTranslation();
-        useLayoutEffect(() => {
+        useEffect(() => {
             preview.getPreview();
         }, [preview]);
 
-        const fields = useMemo(
-            () => (!preview.model ? [] : fieldsConfiguration(preview.model!)),
-            [preview.model]
-        );
-
         return (
             <>
-                <IFormComponent fields={fields} isLoading={!preview.model} isEditMode={false} />
+                <IFormComponent
+                    fields={
+                        !preview.model ? [] : fieldsConfiguration(preview.model!, showContainerInfo)
+                    }
+                    isLoading={!preview.model}
+                    isEditMode={false}
+                />
                 {isDraft && (
                     <Footer
                         buttons={(classes) => (

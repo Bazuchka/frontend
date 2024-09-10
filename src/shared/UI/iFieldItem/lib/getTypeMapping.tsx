@@ -10,7 +10,7 @@ import { IFieldItemRating } from "../iFieldItemTypes/iFieldItemRating";
 import { IFieldItemSelect } from "../iFieldItemTypes/iFieldItemSelect";
 import { IFieldItemStatic } from "../iFieldItemTypes/iFieldItemStatic";
 import { IFieldItemTime } from "../iFieldItemTypes/iFieldItemTime";
-import { FieldItemProps, renderSelectValueProps } from "../types";
+import { FieldItemProps, RenderSelectValueProps } from "../types";
 import { getColumnWidths } from "./getColumnWidths";
 import { useRenderSelectValue } from "./useRenderSelectValue";
 
@@ -22,7 +22,8 @@ const Component = ({
     translatePath,
     value,
     fieldName,
-}: renderSelectValueProps) =>
+    nonEditableValue,
+}: RenderSelectValueProps) =>
     useRenderSelectValue({
         isDisable,
         isReadOnly,
@@ -31,6 +32,7 @@ const Component = ({
         translatePath,
         value,
         fieldName,
+        nonEditableValue,
     });
 
 export const getTypeMapping = (props: FieldItemProps) => {
@@ -51,6 +53,7 @@ export const getTypeMapping = (props: FieldItemProps) => {
         linkTo,
         testFieldName,
         events,
+        nonEditableValue,
     } = props;
 
     const { labelWidth, valueWidth } = getColumnWidths(isLabelNarrow, withDescription);
@@ -121,6 +124,7 @@ export const getTypeMapping = (props: FieldItemProps) => {
                         translatePath,
                         value,
                         fieldName,
+                        nonEditableValue,
                     })
                 }
             />

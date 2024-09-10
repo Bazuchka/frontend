@@ -2,7 +2,12 @@ import { flow, Instance, types } from "mobx-state-tree";
 import { ForeignKey, IsoDate, IsoUTCDate } from "src/shared/entities";
 import { createBaseStoreWithViewMediator } from "src/shared/entities/BaseStore";
 import { ShippingOrderCargoStore } from "../ShippingOrderCargoStore";
+import { ShippingOrderContainerItemStore } from "../ShippingOrderContainerItemStore";
+import { ShippingOrderContainerStore } from "../ShippingOrderContainerStore";
+import { ShippingOrderRailwayContainerStore } from "../ShippingOrderContainerStore/ShippingOrderContainerStore";
+import { ShippingOrderEtranInvoiceStore } from "../ShippingOrderEtranInvoiceStore/ShippingOrderEtranInvoiceStore";
 import { ShippingOrderGoodStore } from "../ShippingOrderGoodStore/ShippingOrderGoodStore";
+import { ShippingOrderRailwayCarriageStore } from "../ShippingOrderRailwayCarriageStore/ShippingOrderRailwayCarriageStore";
 import { ShippingOrderRequestedServiceStore } from "../ShippingOrderRequestedServiceStore";
 import { ShippingOrderTransportStore } from "../ShippingOrderTransportStore";
 import { ShippingOrderPreview } from "./models/ShippingOrderPreview";
@@ -59,6 +64,29 @@ export const FullShippingOrder = types
             ),
             shippingOrderCargo: types.optional(ShippingOrderCargoStore, () =>
                 ShippingOrderCargoStore.create({
+                    state: {
+                        isFetching: true, // set true as default state
+                    },
+                })
+            ),
+            shippingOrderContainer: types.optional(ShippingOrderContainerStore, () =>
+                ShippingOrderContainerStore.create()
+            ),
+            shippingOrderRailwayContainer: types.optional(ShippingOrderRailwayContainerStore, () =>
+                ShippingOrderRailwayContainerStore.create()
+            ),
+            shippingOrderContainerItem: types.optional(ShippingOrderContainerItemStore, () =>
+                ShippingOrderContainerItemStore.create()
+            ),
+            shippingOrderEtranInvoice: types.optional(ShippingOrderEtranInvoiceStore, () =>
+                ShippingOrderEtranInvoiceStore.create({
+                    state: {
+                        isFetching: true, // set true as default state
+                    },
+                })
+            ),
+            shippingOrderRailwayCarriage: types.optional(ShippingOrderRailwayCarriageStore, () =>
+                ShippingOrderRailwayCarriageStore.create({
                     state: {
                         isFetching: true, // set true as default state
                     },

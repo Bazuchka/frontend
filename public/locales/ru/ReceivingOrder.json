@@ -8,7 +8,11 @@
         "goods": "Товар",
         "cargoSpaces": "Грузоместа",
         "operations": "Доп. операции",
-        "presentation": "Просмотр"
+        "presentation": "Просмотр",
+        "containers": "Контейнеры",
+        "etranInvoice": "Накладные ЭТРАН",
+        "railwayCarriage": "Вагоны",
+        "documentPrint": "Печать документов"
     },
     "properties": {
         "number": "Номер",
@@ -36,10 +40,14 @@
         "createdAt": "Дата создания"
     },
     "groups": {
-        "orderParams": "Параметры заявки"
+        "orderParams": "Параметры заявки",
+        "printDocuments": "Печать документов"
     },
     "dialog": {
         "createSuccess": "Заявка на поставку успешно создана",
         "editSuccess": "Заявка на поставку успешно изменена"
+    },
+    "actions": {
+        "printMxForm": "Акт приема-передачи (MX-1)"
     }
 }

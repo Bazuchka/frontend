@@ -1,0 +1,59 @@
+{
+    "menu": {
+        "users": "Пользователи",
+        "user": "Пользователь"
+    },
+    "properties": {
+        "authorization": "Данные для авторизации",
+        "contact": "Контактная информация",
+        "address": "Адрес",
+        "username": "Логин",
+        "password": "Пароль",
+        "confirmPassword": "Подтвердите пароль",
+        "fullname": "Имя пользователя",
+        "type": "Тип пользователя",
+        "active": "Активна",
+        "firstName": "Имя",
+        "middleName": "Отчество",
+        "lastName": "Фамилия",
+        "email": "Эл.почта",
+        "additionalEmail": "Эл.почта доп",
+        "phoneNumber": "Телефон",
+        "country": "Страна",
+        "city": "Город",
+        "client": "Клиент",
+        "legalEntity": "Юр. лицо",
+        "role": "Роль",
+        "miscellaneous": "Разное",
+        "employee": "Сотрудник"
+    },
+    "tabs": {
+        "clients": "Клиенты",
+        "legalEntities": "Юр. лица",
+        "roles": "Роли"
+    },
+    "dialog": {
+        "user": {
+            "createSuccess": "Пользователь успешно добавлен",
+            "editSuccess": "Пользователь успешно изменен"
+        },
+        "client": {
+            "createSuccess": "Клиент успешно добавлен",
+            "editSuccess": "Клиент успешно изменен"
+        },
+        "legalEntity": {
+            "createSuccess": "Юр. лицо успешно добавлено",
+            "editSuccess": "Юр. лицо успешно изменено"
+        },
+        "role": {
+            "createSuccess": "Роль успешно добавлена",
+            "editSuccess": "Роль успешно изменена",
+            "deleteSuccess": "Роль успешно удалена"
+        }
+    },
+    "types": {
+        "INTERNAL": "Пользователь",
+        "EXTERNAL": "Внешний",
+        "OTHER": "Прочие"
+    }
+}

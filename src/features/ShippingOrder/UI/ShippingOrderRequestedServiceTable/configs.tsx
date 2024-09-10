@@ -91,6 +91,7 @@ export const getColumns = (cargoCount: number) => {
             meta: {
                 isComputed: true,
             },
+            enableSorting: false,
         }),
 
         columnHelper.accessor("rate", {

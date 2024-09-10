@@ -39,6 +39,8 @@ const DictionaryStore = buildStore({
     transportType: "transporttype/all",
     calculationMethod: "calculationmethod/all",
     processingType: "processingtype/all",
+    containerType: "containertype/all",
+    userType: "/user/type/all",
 });
 
 const dictionaryStore = DictionaryStore.create();

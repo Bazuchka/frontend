@@ -4,8 +4,9 @@ import { createColumnHelper } from "@tanstack/react-table";
 import { t } from "i18next";
 import { ChangeEvent } from "react";
 import { Control, Controller } from "react-hook-form";
-import { IGoodPackage } from "src/features/ClientGood/store/GoodPackageStore";
 import { DimensionsLink } from "src/features/common/DimensionsLink";
+import { GoodPackageColumn } from "src/features/common/GoodPackage";
+import { SEARCH_TYPE } from "src/shared/enums";
 import { DictionaryType } from "src/shared/hooks/useDictionary";
 import { AutocompleteSelectOfDictionary } from "src/shared/UI/AutocompleteSelectOfDictionary/AutocompleteSelectOfDictionary";
 import { FieldItemType } from "src/shared/UI/iFieldItem/const";
@@ -25,40 +26,11 @@ export const getColumns = (receivingOrderId: string) => () => {
         columnHelper.accessor("receivingOrderGood", {
             cell: (params) => params.getValue()?.code,
             header: t("ReceivingOrderCargo:properties.receivingOrderGood"),
-            size: 240,
+            size: 300,
             meta: {
                 editableCell: {
-                    component: ({ control }) => {
-                        return (
-                            <Controller
-                                name="receivingOrderGood"
-                                control={control}
-                                rules={{ required: true }}
-                                render={({
-                                    field: { onChange, value },
-                                    fieldState: { invalid },
-                                }) => (
-                                    <AutocompleteSelectOfDictionary
-                                        isDisable={false}
-                                        error={invalid}
-                                        value={value}
-                                        onValueChange={onChange}
-                                        useSorting={false}
-                                        dictionaryParams={{
-                                            type: DictionaryType.RECEIVING_ORDER_GOOD,
-                                            filter: {
-                                                active: true,
-                                                deleted: false,
-                                                receivingOrder: {
-                                                    id: receivingOrderId,
-                                                },
-                                            },
-                                        }}
-                                    />
-                                )}
-                            />
-                        );
-                    },
+                    component: ({ control }) =>
+                        getReceivingOrderGoodAutocomplete(control, receivingOrderId),
                     fieldType: FieldItemType.AUTOCOMPLETE,
                 },
             },
@@ -68,7 +40,7 @@ export const getColumns = (receivingOrderId: string) => () => {
             header: t("ReceivingOrderCargo:properties.barcode"),
             meta: {
                 editableCell: {
-                    component: ({ control }) => {
+                    component: ({ control, row: { getValue } }) => {
                         return (
                             <Controller
                                 name="barcode"
@@ -79,7 +51,7 @@ export const getColumns = (receivingOrderId: string) => () => {
                                     fieldState: { invalid },
                                 }) => (
                                     <AutocompleteSelectOfDictionary
-                                        isDisable={false}
+                                        isDisable={!getValue("receivingOrderGood")}
                                         error={invalid}
                                         value={value}
                                         onValueChange={onChange}
@@ -100,8 +72,13 @@ export const getColumns = (receivingOrderId: string) => () => {
             header: t("ReceivingOrderCargo:properties.goodPackage"),
             meta: {
                 editableCell: {
-                    component: ({ control, row: { setValue } }) => {
-                        return GoodPackage(control, setValue);
+                    component: (componentProps) => {
+                        return (
+                            <GoodPackageColumn
+                                isDisablePropName="receivingOrderGood"
+                                {...componentProps}
+                            />
+                        );
                     },
                     fieldType: FieldItemType.AUTOCOMPLETE,
                 },
@@ -209,8 +186,10 @@ export const getColumns = (receivingOrderId: string) => () => {
                             <Controller
                                 name="dimensions"
                                 control={control}
-                                rules={{ required: true }}
-                                render={({ field: { onChange } }) => (
+                                render={({
+                                    field: { onChange, value },
+                                    fieldState: { invalid },
+                                }) => (
                                     <DimensionsLink
                                         onChange={onChange}
                                         defaultValue={{
@@ -220,7 +199,9 @@ export const getColumns = (receivingOrderId: string) => () => {
                                             volume: row.original.volume ?? 0,
                                             weight: row.original.weight ?? 0,
                                         }}
+                                        externalValue={value}
                                         permissionPath="ReceivingOrder.ReceivingOrderCargo"
+                                        invalid={invalid}
                                     />
                                 )}
                             />
@@ -233,11 +214,10 @@ export const getColumns = (receivingOrderId: string) => () => {
     ];
 };
 
-// TODO move as shared component for tables
-function GoodPackage(control: Control, setValue: (fieldName: string, data: any) => void) {
+function getReceivingOrderGoodAutocomplete(control: Control, receivingOrderId: string) {
     return (
         <Controller
-            name="goodPackage"
+            name="receivingOrderGood"
             control={control}
             rules={{ required: true }}
             render={({ field: { onChange, value }, fieldState: { invalid } }) => (
@@ -245,15 +225,22 @@ function GoodPackage(control: Control, setValue: (fieldName: string, data: any) 
                     isDisable={false}
                     error={invalid}
                     value={value}
-                    onValueChange={(data) => {
-                        setValue(
-                            "conversionQuantity",
-                            (data as IGoodPackage).conversionQty ?? 1 // TODO Create ticket if goodpacakge/all doesn't have this field
-                        );
-                        onChange(data);
-                    }}
+                    onValueChange={onChange}
+                    useSorting={false}
                     dictionaryParams={{
-                        type: DictionaryType.GOOD_PACKAGE,
+                        type: DictionaryType.RECEIVING_ORDER_GOOD,
+                        filter: (value) => ({
+                            code: {
+                                type: SEARCH_TYPE.CONTAINS,
+                                content: value,
+                                byOr: true,
+                            },
+                            active: true,
+                            deleted: false,
+                            receivingOrder: {
+                                id: receivingOrderId,
+                            },
+                        }),
                     }}
                 />
             )}

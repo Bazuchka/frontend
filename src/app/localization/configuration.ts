@@ -57,6 +57,19 @@ const ns = [
     "ShippingOrderRequestedService",
     "ShippingOrderCargo",
     "ShippingOrderPreview",
+    "Container",
+    "ReceivingOrderContainer",
+    "ContainerType",
+    "ReceivingOrderContainerItem",
+    "User",
+    "ShippingOrderContainerItem",
+    "ShippingOrderContainer",
+    "ShippingOrderEtranInvoice",
+    "EtranInvoice",
+    "ReceivingOrderEtranInvoice",
+    "ShippingOrderRailwayCarriage",
+    "RailwayCarriage",
+    "ReceivingOrderRailwayCarriage",
 ];
 
 i18n.use(Backend)

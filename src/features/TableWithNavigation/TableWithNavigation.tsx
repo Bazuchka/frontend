@@ -23,20 +23,24 @@ interface TableWithNaviagtionProps {
     };
     permissionPath: string;
     isLoading?: boolean;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    additionalButtons?: (
-        isLoading: boolean | undefined,
-        classes: Record<string, string>
-    ) => JSX.Element;
-    hasCreateButton?: boolean;
     fetchParams?: Record<string, unknown>;
+    footerSettings?: {
+        label?: {
+            create?: string;
+        };
+        hasCreateButton?: boolean;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        additionalButtons?: (
+            isLoading: boolean | undefined,
+            classes: Record<string, string>
+        ) => JSX.Element;
+    };
 }
 
 const TableWithNavigation = ({
     permissionPath,
     isLoading,
-    hasCreateButton = true,
-    additionalButtons,
+    footerSettings,
     ...props
 }: TableWithNaviagtionProps) => {
     const { t } = useTranslation();
@@ -49,6 +53,7 @@ const TableWithNavigation = ({
         isRowSelected,
         pagination,
         isLoading: storeIsLoading,
+        sorting,
     } = useTableWithNavigation({ isLoading, ...props });
 
     return (
@@ -59,6 +64,7 @@ const TableWithNavigation = ({
                     onRowClick={handleRowClick}
                     onRowDoubleClick={handleDoubleClick}
                     isLoading={isLoading || storeIsLoading}
+                    sorting={sorting}
                     footer={() => (
                         <Footer
                             paginator={pagination}
@@ -70,7 +76,7 @@ const TableWithNavigation = ({
                                         onClick={handleOpenClick}>
                                         {t("Action:open")}
                                     </Button>
-                                    {hasCreateButton && (
+                                    {(footerSettings?.hasCreateButton ?? true) && (
                                         <WithPermission
                                             permission={{
                                                 path: permissionPath,
@@ -81,11 +87,12 @@ const TableWithNavigation = ({
                                                 disabled={isLoading}
                                                 className={classes.button}
                                                 onClick={handleCreateClick}>
-                                                {t("Action:create")}
+                                                {footerSettings?.label?.create ??
+                                                    t("Action:create")}
                                             </Button>
                                         </WithPermission>
                                     )}
-                                    {additionalButtons && additionalButtons(isLoading, classes)}
+                                    {footerSettings?.additionalButtons?.(isLoading, classes)}
                                 </>
                             )}
                         />

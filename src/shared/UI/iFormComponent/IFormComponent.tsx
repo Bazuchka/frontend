@@ -168,6 +168,7 @@ const IFormComponentForwarded = (
                 error={Boolean(errors[field.name])}
                 renderValuePrimary={field.renderValuePrimary}
                 renderValueSecondary={field.renderValueSecondary}
+                nonEditableValue={field.nonEditableValue}
                 withClearButton={field.withClearButton}
                 register={register}
                 validateMask={field.validateMask}
@@ -211,7 +212,7 @@ const IFormComponentForwarded = (
     }
 
     return (
-        <Box ref={boxRef} sx={{ overflowY: "auto", overflowX: "hidden" }}>
+        <Box ref={boxRef} sx={{ overflowY: "auto", overflowX: "hidden", paddingRight: "3px" }}>
             <form className={classes.form}>
                 {isLoading ? (
                     <Grid item xs={12} className={classes.loadContainer}>

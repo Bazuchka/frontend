@@ -1,1 +1,1 @@
-export { default as ReceivingOrderGoodTable } from "./ShippingOrderGoodTable";
+export { default as ShippingOrderGoodTable } from "./ShippingOrderGoodTable";

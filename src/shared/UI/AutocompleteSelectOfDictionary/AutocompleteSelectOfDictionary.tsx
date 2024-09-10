@@ -19,10 +19,12 @@ export interface AutocompleteSelectOfDictionaryProps {
     dictionaryParams?: DictionaryParams;
     nullableValueChanger?: IdCode;
     translatePath?: string;
+    defaultNullValue?: string;
     editValue?: object | string;
     isDisable?: boolean;
     isMock?: boolean;
     useSorting?: boolean;
+    useDefaultFilter?: boolean;
     renderValuePrimary?: string;
     renderValueSecondary?: string;
     onValueChange: (value: ChosenSelectObject | null) => void;
@@ -42,6 +44,7 @@ export const AutocompleteSelectOfDictionary: FC<AutocompleteSelectOfDictionaryPr
     const {
         isDisable,
         translatePath,
+        defaultNullValue,
         renderValuePrimary,
         renderValueSecondary,
         editValue,
@@ -61,6 +64,7 @@ export const AutocompleteSelectOfDictionary: FC<AutocompleteSelectOfDictionaryPr
         testFieldName,
         useSorting,
         isMock = false,
+        useDefaultFilter,
     } = props;
 
     const variablesParams = dictionaryType ? { type: dictionaryType } : dictionaryParams;
@@ -70,6 +74,7 @@ export const AutocompleteSelectOfDictionary: FC<AutocompleteSelectOfDictionaryPr
         ...variablesParams,
         useSorting,
         isMock,
+        useDefaultFilter,
     });
 
     const [inputValue, setInputValue] = useState<string>("");
@@ -110,7 +115,9 @@ export const AutocompleteSelectOfDictionary: FC<AutocompleteSelectOfDictionaryPr
                 setInputValue((value as ChosenSelectObject)?.code || "");
             } else if (value && renderValuePrimary) {
                 setInputValue(
-                    (value[renderValuePrimary as keyof ChosenSelectObject] as string) || ""
+                    (value[renderValuePrimary as keyof ChosenSelectObject] as string) ||
+                        defaultNullValue ||
+                        ""
                 );
             } else if (externalValue) {
                 setInputValue((externalValue?.code as string) || "");
@@ -143,6 +150,7 @@ export const AutocompleteSelectOfDictionary: FC<AutocompleteSelectOfDictionaryPr
                     translatePath,
                     renderValuePrimary,
                     renderValueSecondary,
+                    defaultNullValue,
                 })}
             </Grid>
         </li>
@@ -191,6 +199,7 @@ export const AutocompleteSelectOfDictionary: FC<AutocompleteSelectOfDictionaryPr
                     translatePath,
                     renderValuePrimary,
                     renderValueSecondary,
+                    defaultNullValue,
                 })
             }
             renderInput={(params) => {

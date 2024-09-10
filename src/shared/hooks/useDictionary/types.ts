@@ -31,8 +31,23 @@ export enum DictionaryType {
     BATCH = 31,
     PROCESSING_TYPE = 32,
     RECEIVING_ORDER_GOOD = 33,
-    GOOD_VARIANT = 35,
     SHIPPING_ORDER_GOOD = 34,
+    GOOD_VARIANT = 35,
+    CONTAINER_TYPE = 36,
+    CONTAINER = 37,
+    ETSNGCODE = 38,
+    RECEIVING_ORDER_CONTAINER = 39,
+    ROLE = 40,
+    USERTYPE = 41,
+    SHIPPING_ORDER_CONTAINER = 42,
+    ETRAN_INVOICE = 43,
+    RAILWAY_STATION = 44,
+    RECEIVING_ORDER_RAILWAY_CARRIAGES = 45,
+    SHIPPING_ORDER_ETRAN_INVOICE = 46,
+    RAILWAY_CARRIAGE = 47,
+    RAILWAY_CARRIAGE_TYPE = 48,
+    SHIPPING_ORDER_RAILWAY_CARRIAGES = 49,
+    RECEIVING_ORDER_ETRAN_INVOICE = 50,
 }
 
 export interface DictionaryParams {
@@ -51,6 +66,7 @@ export interface IUseAutocompleteDictionary {
         | string[]
         | ((value: string) => Record<string, object | string | boolean | null>);
     useSorting?: boolean;
+    useDefaultFilter?: boolean;
     isMock?: boolean;
 }
 

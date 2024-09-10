@@ -1,0 +1,19 @@
+{
+    "properties": {
+        "container": "Номер контейнера",
+        "sealNumbers": "Номера ЗПУ",
+        "empty": "Порожний",
+        "weight": "Масса с грузом, тн",
+        "customsClearance": "Таможенная очистка",
+        "dangerousCargo": "Опасный груз",
+        "containerType": "Тип котейнера",
+        "refrigerator": "Рефрижератор",
+        "weightEmpty": "Масса порожння, тн",
+        "railwayCarriageId": "Номер вагона"
+    },
+    "dialog": {
+        "createSuccess": "Котейнер успешно привязан к заявке",
+        "editSuccess": "Котейнер успешно изменен в заявке",
+        "deleteSuccess": "Контейнер удален из заявки"
+    }
+}

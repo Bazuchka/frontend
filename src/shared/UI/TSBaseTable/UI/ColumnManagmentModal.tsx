@@ -1,3 +1,4 @@
+import { Search as SearchIcon } from "@mui/icons-material";
 import {
     Box,
     Checkbox,
@@ -7,18 +8,17 @@ import {
     TextField,
     useTheme,
 } from "@mui/material";
-import { Search as SearchIcon } from "@mui/icons-material";
-import { Column, Table as TableType } from "@tanstack/react-table";
 import { GridRowModel } from "@mui/x-data-grid";
-import { useTranslation } from "react-i18next";
+import { Column, Table as TableType } from "@tanstack/react-table";
 import { useEffect, useState } from "react";
-import useStyles from "./styles";
+import { useTranslation } from "react-i18next";
 import { BaseTableRow } from "../types";
+import useStyles from "./styles";
 
 export interface IColumnManagmentProps<T extends BaseTableRow & GridRowModel> {
     table: TableType<T>;
     isOpen: boolean;
-    position: number;
+    position: { x: number; y: number };
     setIsColumnManagmentModalOpen: (val: boolean) => void;
 }
 
@@ -48,7 +48,9 @@ export const ColumnManagmentModal = <T extends BaseTableRow & GridRowModel>(
     };
 
     return (
-        <Popper open={isOpen} style={{ position: "fixed", top: 236, left: position - 295 }}>
+        <Popper
+            open={isOpen}
+            style={{ position: "fixed", top: position.y + 17, left: position.x - 278 }}>
             <ClickAwayListener onClickAway={onClickAwayHandler}>
                 <Box
                     component="div"

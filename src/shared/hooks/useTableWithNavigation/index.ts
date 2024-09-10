@@ -46,11 +46,11 @@ export const useTableWithNavigation = ({
     }, [isLoading]);
 
     const pagination: PaginationProps = {
-        page: store.filters.page,
-        size: store.filters.size,
-        totalElements: store.filters.total,
+        page: store.pagination.page,
+        size: store.pagination.size,
+        totalElements: store.pagination.total,
         disabled: store.state.isLoading,
-        onChange: store.filters.setUserPagination,
+        onChange: store.pagination.setUserPagination,
     };
 
     const table = useReactTable({
@@ -104,5 +104,6 @@ export const useTableWithNavigation = ({
         isRowSelected,
         pagination,
         isLoading: store.state.isLoading,
+        sorting: store.sorting,
     };
 };

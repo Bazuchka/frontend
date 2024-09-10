@@ -17,7 +17,7 @@ export const FullShippingOrderTransport = types.compose(
         consignee: types.model({
             id: types.identifier,
             code: types.string,
-            name: types.string,
+            inn: types.string,
         }),
         consigneeAddress: types.string,
         carrier: ForeignKey,

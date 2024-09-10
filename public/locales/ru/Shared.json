@@ -23,13 +23,16 @@
         "success": "Запись добавлена успешно",
         "successDelete": "Запись успешно удалена",
         "notResponsive": "Сервис временно не доступен",
-        "snapshotConvertion": "Модель типа {{modelName}} не была создана, т.к.  содержит некорректные данные для id: {{id}}"
+        "snapshotConvertion": "Модель типа {{modelName}} не была создана, т.к.  содержит некорректные данные для id: {{id}}",
+        "User already has such role assigned": "Пользователю уже назначена такая роль"
     },
     "Detailed": "Подробнее",
     "Reference": {
         "dictionary": "Справочники",
         "configuration": "Конфигурация",
-        "orders": "Заявки"
+        "orders": "Заявки",
+        "administration": "Администрирование",
+        "security": "Настройки безопасности"
     },
     "dateRange": {
         "start": "С",
@@ -71,5 +74,8 @@
     "dragAndDrop": "Переместите файл",
     "open": "Открыть",
     "close": "Закрыть",
-    "clean": "Очистить"
+    "clean": "Очистить",
+    "add": "Добавить",
+    "createOrder": "Создать заявку",
+    "columnManagment": "Управление колонками"
 }

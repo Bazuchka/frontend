@@ -4,6 +4,7 @@ import { SEARCH_TYPE } from "src/shared/enums";
 export enum SortingDirection {
     ASC = "ASC",
     DESC = "DESC",
+    NONE = "NONE",
 }
 
 export interface PageInfo {
@@ -54,4 +55,6 @@ export interface Options {
 
 export type BaseActionOptions = Pick<Options, "preventDefaultAlert"> & {
     urlPostfix?: string;
+    serviceUrl?: string;
+    method?: Method;
 };

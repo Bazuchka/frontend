@@ -1,5 +1,5 @@
 import { ShippingOrderGoodStore } from "./ShippingOrderGoodStore";
 
-const receivingOrderGoodStore = ShippingOrderGoodStore.create();
+const shippingOrderGoodStore = ShippingOrderGoodStore.create();
 
-export default receivingOrderGoodStore;
+export default shippingOrderGoodStore;

@@ -19,7 +19,9 @@ const LegalEntityTable: FunctionComponent<LegalEntitiesTableProps> = observer(()
             }}
             permissionPath="LegalEntity"
             isLoading={legalEntityStore.state.isLoading}
-            hasCreateButton={false}
+            footerSettings={{
+                hasCreateButton: false,
+            }}
         />
     );
 });

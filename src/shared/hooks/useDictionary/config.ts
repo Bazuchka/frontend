@@ -25,6 +25,10 @@ export const enumsConfig = (params: DictionaryParams): string[] | ValueOption[] 
             return dictionaryStore.calculationMethod;
         case DictionaryType.PROCESSING_TYPE:
             return dictionaryStore.processingType;
+        case DictionaryType.CONTAINER_TYPE:
+            return dictionaryStore.containerType;
+        case DictionaryType.USERTYPE:
+            return dictionaryStore.userType;
         default:
             return [];
     }

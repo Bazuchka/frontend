@@ -19,7 +19,9 @@ const ServiceTable: FunctionComponent<ServiceTableProps> = observer(() => {
             }}
             permissionPath="Service"
             isLoading={serviceStore.state.isLoading}
-            hasCreateButton={false}
+            footerSettings={{
+                hasCreateButton: false,
+            }}
         />
     );
 });

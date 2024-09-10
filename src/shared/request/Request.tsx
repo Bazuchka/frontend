@@ -19,14 +19,23 @@ export const request: Request = async (options: Options) => {
         if (response === undefined || response.status >= 500) {
             viewStore.addAlert({
                 alertMode: "error",
-                message: t("Shared:AlertMessages.notResponsive"),
+                message:
+                    response && response.data && response.data.errorMessage
+                        ? t(`Shared:AlertMessages.${response.data.errorMessage}`)
+                        : t("Shared:AlertMessages.notResponsive"),
                 throttleByMessage: true,
             });
             return Promise.reject(response);
         }
 
         if (response.status >= 400 && !options.preventDefaultAlert) {
-            viewStore.addAlert({ alertMode: "error", context: response.data });
+            response && response.data && response.data.errorMessage
+                ? viewStore.addAlert({
+                      alertMode: "error",
+                      message: t(`Shared:AlertMessages.${response.data.errorMessage}`),
+                      context: response.data,
+                  })
+                : viewStore.addAlert({ alertMode: "error", context: response.data });
             return Promise.reject(response);
         }
 

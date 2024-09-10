@@ -6,8 +6,8 @@ export const actions = {
         const data = {
             filter: useSorting
                 ? {
-                      ...filters,
                       ...DefaultSelectOfDictionaryHTTPRequestObject.filter,
+                      ...filters,
                   }
                 : { ...filters },
             pageInfo: { size, page },

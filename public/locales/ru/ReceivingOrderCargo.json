@@ -6,7 +6,7 @@
         "goodPackage": "Упаковка",
         "packageQuantity": "Кол-во уп.",
         "conversionQuantity": "Кол-во в 1 уп.",
-        "totalQuantity": "Кол-во всего",
+        "totalQuantity": "Кол-во, всего",
         "dimensions": "Габариты 1 упаковки"
     },
     "dialog": {

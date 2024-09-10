@@ -1,39 +1,163 @@
 variables:
-  BUILD_VERSION: $CI_COMMIT_REF_NAME:$CI_COMMIT_SHORT_SHA
+  ENV_LIST: "dev qa qa1 qa2 qa3 devrel at1 at2 ant1 devrel116"
+  COMMIT_BRANCH: ${CI_COMMIT_BRANCH}
+  COMMIT_SHORT_SHA: ${CI_COMMIT_SHORT_SHA}
+  BUILD_DATETIME: ${CI_JOB_STARTED_AT}
+  SONAR_HOST: ${SONAR_HOST_URL}
+  SONAR_TOKEN: ${SONAR_TOKEN}
+  L_KEYCLOACK__REALM: ${KEYCLOACK__REALM}
+  L_KEYCLOACK__AUTH_SERVER_URL: ${KEYCLOACK__AUTH_SERVER_URL}
+  L_KEYCLOACK__CLIENT_ID: ${KEYCLOACK__CLIENT_ID}
+  L_WMS_BACKEND__SERVER_URL: ${WMS_BACKEND__SERVER_URL}
+  FE_HTTP_PORT: 3000
+  FE_HTTPS_PORT: 3443
+  TEST_ENV: "dev"
+  ENV_NAME: "dev-frontend"
+  ENV_HOST: "gitlab.koruswms.ru"
+  L_CONTAINER_NAME: "dev-https-fe"
+  L_TEST_ENV: "dev"
 
 stages:
-  # - sonar # проверка sonarqube кода на уязвимость
-  - build  # Сборка Front
-  - build_image # Сборка Docker
-  - deploy # Установка на стенд
-  
-# sonarqube-check:
-#   stage: sonar
-#   image:
-#     name: sonarsource/sonar-scanner-cli:5.0
-#     entrypoint: [""]
-#   variables:
-#     SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar" # Defines the location of the analysis task cache
-#     GIT_DEPTH: "0" # Tells git to fetch all the branches of the project, required by the analysis task
-#   cache:
-#     key: "${CI_JOB_NAME}"
-#     paths:
-#       - .sonar/cache
-#   script:
-#     - >
-#     sonar-scanner
-#     -Dsonar.projectKey=Alis_fe
-#     -Dsonar.qualitygate.wait=true
-#     -Dsonar.exclusions=mobile/ios/**/*,mobile/android/**/*,fullscreen/src/__tests__/**/*
-#     -Dsonar.javascript.lcov.reportPaths=fullscreen/coverage/lcov.info
+  - prepare
+  - build
+  - sonar
+  # - verify
+  # - publish
+  - build_image
+  - deploy
+  # - tests
+
+build-project-version:
+  stage: prepare
+  # tags:
+  #   - shell-k8s
+  script:
+    # Calculating Docker image BUILD_TAG and PACKAGE_VERSION for the package
+    - |
+      BRANCH_NAME=$(echo ${CI_COMMIT_REF_NAME} | sed  -r 's/\//-/g')
+      export PACKAGE_VERSION=$(cat gradle.properties | grep Version | awk -F '=' '{print $2}')
+      echo ${CI_COMMIT_TAG}
+      if [[ ! -z ${CI_COMMIT_TAG} ]]
+      then
+        echo "Building release"
+        BUILD_TAG="${PACKAGE_VERSION}"
+        RELEASE_VERSION=$(echo ${CI_COMMIT_TAG} | cut -d "v" -f 2)
+      
+        if [[ ${RELEASE_VERSION} != ${PACKAGE_VERSION} ]]
+        then
+          echo "Please bump version in gradle.properties."
+          echo "Gradle version: ${PACKAGE_VERSION}"
+          echo "Expected version: ${RELEASE_VERSION}"
+          exit 1
+        fi        
+      else
+        echo "Regular build"
+        BUILD_TAG="${PACKAGE_VERSION}-${BUILD_DATE}-${BRANCH_NAME}-${COMMIT_SHORT_SHA}"
+      fi
+
+      echo "DEPLOY_QA = $DEPLOY_QA"
+      if [ "$DEPLOY_QA" = "1" ]
+      then
+        echo "Preparing deploy to QA"
+        echo "FE_HTTP_PORT=33000" >> build.env
+        echo "FE_HTTPS_PORT=33443" >> build.env
+        echo "L_TEST_ENV=demo" >> build.env
+        echo "L_ADMIN_ROLE_NAME=${ADMIN_ROLE_NAME}" >> build.env
+        echo "L_CORS_ORIGIN_PATTERNS=${CORS_QA_ORIGIN_PATTERNS}" >> build.env
+        echo "L_SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE_QA}" >> build.env
+        echo "ENV_NAME=qa-backend" >> build.env
+        echo "BE_HTTP_PORT=${BE_QA_HTTP_PORT}" >> build.env
+        echo "BE_HTTPS_PORT=${BE_QA_HTTPS_PORT}" >> build.env
+        echo "L_KEYCLOAK_URL=${WMS_QA_KEYCLOAK_URL}" >> build.env
+        echo "L_KEYCLOAK_ADMIN=${WMS_KEYCLOAK_USER}" >> build.env
+        echo "L_KEYCLOAK_PASSWORD=${WMS_KEYCLOAK_PASSWORD}" >> build.env
+        echo "L_DB_URL=${DB_QA_URL}" >> build.env
+        echo "L_DB_USER=${DB_QA_USER}" >> build.env
+        echo "L_DB_PASSWORD=${DB_QA_PASSWORD}" >> build.env
+        echo "L_ADMIN_ROLE_ID=${ADMIN_ROLE_ID}" >> build.env
+        echo "L_CONTAINER_NAME=${QA_CONTAINER_NAME}" >> build.env
+      fi
+
+      echo "BUILD_TAG=${BUILD_TAG}"
+      export BUILD_TAG
+
+      echo "CI_COMMIT_BRANCH = $CI_COMMIT_BRANCH"
+      echo "COMMIT_BRANCH = $COMMIT_BRANCH"
+      echo "CI_COMMIT_REF_NAME = $CI_COMMIT_REF_NAME"
+
+      echo "PACKAGE_VERSION=${PACKAGE_VERSION}" >> build.env
+      echo "BUILD_TAG=${BUILD_TAG}" >> build.env
+  artifacts:
+    reports:
+      dotenv: build.env
+    # name: deployment
+    # paths:
+    #   - ./*be-deployment.yaml
+    expire_in: 2h
+  when: always
+#   rules:
+#     - if: $CI_COMMIT_BRANCH =~ /^release\/.*/ && $CI_PIPELINE_SOURCE != "pipeline"
+#       when: never
+#     - if: $CI_COMMIT_TAG == null || $CI_COMMIT_TAG != null && $CI_PIPELINE_SOURCE == "web"
+
+sonarqube-check:
+  stage: sonar
+  image: 
+    name: sonarsource/sonar-scanner-cli:5.0
+    entrypoint: [""]
+  variables:
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
+    GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+  cache:
+    key: "${CI_JOB_NAME}"
+    paths:
+      - .sonar/cache
+  script:
+    - >
+      sonar-scanner
+      -Dsonar.projectKey=Alis_fe
+      -Dsonar.qualitygate.wait=true
+      -Dsonar.exclusions=mobile/ios/**/*,mobile/android/**/*,fullscreen/src/__tests__/**/*
+      -Dsonar.javascript.lcov.reportPaths=fullscreen/coverage/lcov.info  
+  # only:
+  #   - main
+
+
 
 fullscreen-build-npm-frontend:
   stage: build
   image: node:alpine
+  # allow_failure: false
+  # rules:
+  #   - if: $BUILD_UI != "true" || $ONDEMAND_BUILD == "mobile"
+  #     when: never
+  #   - if: $BUILD_UI == "true"
+  #     when: on_success
+  # tags:
+  #   - fe-build-k8s
+#RDDO-93 hotfix: temporary disabling
+  # cache:
+  #   - key: fe-fs-${CI_COMMIT_REF_NAME}-cache
+  #     paths:
+  #       - fullscreen/node_modules/
   script:
-    - apk update && apk add git
-    - npm install
+    - echo "BUILD_VERSION=${PACKAGE_VERSION}" >> build.env
+    - echo "BUILD_TAG=${BUILD_TAG}" >> build.env
+#    - apk update && apk add git
+#    - npm config set cafile "${CA_BUNDLE}"
+#    - npm set registry https://nexus.koruswms.ru:8443/repository/npm-proxy/
+    - pwd
+#    - npm audit --registry=https://registry.npmjs.org
+    - npm install #--no-audit
+    # - cd fullscreen
+    # - npm install #--no-audit
     - npm run build
+    - ls -latrh
+  after_script:
+    - ls -latrh /root/.npm/_logs
+  # needs:
+  #   - job: fullscreen-build-project-version
+  #     artifacts: true
   artifacts:
     when: always
     expose_as: 'npm artifact'
@@ -41,44 +165,420 @@ fullscreen-build-npm-frontend:
     paths:
       - build/
     expire_in: 1 hour
+    reports:
+      dotenv: build.env
+
+# fullscreen-coverage-npm-frontend:
+#   stage: build
+#   allow_failure: false
+#   rules:
+#     - if: $COVERAGE_UI != "true" || $ONDEMAND_BUILD == "mobile"
+#       when: never
+#     - if: $COVERAGE_UI == "true"
+#       when: on_success
+#   tags:
+#     - fe-build-k8s
+# #RDDO-93 hotfix: temporary disabling
+#   cache:
+#     - key: fe-fs-${CI_COMMIT_REF_NAME}-cache
+#       paths:
+#         - fullscreen/node_modules/
+#   script:
+#     - echo "BUILD_VERSION=${PACKAGE_VERSION}" >> build.env
+#     - echo "BUILD_TAG=${BUILD_TAG}" >> build.env
+#     - cd fullscreen
+# #    - npm config set cafile ${CA_BUNDLE}
+# #    - npm set registry https://nexus.koruswms.ru:8443/repository/npm-proxy/
+#     - npm install #--no-audit
+#     - npm run coverage
+#     - ls -latrh
+#   needs:
+#     - job: fullscreen-build-project-version
+#       artifacts: true
+#     - job: fullscreen-build-npm-frontend
+#   artifacts:
+#     when: on_success
+#     expose_as: 'coverage artifact'
+#     name: 'wms-frontend-coverage'
+#     paths:
+#       - fullscreen/coverage/
+#     expire_in: 1 hour
+#     reports:
+#       dotenv: build.env
+
+# fullscreen-sonarqube-check:
+#   stage: verify
+#   allow_failure: false
+#   rules:
+#     - if: $SONAR_CHECK_UI != "true" || $ONDEMAND_BUILD == "mobile"
+#       when: never
+#     - if: $SONAR_CHECK_UI == "true"
+#       when: on_success
+#   tags:
+#     - fe-sonar-k8s
+#   variables:
+#     SONAR_USER_HOME: "${CI_PROJECT_DIR}/fullscreen/.sonar"  # Defines the location of the analysis task cache
+#     GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+# #RDDO-93 hotfix: temporary disabling
+#   cache:
+#     - key: fe-fs-${CI_COMMIT_REF_NAME}-cache
+#       paths:
+#         - fullscreen/node_modules
+#     - key: fe-fs-${CI_COMMIT_REF_NAME}-sonar #"${CI_JOB_NAME}"
+#       paths:
+#         - fullscreen/.sonar/cache
+#   script:
+#     - >
+#       sonar-scanner
+#       -Dsonar.projectKey=koruswms_development_wms-frontend_AYZzQ9io9r5GPQ4em9OH
+#       -Dsonar.qualitygate.wait=true
+#       -Dsonar.exclusions=mobile/ios/**/*,mobile/android/**/*,fullscreen/src/__tests__/**/*
+#       -Dsonar.javascript.lcov.reportPaths=fullscreen/coverage/lcov.info
+#   needs:
+#     - job: fullscreen-build-npm-frontend
+#       artifacts: true
+#     - job: fullscreen-coverage-npm-frontend
+#       artifacts: true
+
+# # The code publish stage: NPM publish command
+# fullscreen-build-publish-artifact:
+#   stage: publish  
+#   rules:
+#     - if: $PUBLISH_ARTEFACT_UI != "true" || $ONDEMAND_BUILD == "mobile"
+#       when: never
+#     - if: $PUBLISH_ARTEFACT_UI == "true"
+#       when: on_success
+#   tags:
+#     - shell-k8s
+#   script:
+#     - ls -latrh
+#     - echo "SKIPPING. NPM publish command required here" # Replace with correct block for NMP publish
+#   needs:
+#     - job: fullscreen-build-npm-frontend
+#       artifacts: true
+#     - job: fullscreen-sonarqube-check
 
 fullscreen-create-docker-image:
   stage: build_image
   image: docker:24.0.5
   variables:
-    CI_REGISTRY_IMAGE: "registry-gitlab-devops1c.alabuga.ru"
-    DOCKER_IMAGE_NAME: $CI_REGISTRY_IMAGE/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}/${CI_COMMIT_REF_SLUG}:${CI_COMMIT_SHORT_SHA}
-    # DOCKER_HOST: "tcp://localhost:2375"
-    # DOCKER_TLS_CERTDIR: ""
-    DOCKER_OPTS: "--insecure-registry=registry-gitlab-devops1c.alabuga.ru"
-    CI_REGISTRY_USER: "MZiatdinov"
+    DOCKER_IMAGE_NAME: $CI_REGISTRY_IMAGE/${CI_PROJECT_NAME}/${CI_COMMIT_REF_SLUG}:${CI_COMMIT_SHORT_SHA}
+    CI_REGISTRY_IMAGE: "docker.axis-dev.koncrit.tech"
+    DOCKER_HOST: "tcp://localhost:2375"
+    DOCKER_TLS_CERTDIR: ""
+    DOCKER_OPTS: "--insecure-registry=docker.axis-dev.koncrit.tech"
   services:
-    - name: docker:24.0.5-dind
-      entrypoint: ["dockerd-entrypoint.sh", "--tls=false"]
-      command: ["--insecure-registry", "registry-gitlab-devops1c.alabuga.ru"]
+  - name: docker:24.0.5-dind
+    entrypoint: ["dockerd-entrypoint.sh", "--tls=false"]
+    command: ["--insecure-registry", "docker.axis-dev.koncrit.tech"]
+
   before_script:
-    - echo "${BUILD_VERSION} | ${CI_REGISTRY}"
+    - echo "${BUILD_VERSION}"
     - docker info
-    - echo "$CI_DEPLOY_PASSWORD" | docker login $CI_REGISTRY_IMAGE -u $CI_DEPLOY_USER --password-stdin
+    - docker login -u "admin" -p "superpass123" $CI_REGISTRY_IMAGE
+
   script:
     - docker build --build-arg build_version=${BUILD_VERSION} -t $DOCKER_IMAGE_NAME .
     - docker push "$DOCKER_IMAGE_NAME"
+  # needs:
+  #   - job: fullscreen-build-npm-frontend
+  #     artifacts: true
+  #   - job: fullscreen-sonarqube-check
+  #     optional: true
+  #   - job: fullscreen-build-publish-artifact
+  #     optional: true
+  # dependencies:
+  #   - fullscreen-build-npm-frontend
+  # artifacts:
+  #   reports:
+  #     dotenv: build.env
 
-deploy-test:
+deploy-kubernetes-DEV:
   stage: deploy
-  image: docker:24.0.5
+  image: docker.axis-dev.koncrit.tech/repository/bitnami/helminator:stable
   variables:
-    CI_REGISTRY_IMAGE: "registry-gitlab-devops1c.alabuga.ru"
-    DOCKER_IMAGE_NAME: $CI_REGISTRY_IMAGE/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}/${CI_COMMIT_REF_SLUG}:${CI_COMMIT_SHORT_SHA}
-    DOCKER_OPTS: "--insecure-registry=registry-gitlab-devops1c.alabuga.ru"
-    CI_REGISTRY_USER: "MZiatdinov"
+    DOCKER_IMAGE_NAME: $CI_REGISTRY_IMAGE/${CI_PROJECT_NAME}/${CI_COMMIT_REF_SLUG}:${CI_COMMIT_SHORT_SHA}
+    CI_REGISTRY_IMAGE: "docker.axis-dev.koncrit.tech"
   before_script:
-    - echo "${BUILD_VERSION} | ${CI_REGISTRY}"
-    - docker info
-    - echo "$CI_DEPLOY_PASSWORD" | docker login $CI_REGISTRY_IMAGE -u $CI_DEPLOY_USER --password-stdin
+    - mkdir -p /root/.kube
+    - export KUBECONFIG=$KUBECONFIG
+    - curl -sSL https://hub.mcs.mail.ru/repository/client-keystone-auth/latest/linux/client-install.sh | bash
+    - ls -lsa /root/vk-cloud-solutions/bin/client-keystone-auth
+    - cp /root/vk-cloud-solutions/bin/client-keystone-auth /usr/bin
+    - kubectl -n alis get pods
   script:
-    - docker pull $DOCKER_IMAGE_NAME
-    - docker compose -f docker-compose.yml stop
-    - docker compose -f docker-compose.yml rm -f
-    - docker compose -f docker-compose.yml up -d
+    - echo $DOCKER_IMAGE_NAME
+    - sed -i "s|__DOCKER_TAG__|$DOCKER_IMAGE_NAME|g" .k8s/deployment.yaml
+    - kubectl apply -n alis -f .k8s/
+  when: on_success
+  only: 
+  - main
 
+deploy-kubernetes-QA:
+  stage: deploy
+  image: docker.axis-dev.koncrit.tech/repository/bitnami/helminator:stable
+  variables:
+    DOCKER_IMAGE_NAME: $CI_REGISTRY_IMAGE/${CI_PROJECT_NAME}/${CI_COMMIT_REF_SLUG}:${CI_COMMIT_SHORT_SHA}
+    CI_REGISTRY_IMAGE: "docker.axis-dev.koncrit.tech"
+  before_script:
+    - mkdir -p /root/.kube
+    - export KUBECONFIG=$KUBECONFIG
+    - curl -sSL https://hub.mcs.mail.ru/repository/client-keystone-auth/latest/linux/client-install.sh | bash
+    - ls -lsa /root/vk-cloud-solutions/bin/client-keystone-auth
+    - cp /root/vk-cloud-solutions/bin/client-keystone-auth /usr/bin
+    - kubectl -n alis-qa get pods
+  script:
+    - echo $DOCKER_IMAGE_NAME
+    - sed -i "s|__DOCKER_TAG__|$DOCKER_IMAGE_NAME|g" .k8s/deployment.yaml
+    - kubectl apply -n alis-qa -f .k8s/
+  when: manual
+
+deploy-kubernetes-PRE:
+  stage: deploy
+  image: docker.axis-dev.koncrit.tech/repository/bitnami/helminator:stable
+  variables:
+    DOCKER_IMAGE_NAME: $CI_REGISTRY_IMAGE/${CI_PROJECT_NAME}/${CI_COMMIT_REF_SLUG}:${CI_COMMIT_SHORT_SHA}
+    CI_REGISTRY_IMAGE: "docker.axis-dev.koncrit.tech"
+  before_script:
+    - mkdir -p /root/.kube
+    - export KUBECONFIG=$KUBECONFIG_PRE
+    - curl -sSL https://hub.mcs.mail.ru/repository/client-keystone-auth/latest/linux/client-install.sh | bash
+    - ls -lsa /root/vk-cloud-solutions/bin/client-keystone-auth
+    - cp /root/vk-cloud-solutions/bin/client-keystone-auth /usr/bin
+    - kubectl -n alis get pods
+  script:
+    - echo $DOCKER_IMAGE_NAME
+    - sed -i "s|__DOCKER_TAG__|$DOCKER_IMAGE_NAME|g" .k8s/deployment.yaml
+    - kubectl apply -n alis -f .k8s/
+  when: manual
+# fullscreen-launch-container:
+#   stage: deploy
+#   allow_failure: false
+#   rules:
+#     - if: $ONDEMAND_BUILD == "mobile" || $DEPLOY_UI != "true"
+#       when: never
+#     - if: $DEPLOY_UI == "true" && $CI_PIPELINE_SOURCE != "pipeline" 
+#       when: on_success
+#     - if: $DEPLOY_UI == "true" && (( $DEPLOY_DEV == "1" || $DEPLOY_QA == "1" ) && $CI_PIPELINE_SOURCE == "pipeline")
+#       when: on_success 
+#   tags:
+#     - shell
+#   script:
+#     - echo "${BUILD_TAG}"
+#     - echo $L_CONTAINER_NAME
+#     - docker stop "$L_CONTAINER_NAME" || true
+#     - docker rm "$L_CONTAINER_NAME" || true
+#     - >
+#         docker run -d -p ${FE_HTTP_PORT}:80 
+#         --env KEYCLOACK__REALM=${L_KEYCLOACK__REALM}
+#         --env KEYCLOACK__AUTH_SERVER_URL=${L_KEYCLOACK__AUTH_SERVER_URL}
+#         --env KEYCLOACK__CLIENT_ID=${L_KEYCLOACK__CLIENT_ID}
+#         --env WMS_BACKEND__SERVER_URL=${L_WMS_BACKEND__SERVER_URL}
+#         --env "TZ=Europe/Moscow"
+#         --name ${L_CONTAINER_NAME}
+#         nexus.koruswms.ru:5556/deploy/runnable-wms-frontend:${BUILD_TAG}
+#   environment:
+#     name: ${ENV_NAME}
+#     url: "https://${ENV_HOST}:${FE_HTTPS_PORT}"
+#   needs:
+#     - job: fullscreen-build-publish-artifact
+#       optional: true
+#     - job: fullscreen-create-docker-image
+#     - job: fullscreen-build-project-version
+#       artifacts: true
+#   when: on_success
+
+# fullscreen-run-smoke-tests:
+#   needs:
+#     - job: fullscreen-build-project-version
+#       artifacts: true
+#     - job: fullscreen-launch-container
+#       optional: true
+#     - job: fullscreen-create-docker-image
+#   when: on_success
+#   rules:
+#     - if: $RUN_SMOKE_UI != "true" || $ONDEMAND_BUILD == "mobile"
+#       when: never
+#     - if: $RUN_SMOKE_UI == "true"
+#       when: on_success
+#     #- if: $CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"
+#   stage: tests
+#   variables:
+#     RUN_ST: "true"
+#     TEST_LEVEL: "Smoke"
+#     TEST_ENV: "ST"
+#     FRONTEND_VERSION: ${BUILD_TAG}
+#     SHORT_COMMIT: ${COMMIT_SHORT_SHA}
+#   trigger:
+#     project: "koruswms/development/wms-autotest"
+#     branch: main
+
+# qa1-deploy:
+#   stage: deploy
+#   tags:
+#     - deploy-k8s
+#   script:
+#     - echo "Deploy to kubernetes cluster $DEPLOY_K8S environment."
+#     - kubectl config set clusters.gitlab.certificate-authority-data ${CA_BUNDLE64}
+#     - kubectl config use-context koruswms/development/wms-deploy:kwms-dev-k8s
+#     - kubectl apply -n kwms-qa1 -f qa1-fe-deployment.yaml
+#   needs:
+#     - job: fullscreen-create-docker-image
+#     - job: fullscreen-build-project-version
+#       artifacts: true
+#   when: manual
+#   rules:
+#     - if: $CREATE_IMAGE_UI != "true" || $ONDEMAND_BUILD == "mobile"
+#       when: never
+#     - if: $CREATE_IMAGE_UI == "true"
+#       when: manual
+# #  rules:
+# #    - if: $CI_PIPELINE_SOURCE == "pipeline" || $CI_COMMIT_BRANCH == "main" || $CI_COMMIT_TAG != null && $CI_PIPELINE_SOURCE == "web"
+
+# qa2-deploy:
+#   stage: deploy
+#   tags:
+#     - deploy-k8s
+#   script:
+#     - echo "Deploy to kubernetes cluster $DEPLOY_K8S environment."
+#     - kubectl config set clusters.gitlab.certificate-authority-data ${CA_BUNDLE64}
+#     - kubectl config use-context koruswms/development/wms-deploy:kwms-dev-k8s
+#     - kubectl apply -n kwms-qa2 -f qa2-fe-deployment.yaml
+#   needs:
+#     - job: fullscreen-create-docker-image
+#     - job: fullscreen-build-project-version
+#       artifacts: true
+#   when: manual
+#   rules:
+#     - if: $CREATE_IMAGE_UI != "true" || $ONDEMAND_BUILD == "mobile"
+#       when: never
+#     - if: $CREATE_IMAGE_UI == "true"
+#       when: manual
+# #  rules:
+# #    - if: $CI_PIPELINE_SOURCE == "pipeline" || $CI_COMMIT_BRANCH == "main" || $CI_COMMIT_TAG != null && $CI_PIPELINE_SOURCE == "web"
+
+# qa3-deploy:
+#   stage: deploy
+#   tags:
+#     - deploy-k8s
+#   script:
+#     - echo "Deploy to kubernetes cluster $DEPLOY_K8S environment."
+#     - kubectl config set clusters.gitlab.certificate-authority-data ${CA_BUNDLE64}
+#     - kubectl config use-context koruswms/development/wms-deploy:kwms-dev-k8s
+#     - kubectl apply -n kwms-qa3 -f qa3-fe-deployment.yaml
+#   needs:
+#     - job: fullscreen-create-docker-image
+#     - job: fullscreen-build-project-version
+#       artifacts: true
+#   when: manual
+#   rules:
+#     - if: $CREATE_IMAGE_UI != "true" || $ONDEMAND_BUILD == "mobile"
+#       when: never
+#     - if: $CREATE_IMAGE_UI == "true"
+#       when: manual
+# #  rules:
+# #    - if: $CI_PIPELINE_SOURCE == "pipeline" || $CI_COMMIT_BRANCH == "main" || $CI_COMMIT_TAG != null && $CI_PIPELINE_SOURCE == "web"
+
+# at1-deploy:
+#   stage: deploy
+#   tags:
+#     - deploy-k8s
+#   script:
+#     - echo "Deploy to kubernetes cluster $DEPLOY_K8S environment."
+#     - kubectl config set clusters.gitlab.certificate-authority-data ${CA_BUNDLE64}
+#     - kubectl config use-context koruswms/development/wms-deploy:kwms-dev-k8s
+#     - kubectl apply -n kwms-at1 -f at1-fe-deployment.yaml
+#   needs:
+#     - job: fullscreen-create-docker-image
+#     - job: fullscreen-build-project-version
+#       artifacts: true
+#   when: manual
+#   rules:
+#     - if: $CREATE_IMAGE_UI != "true" || $ONDEMAND_BUILD == "mobile"
+#       when: never
+#     - if: $CREATE_IMAGE_UI == "true"
+#       when: manual
+# #  rules:
+# #    - if: $CI_PIPELINE_SOURCE == "pipeline" || $CI_COMMIT_BRANCH == "main" || $CI_COMMIT_TAG != null && $CI_PIPELINE_SOURCE == "web"
+
+# at2-deploy:
+#   stage: deploy
+#   tags:
+#     - deploy-k8s
+#   script:
+#     - echo "Deploy to kubernetes cluster $DEPLOY_K8S environment."
+#     - kubectl config set clusters.gitlab.certificate-authority-data ${CA_BUNDLE64}
+#     - kubectl config use-context koruswms/development/wms-deploy:kwms-dev-k8s
+#     - kubectl apply -n kwms-at2 -f at2-fe-deployment.yaml
+#   needs:
+#     - job: fullscreen-create-docker-image
+#     - job: fullscreen-build-project-version
+#       artifacts: true
+#   when: manual
+#   rules:
+#     - if: $CREATE_IMAGE_UI != "true" || $ONDEMAND_BUILD == "mobile"
+#       when: never
+#     - if: $CREATE_IMAGE_UI == "true"
+#       when: manual
+# #  rules:
+# #    - if: $CI_PIPELINE_SOURCE == "pipeline" || $CI_COMMIT_BRANCH == "main" || $CI_COMMIT_TAG != null && $CI_PIPELINE_SOURCE == "web"
+
+# ant1-deploy:
+#   stage: deploy
+#   tags:
+#     - deploy-k8s
+#   script:
+#     - echo "Deploy to kubernetes cluster $DEPLOY_K8S environment."
+#     - kubectl config set clusters.gitlab.certificate-authority-data ${CA_BUNDLE64}
+#     - kubectl config use-context koruswms/development/wms-deploy:kwms-dev-k8s
+#     - kubectl apply -n kwms-ant1 -f ant1-fe-deployment.yaml
+#   needs:
+#     - job: fullscreen-create-docker-image
+#     - job: fullscreen-build-project-version
+#       artifacts: true
+#   when: manual
+#   rules:
+#     - if: $CREATE_IMAGE_UI != "true" || $ONDEMAND_BUILD == "mobile"
+#       when: never
+#     - if: $CREATE_IMAGE_UI == "true"
+#       when: manual
+
+# release115-deploy:
+#   stage: deploy
+#   tags:
+#     - deploy-k8s
+#   script:
+#     - echo "Deploy to kubernetes cluster $DEPLOY_K8S environment."
+#     - kubectl config set clusters.gitlab.certificate-authority-data ${CA_BUNDLE64}
+#     - kubectl config use-context koruswms/development/wms-deploy:kwms-dev-k8s
+#     - kubectl apply -n kwms-devrel -f devrel-fe-deployment.yaml
+#   needs:
+#     - job: fullscreen-create-docker-image
+#     - job: fullscreen-build-project-version
+#       artifacts: true
+#   when: manual
+#   rules:
+#     - if: $CREATE_IMAGE_UI != "true" || $ONDEMAND_BUILD == "mobile"
+#       when: never
+#     - if: $CREATE_IMAGE_UI == "true"
+#       when: manual
+
+# release116-deploy:
+#   stage: deploy
+#   tags:
+#     - deploy-k8s
+#   script:
+#     - echo "Deploy to kubernetes cluster $DEPLOY_K8S environment."
+#     - kubectl config set clusters.gitlab.certificate-authority-data ${CA_BUNDLE64}
+#     - kubectl config use-context koruswms/development/wms-deploy:kwms-dev-k8s
+#     - kubectl apply -n kwms-devrel116 -f devrel116-fe-deployment.yaml
+#   needs:
+#     - job: fullscreen-create-docker-image
+#     - job: fullscreen-build-project-version
+#       artifacts: true
+#   when: manual
+#   rules:
+#     - if: $CREATE_IMAGE_UI != "true" || $ONDEMAND_BUILD == "mobile"
+#       when: never
+#     - if: $CREATE_IMAGE_UI == "true"
+#       when: manual

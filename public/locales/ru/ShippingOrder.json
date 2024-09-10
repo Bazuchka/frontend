@@ -8,7 +8,10 @@
         "goods": "Товар",
         "cargoSpaces": "Грузоместа",
         "operations": "Доп. операции",
-        "presentation": "Просмотр"
+        "presentation": "Просмотр",
+        "containers": "Контейнеры",
+        "etranInvoice": "Накладные ЭТРАН",
+        "railwayCarriage": "Вагоны"
     },
     "properties": {
         "number": "Номер",

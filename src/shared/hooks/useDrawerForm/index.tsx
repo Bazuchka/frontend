@@ -20,6 +20,7 @@ export interface IDrawerForm {
     store: Instance<ReturnType<typeof createBaseStore>>;
     fieldOptions?: FieldOptions;
     isReadOnly?: boolean;
+    isExternalClosing?: boolean;
 }
 
 export type ExternalEventsHandle = {
@@ -30,10 +31,12 @@ export const useDrawerForm = <T extends IDrawerForm>({
     onClose,
     onFormStateChange,
     componentProps,
+    isExternalClosing,
 }: {
     onClose: (props: { submitted?: boolean; data?: unknown; component: React.FC<T> }) => void;
     onFormStateChange?: (isDirty: boolean) => void;
     componentProps?: unknown;
+    isExternalClosing?: boolean;
 }) => {
     const [component, setComponent] = useState<React.FC<T> | null>(null);
     const formRef = useRef<ExternalEventsHandle>(null);
@@ -60,9 +63,11 @@ export const useDrawerForm = <T extends IDrawerForm>({
     const handleCloseDrawer = useCallback(
         (submitted?: boolean, data?: unknown) => {
             onClose({ submitted, data, component: component! });
-            setComponent(null);
+            if (!isExternalClosing) {
+                setComponent(null);
+            }
         },
-        [component, onClose]
+        [component, isExternalClosing, onClose]
     );
 
     const handleCloseIconClick = useCallback(

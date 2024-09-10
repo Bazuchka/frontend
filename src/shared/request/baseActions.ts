@@ -8,27 +8,30 @@ export const getBaseActions = <GetParams, SetParams>(URL: string, mock?: boolean
     return {
         fetch<T>(filter?: GetParams, options?: BaseActionOptions) {
             return request<T>({
-                method: mock ? "GET" : "POST",
+                method: options && options.method ? options.method : mock ? "GET" : "POST",
                 baseURL,
-                url: `${URL}`,
+                url: options && options.serviceUrl != undefined ? options.serviceUrl : `${URL}`,
                 params: mock ? filter : undefined,
                 data: mock ? undefined : filter,
                 preventDefaultAlert: options?.preventDefaultAlert,
             });
         },
-        create<T>(data: SetParams) {
+        create<T>(data: SetParams, options?: BaseActionOptions) {
             return request<T>({
                 method: "POST",
                 baseURL,
-                url: `${URL}/`,
+                url: options && options.serviceUrl != undefined ? options.serviceUrl : `${URL}/`,
                 data: data,
             });
         },
-        update<T>(id: GridRowId, data: SetParams) {
+        update<T>(id: GridRowId, data: SetParams, options?: BaseActionOptions) {
             return request<T>({
                 method: "PUT",
                 baseURL,
-                url: `${URL}/${id}`,
+                url:
+                    options && options.serviceUrl != undefined
+                        ? options.serviceUrl
+                        : `${URL}/${id}`,
                 data: data,
             });
         },
@@ -56,6 +59,16 @@ export const getBaseActions = <GetParams, SetParams>(URL: string, mock?: boolean
                 data: data,
                 headers: { "Content-Type": "multipart/form-data" },
                 url: `${URL}/${uploadMethod}`,
+            });
+        },
+        downloadFile(data: SetParams, url: string, contentType: string) {
+            return request({
+                method: "POST",
+                baseURL,
+                data: data,
+                responseType: "blob",
+                headers: { "Content-Type": contentType },
+                url: `${url}`,
             });
         },
     };

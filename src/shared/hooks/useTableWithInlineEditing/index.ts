@@ -10,6 +10,7 @@ import { PaginationProps } from "src/shared/UI/TSBaseTable/UI/Pagination";
 import { DEFAULT_TANSTACK_CONFIG } from "src/shared/configs/table.conf";
 import { createBaseStore } from "src/shared/entities/BaseStore";
 import { DIALOG_ACTION } from "src/shared/enums/enums";
+import { BaseActionOptions } from "src/shared/request/types";
 import { v4 as uuidv4 } from "uuid";
 
 export interface IUseTableWithInlineEditingParams {
@@ -18,12 +19,16 @@ export interface IUseTableWithInlineEditingParams {
     store: Instance<ReturnType<typeof createBaseStore>>;
     messages: {
         createSuccess: string;
-        editSuccess: string;
+        editSuccess?: string;
         deleteSuccess?: string;
     };
-    onBeforeCreateModelTransform?: (formModel: FieldValues) => { [key: string]: unknown };
+    onBeforeCreateModelTransform?: (
+        formModel: FieldValues,
+        actionOptions?: BaseActionOptions
+    ) => { [key: string]: unknown };
     onBeforeUpdateModelTransform?: (formModel: FieldValues) => { [key: string]: unknown };
     onRowSelected?: (id: GridRowId) => void;
+    actionOptions?: BaseActionOptions;
     fetchParams?: Record<string, unknown>;
     disabledFieldsOnUpdate?: string[];
 }
@@ -36,6 +41,7 @@ export const useTableWithInlineEditing = ({
     onBeforeUpdateModelTransform,
     onRowSelected,
     fetchParams,
+    actionOptions,
     disabledFieldsOnUpdate,
 }: IUseTableWithInlineEditingParams) => {
     const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
@@ -63,11 +69,11 @@ export const useTableWithInlineEditing = ({
     const deletePromptModalRef = useRef<ShowPromptHandle>(null);
 
     const pagination: PaginationProps = {
-        page: store.filters.page,
-        size: store.filters.size,
-        totalElements: store.filters.total,
+        page: store.pagination.page,
+        size: store.pagination.size,
+        totalElements: store.pagination.total,
         disabled: store.state.isLoading,
-        onChange: store.filters.setUserPagination,
+        onChange: store.pagination.setUserPagination,
     };
 
     const table = useReactTable({
@@ -104,9 +110,11 @@ export const useTableWithInlineEditing = ({
         setIsEditMode(true);
     };
 
-    const handleEditClick = () => {
-        setIsEditMode(true);
-    };
+    const handleEditClick = messages.editSuccess
+        ? () => {
+              setIsEditMode(true);
+          }
+        : undefined;
 
     const handleCancelClick = () => {
         if (!editableRowState.isDirty) {
@@ -133,11 +141,15 @@ export const useTableWithInlineEditing = ({
 
     const handleCreate = useCallback(
         async (model: FieldValues) => {
-            await store.create({
-                ...model,
-                ...onBeforeCreateModelTransform?.(model),
-                syncId: uuidv4(),
-            });
+            const creationOptions = Object.assign({}, actionOptions);
+            await store.create(
+                {
+                    ...model,
+                    ...onBeforeCreateModelTransform?.(model, creationOptions),
+                    syncId: uuidv4(),
+                },
+                creationOptions
+            );
 
             setIsEditMode(false);
             viewStore.addAlert({
@@ -145,13 +157,16 @@ export const useTableWithInlineEditing = ({
                 message: messages.createSuccess,
             });
 
-            await store.fetch(fetchParams);
+            await store.fetch(fetchParams, actionOptions);
 
             if (navigateNextTab) {
-                setSearchParams((prev) => ({
-                    ...prev,
-                    tab: prev.get("tab") ? parseInt(prev.get("tab")!, 10) + 1 : 1,
-                }));
+                setTimeout(() => {
+                    // timeout is required to make sure editing mode is cleared
+                    setSearchParams((prev) => ({
+                        ...prev,
+                        tab: prev.get("tab") ? parseInt(prev.get("tab")!, 10) + 1 : 1,
+                    }));
+                });
             }
         },
         [
@@ -159,6 +174,7 @@ export const useTableWithInlineEditing = ({
             onBeforeCreateModelTransform,
             messages.createSuccess,
             fetchParams,
+            actionOptions,
             navigateNextTab,
             setSearchParams,
         ]
@@ -171,7 +187,7 @@ export const useTableWithInlineEditing = ({
                 ...onBeforeUpdateModelTransform?.(model),
                 id: model.id,
             });
-            await store.fetch(fetchParams);
+            await store.fetch(fetchParams, actionOptions);
 
             setIsEditMode(false);
 
@@ -181,14 +197,18 @@ export const useTableWithInlineEditing = ({
             });
 
             if (navigateNextTab) {
-                setSearchParams((prev) => ({
-                    ...prev,
-                    tab: prev.get("tab") ? parseInt(prev.get("tab")!, 10) + 1 : 1,
-                }));
+                setTimeout(() => {
+                    // timeout is required to make sure editing mode is cleared
+                    setSearchParams((prev) => ({
+                        ...prev,
+                        tab: prev.get("tab") ? parseInt(prev.get("tab")!, 10) + 1 : 1,
+                    }));
+                });
             }
         },
         [
             fetchParams,
+            actionOptions,
             messages.editSuccess,
             navigateNextTab,
             onBeforeUpdateModelTransform,
@@ -204,17 +224,18 @@ export const useTableWithInlineEditing = ({
     const handleProceedDeletePrompt = useCallback(async () => {
         const model = store.dataMap.get(Object.keys(rowSelection)[0]);
         await store.remove({ id: model.id });
-        await store.fetch(fetchParams);
+        await store.fetch(fetchParams, actionOptions);
+        setRowSelection({});
 
         viewStore.addAlert({
             alertMode: "success",
             message: messages.deleteSuccess,
         });
-    }, [fetchParams, messages.deleteSuccess, rowSelection, store]);
+    }, [fetchParams, actionOptions, messages.deleteSuccess, rowSelection, store]);
 
     useEffect(() => {
-        store.fetch(fetchParams);
-    }, [fetchParams, store]);
+        store.fetch(fetchParams, actionOptions);
+    }, [fetchParams, actionOptions, store]);
 
     useEffect(() => {
         setRowSelection({});
@@ -243,6 +264,7 @@ export const useTableWithInlineEditing = ({
         handleProceedDeletePrompt,
         isRowSelected,
         pagination,
+        sorting: store.sorting,
         state: store.state,
         isEditMode,
         editPromptModalRef,

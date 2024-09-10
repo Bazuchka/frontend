@@ -23,7 +23,7 @@ import { ChosenSelectObject } from "src/shared/UI/SelectOfDictionaryForm/SelectO
 import { useMenuStyles } from "./styles";
 
 interface AutocompleteMultiSelectOfDictionaryProps {
-    fieldName: string;
+    fieldName?: string;
     dictionaryParams: DictionaryParams;
     translatePath?: string;
     value?: IdCode[];

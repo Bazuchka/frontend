@@ -22,6 +22,7 @@ export interface IAlisFormComponentProps {
 }
 
 interface AlisFormProps {
+    id?: string;
     store: Instance<ReturnType<typeof createBaseStore>>;
     loadData?: boolean;
     showImmediately?: boolean;
@@ -31,11 +32,25 @@ interface AlisFormProps {
     componentProps?: IUseAlisFormComponentProps;
     component?: FC<IAlisFormComponentProps>;
     createActionComponents?: FC<IAlisFormActionComponentProps>;
+    onCreateAction?: () => void;
+    editActionComponents?: FC<IAlisFormActionComponentProps>;
+    onEditAction?: () => void;
     initComponent?: (store: Instance<ReturnType<typeof createBaseStore>>) => void;
 }
 
 const AlisForm: FC<AlisFormProps> = observer((props) => {
-    const { allowCreate, store, createActionComponents, component, initComponent } = props;
+    const {
+        id,
+        allowCreate,
+        allowEdit,
+        store,
+        createActionComponents,
+        onCreateAction,
+        editActionComponents,
+        onEditAction,
+        component,
+        initComponent,
+    } = props;
     const { editPromptModalRef, close, open, drawer } = useAlisForm(props);
 
     const theme = useTheme();
@@ -51,7 +66,27 @@ const AlisForm: FC<AlisFormProps> = observer((props) => {
             {allowCreate &&
                 createActionComponents &&
                 createActionComponents({
-                    onAction: () => openDrawer(),
+                    onAction: async () => {
+                        onCreateAction && onCreateAction();
+
+                        await store.setCurrent(null);
+
+                        openDrawer();
+                    },
+                    classes: classes,
+                })}
+            {allowEdit &&
+                editActionComponents &&
+                editActionComponents({
+                    onAction: async () => {
+                        onEditAction && onEditAction();
+
+                        if (id) {
+                            await store.setCurrent(id);
+                        }
+
+                        openDrawer();
+                    },
                     classes: classes,
                 })}
             <DialogPrompt onProceed={close} ref={editPromptModalRef} />

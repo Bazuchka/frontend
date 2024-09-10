@@ -1,0 +1,17 @@
+{
+  "properties": {
+    "etranInvoice": "Номер накладной",
+    "shipper": "Грузоотправитель",
+    "departureStation": "Станция отправления",
+    "destinationStation": "Станция назначения"
+  },
+  "default": {
+    "code": "отсутствует"
+  },
+  "groups": {},
+  "dialog": {
+    "createSuccess": "Накладная ЭТРАН к заявке успешно добавлена",
+    "editSuccess": "Накладная ЭТРАН к заявке успешно изменена",
+    "deleteSuccess": "Накладная ЭТРАН к заявке успешно удалена"
+  }
+}

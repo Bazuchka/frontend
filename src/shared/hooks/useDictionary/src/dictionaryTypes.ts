@@ -29,5 +29,18 @@ export const dictionaryTypeToUrl = () // _urlParams: Record<string, string | obj
         [DictionaryType.BATCH]: `/batch/all`,
         [DictionaryType.RECEIVING_ORDER_GOOD]: `/receivingordergood/all`,
         [DictionaryType.SHIPPING_ORDER_GOOD]: `/shippingordergood/all`,
+        [DictionaryType.CONTAINER]: `/container/all`,
+        [DictionaryType.ETSNGCODE]: `/etsngcode/all`,
+        [DictionaryType.RECEIVING_ORDER_CONTAINER]: `/receivingordercontainer/all`,
+        [DictionaryType.ROLE]: `/role/all`,
+        [DictionaryType.SHIPPING_ORDER_CONTAINER]: `/shippingordercontainer/all`,
+        [DictionaryType.ETRAN_INVOICE]: `/etraninvoice/all`,
+        [DictionaryType.RAILWAY_STATION]: `/railwaystation/all`,
+        [DictionaryType.RECEIVING_ORDER_RAILWAY_CARRIAGES]: `/receivingorderrailwaycarriage/all`,
+        [DictionaryType.SHIPPING_ORDER_RAILWAY_CARRIAGES]: `/shippingorderrailwaycarriage/all`,
+        [DictionaryType.SHIPPING_ORDER_ETRAN_INVOICE]: `/shippingorderetraninvoice/all`,
+        [DictionaryType.RECEIVING_ORDER_ETRAN_INVOICE]: `/receivingorderetraninvoice/all`,
+        [DictionaryType.RAILWAY_CARRIAGE]: `/railwaycarriage/all`,
+        [DictionaryType.RAILWAY_CARRIAGE_TYPE]: `/railwaycarriagetype/all`,
     };
 };

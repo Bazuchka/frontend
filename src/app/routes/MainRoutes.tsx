@@ -12,6 +12,7 @@ import { Service, ServicesTable } from "src/features/Service";
 import { TermOfService } from "src/features/TermOfService";
 import TermsOfServiceTable from "src/features/TermOfService/UI/TermsOfServiceTable";
 import { UnitOfMeasureTable } from "src/features/UnitOfMeasure";
+import { User, UserTable } from "src/features/Administration/Users";
 import { PermissionRoute } from "src/shared/services/PermissionService";
 import { MainLayout } from "../layout/mainLayout";
 
@@ -70,6 +71,11 @@ export const MainRoutes = createBrowserRouter(
                 <Route path="/shipping-orders" element={<ShippingOrderTable />} />
                 <Route path="/shipping-order/create" element={<ShippingOrder />} />
                 <Route path="/shipping-order/:id" element={<ShippingOrder />} />
+            </Route>
+            <Route element={<PermissionRoute path={"User"} />}>
+                <Route path="/users" element={<UserTable />} />
+                <Route path="/users/create" element={<User />} />
+                <Route path="/users/:id" element={<User />} />
             </Route>
             <Route path="*" element={<Navigate to="/" />} />
         </Route>

@@ -224,6 +224,32 @@ const createComponentByType = (
                 />
             );
         }
+        case FieldItemType.PASSWORD: {
+            return (
+                <TextField
+                    size="small"
+                    multiline={false}
+                    error={Boolean(error)}
+                    type="password"
+                    autoComplete="current-password"
+                    disabled={isDisable}
+                    sx={{
+                        width: "100%",
+                        "& .MuiOutlinedInput-root": {
+                            "& > input": {
+                                zIndex: 5,
+                            },
+                            "&.Mui-focused fieldset": {
+                                borderColor: "#32386D",
+                                background: "#F0EEF3",
+                                color: "red",
+                            },
+                        },
+                    }}
+                    data-test-id={`value:${testFieldName}`}
+                />
+            );
+        }
         default:
             return <>{value as string}</>;
     }

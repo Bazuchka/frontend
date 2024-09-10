@@ -1,0 +1,14 @@
+{
+    "properties": {
+        "etranInvoice": "Накладная ЭТРАН",
+        "railwayCarriage": "Номер вагона",
+        "type": "Род вагона",
+        "liftingCapacity": "Грузоподъемность, тн"
+    },
+    "groups": {},
+    "dialog": {
+        "createSuccess": "Вагон к заявке успешно добавлен",
+        "editSuccess": "Вагон к заявке успешно изменен",
+        "deleteSuccess": "Вагон к заявке успешно удален"
+    }
+}

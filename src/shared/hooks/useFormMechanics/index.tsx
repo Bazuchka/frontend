@@ -174,14 +174,15 @@ function handleEntityCreated(state: ReducerState, id?: string) {
 export interface IUseFormMechanicsParams {
     entityId?: string;
     navigation: {
-        listPath: string;
-        entityPath: (id: string) => string;
+        listPath?: string;
+        entityPath?: (id: string) => string;
         createLeadsToList?: boolean;
         nextTabPath?: (id: string) => string;
         navigateActions?: (submited?: boolean, data?: unknown) => void;
     };
     onCreate: (data: FieldValues) => Promise<string>;
     onUpdate: (id: string, data: FieldValues) => Promise<string | void>;
+    onDestroy?: () => void;
 }
 
 const useFormMechanics = ({
@@ -189,6 +190,7 @@ const useFormMechanics = ({
     navigation,
     onCreate,
     onUpdate,
+    onDestroy,
 }: IUseFormMechanicsParams) => {
     const isCreate = useMemo(() => {
         return !entityId;
@@ -271,16 +273,28 @@ const useFormMechanics = ({
 
     useEffect(() => {
         if (formState.state === FormMechanicsState.NAVIGATE_TO_ENTITY) {
-            navigate(navigation.entityPath(formState.id));
+            if (!navigation.entityPath) {
+                console.info("entityPath not defined for navigation");
+            } else {
+                navigate(navigation.entityPath(formState.id));
+            }
             dispatch({ type: FormMecanicsAction.FORM_RESET });
+            onDestroy?.();
         }
 
         if (formState.state === FormMechanicsState.NAVIGATE_WITH_ACTION) {
             navigation.navigateActions!(true, { id: formState.id });
+            onDestroy?.();
         }
 
         if (formState.state === FormMechanicsState.NAVIGATE_TO_LIST) {
-            navigate(navigation.listPath);
+            if (!navigation.listPath) {
+                console.info("listPath not defined for navigation");
+            } else {
+                navigate(navigation.listPath);
+            }
+
+            onDestroy?.();
         }
 
         if (formState.state === FormMechanicsState.EDIT_CANCEL_AWAIT_CONFIRM) {
@@ -296,11 +310,9 @@ const useFormMechanics = ({
 
         if (formState.state === FormMechanicsState.NAVIGATE_TO_NEXT_TAB) {
             navigate(navigation.nextTabPath!(formState.id));
+            onDestroy?.();
         }
 
-        if (formState.state === FormMechanicsState.NAVIGATE_WITH_ACTION) {
-            navigation.navigateActions!(true, { id: formState.id });
-        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [formState.state]);
 

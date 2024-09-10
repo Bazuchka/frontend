@@ -17,7 +17,6 @@ export const FullReceivingOrderTransport = types.compose(
         shipper: types.model({
             id: types.identifier,
             code: types.string,
-            name: types.string,
             inn: types.string,
         }),
         waybill: types.maybe(types.string), // remove maybe

@@ -26,6 +26,7 @@ export const ReceivingOrderPreview = types
                     })
                 ),
                 comment: types.maybeNull(types.string),
+                totalContainerQuantity: types.maybeNull(types.number),
                 totalSKUQuantity: types.maybeNull(types.number),
                 totalWeight: types.maybeNull(types.number),
                 totalCargoQuantity: types.maybeNull(types.number),

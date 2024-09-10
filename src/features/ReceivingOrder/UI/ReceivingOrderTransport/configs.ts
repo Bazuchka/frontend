@@ -52,6 +52,9 @@ export const fieldsConfiguration = ({
                     label: t("ReceivingOrderTransport:properties.shipper.name"),
                     value: editModel?.shipper,
                     required: true,
+                    renderValuePrimary: "code",
+                    renderValueSecondary: "inn",
+                    nonEditableValue: `${editModel?.shipper.code} (${editModel?.shipper.inn})`,
                     requestParams: {
                         type: DictionaryType.CLIENT_REALTED_ENTITY,
                         filter: (value: string) => ({
@@ -90,10 +93,20 @@ export const fieldsConfiguration = ({
                     required: true,
                     requestParams: {
                         type: DictionaryType.CLIENT_REALTED_ENTITY,
-                        filter: {
+                        filter: (value) => ({
                             active: true,
                             isCarrier: true,
-                        },
+                            inn: {
+                                type: SEARCH_TYPE.CONTAINS,
+                                content: value,
+                                byOr: true,
+                            },
+                            kpp: {
+                                type: SEARCH_TYPE.CONTAINS,
+                                content: value,
+                                byOr: true,
+                            },
+                        }),
                     },
                 },
             ],

@@ -1,5 +1,5 @@
 import { observer } from "mobx-react";
-import { FC, useLayoutEffect, useMemo } from "react";
+import { FC, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { WithPermission } from "src/shared/services/PermissionService";
 import { PermissionType } from "src/shared/services/PermissionService/types";
@@ -13,40 +13,46 @@ import { fieldsConfiguration } from "./configs";
 interface ShippingOrderProps {
     preview: IShippingOrderPreview;
     isDraft: boolean;
+    showContainerInfo: boolean;
 }
 
-const ShippingOrderInfo: FC<ShippingOrderProps> = observer(({ preview, isDraft }): JSX.Element => {
-    const { t } = useTranslation();
-    useLayoutEffect(() => {
-        preview.getPreview();
-    }, [preview]);
+const ShippingOrderInfo: FC<ShippingOrderProps> = observer(
+    ({ preview, isDraft, showContainerInfo }): JSX.Element => {
+        const { t } = useTranslation();
+        useEffect(() => {
+            preview.getPreview();
+        }, [preview]);
 
-    const fields = useMemo(
-        () => (!preview.model ? [] : fieldsConfiguration(preview.model!)),
-        [preview.model]
-    );
-
-    return (
-        <>
-            <IFormComponent fields={fields} isLoading={!preview.model} isEditMode={false} />
-            {isDraft && (
-                <Footer
-                    buttons={(classes) => (
-                        <WithPermission
-                            permission={{
-                                path: "ShippingOrder",
-                                level: PermissionLevel.WRITE,
-                                type: PermissionType.FORM,
-                            }}>
-                            <Button className={classes.button} onClick={() => preview.sendDraft()}>
-                                {t("ShippingOrderPreview:sendButton")}
-                            </Button>
-                        </WithPermission>
-                    )}
+        return (
+            <>
+                <IFormComponent
+                    fields={
+                        !preview.model ? [] : fieldsConfiguration(preview.model!, showContainerInfo)
+                    }
+                    isLoading={!preview.model}
+                    isEditMode={false}
                 />
-            )}
-        </>
-    );
-});
+                {isDraft && (
+                    <Footer
+                        buttons={(classes) => (
+                            <WithPermission
+                                permission={{
+                                    path: "ShippingOrder",
+                                    level: PermissionLevel.WRITE,
+                                    type: PermissionType.FORM,
+                                }}>
+                                <Button
+                                    className={classes.button}
+                                    onClick={() => preview.sendDraft()}>
+                                    {t("ShippingOrderPreview:sendButton")}
+                                </Button>
+                            </WithPermission>
+                        )}
+                    />
+                )}
+            </>
+        );
+    }
+);
 
 export default ShippingOrderInfo;

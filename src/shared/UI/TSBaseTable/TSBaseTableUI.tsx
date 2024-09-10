@@ -10,13 +10,16 @@ import {
     useTheme,
 } from "@mui/material";
 import { GridRowId, GridRowModel } from "@mui/x-data-grid";
-import { flexRender, Table as TableType } from "@tanstack/react-table";
+import { flexRender, Header, Table as TableType } from "@tanstack/react-table";
 import { observer } from "mobx-react";
 import { CSSProperties, ElementRef, useRef, useState } from "react";
 import { FieldErrors, FieldValues } from "react-hook-form";
+import { Sorting } from "../../entities/Sorting";
 import { BaseTableRow } from "./types";
 import { ColumnManagmentModal } from "./UI/ColumnManagmentModal";
 import { EditableRow } from "./UI/EditableRow";
+import { MenuDots } from "./UI/MenuDots";
+import { SortingIcon } from "./UI/SortingIcon";
 import useStyles from "./UI/styles";
 
 type BaseTableProps<T extends BaseTableRow & GridRowModel> = {
@@ -34,6 +37,7 @@ type BaseTableProps<T extends BaseTableRow & GridRowModel> = {
     }) => void;
     onSubmit?: (model: FieldValues) => void;
     style?: CSSProperties;
+    sorting: Sorting;
 };
 
 export const TSBaseTableUI = observer(
@@ -49,13 +53,16 @@ export const TSBaseTableUI = observer(
             footer,
             onSubmit: onExternalSubmit,
             style,
+            sorting,
         } = props;
 
         const theme = useTheme();
         const classes = useStyles({ theme });
         const [isColumnManagmentModalOpen, setIsColumnManagmentModalOpen] = useState(false);
+        const [, setFilterModalOpen] = useState(false);
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const [columnMenuModalPosition, _setColumnMenuModalPosition] = useState(0);
+        const [columnMenuModalPosition, setColumnMenuModalPosition] = useState({ x: 0, y: 0 });
+        const [, setActiveHeader] = useState<Header<T, unknown> | null>(null);
         const editableRowRef = useRef<ElementRef<typeof EditableRow>>(null);
         const newRowRef = useRef<ElementRef<typeof EditableRow>>(null);
 
@@ -114,6 +121,26 @@ export const TSBaseTableUI = observer(
                                                         }`,
                                                     }}
                                                 />
+                                                {header.id !== "checkbox" && (
+                                                    <MenuDots
+                                                        setIsColumnManagmentModalOpen={
+                                                            setIsColumnManagmentModalOpen
+                                                        }
+                                                        setColumnMenuModalPosition={
+                                                            setColumnMenuModalPosition
+                                                        }
+                                                        setIsFilterModalOpen={setFilterModalOpen}
+                                                        setActiveHeader={setActiveHeader}
+                                                        tsSorting={sorting}
+                                                        header={header}
+                                                    />
+                                                )}
+                                                {header.column.getCanSort() && (
+                                                    <SortingIcon
+                                                        tsSorting={sorting}
+                                                        columnId={header.id}
+                                                    />
+                                                )}
                                             </div>
                                         </TableCell>
                                     ))}

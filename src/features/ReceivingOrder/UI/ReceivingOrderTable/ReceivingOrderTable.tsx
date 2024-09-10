@@ -2,8 +2,8 @@ import { GridRowId } from "@mui/x-data-grid";
 import { ColumnDef } from "@tanstack/react-table";
 import { observer } from "mobx-react";
 import { FunctionComponent } from "react";
+import { useTranslation } from "react-i18next";
 import { TableWithNavigation } from "src/features/TableWithNavigation";
-import { SortingDirection } from "src/shared/request/types";
 import receivingOrderStore from "../../store/ReceivingOrderStore";
 import { IReceivingOrder } from "../../store/ReceivingOrderStore/ReceivingOrderStore";
 import { getColumns } from "./configs";
@@ -11,6 +11,7 @@ import { getColumns } from "./configs";
 interface ReceivingOrdersTableProps {}
 
 const ReceivingOrderTable: FunctionComponent<ReceivingOrdersTableProps> = observer(() => {
+    const { t } = useTranslation();
     return (
         <TableWithNavigation
             getColumns={getColumns as () => ColumnDef<{ id: GridRowId }, IReceivingOrder>[]}
@@ -21,9 +22,10 @@ const ReceivingOrderTable: FunctionComponent<ReceivingOrdersTableProps> = observ
             }}
             permissionPath="ReceivingOrder"
             isLoading={receivingOrderStore.state.isLoading}
-            fetchParams={{
-                sortingColumn: "number",
-                sortingDirection: SortingDirection.DESC,
+            footerSettings={{
+                label: {
+                    create: t("Shared:createOrder"),
+                },
             }}
         />
     );

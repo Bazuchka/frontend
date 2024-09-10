@@ -4,8 +4,13 @@ import { DictionaryType } from "src/shared/hooks/useDictionary";
 import { FieldItemType } from "src/shared/UI/iFieldItem/const";
 import { FieldGroup } from "src/shared/UI/iFieldItem/types";
 import { IShippingOrderPreview } from "../../store/ShippingOrderStore/models/ShippingOrderPreview";
+import containerCargoFields from "./configs/containerCargoFields";
+import defaultCargoFields from "./configs/defaultCargoFields";
 
-export const fieldsConfiguration = (data: NonNullable<IShippingOrderPreview["model"]>) =>
+export const fieldsConfiguration = (
+    data: NonNullable<IShippingOrderPreview["model"]>,
+    showContainerInfo: boolean
+) =>
     [
         {
             name: t("Shared:commonInfo"),
@@ -82,43 +87,7 @@ export const fieldsConfiguration = (data: NonNullable<IShippingOrderPreview["mod
         },
         {
             name: t("ShippingOrderPreview:groups.cargoParams"),
-            fields: [
-                {
-                    label: t("ShippingOrderPreview:properties.goodsCount"),
-                    name: "totalSKUQuantity",
-                    type: FieldItemType.INPUT,
-                    value: data.totalSKUQuantity,
-                    readOnly: true,
-                },
-                {
-                    label: t("ShippingOrderPreview:properties.cargoCount"),
-                    name: "totalCargoQuantity",
-                    type: FieldItemType.INPUT,
-                    value: data.totalCargoQuantity,
-                    readOnly: true,
-                },
-                {
-                    label: t("ShippingOrderPreview:properties.weight"),
-                    name: "totalWeight",
-                    type: FieldItemType.INPUT,
-                    value: data.totalWeight,
-                    readOnly: true,
-                },
-                {
-                    label: t("ShippingOrderPreview:properties.palletQuantity"),
-                    name: "totalPalletQuantity",
-                    type: FieldItemType.INPUT,
-                    value: data.totalPalletQuantity,
-                    readOnly: true,
-                },
-                {
-                    label: t("ShippingOrderPreview:properties.notPalletQuantity"),
-                    name: "totalNotPalletQuantity",
-                    type: FieldItemType.INPUT,
-                    value: data.totalNotPalletQuantity,
-                    readOnly: true,
-                },
-            ],
+            fields: showContainerInfo ? containerCargoFields(data) : defaultCargoFields(data),
         },
         {
             name: t("ShippingOrderPreview:groups.orderPrice"),

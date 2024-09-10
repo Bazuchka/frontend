@@ -45,6 +45,7 @@ export const useAlisForm = ({ loadData, store, componentProps }: IUseAlisFormPar
         onClose: handleClose,
         onFormStateChange: handleFormStateChange,
         componentProps: componentProps,
+        isExternalClosing: true,
     });
 
     useEffect(() => {

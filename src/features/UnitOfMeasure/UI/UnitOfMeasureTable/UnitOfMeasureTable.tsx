@@ -18,11 +18,11 @@ const UnitOfMeasureTable: FunctionComponent<UnitOfMeasureTableProps> = observer(
     }, []);
 
     const pagination: PaginationProps = {
-        page: unitOfMeasureStore.filters.page,
-        size: unitOfMeasureStore.filters.size,
-        totalElements: unitOfMeasureStore.filters.total,
+        page: unitOfMeasureStore.pagination.page,
+        size: unitOfMeasureStore.pagination.size,
+        totalElements: unitOfMeasureStore.pagination.total,
         disabled: unitOfMeasureStore.state.isLoading,
-        onChange: unitOfMeasureStore.filters.setUserPagination,
+        onChange: unitOfMeasureStore.pagination.setUserPagination,
     };
 
     const table = useReactTable({
@@ -36,6 +36,7 @@ const UnitOfMeasureTable: FunctionComponent<UnitOfMeasureTableProps> = observer(
             <TSBaseTableUI
                 table={table}
                 isLoading={unitOfMeasureStore.state.isLoading}
+                sorting={unitOfMeasureStore.sorting}
                 footer={() => <Footer paginator={pagination} />}
             />
         </ICard>

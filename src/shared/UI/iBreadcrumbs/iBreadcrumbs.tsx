@@ -86,10 +86,8 @@ const IBreadcrumbs: FC = observer((): JSX.Element => {
             }
 
             const newItem =
-                getObjectByPath(
-                    menuConfiguration(menuParams),
-                    "/" + findLastBetweenSlashes(path)
-                ) || getObjectByPath(menuConfiguration(menuParams), path);
+                getObjectByPath(menuConfiguration(menuParams), path) ||
+                getObjectByPath(menuConfiguration(menuParams), "/" + findLastBetweenSlashes(path));
 
             const isItemInBreadCrumbs = usingBreadCrumbs?.filter(
                 (el: MenuItem) => el.key === newItem?.key
@@ -112,18 +110,10 @@ const IBreadcrumbs: FC = observer((): JSX.Element => {
                 const breadcrumbs = getBreadCrumbs(pathName);
                 localStorage.setItem(
                     "breadCrumbs",
-                    JSON.stringify(
-                        usingBreadCrumbs
-                            ? [...usingBreadCrumbs, newItemWithId as MenuItem]
-                            : [...breadcrumbs, newItemWithId as MenuItem]
-                    )
+                    JSON.stringify([...breadcrumbs, newItemWithId as MenuItem])
                 );
 
-                setNewWay(
-                    usingBreadCrumbs
-                        ? [...usingBreadCrumbs, newItem as MenuItem]
-                        : [...breadcrumbs, newItem as MenuItem]
-                );
+                setNewWay([...breadcrumbs, newItem as MenuItem]);
             }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -82,7 +82,8 @@ const EditableRowForwarded = <T,>(props: EditableRowProps<T>, ref: ForwardedRef<
     const formRow = useMemo(() => {
         return {
             getValue: (key: string) => values[key],
-            setValue: (key: string, value: any) => setValue(key, value),
+            setValue: (key: string, value: any) =>
+                setValue(key, value, { shouldDirty: value !== values[key] }),
             original: row,
         };
     }, [row, values, setValue]);

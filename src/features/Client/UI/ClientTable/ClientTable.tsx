@@ -19,7 +19,9 @@ const ClientTable: FunctionComponent<ClientsTableProps> = observer(() => {
             }}
             permissionPath="Client"
             isLoading={clientStore.state.isLoading}
-            hasCreateButton={false}
+            footerSettings={{
+                hasCreateButton: false,
+            }}
         />
     );
 });

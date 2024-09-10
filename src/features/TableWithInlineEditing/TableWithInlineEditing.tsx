@@ -11,6 +11,7 @@ import { Footer } from "src/shared/UI/TSBaseTable/UI/Footer";
 import InlinetEditButtons from "src/shared/UI/TSBaseTable/UI/InlineEditButtons";
 import { createBaseStore } from "src/shared/entities/BaseStore";
 import { useTableWithInlineEditing } from "src/shared/hooks/useTableWithInlineEditing";
+import { BaseActionOptions } from "src/shared/request/types";
 
 interface TableWithInlineEditingProps {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -19,13 +20,17 @@ interface TableWithInlineEditingProps {
     permissionPath: string;
     messages: {
         createSuccess: string;
-        editSuccess: string;
+        editSuccess?: string;
         deleteSuccess?: string;
     };
-    onBeforeCreateModelTransform?: (formModel: FieldValues) => { [key: string]: unknown };
+    onBeforeCreateModelTransform?: (
+        formModel: FieldValues,
+        actionOptions?: BaseActionOptions
+    ) => { [key: string]: unknown };
     onBeforeUpdateModelTransform?: (formModel: FieldValues) => { [key: string]: unknown };
     onRowSelected?: (id: GridRowId) => void;
     fetchParams?: Record<string, unknown>;
+    actionOptions?: BaseActionOptions;
     style?: CSSProperties;
     footerSettings?: {
         label?: {
@@ -64,6 +69,7 @@ const TableWithInlineEditing = ({
         editPromptModalRef,
         deletePromptModalRef,
         setNavigateNextTab,
+        sorting,
     } = useTableWithInlineEditing(props);
 
     const footerComponent = useCallback(
@@ -131,6 +137,7 @@ const TableWithInlineEditing = ({
                 onSubmit={isRowSelected ? handleUpdate : handleCreate}
                 footer={footerComponent}
                 style={style}
+                sorting={sorting}
             />
             <RouterPrompt when={isEditMode && editableRowState.isDirty} />
             <DialogPrompt onProceed={handleProceedCancelEditPrompt} ref={editPromptModalRef} />

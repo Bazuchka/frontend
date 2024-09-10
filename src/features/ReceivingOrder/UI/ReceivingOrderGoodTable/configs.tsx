@@ -5,13 +5,13 @@ import { ChangeEvent } from "react";
 import { Controller } from "react-hook-form";
 import batchStore from "src/features/Batch/store";
 import receivingOrderStore from "src/features/ReceivingOrder/store/ReceivingOrderStore";
-import { AlisForm } from "src/features/common/AlisForm";
+import { AlisForm, CreateButton } from "src/features/common/AlisForm";
 import { AutocompleteSelectOfDictionary } from "src/shared/UI/AutocompleteSelectOfDictionary/AutocompleteSelectOfDictionary";
 import { WithGridRowId } from "src/shared/UI/TSBaseTable/types";
 import { FieldItemType } from "src/shared/UI/iFieldItem/const";
 import { DictionaryType } from "src/shared/hooks/useDictionary";
 import { IFullReceivingOrderGood } from "../../store/ReceivingOrderGood/ReceivingOrderGood";
-import { CreateBatchButton, ReceivingOrderGoodBatchForm } from "./ReceivingOrderGoodBatchForm";
+import { ReceivingOrderGoodBatchForm } from "./ReceivingOrderGoodBatchForm";
 
 const columnHelper = createColumnHelper<WithGridRowId<IFullReceivingOrderGood>>();
 
@@ -74,6 +74,7 @@ export const getColumns = () => {
             meta: {
                 isComputed: true,
             },
+            enableSorting: false,
         }),
         columnHelper.accessor("goodVariant", {
             cell: (params) => {
@@ -160,7 +161,7 @@ export const getColumns = () => {
                                                     getValue("clientGood") &&
                                                     getValue("clientGood").code
                                                 }
-                                                createActionComponents={CreateBatchButton}
+                                                createActionComponents={CreateButton}
                                                 componentProps={{
                                                     setValue: setValue,
                                                     getValue: getValue,
@@ -185,6 +186,7 @@ export const getColumns = () => {
             meta: {
                 isComputed: true,
             },
+            enableSorting: false,
         }),
         columnHelper.accessor("plannedQuantity", {
             cell: (params) => params.getValue(),
@@ -248,24 +250,10 @@ export const getColumns = () => {
             },
         }),
         columnHelper.accessor("totalPrice", {
-            cell: (params) => params.getValue(),
+            cell: ({ row }) => row.getValue("totalPrice"),
             header: t("ReceivingOrderGood:properties.totalPrice"),
             meta: {
                 isComputed: true,
-                editableCell: {
-                    component: ({ register, error }) => {
-                        return (
-                            <TextField
-                                size="small"
-                                type="number"
-                                {...register("totalPrice", { required: true, min: 0 })}
-                                error={!!error}
-                            />
-                        );
-                    },
-                    defaultValue: "",
-                    fieldType: FieldItemType.INPUT_NUMBER,
-                },
             },
         }),
         columnHelper.accessor("tempRegime", {
@@ -277,6 +265,7 @@ export const getColumns = () => {
             meta: {
                 isComputed: true,
             },
+            enableSorting: false,
         }),
         columnHelper.accessor("dangerClass", {
             cell: ({ row: { getValue } }) => {
@@ -287,6 +276,7 @@ export const getColumns = () => {
             meta: {
                 isComputed: true,
             },
+            enableSorting: false,
         }),
         columnHelper.accessor("factQuantity", {
             cell: (params) => params.getValue(),
