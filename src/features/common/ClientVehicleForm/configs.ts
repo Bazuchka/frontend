@@ -7,6 +7,7 @@ import { FieldOptions, isFieldDisabled } from "src/shared/hooks/useDrawerForm";
 
 export const fieldsConfiguration = (
     defaultModel: IFullClientVehicle | null,
+    trailerNumberDisabled: boolean,
     fieldOptions?: FieldOptions
 ) =>
     [
@@ -114,6 +115,7 @@ export const fieldsConfiguration = (
                     value: defaultModel?.trailerNumber,
                     name: "trailerNumber",
                     fullLine: true,
+                    isDisable: trailerNumberDisabled,
                 },
             ],
             name: t("ClientVehicle:form.trailer"),

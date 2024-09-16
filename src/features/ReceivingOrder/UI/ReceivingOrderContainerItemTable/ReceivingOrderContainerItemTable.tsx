@@ -69,6 +69,9 @@ const ReceivingOrderContainerItemTable: FunctionComponent<ReceivingOrderContaine
                 permissionPath="ReceivingOrder" // TODO Permission
                 footerSettings={{
                     useNextButton: true,
+                    label: {
+                        create: t("Action:add"),
+                    },
                 }}
                 isReadOnly={isReadOnly}
             />

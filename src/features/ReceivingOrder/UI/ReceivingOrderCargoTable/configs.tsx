@@ -3,7 +3,7 @@ import { TextField } from "@mui/material";
 import { createColumnHelper } from "@tanstack/react-table";
 import { t } from "i18next";
 import { ChangeEvent } from "react";
-import { Control, Controller } from "react-hook-form";
+import { Control, Controller, FieldValues, UseFormSetValue } from "react-hook-form";
 import { DimensionsLink } from "src/features/common/DimensionsLink";
 import { GoodPackageColumn } from "src/features/common/GoodPackage";
 import { SEARCH_TYPE } from "src/shared/enums";
@@ -17,6 +17,7 @@ const columnHelper = createColumnHelper<
     WithGridRowId<
         IReceivingOrderCargo & {
             dimensions: string;
+            batch: string;
         }
     >
 >();
@@ -29,10 +30,18 @@ export const getColumns = (receivingOrderId: string) => () => {
             size: 300,
             meta: {
                 editableCell: {
-                    component: ({ control }) =>
-                        getReceivingOrderGoodAutocomplete(control, receivingOrderId),
+                    component: ({ control, row: { setValue } }) =>
+                        getReceivingOrderGoodAutocomplete(control, receivingOrderId, setValue),
                     fieldType: FieldItemType.AUTOCOMPLETE,
                 },
+            },
+        }),
+        columnHelper.accessor("batch", {
+            cell: ({ row }) =>
+                (row.getValue("receivingOrderGood") as { batch: { code: string } })?.batch?.code,
+            header: t("ReceivingOrderCargo:properties.batch"),
+            meta: {
+                isComputed: true,
             },
         }),
         columnHelper.accessor("barcode", {
@@ -45,7 +54,7 @@ export const getColumns = (receivingOrderId: string) => () => {
                             <Controller
                                 name="barcode"
                                 control={control}
-                                rules={{ required: true }}
+                                // rules={{ required: true }} // todo: Убрано для демонстрации. Провести через аналитику.
                                 render={({
                                     field: { onChange, value },
                                     fieldState: { invalid },
@@ -77,6 +86,12 @@ export const getColumns = (receivingOrderId: string) => () => {
                             <GoodPackageColumn
                                 isDisablePropName="receivingOrderGood"
                                 {...componentProps}
+                                filter={{
+                                    clientGood: {
+                                        id: componentProps.row.getValue("receivingOrderGood")
+                                            ?.clientGood?.id,
+                                    },
+                                }}
                             />
                         );
                     },
@@ -186,6 +201,7 @@ export const getColumns = (receivingOrderId: string) => () => {
                             <Controller
                                 name="dimensions"
                                 control={control}
+                                rules={{ required: true }}
                                 render={({
                                     field: { onChange, value },
                                     fieldState: { invalid },
@@ -214,7 +230,11 @@ export const getColumns = (receivingOrderId: string) => () => {
     ];
 };
 
-function getReceivingOrderGoodAutocomplete(control: Control, receivingOrderId: string) {
+function getReceivingOrderGoodAutocomplete(
+    control: Control,
+    receivingOrderId: string,
+    setValue: UseFormSetValue<FieldValues>
+) {
     return (
         <Controller
             name="receivingOrderGood"
@@ -225,7 +245,10 @@ function getReceivingOrderGoodAutocomplete(control: Control, receivingOrderId: s
                     isDisable={false}
                     error={invalid}
                     value={value}
-                    onValueChange={onChange}
+                    onValueChange={(data) => {
+                        setValue("goodPackage", null);
+                        onChange(data);
+                    }}
                     useSorting={false}
                     dictionaryParams={{
                         type: DictionaryType.RECEIVING_ORDER_GOOD,

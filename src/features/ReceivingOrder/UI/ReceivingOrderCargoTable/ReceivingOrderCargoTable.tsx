@@ -71,6 +71,9 @@ const ReceivingOrderCargoTable: FunctionComponent<ReceivingOrderCargoTableProps>
                 permissionPath="ReceivingOrder.ReceivingOrderCargo"
                 footerSettings={{
                     useNextButton: true,
+                    label: {
+                        create: t("Action:add"),
+                    },
                 }}
                 isReadOnly={isReadOnly}
                 fetchParams={{

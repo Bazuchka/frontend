@@ -29,7 +29,7 @@ type BaseTableProps<T extends BaseTableRow & GridRowModel> = {
     isLoading?: boolean;
     isCreateMode?: boolean;
     isEditMode?: boolean;
-    footer: (onSubmit: () => void) => JSX.Element;
+    footer?: (onSubmit: () => void) => JSX.Element;
     onEditableRowStateChange?: (formState: {
         errors: FieldErrors<Record<string, T>>;
         isValid: boolean;

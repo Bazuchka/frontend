@@ -3,7 +3,7 @@ import { TextField } from "@mui/material";
 import { createColumnHelper } from "@tanstack/react-table";
 import { t } from "i18next";
 import { ChangeEvent } from "react";
-import { Control, Controller } from "react-hook-form";
+import { Control, Controller, FieldValues, UseFormSetValue } from "react-hook-form";
 import { GoodPackageColumn } from "src/features/common/GoodPackage";
 import { SEARCH_TYPE } from "src/shared/enums";
 import { DictionaryType } from "src/shared/hooks/useDictionary";
@@ -30,8 +30,8 @@ export const getColumns = (shippingOrderId: string) => () => {
             size: 300,
             meta: {
                 editableCell: {
-                    component: ({ control }) =>
-                        getShippingOrderGoodAutocomplete(control, shippingOrderId),
+                    component: ({ control, row: { setValue } }) =>
+                        getShippingOrderGoodAutocomplete(control, shippingOrderId, setValue),
                     fieldType: FieldItemType.AUTOCOMPLETE,
                 },
             },
@@ -85,6 +85,12 @@ export const getColumns = (shippingOrderId: string) => () => {
                             <GoodPackageColumn
                                 isDisablePropName="shippingOrderGood"
                                 {...componentProps}
+                                filter={{
+                                    clientGood: {
+                                        id: componentProps.row.getValue("shippingOrderGood")
+                                            ?.clientGood?.id,
+                                    },
+                                }}
                             />
                         );
                     },
@@ -194,6 +200,7 @@ export const getColumns = (shippingOrderId: string) => () => {
                             <Controller
                                 name="dimensions"
                                 control={control}
+                                rules={{ required: true }}
                                 render={({ field: { onChange }, fieldState: { invalid } }) => (
                                     <DimensionsLink
                                         onChange={onChange}
@@ -218,7 +225,11 @@ export const getColumns = (shippingOrderId: string) => () => {
     ];
 };
 
-function getShippingOrderGoodAutocomplete(control: Control, shippingOrderId: string) {
+function getShippingOrderGoodAutocomplete(
+    control: Control,
+    shippingOrderId: string,
+    setValue: UseFormSetValue<FieldValues>
+) {
     return (
         <Controller
             name="shippingOrderGood"
@@ -229,7 +240,10 @@ function getShippingOrderGoodAutocomplete(control: Control, shippingOrderId: str
                     isDisable={false}
                     error={invalid}
                     value={value}
-                    onValueChange={onChange}
+                    onValueChange={(data) => {
+                        setValue("goodPackage", null);
+                        onChange(data);
+                    }}
                     useSorting={false}
                     dictionaryParams={{
                         type: DictionaryType.SHIPPING_ORDER_GOOD,

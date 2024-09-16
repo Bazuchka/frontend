@@ -11,7 +11,7 @@ const ClientRelatedEntity = types.model("ClientRelatedEntitiy", {
     isShipper: types.boolean,
     isConsignee: types.boolean,
     isCarrier: types.boolean,
-    legalEntity: ForeignKey,
+    legalEntity: types.maybeNull(ForeignKey),
     active: types.boolean,
     syncId: types.string,
 });

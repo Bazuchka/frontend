@@ -34,7 +34,6 @@ export const fieldsConfiguration = (clientGoodProps?: {
                     name: "clientGood",
                     type: FieldItemType.AUTOCOMPLETE,
                     value: clientGoodProps?.clientGood,
-                    renderValuePrimary: "name",
                     required: true,
                     isDisable: true,
                     fullLine: true,
@@ -47,10 +46,9 @@ export const fieldsConfiguration = (clientGoodProps?: {
                 },
                 {
                     label: t("ReceivingOrderBatch:properties.goodVariant"),
-                    name: "clientGood",
+                    name: "goodVariant",
                     type: FieldItemType.AUTOCOMPLETE,
                     value: clientGoodProps?.goodVariant,
-                    renderValuePrimary: "name",
                     fullLine: true,
                     isDisable: true,
                     requestParams: {

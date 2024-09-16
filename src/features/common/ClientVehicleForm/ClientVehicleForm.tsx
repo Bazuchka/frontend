@@ -14,12 +14,14 @@ import { FieldErrors, FieldValues } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useBeforeUnload } from "react-router-dom";
 import { viewStore } from "src/app/store";
+import { IFullClientVehicle } from "src/features/ClientVehicle/store/ClientVehicleStore";
 import { DialogPrompt, ShowPromptHandle } from "src/shared/UI/DialogPrompt";
 import EditFormButtons from "src/shared/UI/TSBaseTable/UI/EditFormButtons";
 import { IFormComponent } from "src/shared/UI/iFormComponent";
 import { Footer } from "src/shared/UI/iFormComponent/UI/Footer";
 import { DIALOG_ACTION } from "src/shared/enums/enums";
 import { ExternalEventsHandle, IDrawerForm } from "src/shared/hooks/useDrawerForm";
+import { UseForm } from "src/shared/types";
 import { v4 as uuidv4 } from "uuid";
 import { fieldsConfiguration } from "./configs";
 import { useStyles } from "./styles";
@@ -33,6 +35,8 @@ const ClientVehicleFormForwarded = (
     const formComponentRef = useRef<ElementRef<typeof IFormComponent>>(null);
     const [isEditFormMode, setIsEditFormMode] = useState(!id);
     const [isDirty, setIsDirty] = useState(false);
+    const [form, setForm] = useState<UseForm>();
+    const [trailerNumberDisabled, setTrailerNumberDisabled] = useState<boolean>(false);
     const { t } = useTranslation();
     const editPromptModalRef = useRef<ShowPromptHandle>(null);
     const [externalClosingInProgress, setExternalClosingInProgress] = useState(false);
@@ -59,11 +63,7 @@ const ClientVehicleFormForwarded = (
             return;
         }
 
-        if (isCreate) {
-            onClose();
-        } else {
-            editPromptModalRef.current?.show(DIALOG_ACTION.EDIT_CANCEL);
-        }
+        editPromptModalRef.current?.show(DIALOG_ACTION.EDIT_CANCEL);
     };
 
     const handleExternalClose = () => {
@@ -77,7 +77,7 @@ const ClientVehicleFormForwarded = (
 
     const handleCancelConfirm = () => {
         setIsEditFormMode(false);
-        if (externalClosingInProgress) {
+        if (externalClosingInProgress || isCreate) {
             setExternalClosingInProgress(false);
             onClose();
         }
@@ -130,6 +130,7 @@ const ClientVehicleFormForwarded = (
                     active: data.active ?? false,
                     refrigerator: data.refrigerator ?? false,
                     withTrailer: data.withTrailer ?? false,
+                    trailerNumber: data.withTrailer ? data.trailerNumber : null,
                     syncId: uuidv4(),
                 });
                 viewStore.addAlert({
@@ -141,6 +142,7 @@ const ClientVehicleFormForwarded = (
             } else {
                 const updatedModel = await store.update({
                     ...data,
+                    trailerNumber: data.withTrailer ? data.trailerNumber : null,
                     id: id!,
                 });
                 viewStore.addAlert({
@@ -155,10 +157,17 @@ const ClientVehicleFormForwarded = (
         }
     };
 
+    const handleWithTrailerChange = (data: FieldValues) => {
+        setTrailerNumberDisabled(!data.withTrailer);
+        if (!data.withTrailer) {
+            form?.setValue("trailerNumber", "");
+        }
+    };
+
     const fields = useMemo(
-        () => fieldsConfiguration(store.current, fieldOptions),
+        () => fieldsConfiguration(store.current, trailerNumberDisabled, fieldOptions),
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        [store.current, store]
+        [store.current, store, trailerNumberDisabled]
     );
 
     useEffect(() => {
@@ -167,6 +176,10 @@ const ClientVehicleFormForwarded = (
             store.setCurrent(null);
         };
     }, [id, store]);
+
+    useEffect(() => {
+        setTrailerNumberDisabled(!(store.current as IFullClientVehicle)?.withTrailer);
+    }, [store]);
 
     return (
         <Box className={classes.rootBox}>
@@ -182,6 +195,10 @@ const ClientVehicleFormForwarded = (
                     ref={formComponentRef}
                     onSubmit={handleSubmit}
                     onFormStateChange={handleFormStateChange}
+                    onTriggerFieldsChange={{
+                        withTrailer: handleWithTrailerChange,
+                    }}
+                    onLoad={setForm}
                 />
                 <Footer
                     className={classes.buttons}

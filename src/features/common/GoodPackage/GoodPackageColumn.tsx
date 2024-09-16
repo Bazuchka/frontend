@@ -11,12 +11,17 @@ interface GoodPackageGridProps {
         setValue: (key: string, value: unknown) => void;
     };
     isDisablePropName: string;
+    filter?:
+        | Record<string, object | string | boolean | null>
+        | string[]
+        | ((value: string) => Record<string, object | string | boolean | null>);
 }
 
 const GoodPackageColumn: FunctionComponent<GoodPackageGridProps> = ({
     control,
     row: { getValue, setValue },
     isDisablePropName,
+    filter,
 }) => {
     return (
         <Controller
@@ -38,6 +43,7 @@ const GoodPackageColumn: FunctionComponent<GoodPackageGridProps> = ({
                     }}
                     dictionaryParams={{
                         type: DictionaryType.GOOD_PACKAGE,
+                        filter: filter,
                     }}
                 />
             )}

@@ -24,6 +24,7 @@ const ShippingOrderInfo: FC<ShippingOrderProps> = observer((): JSX.Element => {
         onEdit,
         onFormEditCancel,
         onSubmitStart,
+        onNextClick,
         PromptElements,
         onStateFormChanged,
         onClickSave,
@@ -100,6 +101,7 @@ const ShippingOrderInfo: FC<ShippingOrderProps> = observer((): JSX.Element => {
                         isLoading={isLoading || shippingOrderStore.state.isLoading}
                         onEdit={onEdit}
                         onSave={onClickSave}
+                        onNext={onNextClick}
                         onCancel={onFormEditCancel}
                         className={classes.button}
                         permissionPath={"ShippingOrder"}

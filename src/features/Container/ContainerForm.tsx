@@ -55,7 +55,6 @@ const ContainerFormForwarded = (
         onFormEditCancel,
         onClickSave,
         onSubmitStart,
-        PromptElements,
         onStateFormChanged,
     } = useFormMechanics({
         entityId: id,
@@ -131,7 +130,6 @@ const ContainerFormForwarded = (
                         )
                     }
                 />
-                {PromptElements}
             </Box>
         </Box>
     );

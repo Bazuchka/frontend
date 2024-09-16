@@ -134,7 +134,7 @@ export const getColumns = () => {
                                         container
                                         alignContent="center"
                                         justifyContent="space-between">
-                                        <Grid item xs={9}>
+                                        <Grid item xs={8}>
                                             <AutocompleteSelectOfDictionary
                                                 isDisable={!getValue("clientGood")}
                                                 error={invalid}
@@ -150,8 +150,9 @@ export const getColumns = () => {
                                                 }}
                                             />
                                         </Grid>
-                                        <Grid item xs={2}>
+                                        <Grid item xs={4}>
                                             <AlisForm
+                                                id={getValue("batch")?.id}
                                                 store={
                                                     shippingOrderStore.current?.shippingOrderGood
                                                         .current?.shippingOrderGoodBatch ||
@@ -278,9 +279,9 @@ export const getColumns = () => {
             },
             enableSorting: false,
         }),
-        columnHelper.accessor("factQuantity", {
+        columnHelper.accessor("actualQuantity", {
             cell: (params) => params.getValue(),
-            header: t("ShippingOrderGood:properties.factQuantity"),
+            header: t("ShippingOrderGood:properties.actualQuantity"),
             meta: {
                 editableCell: {
                     component: ({ register, error }) => {
@@ -289,7 +290,7 @@ export const getColumns = () => {
                                 disabled={true}
                                 size="small"
                                 type="number"
-                                {...register("factQuantity", { required: false })}
+                                {...register("actualQuantity", { required: false })}
                                 error={!!error}
                             />
                         );

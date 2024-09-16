@@ -1,0 +1,17 @@
+{
+    "menu": {
+        "roles": "Роли",
+        "role": "Роль"
+    },
+    "properties": {
+        "code": "Роль",
+        "name": "Название"
+    },
+    "tabs": {
+        "permissions": "Права доступа"
+    },
+    "dialog": {
+        "createSuccess": "Роль успешно добавлена",
+        "editSuccess": "Роль успешно изменена"
+    }
+}

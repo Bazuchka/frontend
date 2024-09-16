@@ -19,7 +19,7 @@ export const mapFormToCreateDTO = (
             code: data.vehicle.code,
             withTrailer: data.withTrailer,
             insuranceNumber: data.vehicleInsuranceNumber,
-            trailerNumber: data.vehicleTrailerNumber,
+            trailerNumber: data.withTrailer ? data.vehicleTrailerNumber : null,
         },
         driverInfo: {
             id: data.driver.id,

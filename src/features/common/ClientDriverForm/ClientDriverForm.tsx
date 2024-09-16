@@ -59,16 +59,12 @@ const ClientDriverFormForwarded = (
             return;
         }
 
-        if (isCreate) {
-            onClose();
-        } else {
-            editPromptModalRef.current?.show(DIALOG_ACTION.EDIT_CANCEL);
-        }
+        editPromptModalRef.current?.show(DIALOG_ACTION.EDIT_CANCEL);
     };
 
     const handleCancelConfirm = () => {
         setIsEditFormMode(false);
-        if (externalClosingInProgress) {
+        if (externalClosingInProgress || isCreate) {
             setExternalClosingInProgress(false);
             onClose();
         }

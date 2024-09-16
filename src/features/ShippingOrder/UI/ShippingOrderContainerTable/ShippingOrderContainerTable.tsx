@@ -79,6 +79,9 @@ const ShippingOrderContainerTable: FunctionComponent<ShippingOrderContainerTable
                 permissionPath="ShippingOrder"
                 footerSettings={{
                     useNextButton: true,
+                    label: {
+                        create: t("Action:add"),
+                    },
                 }}
                 isReadOnly={isReadOnly}
             />

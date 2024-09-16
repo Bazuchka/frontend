@@ -1,12 +1,12 @@
+import { useTheme } from "@mui/material";
+import { Classes } from "jss";
 import { observer } from "mobx-react";
 import { Instance } from "mobx-state-tree";
 import { FC } from "react";
-import { useTheme } from "@mui/material";
 import { createBaseStore } from "src/shared/entities/BaseStore";
-import { DialogPrompt } from "src/shared/UI/DialogPrompt";
 import { IUseAlisFormComponentProps, useAlisForm } from "src/shared/hooks/useAlisForm";
+import { DialogPrompt } from "src/shared/UI/DialogPrompt";
 import { useStyles } from "./styles";
-import { Classes } from "jss";
 
 export interface IAlisFormActionComponentProps {
     classes?: Classes;
@@ -57,8 +57,8 @@ const AlisForm: FC<AlisFormProps> = observer((props) => {
     const classes = useStyles({ theme });
 
     initComponent && initComponent(store);
-    const openDrawer = () => {
-        component && open(component as FC, { store: store });
+    const openDrawer = (id?: string) => {
+        component && open(component as FC, { id, store });
     };
 
     return (
@@ -85,7 +85,7 @@ const AlisForm: FC<AlisFormProps> = observer((props) => {
                             await store.setCurrent(id);
                         }
 
-                        openDrawer();
+                        openDrawer(id);
                     },
                     classes: classes,
                 })}

@@ -1,6 +1,6 @@
 import { t } from "i18next";
 import { ReactNode } from "react";
-import { ConfigurationFile, Dictionary, OrdersIcon, AdministrationIcon } from "src/assets/svg";
+import { AdministrationIcon, ConfigurationFile, Dictionary, OrdersIcon } from "src/assets/svg";
 import { Permission } from "src/shared/services/PermissionService/types";
 
 export interface MenuItem {
@@ -302,6 +302,36 @@ export const menuConfiguration = (params?: MenuParams): MenuConfiguration => [
                                 isInvisibleMenuItem: true,
                                 permission: {
                                     path: "User",
+                                },
+                            },
+                        ],
+                    },
+                    {
+                        label: t("Role:menu.roles"),
+                        key: "roles",
+                        path: "/roles",
+                        permission: {
+                            path: "Role",
+                        },
+                        children: [
+                            {
+                                breadCrumbsLabel: t("Role:menu.role"),
+                                label: `${t("Shared:menu.new.feminine")}* (${t("Role:menu.role")})`,
+                                key: "roles-create",
+                                path: "/roles/create",
+                                isInvisibleMenuItem: true,
+                                permission: {
+                                    path: "Role",
+                                },
+                            },
+                            {
+                                breadCrumbsLabel: t("Role:menu.role"),
+                                label: `${t("Role:menu.role")} (${params?.role?.metadata?.name})`,
+                                key: "roles-create",
+                                path: `/roles/${params?.role?.path}`,
+                                isInvisibleMenuItem: true,
+                                permission: {
+                                    path: "Role",
                                 },
                             },
                         ],

@@ -11,7 +11,7 @@
         "totalPrice": "Стоимость",
         "tempRegime": "Температурный режим",
         "dangerClass": "Класс опасности",
-        "factQuantity": "Кол-во, факт",
+        "actualQuantity": "Кол-во, факт",
         "goodVariant": "Вариант товара"
     },
     "groups": {},

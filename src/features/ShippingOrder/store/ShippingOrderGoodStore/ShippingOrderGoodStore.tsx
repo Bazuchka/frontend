@@ -22,7 +22,7 @@ export const ShippingOrderGood = types.model("ShippingOrderGood", {
     batch: ForeignKey,
     totalPrice: types.number,
     price: types.number,
-    factQuantity: types.maybeNull(types.number),
+    actualQuantity: types.maybeNull(types.number),
     plannedQuantity: types.number,
     clientGood: ClientGoodShort,
     unitOfMeasure: types.maybe(ForeignKey),

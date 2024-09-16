@@ -6,7 +6,7 @@ import { ViewMediator } from "src/shared/store";
 export const Batch = types.model("BatchShort", {
     code: types.string,
     active: types.boolean,
-    name: types.string,
+    name: types.maybe(types.string),
     client: ForeignKey,
     clientGood: ForeignKey,
     batchAccountingType: types.string,

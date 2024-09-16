@@ -73,6 +73,9 @@ const ShippingOrderCargoTable: FunctionComponent<ShippingOrderCargoTableProps> =
                 permissionPath="ShippingOrder.ShippingOrderCargo"
                 footerSettings={{
                     useNextButton: true,
+                    label: {
+                        create: t("Action:add"),
+                    },
                 }}
                 isReadOnly={isReadOnly}
                 fetchParams={{

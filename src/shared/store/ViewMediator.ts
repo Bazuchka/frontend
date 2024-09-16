@@ -12,6 +12,7 @@ const storeToMenuKeyMap = new Map<string, string>([
     ["ReceivingOrderStore", "receivingOrder"],
     ["ShippingOrderStore", "shippingOrder"],
     ["UserStore", "user"],
+    ["RoleStore", "role"],
 ]);
 
 const ViewMediator = types.model().actions((self) => {

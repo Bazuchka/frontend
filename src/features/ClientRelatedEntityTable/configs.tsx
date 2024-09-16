@@ -180,7 +180,7 @@ export const getColumns = () => {
                             <Controller
                                 name="legalEntity"
                                 control={control}
-                                rules={{ required: true }}
+                                rules={{ required: false }}
                                 render={({
                                     field: { onChange, value },
                                     fieldState: { invalid },

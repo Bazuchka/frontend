@@ -18,14 +18,20 @@ interface DimensionsLinkProps {
     defaultValue: IDimensions;
     permissionPath: string;
     invalid?: boolean;
-    externalValue?: IDimensions;
+    externalValue?: IDimensions | null;
 }
 
 const DimensionsLink: FunctionComponent<DimensionsLinkProps> = ({
     onChange,
     defaultValue,
     permissionPath,
-    externalValue,
+    externalValue = {
+        length: 0,
+        width: 0,
+        height: 0,
+        volume: 0,
+        weight: 0,
+    },
     invalid = false,
 }) => {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -70,7 +76,7 @@ const DimensionsLink: FunctionComponent<DimensionsLinkProps> = ({
         setValue(newValue);
         onChange?.(newValue);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [externalValue, defaultValue]);
+    }, [externalValue]);
 
     return (
         <>

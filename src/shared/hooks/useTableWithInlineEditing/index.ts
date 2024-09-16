@@ -217,6 +217,18 @@ export const useTableWithInlineEditing = ({
         ]
     );
 
+    const handleNextClick = useCallback(async () => {
+        setIsEditMode(false);
+
+        setTimeout(() => {
+            // timeout is required to make sure editing mode is cleared
+            setSearchParams((prev) => ({
+                ...prev,
+                tab: prev.get("tab") ? parseInt(prev.get("tab")!, 10) + 1 : 1,
+            }));
+        });
+    }, [setSearchParams]);
+
     const handleProceedCancelEditPrompt = useCallback(async () => {
         setIsEditMode(false);
     }, []);
@@ -262,6 +274,7 @@ export const useTableWithInlineEditing = ({
         handleUpdate,
         handleProceedCancelEditPrompt,
         handleProceedDeletePrompt,
+        handleNextClick,
         isRowSelected,
         pagination,
         sorting: store.sorting,

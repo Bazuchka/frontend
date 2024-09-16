@@ -3,7 +3,7 @@ import { createColumnHelper } from "@tanstack/react-table";
 import { t } from "i18next";
 import { Controller } from "react-hook-form";
 import { CheckIcon, SvgXIcon } from "src/assets/svg";
-import { AlisForm, CreateButton } from "src/features/common/AlisForm";
+import { AlisForm, CreateButton, EditButton } from "src/features/common/AlisForm";
 import { AutocompleteSelectOfDictionary } from "src/shared/UI/AutocompleteSelectOfDictionary/AutocompleteSelectOfDictionary";
 import { Chips } from "src/shared/UI/Chips";
 import { AlisChip } from "src/shared/UI/Chips/Chip";
@@ -95,7 +95,7 @@ export const getColumns = ({ clientId, isRailway, receivingOrderId }: ColumnProp
                                         container
                                         alignContent="center"
                                         justifyContent="space-between">
-                                        <Grid item xs={9}>
+                                        <Grid item xs={8}>
                                             <AutocompleteSelectOfDictionary
                                                 isDisable={false}
                                                 error={invalid}
@@ -113,10 +113,13 @@ export const getColumns = ({ clientId, isRailway, receivingOrderId }: ColumnProp
                                                 }}
                                             />
                                         </Grid>
-                                        <Grid item xs={2}>
+                                        <Grid item xs={4}>
                                             <AlisForm
+                                                id={getValue("container")?.id}
                                                 store={containerStore}
+                                                allowEdit={getValue("container")?.id}
                                                 createActionComponents={CreateButton}
+                                                editActionComponents={EditButton}
                                                 componentProps={{
                                                     setValue: setValue,
                                                     getValue: getValue,

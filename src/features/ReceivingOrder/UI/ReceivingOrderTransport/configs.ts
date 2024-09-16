@@ -13,9 +13,7 @@ export interface IDriverInfo {
 
 export interface IVehicleInfo {
     id?: string;
-    withTrailer?: boolean;
-    trailerNumber?: string;
-    insuranceNumber?: string;
+    trailerNumberDisabled?: boolean;
 }
 
 export interface IShipperInfo {
@@ -141,7 +139,7 @@ export const fieldsConfiguration = ({
                 {
                     label: t("ReceivingOrderTransport:properties:vehicle.withTrailer"),
                     type: FieldItemType.CHECKBOX,
-                    value: relatedData.vehicleInfo?.withTrailer,
+                    value: editModel?.vehicleInfo?.withTrailer,
                     name: "withTrailer",
                     fullLine: false,
                 },
@@ -149,14 +147,16 @@ export const fieldsConfiguration = ({
                     type: FieldItemType.INPUT,
                     name: "vehicleTrailerNumber",
                     label: t("ReceivingOrderTransport:properties:vehicle.trailerNumber"),
-                    value: relatedData.vehicleInfo?.trailerNumber,
-                    isDisable: !relatedData.vehicleInfo.id,
+                    value: editModel?.vehicleInfo?.trailerNumber,
+                    isDisable:
+                        !relatedData.vehicleInfo.id ||
+                        relatedData.vehicleInfo.trailerNumberDisabled,
                 },
                 {
                     type: FieldItemType.INPUT,
                     name: "vehicleInsuranceNumber",
                     label: t("ReceivingOrderTransport:properties:vehicle.insuranceNumber"),
-                    value: relatedData.vehicleInfo?.insuranceNumber,
+                    value: editModel?.vehicleInfo?.insuranceNumber,
                     isDisable: !relatedData.vehicleInfo.id,
                 },
             ],

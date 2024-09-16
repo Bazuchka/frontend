@@ -1,8 +1,8 @@
-import { FC } from "react";
-import { IAlisFormActionComponentProps } from "src/features/common/AlisForm/AlisForm";
-import { t } from "i18next";
-import { PencilIcon, PlusIcon } from "src/assets/svg";
 import { SvgIcon } from "@mui/material";
+import { t } from "i18next";
+import { FC } from "react";
+import { PencilIcon, PlusIcon } from "src/assets/svg";
+import { IAlisFormActionComponentProps } from "src/features/common/AlisForm/AlisForm";
 
 export const CreateButton: FC<IAlisFormActionComponentProps> = ({ classes, onAction }) => (
     <button className={classes?.buttons} title={t("Action:create")} onClick={() => onAction?.()}>

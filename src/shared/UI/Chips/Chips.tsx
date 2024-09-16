@@ -4,14 +4,13 @@ import { useTranslation } from "react-i18next";
 import { AlisChip } from "./Chip";
 
 interface ChipsProps {
-    value: string[];
+    value?: string[];
     onChange: (data: string[]) => void;
     invalid?: boolean;
 }
 
 const Chips: FunctionComponent<ChipsProps> = ({ value, onChange, invalid }) => {
     const { t } = useTranslation();
-
     return (
         <Autocomplete
             clearIcon={false}
@@ -33,7 +32,12 @@ const Chips: FunctionComponent<ChipsProps> = ({ value, onChange, invalid }) => {
             }
             onChange={(_, data) => onChange(data)}
             renderInput={(params) => (
-                <TextField {...params} style={{ minWidth: 100 }} error={invalid} />
+                <TextField
+                    {...params}
+                    placeholder={value && value.length > 0 ? "" : t("Shared:chipPlaceholder")}
+                    style={{ minWidth: 100 }}
+                    error={invalid}
+                />
             )}
         />
     );

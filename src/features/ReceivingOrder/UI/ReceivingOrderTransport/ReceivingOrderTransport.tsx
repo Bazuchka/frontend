@@ -38,6 +38,7 @@ const ReceivingOrderTransport: FC<ReceivingOrderTransportProps> = observer(
             onFormEditCancel,
             onClickSave,
             onSubmitStart,
+            onNextClick,
             PromptElements,
             onStateFormChanged,
         } = useFormMechanics({
@@ -70,38 +71,26 @@ const ReceivingOrderTransport: FC<ReceivingOrderTransportProps> = observer(
         });
 
         const [form, setForm] = useState<UseForm>();
-
-        // set default values on form load
         const [formVehicleInfo, setFormVehicleInfo] = useState<IVehicleInfo>({});
+        const [formDriverInfo, setFormDriverInfo] = useState<IDriverInfo>({});
+        const [shipperInfo, setShipperInfo] = useState<IShipperInfo>({});
 
         useEffect(() => {
             setFormVehicleInfo({
                 id: store.current?.vehicleInfo?.id,
-                withTrailer: store.current?.vehicleInfo?.withTrailer ?? false,
-                trailerNumber: store.current?.vehicleInfo?.trailerNumber ?? undefined,
-                insuranceNumber: store.current?.vehicleInfo?.insuranceNumber ?? undefined,
+                trailerNumberDisabled: !store.current?.vehicleInfo?.withTrailer,
             });
-            // eslint-disable-next-line react-hooks/exhaustive-deps
-        }, [store.current]);
 
-        // set default values on form load
-        const [formDriverInfo, setFormDriverInfo] = useState<IDriverInfo>({});
-
-        useEffect(() => {
             setFormDriverInfo({
                 id: store.current?.driverInfo?.id,
                 phoneNumber: store.current?.driverInfo?.phoneNumber ?? undefined,
                 POANumber: store.current?.driverInfo?.POANumber ?? undefined,
             });
-            // eslint-disable-next-line react-hooks/exhaustive-deps
-        }, [store.current]);
 
-        const [shipperInfo, setShipperInfo] = useState<IShipperInfo>({});
-
-        useEffect(() => {
             setShipperInfo({
                 inn: store.current?.shipper?.inn ?? undefined,
             });
+
             // eslint-disable-next-line react-hooks/exhaustive-deps
         }, [store.current]);
 
@@ -158,11 +147,24 @@ const ReceivingOrderTransport: FC<ReceivingOrderTransportProps> = observer(
             setTimeout(() => {
                 setValue("vehicleTrailerNumber", data.vehicle?.trailerNumber ?? "");
                 setValue("vehicleInsuranceNumber", data.vehicle?.insuranceNumber ?? "");
+                setValue("withTrailer", Boolean(data.vehicle?.trailerNumber ?? false));
             });
 
             setFormVehicleInfo({
                 id: data.vehicle?.id,
+                trailerNumberDisabled: data.vehicle?.trailerNumber === null,
             });
+        };
+
+        const handleWithTrailerChange = (data: FieldValues) => {
+            setFormVehicleInfo({
+                id: data.vehicle?.id,
+                trailerNumberDisabled: !data.withTrailer,
+            });
+
+            if (!data.withTrailer) {
+                form?.setValue("vehicleTrailerNumber", "");
+            }
         };
 
         const handleDriverFormChange = async (
@@ -175,7 +177,6 @@ const ReceivingOrderTransport: FC<ReceivingOrderTransportProps> = observer(
 
             setValue("driverPOANumber", data.driver?.POANumber ?? "");
             setValue("driverPhoneNumber", data.driver?.phoneNumber ?? "");
-            setValue("withTrailer", !!data.vehicle?.trailerNumber);
 
             setFormDriverInfo({
                 id: data.driver?.id,
@@ -275,6 +276,7 @@ const ReceivingOrderTransport: FC<ReceivingOrderTransportProps> = observer(
                         vehicle: handleVehicleFormChange,
                         driver: handleDriverFormChange,
                         shipper: handleShipperFormChange,
+                        withTrailer: handleWithTrailerChange,
                     }}
                     onLoad={setForm}
                 />
@@ -287,6 +289,7 @@ const ReceivingOrderTransport: FC<ReceivingOrderTransportProps> = observer(
                                 isLoading={isLoading}
                                 onEdit={onEdit}
                                 onSave={onClickSave}
+                                onNext={onNextClick}
                                 onCancel={onFormEditCancel}
                                 className={classes.button}
                                 withNavigation

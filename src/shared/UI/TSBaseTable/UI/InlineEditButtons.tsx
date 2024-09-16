@@ -18,6 +18,7 @@ interface InlinetEditButtonsProps {
     onCreate: () => void;
     onEdit?: (() => void) | undefined;
     onSave: (navigateNext?: boolean) => void;
+    onNext?: () => void;
     onCancel: () => void;
     onDelete?: (() => void) | undefined;
     className: string;
@@ -39,6 +40,7 @@ const InlinetEditButtons: FunctionComponent<InlinetEditButtonsProps> = ({
     onSave,
     onCancel,
     onDelete,
+    onNext,
     className,
     useNextButton,
     label,
@@ -100,10 +102,16 @@ const InlinetEditButtons: FunctionComponent<InlinetEditButtonsProps> = ({
 
             {useNextButton && (
                 <LoadingButton
-                    disabled={tableState.isLoading || !isEditMode}
+                    disabled={tableState.isLoading}
                     className={className}
                     loading={tableState.isCreating}
-                    onClick={() => onSave(true)}>
+                    onClick={() => {
+                        if (isEditMode) {
+                            onSave(true);
+                        } else {
+                            onNext?.();
+                        }
+                    }}>
                     {t("Action:next")}
                 </LoadingButton>
             )}

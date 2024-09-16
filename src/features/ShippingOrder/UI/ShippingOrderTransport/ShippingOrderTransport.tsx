@@ -14,7 +14,7 @@ import { IDrawerForm, useDrawerForm } from "src/shared/hooks/useDrawerForm";
 import useFormMechanics from "src/shared/hooks/useFormMechanics";
 import { UseForm } from "src/shared/types";
 import { ShippingOrderTransportStore } from "../../store/ShippingOrderTransportStore";
-import { fieldsConfiguration, IDriverInfo, IShipperInfo, IVehicleInfo } from "./configs";
+import { fieldsConfiguration, IDriverInfo, IVehicleInfo } from "./configs";
 import { mapFormToCreateDTO, mapFormToUpdateDTO } from "./mapper";
 
 interface ShippingOrderTransportProps {
@@ -38,6 +38,7 @@ const ShippingOrderTransport: FC<ShippingOrderTransportProps> = observer(
             onFormEditCancel,
             onClickSave,
             onSubmitStart,
+            onNextClick,
             PromptElements,
             onStateFormChanged,
         } = useFormMechanics({
@@ -70,22 +71,22 @@ const ShippingOrderTransport: FC<ShippingOrderTransportProps> = observer(
         });
 
         const [form, setForm] = useState<UseForm>();
-
-        // set default values on form load
         const [formVehicleInfo, setFormVehicleInfo] = useState<IVehicleInfo>({});
+        const [formDriverInfo, setFormDriverInfo] = useState<IDriverInfo>({});
 
         useEffect(() => {
             setFormVehicleInfo({
                 id: store.current?.vehicleInfo?.id,
-                withTrailer: store.current?.vehicleInfo?.withTrailer ?? false,
-                trailerNumber: store.current?.vehicleInfo?.trailerNumber ?? undefined,
-                insuranceNumber: store.current?.vehicleInfo?.insuranceNumber ?? undefined,
+                trailerNumberDisabled: !store.current?.vehicleInfo?.withTrailer,
+            });
+
+            setFormDriverInfo({
+                id: store.current?.driverInfo?.id,
+                phoneNumber: store.current?.driverInfo?.phoneNumber ?? undefined,
+                POANumber: store.current?.driverInfo?.POANumber ?? undefined,
             });
             // eslint-disable-next-line react-hooks/exhaustive-deps
         }, [store.current]);
-
-        // set default values on form load
-        const [formDriverInfo, setFormDriverInfo] = useState<IDriverInfo>({});
 
         useEffect(() => {
             setFormDriverInfo({
@@ -95,8 +96,6 @@ const ShippingOrderTransport: FC<ShippingOrderTransportProps> = observer(
             });
             // eslint-disable-next-line react-hooks/exhaustive-deps
         }, [store.current]);
-
-        const [shipperInfo, setShipperInfo] = useState<IShipperInfo>({});
 
         const handleDrawerClose = ({
             submitted,
@@ -151,7 +150,7 @@ const ShippingOrderTransport: FC<ShippingOrderTransportProps> = observer(
             setTimeout(() => {
                 setValue("vehicleTrailerNumber", data.vehicle?.trailerNumber ?? "");
                 setValue("vehicleInsuranceNumber", data.vehicle?.insuranceNumber ?? "");
-                setValue("withTrailer", !!data.vehicle?.trailerNumber);
+                setValue("withTrailer", Boolean(data.vehicle?.trailerNumber ?? false));
             });
 
             setFormVehicleInfo({
@@ -175,10 +174,15 @@ const ShippingOrderTransport: FC<ShippingOrderTransportProps> = observer(
             });
         };
 
-        const handleShipperFormChange = (data: FieldValues) => {
-            setShipperInfo({
-                inn: data.shipper?.inn ?? "",
+        const handleWithTrailerChange = (data: FieldValues) => {
+            setFormVehicleInfo({
+                id: data.vehicle?.id,
+                trailerNumberDisabled: !data.withTrailer,
             });
+
+            if (!data.withTrailer) {
+                form?.setValue("vehicleTrailerNumber", "");
+            }
         };
 
         const handleFormStateChange = (state: {
@@ -201,7 +205,6 @@ const ShippingOrderTransport: FC<ShippingOrderTransportProps> = observer(
                         clientId: client.id,
                         vehicleInfo: formVehicleInfo,
                         driverInfo: formDriverInfo,
-                        shipperInfo: shipperInfo,
                     },
                     actions: {
                         onDriverCardOpen: () =>
@@ -252,7 +255,7 @@ const ShippingOrderTransport: FC<ShippingOrderTransportProps> = observer(
                             }),
                     },
                 }),
-            [client, formDriverInfo, formVehicleInfo, isEditFormMode, open, shipperInfo, store]
+            [client, formDriverInfo, formVehicleInfo, isEditFormMode, open, store]
         );
 
         return (
@@ -267,7 +270,7 @@ const ShippingOrderTransport: FC<ShippingOrderTransportProps> = observer(
                     onTriggerFieldsChange={{
                         vehicle: handleVehicleFormChange,
                         driver: handleDriverFormChange,
-                        shipper: handleShipperFormChange,
+                        withTrailer: handleWithTrailerChange,
                     }}
                     onLoad={setForm}
                 />
@@ -279,6 +282,7 @@ const ShippingOrderTransport: FC<ShippingOrderTransportProps> = observer(
                                 isSaveAllowed={formState.isDirty}
                                 isLoading={isLoading}
                                 onEdit={onEdit}
+                                onNext={onNextClick}
                                 onSave={onClickSave}
                                 onCancel={onFormEditCancel}
                                 className={classes.button}

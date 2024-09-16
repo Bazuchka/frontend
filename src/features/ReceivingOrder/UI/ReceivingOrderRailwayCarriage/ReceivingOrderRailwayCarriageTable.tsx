@@ -69,6 +69,9 @@ const ReceivingOrderRailwayCarriageTable: FunctionComponent<ReceivingOrderEtranI
                 permissionPath="ReceivingOrder.RailwayCarriage"
                 footerSettings={{
                     useNextButton: true,
+                    label: {
+                        create: t("Action:add"),
+                    },
                 }}
                 isReadOnly={isReadOnly}
             />

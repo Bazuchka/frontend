@@ -61,6 +61,16 @@ export const getBaseActions = <GetParams, SetParams>(URL: string, mock?: boolean
                 url: `${URL}/${uploadMethod}`,
             });
         },
+        get<T>(filter?: GetParams, options?: BaseActionOptions) {
+            return request<T>({
+                method: "GET",
+                baseURL,
+                url: options && options.serviceUrl != undefined ? options.serviceUrl : `${URL}`,
+                params: mock ? filter : undefined,
+                data: mock ? undefined : filter,
+                preventDefaultAlert: options?.preventDefaultAlert,
+            });
+        },
         downloadFile(data: SetParams, url: string, contentType: string) {
             return request({
                 method: "POST",

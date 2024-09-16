@@ -6,12 +6,14 @@ import { IAlisFormComponentProps } from "src/features/common/AlisForm/AlisForm";
 import shippingOrderStore from "../../store/ShippingOrderStore";
 
 export const ShippingOrderGoodBatchForm: FC<IAlisFormComponentProps> = observer(
-    ({ onClose, onFormStateChange, componentProps }) => {
+    ({ onClose, onFormStateChange, componentProps, id }) => {
         return (
             <BatchForm
-                onClose={onClose}
+                onClose={(submited, data) => {
+                    onClose(submited);
+                    data && componentProps && componentProps?.setValue("batch", data);
+                }}
                 onFormStateChange={onFormStateChange!}
-                handleCreated={(data) => componentProps && componentProps?.setValue("batch", data)}
                 store={batchStore}
                 clientGoodProps={{
                     client: shippingOrderStore.current?.client as { id: string },
@@ -22,6 +24,7 @@ export const ShippingOrderGoodBatchForm: FC<IAlisFormComponentProps> = observer(
                         componentProps &&
                         (componentProps?.getValue("clientGood")?.batchAccountingType as string),
                 }}
+                id={id}
             />
         );
     }

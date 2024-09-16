@@ -67,6 +67,7 @@ const ns = [
     "ShippingOrderEtranInvoice",
     "EtranInvoice",
     "ReceivingOrderEtranInvoice",
+    "Role",
     "ShippingOrderRailwayCarriage",
     "RailwayCarriage",
     "ReceivingOrderRailwayCarriage",

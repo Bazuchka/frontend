@@ -66,6 +66,9 @@ const ReceivingOrderGoodTable: FunctionComponent<ReceivingOrderGoodTableProps> =
                 permissionPath="ReceivingOrder"
                 footerSettings={{
                     useNextButton: true,
+                    label: {
+                        create: t("Action:add"),
+                    },
                 }}
                 isReadOnly={isReadOnly}
             />

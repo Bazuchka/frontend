@@ -13,6 +13,7 @@ interface InlineEditButtonsProps {
     onEdit?: () => void;
     onSave: (navigateNext: boolean) => void;
     onCancel: () => void;
+    onNext?: () => void;
     className: string;
     permissionPath: string;
 }
@@ -26,6 +27,7 @@ const EditFormButtons: FunctionComponent<InlineEditButtonsProps> = ({
     onEdit,
     onSave,
     onCancel,
+    onNext,
     className,
 }) => {
     return (
@@ -53,10 +55,15 @@ const EditFormButtons: FunctionComponent<InlineEditButtonsProps> = ({
             </Button>
             {withNavigation && (
                 <LoadingButton
-                    disabled={!isEditMode}
                     className={className}
                     loading={isLoading}
-                    onClick={() => onSave(true)}>
+                    onClick={() => {
+                        if (isEditMode) {
+                            onSave(true);
+                        } else {
+                            onNext?.();
+                        }
+                    }}>
                     {t("Action:next")}
                 </LoadingButton>
             )}

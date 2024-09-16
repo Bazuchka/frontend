@@ -31,6 +31,7 @@ export const fieldsConfiguration = (defaultModel: IContainer | null, fieldOption
                     name: "code",
                     required: true,
                     fullLine: true,
+                    isDisable: defaultModel && fieldOptions?.code?.isUpdateDisabled,
                 },
                 {
                     label: t("Container:properties.containerType"),

@@ -77,5 +77,6 @@
     "clean": "Очистить",
     "add": "Добавить",
     "createOrder": "Создать заявку",
-    "columnManagment": "Управление колонками"
+    "columnManagment": "Управление колонками",
+    "chipPlaceholder": "Введите значение и нажмите Enter"
 }

@@ -27,6 +27,7 @@ const ReceivingOrderInfo: FC<ReceivingOrderProps> = observer((): JSX.Element => 
         PromptElements,
         onStateFormChanged,
         onClickSave,
+        onNextClick,
     } = useFormMechanics({
         entityId: id,
         navigation: {
@@ -101,6 +102,7 @@ const ReceivingOrderInfo: FC<ReceivingOrderProps> = observer((): JSX.Element => 
                         onEdit={onEdit}
                         onSave={onClickSave}
                         onCancel={onFormEditCancel}
+                        onNext={onNextClick}
                         className={classes.button}
                         permissionPath={"ReceivingOrder"}
                         withNavigation

@@ -61,6 +61,9 @@ const ShippingOrderGoodTable: FunctionComponent<ShippingOrderGoodTableProps> = o
             permissionPath="ShippingOrder.ShippingOrderGood"
             footerSettings={{
                 useNextButton: true,
+                label: {
+                    create: t("Action:add"),
+                },
             }}
             isReadOnly={isReadOnly}
         />

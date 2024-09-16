@@ -58,6 +58,7 @@ const TableWithInlineEditing = ({
         handleDeleteClick,
         handleUpdate,
         handleCreate,
+        handleNextClick,
         handleProceedCancelEditPrompt,
         handleProceedDeletePrompt,
         isRowSelected,
@@ -94,6 +95,7 @@ const TableWithInlineEditing = ({
                                 onCancel={handleCancelClick}
                                 onEdit={handleEditClick}
                                 onDelete={handleDeleteClick}
+                                onNext={handleNextClick}
                                 tableState={state}
                                 editableRowIsValid={editableRowState.isValid}
                                 isEditMode={isEditMode}
@@ -108,20 +110,21 @@ const TableWithInlineEditing = ({
             );
         },
         [
+            pagination,
+            setNavigateNextTab,
+            isReadOnly,
+            handleCreateClick,
+            handleCancelClick,
+            handleEditClick,
+            handleDeleteClick,
+            handleNextClick,
+            state,
             editableRowState.isValid,
             editableRowState.isDirty,
-            footerSettings,
-            handleCancelClick,
-            handleCreateClick,
-            handleDeleteClick,
-            handleEditClick,
             isEditMode,
-            isReadOnly,
             isRowSelected,
-            pagination,
             permissionPath,
-            setNavigateNextTab,
-            state,
+            footerSettings,
         ]
     );
 

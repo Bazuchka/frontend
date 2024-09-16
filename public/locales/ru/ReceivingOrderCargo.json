@@ -2,7 +2,7 @@
     "properties": {
         "receivingOrderGood": "Артикул, Товар, Вариант Товара",
         "batch": "Партия",
-        "barcode": "Штрихкод",
+        "barcode": "Штрихкод упаковки",
         "goodPackage": "Упаковка",
         "packageQuantity": "Кол-во уп.",
         "conversionQuantity": "Кол-во в 1 уп.",

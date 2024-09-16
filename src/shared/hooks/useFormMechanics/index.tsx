@@ -231,6 +231,7 @@ const useFormMechanics = ({
 
     const onFormEditCancel = () => {
         dispatch({ type: FormMecanicsAction.EDIT_CANCEL });
+        onDestroy?.();
     };
 
     const onSubmitStart = async (data: FieldValues) => {
@@ -269,6 +270,11 @@ const useFormMechanics = ({
 
     const onErrorSubmit = () => {
         dispatch({ type: FormMecanicsAction.FORM_SUBMIT_ERROR });
+    };
+
+    const onNextClick = () => {
+        navigate(navigation.nextTabPath!(formState.id));
+        onDestroy?.();
     };
 
     useEffect(() => {
@@ -350,6 +356,7 @@ const useFormMechanics = ({
         onFormEditCancel,
         onClickSave,
         onSubmitStart,
+        onNextClick,
         PromptElements,
         isEditFormMode: formState.state !== FormMechanicsState.VIEW,
         isLoading:

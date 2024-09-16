@@ -57,6 +57,9 @@ const ShippingOrderEtranInvoiceTable: FunctionComponent<ShippingOrderEtranInvoic
                 permissionPath="ShippingOrder.EtranInvoice"
                 footerSettings={{
                     useNextButton: true,
+                    label: {
+                        create: t("Action:add"),
+                    },
                 }}
                 isReadOnly={isReadOnly}
             />

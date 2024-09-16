@@ -107,6 +107,7 @@ export const fieldsConfiguration = ({
                     required: true,
                     dictionaryType: DictionaryType.TERMINAL_AREA,
                     translatePath: "TerminalArea:types",
+                    isDisable: !isCreate,
                 },
                 {
                     label: t("ReceivingOrder:properties.planReceivingDateInfo"),
@@ -125,6 +126,7 @@ export const fieldsConfiguration = ({
                     type: FieldItemType.ENUM_SELECT,
                     dictionaryType: DictionaryType.TRANSPORT_TYPE,
                     translatePath: "TransportType:types",
+                    isDisable: !isCreate,
                 },
                 {
                     label: t("ReceivingOrder:properties.planReceivingTimeInfo"),

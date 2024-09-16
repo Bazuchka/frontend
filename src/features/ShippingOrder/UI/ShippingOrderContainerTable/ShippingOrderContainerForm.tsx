@@ -4,7 +4,7 @@ import { observer } from "mobx-react";
 import { FC } from "react";
 import { PlusIcon } from "src/assets/svg";
 import { ContainerForm } from "src/features/Container";
-import { containerStore } from "src/features/Container/store";
+import { containerStore, IContainer } from "src/features/Container/store";
 import {
     IAlisFormActionComponentProps,
     IAlisFormComponentProps,
@@ -15,15 +15,22 @@ export const ShippingOrderContainerForm: FC<IAlisFormComponentProps> = observer(
     ({ onClose, onFormStateChange, componentProps }) => {
         return (
             <ContainerForm
-                onClose={(submited, data) => {
+                onClose={(submited, data?: unknown) => {
                     onClose(submited);
-                    data && componentProps && componentProps?.setValue("container", data);
+                    if (submited) {
+                        (data as IContainer)?.active && componentProps
+                            ? componentProps?.setValue("container", data)
+                            : componentProps?.setValue("container", null);
+                    }
                 }}
                 onFormStateChange={onFormStateChange!}
                 store={containerStore}
                 fieldOptions={{
                     client: {
                         value: shippingOrderStore.current?.client as { id: string },
+                    },
+                    code: {
+                        isUpdateDisabled: true,
                     },
                 }}
             />

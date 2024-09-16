@@ -1,4 +1,5 @@
 import { createBrowserRouter, createRoutesFromElements, Navigate, Route } from "react-router-dom";
+import { User, UserTable } from "src/features/Administration/Users";
 import { Client, ClientTable } from "src/features/Client";
 import { ClientDriverTable } from "src/features/ClientDriverTable";
 import { ClientGood, ClientGoodTable } from "src/features/ClientGood";
@@ -7,12 +8,12 @@ import { ClientRelatedEntityTable } from "src/features/ClientRelatedEntityTable"
 import { ClientVehicleTable } from "src/features/ClientVehicle";
 import { LegalEntity, LegalEntityTable } from "src/features/LegalEntity";
 import { ReceivingOrder, ReceivingOrderTable } from "src/features/ReceivingOrder";
-import { ShippingOrder, ShippingOrderTable } from "src/features/ShippingOrder";
+import { Role, RoleTable } from "src/features/Role";
 import { Service, ServicesTable } from "src/features/Service";
+import { ShippingOrder, ShippingOrderTable } from "src/features/ShippingOrder";
 import { TermOfService } from "src/features/TermOfService";
 import TermsOfServiceTable from "src/features/TermOfService/UI/TermsOfServiceTable";
 import { UnitOfMeasureTable } from "src/features/UnitOfMeasure";
-import { User, UserTable } from "src/features/Administration/Users";
 import { PermissionRoute } from "src/shared/services/PermissionService";
 import { MainLayout } from "../layout/mainLayout";
 
@@ -76,6 +77,11 @@ export const MainRoutes = createBrowserRouter(
                 <Route path="/users" element={<UserTable />} />
                 <Route path="/users/create" element={<User />} />
                 <Route path="/users/:id" element={<User />} />
+            </Route>
+            <Route element={<PermissionRoute path={"Role"} />}>
+                <Route path="/roles" element={<RoleTable />} />
+                <Route path="/roles/create" element={<Role />} />
+                <Route path="/roles/:id" element={<Role />} />
             </Route>
             <Route path="*" element={<Navigate to="/" />} />
         </Route>

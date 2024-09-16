@@ -13,19 +13,12 @@ export interface IDriverInfo {
 
 export interface IVehicleInfo {
     id?: string;
-    withTrailer?: boolean;
-    trailerNumber?: string;
-    insuranceNumber?: string;
-}
-
-export interface IShipperInfo {
-    inn?: string;
+    trailerNumberDisabled?: boolean;
 }
 
 interface IFieldsConfiguration {
     defaultModel: IFullShippingOrderTransport | null;
     relatedData: {
-        shipperInfo: IShipperInfo;
         clientId: string;
         // expand this list with dependent fields
         driverInfo: IDriverInfo;
@@ -141,7 +134,7 @@ export const fieldsConfiguration = ({
                 {
                     label: t("ShippingOrderTransport:properties:vehicle.withTrailer"),
                     type: FieldItemType.CHECKBOX,
-                    value: relatedData.vehicleInfo?.withTrailer,
+                    value: editModel?.vehicleInfo?.withTrailer,
                     name: "withTrailer",
                     fullLine: false,
                 },
@@ -149,14 +142,16 @@ export const fieldsConfiguration = ({
                     type: FieldItemType.INPUT,
                     name: "vehicleTrailerNumber",
                     label: t("ShippingOrderTransport:properties:vehicle.trailerNumber"),
-                    value: relatedData.vehicleInfo?.trailerNumber,
-                    isDisable: !relatedData.vehicleInfo.id,
+                    value: editModel?.vehicleInfo?.trailerNumber,
+                    isDisable:
+                        !relatedData.vehicleInfo.id ||
+                        relatedData.vehicleInfo.trailerNumberDisabled,
                 },
                 {
                     type: FieldItemType.INPUT,
                     name: "vehicleInsuranceNumber",
                     label: t("ShippingOrderTransport:properties:vehicle.insuranceNumber"),
-                    value: relatedData.vehicleInfo?.insuranceNumber,
+                    value: editModel?.vehicleInfo?.insuranceNumber,
                     isDisable: !relatedData.vehicleInfo.id,
                 },
             ],
