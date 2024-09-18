@@ -86,16 +86,7 @@ const ShippingOrderTransport: FC<ShippingOrderTransportProps> = observer(
                 POANumber: store.current?.driverInfo?.POANumber ?? undefined,
             });
             // eslint-disable-next-line react-hooks/exhaustive-deps
-        }, [store.current]);
-
-        useEffect(() => {
-            setFormDriverInfo({
-                id: store.current?.driverInfo?.id,
-                phoneNumber: store.current?.driverInfo?.phoneNumber ?? undefined,
-                POANumber: store.current?.driverInfo?.POANumber ?? undefined,
-            });
-            // eslint-disable-next-line react-hooks/exhaustive-deps
-        }, [store.current]);
+        }, [store.current, isEditFormMode]);
 
         const handleDrawerClose = ({
             submitted,

@@ -4,11 +4,11 @@
         "sealNumbers": "Номера ЗПУ",
         "empty": "Порожний",
         "weight": "Масса с грузом, тн",
-        "customsClearance": "Таможенная очистка",
+        "customsClearance": "Импортный",
         "dangerousCargo": "Опасный груз",
         "containerType": "Тип котейнера",
         "refrigerator": "Рефрижератор",
-        "weightEmpty": "Масса порожння, тн",
+        "weightEmpty": "Масса порожняя, тн",
         "railwayCarriageId": "Номер вагона"
     },
     "dialog": {

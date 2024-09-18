@@ -2,8 +2,8 @@ import { t } from "i18next";
 import etranInvoiceStore from "src/features/EtranInvoice/store";
 import { FieldItemType } from "src/shared/UI/iFieldItem/const";
 import { FieldGroup } from "src/shared/UI/iFieldItem/types";
-import { DictionaryType } from "src/shared/hooks/useDictionary";
 import { SEARCH_TYPE } from "src/shared/enums";
+import { DictionaryType } from "src/shared/hooks/useDictionary";
 
 export const fieldsConfiguration = (
     etranInvoiceProps?: { client?: { id: string } },
@@ -57,10 +57,13 @@ export const fieldsConfiguration = (
                     isDisable: false,
                     fullLine: true,
                     requestParams: {
-                        type: DictionaryType.CLIENT_REALTED_ENTITY,
+                        type: DictionaryType.CLIENT_RELATED_ENTITY,
                         filter: (value: string) => ({
                             active: true,
                             isShipper: true,
+                            client: {
+                                id: etranInvoiceProps?.client?.id,
+                            },
                             inn: {
                                 type: SEARCH_TYPE.CONTAINS,
                                 content: value,

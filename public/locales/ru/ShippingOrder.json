@@ -11,7 +11,8 @@
         "presentation": "Просмотр",
         "containers": "Контейнеры",
         "etranInvoice": "Накладные ЭТРАН",
-        "railwayCarriage": "Вагоны"
+        "railwayCarriage": "Вагоны",
+        "documentPrint": "Печать документов"
     },
     "properties": {
         "number": "Номер",
@@ -38,10 +39,15 @@
         "createdAt": "Дата создания"
     },
     "groups": {
-        "orderParams": "Параметры заявки"
+        "orderParams": "Параметры заявки",
+        "printDocuments": "Печать документов"
     },
     "dialog": {
         "createSuccess": "Заявка на вывоз успешно создана",
         "editSuccess": "Заявка на вывоз успешно изменена"
+    },
+    "actions": {
+        "printMx3Form": "Акт о возврате (MX-3)",
+        "printThForm": "Транспортная накладная"
     }
 }

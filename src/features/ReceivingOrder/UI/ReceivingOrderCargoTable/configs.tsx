@@ -16,7 +16,6 @@ import { IReceivingOrderCargo } from "../../store/ReceivingOrderCargoStore";
 const columnHelper = createColumnHelper<
     WithGridRowId<
         IReceivingOrderCargo & {
-            dimensions: string;
             batch: string;
         }
     >
@@ -66,6 +65,12 @@ export const getColumns = (receivingOrderId: string) => () => {
                                         onValueChange={onChange}
                                         dictionaryParams={{
                                             type: DictionaryType.GOOD_PACKAGE_BARCODE,
+                                            filter: {
+                                                goodVariant: {
+                                                    id: getValue("receivingOrderGood")?.clientGood
+                                                        ?.id,
+                                                },
+                                            },
                                         }}
                                     />
                                 )}
@@ -183,20 +188,14 @@ export const getColumns = (receivingOrderId: string) => () => {
         columnHelper.accessor("dimensions", {
             cell: ({ row }) => (
                 <DimensionsLink
-                    defaultValue={{
-                        length: row.original.length ?? 0,
-                        width: row.original.width ?? 0,
-                        height: row.original.height ?? 0,
-                        volume: row.original.volume ?? 0,
-                        weight: row.original.weight ?? 0,
-                    }}
+                    value={row.original.dimensions}
                     permissionPath="ReceivingOrder.ReceivingOrderCargo"
                 />
             ),
             header: t("ReceivingOrderCargo:properties.dimensions"),
             meta: {
                 editableCell: {
-                    component: ({ control, row }) => {
+                    component: ({ control }) => {
                         return (
                             <Controller
                                 name="dimensions"
@@ -208,14 +207,7 @@ export const getColumns = (receivingOrderId: string) => () => {
                                 }) => (
                                     <DimensionsLink
                                         onChange={onChange}
-                                        defaultValue={{
-                                            length: row.original.length ?? 0,
-                                            width: row.original.width ?? 0,
-                                            height: row.original.height ?? 0,
-                                            volume: row.original.volume ?? 0,
-                                            weight: row.original.weight ?? 0,
-                                        }}
-                                        externalValue={value}
+                                        value={value}
                                         permissionPath="ReceivingOrder.ReceivingOrderCargo"
                                         invalid={invalid}
                                     />

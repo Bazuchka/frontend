@@ -1,14 +1,8 @@
-import { SvgIcon } from "@mui/material";
-import { t } from "i18next";
 import { observer } from "mobx-react";
 import { FC } from "react";
-import { PlusIcon } from "src/assets/svg";
 import { ContainerForm } from "src/features/Container";
 import { containerStore, IContainer } from "src/features/Container/store";
-import {
-    IAlisFormActionComponentProps,
-    IAlisFormComponentProps,
-} from "src/features/common/AlisForm/AlisForm";
+import { IAlisFormComponentProps } from "src/features/common/AlisForm/AlisForm";
 import shippingOrderStore from "../../store/ShippingOrderStore";
 
 export const ShippingOrderContainerForm: FC<IAlisFormComponentProps> = observer(
@@ -36,10 +30,4 @@ export const ShippingOrderContainerForm: FC<IAlisFormComponentProps> = observer(
             />
         );
     }
-);
-
-export const CreateContainerButton: FC<IAlisFormActionComponentProps> = ({ classes, onAction }) => (
-    <button className={classes?.buttons} title={t("Action:create")} onClick={() => onAction?.()}>
-        <SvgIcon component={PlusIcon} />
-    </button>
 );

@@ -11,6 +11,7 @@ import { ShippingOrderRailwayCarriageStore } from "../ShippingOrderRailwayCarria
 import { ShippingOrderRequestedServiceStore } from "../ShippingOrderRequestedServiceStore";
 import { ShippingOrderTransportStore } from "../ShippingOrderTransportStore";
 import { ShippingOrderPreview } from "./models/ShippingOrderPreview";
+import { getBaseActions } from "src/shared/request/baseActions";
 
 export const ShippingOrder = types.model("ShippingOrder", {
     id: types.identifier,
@@ -146,6 +147,47 @@ const ShippingOrderStore = createBaseStoreWithViewMediator({
     storeName: "ShippingOrder",
     storeListModel: ShippingOrder,
     storeMainInfoModel: FullShippingOrder,
+}).actions((self) => {
+    const getShippingOrderMx3Print = flow(function* () {
+        try {
+            self.state.isFetching = true;
+            const response = yield getBaseActions("ShippingOrder".toLowerCase()).downloadFile(
+                {},
+                `/report/shippingorder/mx3/${self.current?.id}/download`,
+                "application/json"
+            );
+
+            const blob = new Blob([response.data], { type: "application/pdf" });
+            window.open(URL.createObjectURL(blob))!.print();
+        } catch (err) {
+            self.state.isError = true;
+            throw new Error(err as string);
+        } finally {
+            self.state.isFetching = false;
+        }
+    });
+    const getShippingOrderTHPrint = flow(function* () {
+        try {
+            self.state.isFetching = true;
+            const response = yield getBaseActions("ShippingOrder".toLowerCase()).downloadFile(
+                {},
+                `/report/shippingorder/th/${self.current?.id}/download`,
+                "application/json"
+            );
+
+            const blob = new Blob([response.data], { type: "application/pdf" });
+            window.open(URL.createObjectURL(blob))!.print();
+        } catch (err) {
+            self.state.isError = true;
+            throw new Error(err as string);
+        } finally {
+            self.state.isFetching = false;
+        }
+    });
+    return {
+        getShippingOrderMx3Print,
+        getShippingOrderTHPrint,
+    };
 });
 
 export default ShippingOrderStore;

@@ -13,6 +13,8 @@ import { ShippingOrderRailwayCarriageTable } from "./UI/ShippingOrderRailwayCarr
 import ShippingOrderRequestedServiceTable from "./UI/ShippingOrderRequestedServiceTable/ShippingOrderRequestedServiceTable";
 import ShippingOrderTransport from "./UI/ShippingOrderTransport/ShippingOrderTransport";
 import { IShippingOrder } from "./store/ShippingOrderStore/ShippingOrderStore";
+import { ShippingOrderPrint } from "src/features/ShippingOrder/UI/ShippingOrderPrint";
+import { PermissionType } from "src/shared/services/PermissionService/types";
 
 const isRailwayContainer = (current?: IShippingOrder | null) => {
     return current?.transportType === "RAILWAY" && current?.terminalArea === "CONTAINER";
@@ -180,6 +182,21 @@ export const shippingOrderConfiguration: (isCreateMode: boolean) => TabsConfigur
                 </DataGuard>
             ),
             disabled: isCreateMode,
+        },
+        {
+            label: t("ShippingOrder:tabs.documentPrint"),
+            type: TabType.LINKED_DATA,
+            component: (
+                <DataGuard whenExist={shippingOrderStore.current}>
+                    {() => <ShippingOrderPrint store={shippingOrderStore} />}
+                </DataGuard>
+            ),
+            disabled:
+                !shippingOrderStore.current || shippingOrderStore.current!.orderStatus !== "DONE",
+            permission: {
+                path: "ReceivingOrder.Report",
+                type: PermissionType.FORM,
+            },
         },
     ],
 });

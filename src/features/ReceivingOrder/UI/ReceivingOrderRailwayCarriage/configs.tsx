@@ -28,7 +28,6 @@ export const getColumns = (receivingOrderId: string) => () => {
                             <Controller
                                 name="receivingOrderEtranInvoice"
                                 control={control}
-                                rules={{ required: true }}
                                 render={({
                                     field: { onChange, value },
                                     fieldState: { invalid },

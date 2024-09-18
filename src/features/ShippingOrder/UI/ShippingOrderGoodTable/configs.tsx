@@ -125,7 +125,6 @@ export const getColumns = () => {
                             <Controller
                                 name="batch"
                                 control={control}
-                                rules={{ required: true }}
                                 render={({
                                     field: { onChange, value },
                                     fieldState: { invalid },

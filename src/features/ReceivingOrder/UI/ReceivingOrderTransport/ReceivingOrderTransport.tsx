@@ -92,7 +92,7 @@ const ReceivingOrderTransport: FC<ReceivingOrderTransportProps> = observer(
             });
 
             // eslint-disable-next-line react-hooks/exhaustive-deps
-        }, [store.current]);
+        }, [store.current, isEditFormMode]);
 
         const handleDrawerClose = ({
             submitted,

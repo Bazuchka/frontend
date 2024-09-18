@@ -15,27 +15,28 @@ export interface IDimensions {
 
 interface DimensionsLinkProps {
     onChange?: (dimensions: IDimensions) => void;
-    defaultValue: IDimensions;
+    defaultValue?: IDimensions;
     permissionPath: string;
     invalid?: boolean;
-    externalValue?: IDimensions | null;
+    value?: IDimensions | null;
 }
 
 const DimensionsLink: FunctionComponent<DimensionsLinkProps> = ({
     onChange,
-    defaultValue,
     permissionPath,
-    externalValue = {
-        length: 0,
-        width: 0,
-        height: 0,
-        volume: 0,
-        weight: 0,
-    },
+    value: externalValue,
     invalid = false,
 }) => {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-    const [value, setValue] = useState<IDimensions>(defaultValue);
+    const [value, setValue] = useState<IDimensions>(
+        externalValue ?? {
+            length: 0,
+            width: 0,
+            height: 0,
+            volume: 0,
+            weight: 0,
+        }
+    );
     const dimensionsFormRef = useRef<ExternalEventsHandle>(null);
     const [t] = useTranslation();
 
@@ -56,6 +57,10 @@ const DimensionsLink: FunctionComponent<DimensionsLinkProps> = ({
         ${t("Dimensions:measurement.volume")}`;
 
     useEffect(() => {
+        if (!onChange || externalValue === undefined) {
+            return;
+        }
+
         if (
             externalValue?.height === value.height &&
             externalValue?.width === value.width &&

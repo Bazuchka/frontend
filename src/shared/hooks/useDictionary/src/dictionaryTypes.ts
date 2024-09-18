@@ -19,7 +19,7 @@ export const dictionaryTypeToUrl = () // _urlParams: Record<string, string | obj
         [DictionaryType.SERVICE]: `/service/all`,
         [DictionaryType.FREQUENCY_OF_SERVICES]: `/frequencyofservices/all`,
         [DictionaryType.CURRENCY]: `/currency/all`,
-        [DictionaryType.CLIENT_REALTED_ENTITY]: `/clientrelatedentity/all`,
+        [DictionaryType.CLIENT_RELATED_ENTITY]: `/clientrelatedentity/all`,
         [DictionaryType.CLIENT_VEHICLE]: `/clientvehicle/all`,
         [DictionaryType.CLIENT_DRIVER]: `/clientdriver/all`,
         [DictionaryType.CALCULATION_METHOD]: `/calculationmethod/all`,

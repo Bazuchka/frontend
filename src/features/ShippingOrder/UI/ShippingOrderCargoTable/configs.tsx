@@ -16,7 +16,6 @@ import { IShippingOrderCargo } from "../../store/ShippingOrderCargoStore";
 const columnHelper = createColumnHelper<
     WithGridRowId<
         IShippingOrderCargo & {
-            dimensions: string;
             batch: string;
         }
     >
@@ -65,6 +64,12 @@ export const getColumns = (shippingOrderId: string) => () => {
                                         onValueChange={onChange}
                                         dictionaryParams={{
                                             type: DictionaryType.GOOD_PACKAGE_BARCODE,
+                                            filter: {
+                                                goodVariant: {
+                                                    id: getValue("shippingOrderGood")?.clientGood
+                                                        ?.id,
+                                                },
+                                            },
                                         }}
                                     />
                                 )}
@@ -182,35 +187,26 @@ export const getColumns = (shippingOrderId: string) => () => {
         columnHelper.accessor("dimensions", {
             cell: ({ row }) => (
                 <DimensionsLink
-                    defaultValue={{
-                        length: row.original.length ?? 0,
-                        width: row.original.width ?? 0,
-                        height: row.original.height ?? 0,
-                        volume: row.original.volume ?? 0,
-                        weight: row.original.weight ?? 0,
-                    }}
+                    value={row.original.dimensions}
                     permissionPath="ShippingOrder.ShippingOrderCargo"
                 />
             ),
             header: t("ShippingOrderCargo:properties.dimensions"),
             meta: {
                 editableCell: {
-                    component: ({ control, row }) => {
+                    component: ({ control }) => {
                         return (
                             <Controller
                                 name="dimensions"
                                 control={control}
                                 rules={{ required: true }}
-                                render={({ field: { onChange }, fieldState: { invalid } }) => (
+                                render={({
+                                    field: { onChange, value },
+                                    fieldState: { invalid },
+                                }) => (
                                     <DimensionsLink
                                         onChange={onChange}
-                                        defaultValue={{
-                                            length: row.original.length ?? 0,
-                                            width: row.original.width ?? 0,
-                                            height: row.original.height ?? 0,
-                                            volume: row.original.volume ?? 0,
-                                            weight: row.original.weight ?? 0,
-                                        }}
+                                        value={value}
                                         permissionPath="ShippingOrder.ShippingOrderCargo"
                                         invalid={invalid}
                                     />

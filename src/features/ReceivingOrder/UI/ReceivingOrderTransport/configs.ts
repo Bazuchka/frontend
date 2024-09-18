@@ -54,7 +54,7 @@ export const fieldsConfiguration = ({
                     renderValueSecondary: "inn",
                     nonEditableValue: `${editModel?.shipper.code} (${editModel?.shipper.inn})`,
                     requestParams: {
-                        type: DictionaryType.CLIENT_REALTED_ENTITY,
+                        type: DictionaryType.CLIENT_RELATED_ENTITY,
                         filter: (value: string) => ({
                             active: true,
                             isShipper: true,
@@ -90,7 +90,7 @@ export const fieldsConfiguration = ({
                     value: editModel?.carrier,
                     required: true,
                     requestParams: {
-                        type: DictionaryType.CLIENT_REALTED_ENTITY,
+                        type: DictionaryType.CLIENT_RELATED_ENTITY,
                         filter: (value) => ({
                             active: true,
                             isCarrier: true,

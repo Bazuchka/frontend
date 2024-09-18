@@ -3,7 +3,7 @@ import { createColumnHelper } from "@tanstack/react-table";
 import { t } from "i18next";
 import { Controller } from "react-hook-form";
 import { CheckIcon, SvgXIcon } from "src/assets/svg";
-import { AlisForm } from "src/features/common/AlisForm";
+import { AlisForm, CreateButton, EditButton } from "src/features/common/AlisForm";
 import { AutocompleteSelectOfDictionary } from "src/shared/UI/AutocompleteSelectOfDictionary/AutocompleteSelectOfDictionary";
 import { Chips } from "src/shared/UI/Chips";
 import { AlisChip } from "src/shared/UI/Chips/Chip";
@@ -12,7 +12,7 @@ import { FieldItemType } from "src/shared/UI/iFieldItem/const";
 import { DictionaryType } from "src/shared/hooks/useDictionary";
 import { containerStore, IContainer } from "../../../Container/store";
 import { IShippingOrderRailwayContainer } from "../../store/ShippingOrderContainerStore/ShippingOrderContainerStore";
-import { CreateContainerButton, ShippingOrderContainerForm } from "./ShippingOrderContainerForm";
+import { ShippingOrderContainerForm } from "./ShippingOrderContainerForm";
 
 const columnHelper = createColumnHelper<
     WithGridRowId<
@@ -116,7 +116,9 @@ export const getColumns = ({ clientId, isRailway, shippingOrderId }: ColumnProps
                                         <Grid item xs={2}>
                                             <AlisForm
                                                 store={containerStore}
-                                                createActionComponents={CreateContainerButton}
+                                                createActionComponents={CreateButton}
+                                                editActionComponents={EditButton}
+                                                allowEdit={getValue("container")?.id}
                                                 componentProps={{
                                                     setValue: setValue,
                                                     getValue: getValue,

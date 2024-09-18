@@ -2,7 +2,7 @@
     "name": "alis-frontend",
     "private": true,
     "type": "module",
-    "version": "0.0.0",
+    "version": "1.0.0",
     "scripts": {
         "start": "node generate-version.cjs && chmod +x env.sh && ./env.sh && vite",
         "start:win": "node generate-version.cjs && cmd /c env.bat && vite",

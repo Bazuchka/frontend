@@ -4,6 +4,7 @@ import { FieldItemType } from "src/shared/UI/iFieldItem/const";
 import { FieldGroup } from "src/shared/UI/iFieldItem/types";
 import { DictionaryType } from "src/shared/hooks/useDictionary";
 import { IFullShippingOrder } from "../../store/ShippingOrderStore/ShippingOrderStore";
+import { getPossibleStatuses, isOrderStatusDisabled } from "./utils";
 
 export interface IFieldsConfigurationParams {
     isCreate: boolean;
@@ -73,9 +74,9 @@ export const fieldsConfiguration = ({
                     value: isCreate ? "DRAFT" : defaultModel?.orderStatus,
                     name: "orderStatus",
                     required: true,
-                    readOnly: isCreate,
-                    dictionaryType: DictionaryType.ORDER_STATUS,
+                    readOnly: isOrderStatusDisabled(defaultModel),
                     translatePath: "OrderStatus:types",
+                    options: getPossibleStatuses(defaultModel),
                 },
                 {
                     label: t("ShippingOrder:properties.contract"),

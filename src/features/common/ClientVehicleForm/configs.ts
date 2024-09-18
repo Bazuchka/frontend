@@ -90,6 +90,7 @@ export const fieldsConfiguration = (
                     value: defaultModel?.loadingType,
                     name: "loadingType",
                     fullLine: true,
+                    required: true,
                     requestParams: {
                         type: DictionaryType.LOADING_TYPE,
                         filter: {
