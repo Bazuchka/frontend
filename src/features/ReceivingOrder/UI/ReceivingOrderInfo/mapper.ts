@@ -12,7 +12,7 @@ export const mapFormToCreateDTO = (data: FieldValues): IFullReceivingOrder => {
         orderStatus: "DRAFT",
         terminalArea: data.terminalArea,
         transportType: data.transportType,
-        storagePeriod: data.storagePeriod,
+        storagePeriod: !data.storagePeriod ? 0 : data.storagePeriod,
         contract: data.contract,
         comment: data.comment,
         contact: {
@@ -38,7 +38,7 @@ export const mapFormToUpdateDTO = (id: string, data: FieldValues): IFullReceivin
         orderStatus: data.orderStatus,
         terminalArea: data.terminalArea,
         transportType: data.transportType,
-        storagePeriod: data.storagePeriod,
+        storagePeriod: !data.storagePeriod ? 0 : data.storagePeriod,
         contract: data.contract,
         comment: data.comment,
         contact: {

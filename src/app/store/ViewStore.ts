@@ -1,7 +1,38 @@
 import { types } from "mobx-state-tree";
 import { AddAlertMessageProps, Alert } from "src/app/store/types";
+import { ForeignKey } from "src/shared/entities";
+import { IForeignKey } from "src/shared/entities/ForeignKey";
 import { v4 as uuidv4 } from "uuid";
 import { MenuParams } from "../layout/sidebar/menu/config/menuConfiguration";
+
+export interface IGlobalFilters {
+    client?: IForeignKey;
+    legalEntity?: IForeignKey;
+}
+
+const GlobalFilters = types
+    .model("GlobalFilters", {
+        client: types.maybe(ForeignKey),
+        legalEntity: types.maybe(ForeignKey),
+    })
+    .actions((self) => ({
+        setClient(value?: IForeignKey): void {
+            self.client = value;
+        },
+        setLegalEntity(value?: IForeignKey): void {
+            self.legalEntity = value;
+        },
+    }))
+    .postProcessSnapshot((self) => {
+        const params: IGlobalFilters = {};
+        if (self.client) {
+            params.client = self.client;
+        }
+        if (self.legalEntity) {
+            params.legalEntity = self.legalEntity;
+        }
+        return params;
+    });
 
 /**
  * ViewStore is a MobX state tree model that holds app-wide state
@@ -22,6 +53,7 @@ export const ViewStore = types
         alerts: types.array(types.frozen<Alert>()),
         isMenuOpen: true,
         menuParams: types.maybe(types.frozen<MenuParams>()),
+        globalFilters: types.optional(GlobalFilters, {}),
     })
     .actions((self) => ({
         /**

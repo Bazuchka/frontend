@@ -10,6 +10,7 @@ export const ShippingOrderCargo = types
         syncId: types.maybe(types.string),
         shippingOrderGood: ForeignKey,
         barcode: types.maybeNull(ForeignKey),
+        clientGood: types.maybeNull(ForeignKey),
         goodPackage: ForeignKey,
         packageQuantity: types.refinement(types.number, (value) => value >= 0),
         conversionQuantity: types.refinement(types.number, (value) => value >= 0),

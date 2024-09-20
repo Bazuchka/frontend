@@ -1,0 +1,20 @@
+{
+    "form": "Форма",
+    "permission": "Уровень доступа",
+    "types": {
+        "NO_ACCESS": "НЕТ ДОСТУПА",
+        "READ": "ЧТЕНИЕ",
+        "WRITE": "ЗАПИСЬ",
+        "CREATE": "СОЗДАНИЕ",
+        "DELETE": "УДАЛЕНИЕ"
+    },
+    "prefix": {
+        "form": "",
+        "table": "(т)",
+        "button": "(к)",
+        "field": "(п)"
+    },
+    "target": {
+        "LegalEntity": "Юридические лица"
+    }
+}

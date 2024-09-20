@@ -141,7 +141,6 @@ export const fieldsConfiguration = ({
                     type: FieldItemType.INPUT_NUMBER,
                     value: defaultModel?.storagePeriod,
                     name: "storagePeriod",
-                    required: true,
                     min: 0,
                 },
                 {

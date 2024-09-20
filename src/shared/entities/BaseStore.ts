@@ -75,7 +75,11 @@ export const createBaseStore = <StoreListModel extends IAnyType, StoreModel exte
             ) {
                 try {
                     self.state.isFetching = true;
-                    const requestFilters = { ...self.sorting.sortingInfo, ...filters };
+                    const requestFilters = {
+                        ...self.sorting.sortingInfo,
+                        ...filters,
+                        ...(self as unknown as IViewMediator).globalFilters,
+                    };
 
                     self.previousFilters = requestFilters;
 
@@ -118,7 +122,8 @@ export const createBaseStore = <StoreListModel extends IAnyType, StoreModel exte
                     self.pagination.setTotal(
                         useMock ? response.data.items : response.data.totalElements
                     );
-                } catch {
+                } catch (err: unknown) {
+                    console.error(err);
                     self.state.isError = true;
                 } finally {
                     self.state.isFetching = false;

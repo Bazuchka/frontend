@@ -10,7 +10,7 @@ import {
     useTheme,
 } from "@mui/material";
 import { GridRowId, GridRowModel } from "@mui/x-data-grid";
-import { flexRender, Header, Table as TableType } from "@tanstack/react-table";
+import { ExpandedState, flexRender, Header, Table as TableType } from "@tanstack/react-table";
 import { observer } from "mobx-react";
 import { CSSProperties, ElementRef, useRef, useState } from "react";
 import { FieldErrors, FieldValues } from "react-hook-form";
@@ -38,6 +38,7 @@ type BaseTableProps<T extends BaseTableRow & GridRowModel> = {
     onSubmit?: (model: FieldValues) => void;
     style?: CSSProperties;
     sorting: Sorting;
+    expandedState?: ExpandedState;
 };
 
 export const TSBaseTableUI = observer(

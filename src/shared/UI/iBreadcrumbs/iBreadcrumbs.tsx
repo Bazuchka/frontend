@@ -10,6 +10,7 @@ import {
 } from "src/app/layout/sidebar/menu/config/menuConfiguration";
 import { viewStore } from "src/app/store";
 import { useIBreadcrumbsStyles } from "./style/style";
+import { getObjectByPath } from "./utils";
 
 const IBreadcrumbs: FC = observer((): JSX.Element => {
     const theme = useTheme();
@@ -32,26 +33,6 @@ const IBreadcrumbs: FC = observer((): JSX.Element => {
         return null;
     };
 
-    function getObjectByPath(data: MenuItem[], path: string): MenuItem | null {
-        for (let i = 0; i < data.length; i++) {
-            const obj = data[i];
-
-            if (obj.path === path) {
-                return obj;
-            }
-
-            if (obj.children && obj.children.length > 0) {
-                const nestedObj = getObjectByPath(obj.children, path);
-
-                if (nestedObj) {
-                    return nestedObj;
-                }
-            }
-        }
-
-        return null;
-    }
-
     useEffect(() => {
         let usingBreadCrumbs = JSON.parse(localStorage.getItem("breadCrumbs") as string);
 
@@ -72,8 +53,8 @@ const IBreadcrumbs: FC = observer((): JSX.Element => {
 
             setPathName(path);
         } else {
-            if (usingBreadCrumbs && usingBreadCrumbs.filter((el: MenuItem) => el.path === path)) {
-                const elIndex = usingBreadCrumbs.findIndex((el: MenuItem) => el.path === path);
+            if (usingBreadCrumbs && usingBreadCrumbs.filter((el: MenuItem) => el?.path === path)) {
+                const elIndex = usingBreadCrumbs.findIndex((el: MenuItem) => el?.path === path);
                 const lastId = usingBreadCrumbs[elIndex]?.id;
 
                 if (lastId) {
@@ -138,14 +119,16 @@ const IBreadcrumbs: FC = observer((): JSX.Element => {
     };
 
     const getBreadCrumbs = (pathName: string): MenuConfiguration => {
-        const menuPart = menuConfiguration().filter((el) => hasChildWithPath(el, pathName))[0];
+        const menuPart = menuConfiguration(menuParams).filter((el) =>
+            hasChildWithPath(el, pathName)
+        )[0];
 
         function getBreadcrumbItems(menuItem: MenuItem, arr: MenuItem[]) {
             arr.push(menuItem);
             const { children } = menuItem || {};
 
             if (children) {
-                const childrenItem = children.filter((el) => el.path === pathName);
+                const childrenItem = children.filter((el) => el?.path === pathName);
 
                 if (childrenItem.length) {
                     arr.push(childrenItem[0]);
@@ -192,7 +175,7 @@ const IBreadcrumbs: FC = observer((): JSX.Element => {
                                     ? "/"
                                     : index === usingArr.length - 1
                                       ? "#"
-                                      : (el.path as string)
+                                      : (el?.path as string)
                             }
                             key={`breadcrumbs-${el.key}`}
                             className={

@@ -38,6 +38,7 @@ export interface AutocompleteSelectOfDictionaryProps {
     onClear?: () => void;
     renderInput?: (params: AutocompleteRenderInputParams) => React.ReactNode;
     testFieldName?: string;
+    placeholder?: string;
 }
 
 export const AutocompleteSelectOfDictionary: FC<AutocompleteSelectOfDictionaryProps> = (props) => {
@@ -65,6 +66,7 @@ export const AutocompleteSelectOfDictionary: FC<AutocompleteSelectOfDictionaryPr
         useSorting,
         isMock = false,
         useDefaultFilter,
+        placeholder,
     } = props;
 
     const variablesParams = dictionaryType ? { type: dictionaryType } : dictionaryParams;
@@ -206,7 +208,7 @@ export const AutocompleteSelectOfDictionary: FC<AutocompleteSelectOfDictionaryPr
                 if (renderInput) {
                     return renderInput(params);
                 }
-                return <TextField error={error} {...params} fullWidth />;
+                return <TextField error={error} placeholder={placeholder} {...params} fullWidth />;
             }}
             renderOption={renderOption}
             ListboxProps={{

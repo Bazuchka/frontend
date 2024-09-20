@@ -4,6 +4,7 @@ import App from "./app/App.tsx";
 
 import SessionTimeout from "./app/autoLogout/SessionTimeout.tsx";
 import "./app/localization/configuration";
+import { addGlobalFilterReactions } from "./app/store/reactions.ts";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals.ts";
 import { authService } from "./shared/services/AuthService/index.ts";
@@ -27,5 +28,7 @@ authService.initKeycloak(() => {
         renderApp();
         // used for load monitoring, probably we should turn off this on prod.
         reportWebVitals();
+
+        addGlobalFilterReactions();
     });
 });

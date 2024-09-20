@@ -11,6 +11,7 @@ export const ReceivingOrderCargo = types
         receivingOrderGood: ForeignKey,
         barcode: types.maybeNull(ForeignKey),
         goodPackage: ForeignKey,
+        clientGood: types.maybeNull(ForeignKey),
         packageQuantity: types.refinement(types.number, (value) => value >= 0),
         conversionQuantity: types.refinement(types.number, (value) => value >= 0),
         totalQuantity: types.refinement(types.number, (value) => value >= 0),

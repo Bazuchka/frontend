@@ -69,6 +69,7 @@ export const getBaseActions = <GetParams, SetParams>(URL: string, mock?: boolean
                 params: mock ? filter : undefined,
                 data: mock ? undefined : filter,
                 preventDefaultAlert: options?.preventDefaultAlert,
+                headers: options?.headers,
             });
         },
         downloadFile(data: SetParams, url: string, contentType: string) {

@@ -34,10 +34,7 @@ const GoodPackageColumn: FunctionComponent<GoodPackageGridProps> = ({
                     error={invalid}
                     value={value}
                     onValueChange={(data) => {
-                        setValue(
-                            "conversionQuantity",
-                            (data as IGoodPackage).conversionQty ?? 1 // TODO Create ticket if goodpacakge/all doesn't have this field
-                        );
+                        setValue("conversionQuantity", (data as IGoodPackage).conversionQty ?? 1);
                         setValue("dimensions", data);
                         onChange(data);
                     }}

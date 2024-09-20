@@ -18,6 +18,7 @@ export const FullShippingOrderTransport = types.compose(
             id: types.identifier,
             code: types.string,
             inn: types.string,
+            kpp: types.maybeNull(types.string),
         }),
         consigneeAddress: types.string,
         carrier: ForeignKey,

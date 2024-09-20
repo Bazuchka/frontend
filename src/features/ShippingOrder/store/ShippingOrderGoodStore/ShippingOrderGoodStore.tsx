@@ -19,7 +19,7 @@ export const ShippingOrderGood = types.model("ShippingOrderGood", {
     shippingOrder: types.maybeNull(ForeignKeyShort),
     client: types.maybe(ForeignKey),
     name: types.maybeNull(types.string),
-    batch: ForeignKey,
+    batch: types.maybeNull(ForeignKey),
     totalPrice: types.number,
     price: types.number,
     actualQuantity: types.maybeNull(types.number),

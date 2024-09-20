@@ -1,14 +1,14 @@
 /* eslint-disable no-prototype-builtins */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { FC, useEffect, useState } from "react";
 import { CircularProgress, FormControl, MenuItem, Select, SelectChangeEvent } from "@mui/material";
 import { toJS } from "mobx";
+import { FC, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DictionaryParams, DictionaryType } from "src/shared/hooks/useDictionary/types";
 import { useDictionary } from "../../hooks/useDictionary";
 
 export interface ChosenSelectObject {
-    active: boolean;
+    active?: boolean;
     code?: string;
     id: string;
     name?: string;

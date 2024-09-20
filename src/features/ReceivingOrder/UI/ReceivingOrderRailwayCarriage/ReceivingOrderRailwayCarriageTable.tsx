@@ -24,7 +24,8 @@ const ReceivingOrderRailwayCarriageTable: FunctionComponent<ReceivingOrderEtranI
         const { t } = useTranslation();
 
         const columns = useMemo(
-            () => getColumns(receivingOrderStore.current!.id),
+            () =>
+                getColumns(receivingOrderStore.current!.id, receivingOrderStore.current!.client.id),
             // eslint-disable-next-line react-hooks/exhaustive-deps
             [receivingOrderStore.current]
         );

@@ -5,7 +5,7 @@ import { createBaseStoreWithViewMediator } from "src/shared/entities/BaseStore";
 export const Client = types.model("Client", {
     id: types.identifier,
     phoneNumber: types.maybeNull(types.string),
-    email: types.string,
+    email: types.maybeNull(types.string),
     code: types.string,
     active: types.boolean,
 });

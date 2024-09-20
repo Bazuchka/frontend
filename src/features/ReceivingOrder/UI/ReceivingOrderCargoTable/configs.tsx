@@ -48,7 +48,7 @@ export const getColumns = (receivingOrderId: string) => () => {
             header: t("ReceivingOrderCargo:properties.barcode"),
             meta: {
                 editableCell: {
-                    component: ({ control, row: { getValue } }) => {
+                    component: ({ control, row: { getValue, original } }) => {
                         return (
                             <Controller
                                 name="barcode"
@@ -67,8 +67,9 @@ export const getColumns = (receivingOrderId: string) => () => {
                                             type: DictionaryType.GOOD_PACKAGE_BARCODE,
                                             filter: {
                                                 goodVariant: {
-                                                    id: getValue("receivingOrderGood")?.clientGood
-                                                        ?.id,
+                                                    id:
+                                                        getValue("receivingOrderGood")?.clientGood
+                                                            ?.id ?? original?.clientGood?.id,
                                                 },
                                             },
                                         }}
@@ -93,8 +94,10 @@ export const getColumns = (receivingOrderId: string) => () => {
                                 {...componentProps}
                                 filter={{
                                     clientGood: {
-                                        id: componentProps.row.getValue("receivingOrderGood")
-                                            ?.clientGood?.id,
+                                        id:
+                                            componentProps.row.getValue("receivingOrderGood")
+                                                ?.clientGood?.id ??
+                                            componentProps.row.original?.clientGood?.id,
                                     },
                                 }}
                             />
@@ -245,10 +248,27 @@ function getReceivingOrderGoodAutocomplete(
                     dictionaryParams={{
                         type: DictionaryType.RECEIVING_ORDER_GOOD,
                         filter: (value) => ({
-                            code: {
-                                type: SEARCH_TYPE.CONTAINS,
-                                content: value,
-                                byOr: true,
+                            clientGood: {
+                                code: {
+                                    type: SEARCH_TYPE.CONTAINS,
+                                    content: value,
+                                    byOr: true,
+                                },
+                                name: {
+                                    type: SEARCH_TYPE.CONTAINS,
+                                    content: value,
+                                    byOr: true,
+                                },
+                                item: {
+                                    type: SEARCH_TYPE.CONTAINS,
+                                    content: value,
+                                    byOr: true,
+                                },
+                                variantItem: {
+                                    type: SEARCH_TYPE.CONTAINS,
+                                    content: value,
+                                    byOr: true,
+                                },
                             },
                             active: true,
                             deleted: false,

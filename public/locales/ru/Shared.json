@@ -78,5 +78,9 @@
     "add": "Добавить",
     "createOrder": "Создать заявку",
     "columnManagment": "Управление колонками",
-    "chipPlaceholder": "Введите значение и нажмите Enter"
+    "chipPlaceholder": "Введите значение и нажмите Enter",
+    "filters": {
+        "client": "Клиент",
+        "legalEntity": "Юр. лицо"
+    }
 }

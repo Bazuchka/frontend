@@ -12,6 +12,7 @@ export interface MenuItem {
     permission?: Permission;
     children?: MenuItem[];
     isInvisibleMenuItem?: boolean;
+    filterable?: boolean;
 }
 
 export type MenuConfiguration = MenuItem[];
@@ -30,6 +31,7 @@ export const menuConfiguration = (params?: MenuParams): MenuConfiguration => [
                 label: t("Client:menu.clients"),
                 key: "clients",
                 path: "/clients",
+                filterable: true,
                 permission: {
                     path: "Client",
                 },
@@ -51,6 +53,7 @@ export const menuConfiguration = (params?: MenuParams): MenuConfiguration => [
                 label: t("LegalEntity:menu.all"),
                 key: "legal-entities",
                 path: "/legal-entities",
+                filterable: true,
                 permission: {
                     path: "LegalEntity",
                 },
@@ -71,6 +74,7 @@ export const menuConfiguration = (params?: MenuParams): MenuConfiguration => [
                 label: t("ClientGood:menu.all"),
                 key: "client-goods",
                 path: "/client-goods",
+                filterable: true,
                 permission: {
                     path: "ClientGood",
                 },
@@ -102,6 +106,7 @@ export const menuConfiguration = (params?: MenuParams): MenuConfiguration => [
                 label: t("LegalEntity:menu.client"),
                 key: "client-related-entities",
                 path: "/client-related-entities",
+                filterable: true,
                 permission: {
                     path: "ClientRelatedEntity",
                 },
@@ -110,6 +115,7 @@ export const menuConfiguration = (params?: MenuParams): MenuConfiguration => [
                 label: t("Service:menu.all"),
                 key: "services",
                 path: "/services",
+                filterable: true,
                 permission: {
                     path: "Service",
                 },
@@ -130,6 +136,7 @@ export const menuConfiguration = (params?: MenuParams): MenuConfiguration => [
                 label: t("ClientGoodType:menu.all"),
                 key: "client-good-types",
                 path: "/client-good-types",
+                filterable: true,
                 permission: {
                     path: "ClientGoodType",
                 },
@@ -138,6 +145,7 @@ export const menuConfiguration = (params?: MenuParams): MenuConfiguration => [
                 label: t("TermOfService:menu.all"),
                 key: "term-of-services",
                 path: "/term-of-services",
+                filterable: true,
                 permission: {
                     path: "TermOfService",
                 },
@@ -168,6 +176,7 @@ export const menuConfiguration = (params?: MenuParams): MenuConfiguration => [
                 label: t("ClientVehicle:menu"),
                 key: "client-vehicles",
                 path: "/client-vehicles",
+                filterable: true,
                 permission: {
                     path: "ClientVehicle",
                 },
@@ -176,6 +185,7 @@ export const menuConfiguration = (params?: MenuParams): MenuConfiguration => [
                 label: t("ClientDriver:menu"),
                 key: "client-drivers",
                 path: "/client-drivers",
+                filterable: true,
                 permission: {
                     path: "ClientDriver",
                 },
@@ -191,6 +201,7 @@ export const menuConfiguration = (params?: MenuParams): MenuConfiguration => [
                 label: t("UnitOfMeasure:menu"),
                 key: "units-of-measure",
                 path: "/units-of-measure",
+                filterable: true,
                 permission: {
                     path: "UnitOfMeasure",
                 },
@@ -206,6 +217,7 @@ export const menuConfiguration = (params?: MenuParams): MenuConfiguration => [
                 label: t("ReceivingOrder:menu.orders"),
                 key: "receiving-orders",
                 path: "/receiving-orders",
+                filterable: true,
                 permission: {
                     path: "ReceivingOrder",
                 },
@@ -236,6 +248,7 @@ export const menuConfiguration = (params?: MenuParams): MenuConfiguration => [
                 label: t("ShippingOrder:menu.orders"),
                 key: "shipping-orders",
                 path: "/shipping-orders",
+                filterable: true,
                 permission: {
                     path: "ShippingOrder",
                 },
@@ -283,6 +296,7 @@ export const menuConfiguration = (params?: MenuParams): MenuConfiguration => [
                         permission: {
                             path: "User",
                         },
+                        filterable: true,
                         children: [
                             {
                                 breadCrumbsLabel: t("User:menu.user"),
@@ -313,6 +327,7 @@ export const menuConfiguration = (params?: MenuParams): MenuConfiguration => [
                         permission: {
                             path: "Role",
                         },
+                        filterable: true,
                         children: [
                             {
                                 breadCrumbsLabel: t("Role:menu.role"),

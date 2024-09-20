@@ -14,7 +14,7 @@ import { ReceivingOrderRailwayCarriageForm } from "./ReceivingOrderRailwayCarria
 
 const columnHelper = createColumnHelper<WithGridRowId<IReceivingOrderRailwayCarriage>>();
 
-export const getColumns = (receivingOrderId: string) => () => {
+export const getColumns = (receivingOrderId: string, clientId: string) => () => {
     return [
         columnHelper.accessor("receivingOrderEtranInvoice", {
             cell: (params) => {
@@ -95,6 +95,9 @@ export const getColumns = (receivingOrderId: string) => () => {
                                                     type: DictionaryType.RAILWAY_CARRIAGE,
                                                     filter: {
                                                         active: true,
+                                                        client: {
+                                                            id: clientId,
+                                                        },
                                                     },
                                                 }}
                                             />

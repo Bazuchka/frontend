@@ -57,4 +57,5 @@ export type BaseActionOptions = Pick<Options, "preventDefaultAlert"> & {
     urlPostfix?: string;
     serviceUrl?: string;
     method?: Method;
+    headers?: Record<string, string>;
 };

@@ -68,7 +68,7 @@ export const getColumns = () => {
         }),
         columnHelper.accessor("clientGood", {
             cell: ({ row: { getValue } }) => {
-                return (getValue("clientGood") as { code: string; name: string })?.name;
+                return (getValue("clientGood") as { code: string; name: string })?.code;
             },
             header: t("ReceivingOrderGood:properties.good.name"),
             meta: {

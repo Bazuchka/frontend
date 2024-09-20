@@ -78,6 +78,7 @@ export const getColumns = ({ clientId, isRailway, shippingOrderId }: ColumnProps
         columnHelper.accessor("container", {
             cell: (params) => params.getValue()?.code,
             header: t("ShippingOrderContainer:properties.container"),
+            size: 240,
             meta: {
                 isComputed: true,
                 editableCell: {

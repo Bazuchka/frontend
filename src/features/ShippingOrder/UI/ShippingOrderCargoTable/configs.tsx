@@ -48,7 +48,7 @@ export const getColumns = (shippingOrderId: string) => () => {
             header: t("ShippingOrderCargo:properties.barcode"),
             meta: {
                 editableCell: {
-                    component: ({ control, row: { getValue } }) => {
+                    component: ({ control, row: { getValue, original } }) => {
                         return (
                             <Controller
                                 name="barcode"
@@ -66,8 +66,9 @@ export const getColumns = (shippingOrderId: string) => () => {
                                             type: DictionaryType.GOOD_PACKAGE_BARCODE,
                                             filter: {
                                                 goodVariant: {
-                                                    id: getValue("shippingOrderGood")?.clientGood
-                                                        ?.id,
+                                                    id:
+                                                        getValue("shippingOrderGood")?.clientGood
+                                                            ?.id ?? original?.clientGood?.id,
                                                 },
                                             },
                                         }}
@@ -92,8 +93,10 @@ export const getColumns = (shippingOrderId: string) => () => {
                                 {...componentProps}
                                 filter={{
                                     clientGood: {
-                                        id: componentProps.row.getValue("shippingOrderGood")
-                                            ?.clientGood?.id,
+                                        id:
+                                            componentProps.row.getValue("shippingOrderGood")
+                                                ?.clientGood?.id ??
+                                            componentProps.row.original?.clientGood?.id,
                                     },
                                 }}
                             />
@@ -244,6 +247,28 @@ function getShippingOrderGoodAutocomplete(
                     dictionaryParams={{
                         type: DictionaryType.SHIPPING_ORDER_GOOD,
                         filter: (value) => ({
+                            clientGood: {
+                                code: {
+                                    type: SEARCH_TYPE.CONTAINS,
+                                    content: value,
+                                    byOr: true,
+                                },
+                                name: {
+                                    type: SEARCH_TYPE.CONTAINS,
+                                    content: value,
+                                    byOr: true,
+                                },
+                                item: {
+                                    type: SEARCH_TYPE.CONTAINS,
+                                    content: value,
+                                    byOr: true,
+                                },
+                                variantItem: {
+                                    type: SEARCH_TYPE.CONTAINS,
+                                    content: value,
+                                    byOr: true,
+                                },
+                            },
                             code: {
                                 type: SEARCH_TYPE.CONTAINS,
                                 content: value,

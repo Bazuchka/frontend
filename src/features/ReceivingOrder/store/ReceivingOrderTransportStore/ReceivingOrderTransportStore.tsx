@@ -18,6 +18,7 @@ export const FullReceivingOrderTransport = types.compose(
             id: types.identifier,
             code: types.string,
             inn: types.string,
+            kpp: types.maybeNull(types.string),
         }),
         waybill: types.maybe(types.string), // remove maybe
         carrier: ForeignKey,
