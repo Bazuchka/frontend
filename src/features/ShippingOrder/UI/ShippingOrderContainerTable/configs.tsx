@@ -96,7 +96,7 @@ export const getColumns = ({ clientId, isRailway, shippingOrderId }: ColumnProps
                                         container
                                         alignContent="center"
                                         justifyContent="space-between">
-                                        <Grid item xs={9}>
+                                        <Grid item xs={8}>
                                             <AutocompleteSelectOfDictionary
                                                 isDisable={false}
                                                 error={invalid}
@@ -114,7 +114,7 @@ export const getColumns = ({ clientId, isRailway, shippingOrderId }: ColumnProps
                                                 }}
                                             />
                                         </Grid>
-                                        <Grid item xs={2}>
+                                        <Grid item xs={4}>
                                             <AlisForm
                                                 store={containerStore}
                                                 createActionComponents={CreateButton}

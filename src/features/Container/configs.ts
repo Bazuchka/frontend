@@ -3,6 +3,7 @@ import { FieldItemType } from "src/shared/UI/iFieldItem/const";
 import { FieldGroup } from "src/shared/UI/iFieldItem/types";
 import { DictionaryType } from "src/shared/hooks/useDictionary";
 import { FieldOptions } from "src/shared/hooks/useDrawerForm";
+import { request } from "src/shared/request";
 import { IContainer } from "./store";
 
 export const fieldsConfiguration = (defaultModel: IContainer | null, fieldOptions?: FieldOptions) =>
@@ -31,6 +32,15 @@ export const fieldsConfiguration = (defaultModel: IContainer | null, fieldOption
                     name: "code",
                     required: true,
                     fullLine: true,
+                    validate: async (value) => {
+                        const { data } = (await request({
+                            method: "POST",
+                            data: { code: value },
+                            url: `/container/validate`,
+                        })) as { data: { valid: boolean } };
+
+                        return data.valid;
+                    },
                     isDisable: defaultModel && fieldOptions?.code?.isUpdateDisabled,
                 },
                 {
@@ -62,7 +72,7 @@ export const fieldsConfiguration = (defaultModel: IContainer | null, fieldOption
                 {
                     label: t("Container:properties.active"),
                     type: FieldItemType.CHECKBOX,
-                    value: defaultModel?.active || false,
+                    value: defaultModel?.active ?? true,
                     name: "active",
                     fullLine: true,
                 },

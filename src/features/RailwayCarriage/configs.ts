@@ -3,6 +3,7 @@ import railwayCarriageStore from "src/features/RailwayCarriage/store";
 import { FieldItemType } from "src/shared/UI/iFieldItem/const";
 import { FieldGroup } from "src/shared/UI/iFieldItem/types";
 import { DictionaryType } from "src/shared/hooks/useDictionary";
+import { request } from "src/shared/request";
 
 export const fieldsConfiguration = (props?: { client?: { id: string } }) =>
     [
@@ -31,6 +32,15 @@ export const fieldsConfiguration = (props?: { client?: { id: string } }) =>
                     value: railwayCarriageStore.current?.code,
                     required: true,
                     fullLine: true,
+                    validate: async (value) => {
+                        const { data } = (await request({
+                            method: "POST",
+                            data: { code: value },
+                            url: `/railwaycarriage/validate`,
+                        })) as { data: { valid: boolean } };
+
+                        return data.valid;
+                    },
                 },
                 {
                     label: t("RailwayCarriage:properties.type"),
