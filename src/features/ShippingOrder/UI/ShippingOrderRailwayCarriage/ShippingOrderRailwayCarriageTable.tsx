@@ -43,9 +43,11 @@ const ShippingOrderRailwayCarriageTable: FunctionComponent<ShippingOrderEtranInv
                 onBeforeCreateModelTransform={(formModel: FieldValues) => {
                     return {
                         ...formModel,
-                        etranInvoice: {
-                            id: formModel?.shippingOrderEtranInvoice?.id,
-                        },
+                        etranInvoice: formModel?.shippingOrderEtranInvoice?.id
+                            ? {
+                                  id: formModel.shippingOrderEtranInvoice.id,
+                              }
+                            : null,
                         shippingOrder: {
                             id: shippingOrderStore.current?.id,
                         },
@@ -54,9 +56,11 @@ const ShippingOrderRailwayCarriageTable: FunctionComponent<ShippingOrderEtranInv
                 onBeforeUpdateModelTransform={(formModel: FieldValues) => {
                     return {
                         ...formModel,
-                        etranInvoice: {
-                            id: formModel?.shippingOrderEtranInvoice?.id,
-                        },
+                        etranInvoice: formModel?.shippingOrderEtranInvoice?.id
+                            ? {
+                                  id: formModel.shippingOrderEtranInvoice.id,
+                              }
+                            : null,
                     };
                 }}
                 onRowSelected={(id) => store.setCurrent(id as string)}

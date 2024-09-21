@@ -2,6 +2,7 @@
 import { flow, Instance, types } from "mobx-state-tree";
 import { ForeignKey, IsoDate, IsoUTCDate } from "src/shared/entities";
 import { createBaseStoreWithViewMediator } from "src/shared/entities/BaseStore";
+import { getBaseActions } from "src/shared/request/baseActions";
 import { ReceivingOrderCargoStore } from "../ReceivingOrderCargoStore";
 import { ReceivingOrderContainerItemStore } from "../ReceivingOrderContainerItemStore";
 import {
@@ -14,7 +15,6 @@ import { ReceivingOrderRailwayCarriageStore } from "../ReceivingOrderRailwayCarr
 import { ReceivingOrderRequestedServiceStore } from "../ReceivingOrderRequestedService";
 import { ReceivingOrderTransportStore } from "../ReceivingOrderTransportStore";
 import { ReceivingOrderPreview } from "./models/ReceivingOrderPreview";
-import { getBaseActions } from "src/shared/request/baseActions";
 
 export const ReceivingOrder = types.model("ReceivingOrder", {
     id: types.identifier,
@@ -36,11 +36,11 @@ export const FullReceivingOrder = types
         types.model({
             code: types.maybe(types.string),
             contract: types.maybe(ForeignKey), // TODO remove all maybe expressions
-            contact: types.maybe(
+            contact: types.maybeNull(
                 types.model({
-                    name: types.string,
-                    phone: types.string,
-                    email: types.string,
+                    name: types.maybeNull(types.string),
+                    phone: types.maybeNull(types.string),
+                    email: types.maybeNull(types.string),
                 })
             ),
             comment: types.maybeNull(types.string),

@@ -18,11 +18,11 @@ export const ReceivingOrderPreview = types
                 createdAt: IsoDate,
                 contract: ForeignKey,
                 currency: ForeignKey,
-                contact: types.maybe(
+                contact: types.maybeNull(
                     types.model({
-                        name: types.string,
-                        phone: types.string,
-                        email: types.string,
+                        name: types.maybeNull(types.string),
+                        phone: types.maybeNull(types.string),
+                        email: types.maybeNull(types.string),
                     })
                 ),
                 comment: types.maybeNull(types.string),

@@ -1,6 +1,7 @@
 import { flow, Instance, types } from "mobx-state-tree";
 import { ForeignKey, IsoDate, IsoUTCDate } from "src/shared/entities";
 import { createBaseStoreWithViewMediator } from "src/shared/entities/BaseStore";
+import { getBaseActions } from "src/shared/request/baseActions";
 import { ShippingOrderCargoStore } from "../ShippingOrderCargoStore";
 import { ShippingOrderContainerItemStore } from "../ShippingOrderContainerItemStore";
 import { ShippingOrderContainerStore } from "../ShippingOrderContainerStore";
@@ -11,7 +12,6 @@ import { ShippingOrderRailwayCarriageStore } from "../ShippingOrderRailwayCarria
 import { ShippingOrderRequestedServiceStore } from "../ShippingOrderRequestedServiceStore";
 import { ShippingOrderTransportStore } from "../ShippingOrderTransportStore";
 import { ShippingOrderPreview } from "./models/ShippingOrderPreview";
-import { getBaseActions } from "src/shared/request/baseActions";
 
 export const ShippingOrder = types.model("ShippingOrder", {
     id: types.identifier,
@@ -33,11 +33,11 @@ export const FullShippingOrder = types
         types.model({
             code: types.maybe(types.string),
             contract: types.maybe(ForeignKey),
-            contact: types.maybe(
+            contact: types.maybeNull(
                 types.model({
-                    name: types.string,
-                    phone: types.string,
-                    email: types.string,
+                    name: types.maybeNull(types.string),
+                    phone: types.maybeNull(types.string),
+                    email: types.maybeNull(types.string),
                 })
             ),
             comment: types.maybeNull(types.string),
