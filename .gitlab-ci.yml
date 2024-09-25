@@ -80,6 +80,8 @@ deploy-dev:
   variables:
     DOCKER_IMAGE_NAME: ${CI_REGISTRY_IMAGE}/${CI_COMMIT_REF_SLUG}:${CI_COMMIT_SHORT_SHA}
     DOCKER_OPTS: "--insecure-registry=${CI_REGISTRY}"
+    EXTERNAL_IP_ADDRESS: http://185.149.50.37:55880
+    LOCAL_IP_ADDRESS: http://10.50.3.119
   before_script:
     - echo "${BUILD_VERSION} | ${CI_REGISTRY}"
     - docker info
@@ -103,6 +105,8 @@ deploy-test:
   variables:
     DOCKER_IMAGE_NAME: ${CI_REGISTRY_IMAGE}/${CI_COMMIT_REF_SLUG}:${CI_COMMIT_SHORT_SHA}
     DOCKER_OPTS: "--insecure-registry=${CI_REGISTRY}"
+    EXTERNAL_IP_ADDRESS: http://185.149.50.37:55880
+    LOCAL_IP_ADDRESS: http://10.50.3.129
   before_script:
     - echo "${BUILD_VERSION} | ${CI_REGISTRY}"
     - docker info
