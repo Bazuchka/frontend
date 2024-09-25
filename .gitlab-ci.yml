@@ -117,7 +117,7 @@ deploy-test:
     - docker compose -f docker-compose.yml rm -f
     - docker compose -f docker-compose.yml up -d
   environment:
-    name: development
+    name: testing
   when: manual
   only:
     - master
