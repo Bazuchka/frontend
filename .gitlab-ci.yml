@@ -123,7 +123,7 @@ deploy-test:
     DOCKER_IMAGE_NAME: ${CI_REGISTRY_IMAGE}/${CI_COMMIT_REF_SLUG}:${CI_COMMIT_SHORT_SHA}
     DOCKER_OPTS: "--insecure-registry=${CI_REGISTRY}"
     EXTERNAL_IP_ADDRESS: http://185.149.50.37:55880
-    LOCAL_IP_ADDRESS: https://dev-alis-exsim.alabuga.ru
+    LOCAL_IP_ADDRESS: https://test-alis-exsim.alabuga.ru
   before_script:
     - echo "${BUILD_VERSION} | ${CI_REGISTRY}"
     - docker info
