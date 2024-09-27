@@ -24,7 +24,7 @@ services:
       KEYCLOACK__CLIENT_ID: 'alis-localfront-client'
       KEYCLOACK__REALM: 'wmskorus'
       LOGS_JSON_CONSOLE: '1'
-      WMS_BACKEND__SERVER_URL: 'http://10.50.3.147:80/api/'
+      WMS_BACKEND__SERVER_URL: 'https://test-yard-exsim.alabuga.ru/api/'
     restart: unless-stopped
     ports:
       - '80'
