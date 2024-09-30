@@ -102,22 +102,6 @@ deploy-dev:
   tags:
     - dev-runner
 
-cleanup-dev:
-  stage: cleanup
-  image: docker:24.0.5
-  services:
-    - name: docker:24.0.5-dind
-  script:
-    - docker image prune --all --force --filter "label=build=frontend"
-    - docker system prune --volumes --force
-  environment:
-    name: testing
-  when: on_success
-  only:
-    - master
-  tags:
-    - dev-runner
-
 deploy-test:
   stage: deploy
   image: docker:24.0.5
@@ -142,6 +126,24 @@ deploy-test:
     - master
   tags:
     - test-runner
+
+cleanup-dev:
+  stage: cleanup
+  image: docker:24.0.5
+  services:
+    - name: docker:24.0.5-dind
+  script:
+    - docker image prune --all --force --filter "label=build=frontend"
+    - docker system prune --volumes --force
+  environment:
+    name: testing
+  needs:
+    - deploy-dev
+  when: on_success
+  only:
+    - master
+  tags:
+    - dev-runner
 
 cleanup-test:
   stage: cleanup
