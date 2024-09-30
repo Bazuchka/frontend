@@ -1,6 +1,6 @@
 services:
   frontend:
-    image: ${DOCKER_IMAGE_NAME}
+    image: ${DOCKER_IMAGE_NAME}:latest
     container_name: 'frontend'
     environment:
       ALIS_BACKEND__SERVER_URL: '${EXTERNAL_IP_ADDRESS}/api/'
@@ -16,7 +16,7 @@ services:
       - web
 
   frontend_local:
-    image: ${DOCKER_IMAGE_NAME}
+    image: ${DOCKER_IMAGE_NAME}:latest
     container_name: 'frontend_local'
     environment:
       ALIS_BACKEND__SERVER_URL: '${LOCAL_IP_ADDRESS}/api/'

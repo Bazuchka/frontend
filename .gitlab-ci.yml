@@ -48,7 +48,7 @@ fullscreen-build-npm-frontend:
   only:
     - master
   tags:
-    - dev-runner
+    - dev-alis-runner
 
 fullscreen-create-docker-image:
   stage: build_image
@@ -75,7 +75,7 @@ fullscreen-create-docker-image:
   only:
     - master
   tags:
-    - dev-runner
+    - dev-alis-runner
 
 deploy-dev:
   stage: deploy
@@ -100,7 +100,7 @@ deploy-dev:
   only:
     - master
   tags:
-    - dev-runner
+    - dev-alis-runner
 
 deploy-test:
   stage: deploy
@@ -125,7 +125,7 @@ deploy-test:
   only:
     - master
   tags:
-    - test-runner
+    - test-alis-runner
 
 cleanup-dev:
   stage: cleanup
@@ -143,7 +143,7 @@ cleanup-dev:
   only:
     - master
   tags:
-    - dev-runner
+    - dev-alis-runner
 
 cleanup-test:
   stage: cleanup
@@ -160,4 +160,4 @@ cleanup-test:
   only:
     - master
   tags:
-    - test-runner
+    - test-alis-runner
