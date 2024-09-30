@@ -19,7 +19,7 @@ export const ShippingOrderRailwayContainer = types
     .compose(
         ShippingOrderContainer,
         types.model({
-            railwayCarriage: types.maybeNull(ForeignKey),
+            shippingOrderRailwayCarriage: types.maybeNull(ForeignKey),
         })
     )
     .named("ShippingOrderRailwayContainer");

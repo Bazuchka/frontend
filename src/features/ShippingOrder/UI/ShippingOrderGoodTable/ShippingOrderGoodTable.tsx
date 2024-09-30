@@ -2,10 +2,11 @@ import { GridRowId } from "@mui/x-data-grid";
 import { ColumnDef } from "@tanstack/react-table";
 import { observer } from "mobx-react";
 import { Instance } from "mobx-state-tree";
-import { FunctionComponent } from "react";
+import { FunctionComponent, useCallback } from "react";
 import { FieldValues } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import TableWithInlineEditing from "src/features/TableWithInlineEditing/TableWithInlineEditing";
+import { IForeignKey } from "src/shared/entities/ForeignKey";
 import {
     IShippingOrderGoodStore,
     ShippingOrderGoodStore,
@@ -16,15 +17,20 @@ import { getColumns } from "./configs";
 interface ShippingOrderGoodTableProps {
     store: Instance<typeof ShippingOrderGoodStore>;
     isReadOnly: boolean;
+    client: IForeignKey;
 }
 
 const ShippingOrderGoodTable: FunctionComponent<ShippingOrderGoodTableProps> = observer((props) => {
-    const { store, isReadOnly } = props;
+    const { store, isReadOnly, client } = props;
     const { t } = useTranslation();
+
+    const columns = useCallback(() => {
+        return getColumns(client);
+    }, [client]);
 
     return (
         <TableWithInlineEditing
-            getColumns={getColumns as () => ColumnDef<{ id: GridRowId }, IShippingOrderGoodStore>[]}
+            getColumns={columns as () => ColumnDef<{ id: GridRowId }, IShippingOrderGoodStore>[]}
             store={store}
             messages={{
                 editSuccess: t("ShippingOrderGood:dialog.editSuccess"),

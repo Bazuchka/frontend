@@ -170,7 +170,7 @@ export const TSBaseTableUI = observer(
                                             ref={editableRowRef}
                                             onRowStateChange={onEditableRowStateChange!}
                                             columns={columns}
-                                            row={row.original}
+                                            row={row}
                                         />
                                     );
                                 }

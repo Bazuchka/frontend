@@ -2,11 +2,12 @@ import { GridRowId } from "@mui/x-data-grid";
 import { ColumnDef } from "@tanstack/react-table";
 import { observer } from "mobx-react";
 import { Instance } from "mobx-state-tree";
-import { FunctionComponent } from "react";
+import { FunctionComponent, useCallback } from "react";
 import { FieldValues } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import ReceivingOrderGoodStore from "src/features/ReceivingOrder/store/ReceivingOrderGood";
 import TableWithInlineEditing from "src/features/TableWithInlineEditing/TableWithInlineEditing";
+import { IForeignKey } from "src/shared/entities/ForeignKey";
 import { IReceivingOrderGoodStore } from "../../store/ReceivingOrderGood/ReceivingOrderGood";
 import receivingOrderStore from "../../store/ReceivingOrderStore";
 import { getColumns } from "./configs";
@@ -14,17 +15,22 @@ import { getColumns } from "./configs";
 interface ReceivingOrderGoodTableProps {
     store: Instance<typeof ReceivingOrderGoodStore>;
     isReadOnly: boolean;
+    client: IForeignKey;
 }
 
 const ReceivingOrderGoodTable: FunctionComponent<ReceivingOrderGoodTableProps> = observer(
     (props) => {
-        const { store, isReadOnly } = props;
+        const { store, isReadOnly, client } = props;
         const { t } = useTranslation();
+
+        const columns = useCallback(() => {
+            return getColumns(client);
+        }, [client]);
 
         return (
             <TableWithInlineEditing
                 getColumns={
-                    getColumns as () => ColumnDef<{ id: GridRowId }, IReceivingOrderGoodStore>[]
+                    columns as () => ColumnDef<{ id: GridRowId }, IReceivingOrderGoodStore>[]
                 }
                 store={store}
                 messages={{
@@ -63,7 +69,7 @@ const ReceivingOrderGoodTable: FunctionComponent<ReceivingOrderGoodTableProps> =
                         id: receivingOrderStore.current?.id,
                     },
                 }}
-                permissionPath="ReceivingOrder"
+                permissionPath="ReceivingOrder.ReceivingOrderGood"
                 footerSettings={{
                     useNextButton: true,
                     label: {

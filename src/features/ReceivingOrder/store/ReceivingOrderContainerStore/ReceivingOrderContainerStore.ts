@@ -19,7 +19,7 @@ export const ReceivingOrderRailwayContainer = types
     .compose(
         ReceivingOrderContainer,
         types.model({
-            railwayCarriage: ForeignKey,
+            receivingOrderRailwayCarriage: ForeignKey,
         })
     )
     .named("ReceivingOrderRailwayContainer");

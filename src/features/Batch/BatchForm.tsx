@@ -120,7 +120,7 @@ const BatchForm: FunctionComponent<BatchFormProps> = observer(
                                 onSave={onClickSave}
                                 onCancel={onFormEditCancel}
                                 className={classes.button}
-                                permissionPath={"ClientDriver"} // TODO Permission
+                                permissionPath={"Batch"}
                             />
                         )}
                     />

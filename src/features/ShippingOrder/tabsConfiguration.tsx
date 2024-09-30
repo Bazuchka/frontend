@@ -1,7 +1,9 @@
 import { t } from "i18next";
+import { ShippingOrderPrint } from "src/features/ShippingOrder/UI/ShippingOrderPrint";
 import shippingOrderStore from "src/features/ShippingOrder/store/ShippingOrderStore";
 import { TabsConfiguration, TabType } from "src/shared/UI/BaseTabs/types";
 import DataGuard from "src/shared/UI/DataGuard/DataGuard";
+import { PermissionType } from "src/shared/services/PermissionService/types";
 import { ShippingOrderCargoTable } from "./UI/ShippingOrderCargoTable";
 import { ShippingOrderContainerItemTable } from "./UI/ShippingOrderContainerItemTable";
 import { ShippingOrderContainerTable } from "./UI/ShippingOrderContainerTable";
@@ -13,8 +15,6 @@ import { ShippingOrderRailwayCarriageTable } from "./UI/ShippingOrderRailwayCarr
 import ShippingOrderRequestedServiceTable from "./UI/ShippingOrderRequestedServiceTable/ShippingOrderRequestedServiceTable";
 import ShippingOrderTransport from "./UI/ShippingOrderTransport/ShippingOrderTransport";
 import { IShippingOrder } from "./store/ShippingOrderStore/ShippingOrderStore";
-import { ShippingOrderPrint } from "src/features/ShippingOrder/UI/ShippingOrderPrint";
-import { PermissionType } from "src/shared/services/PermissionService/types";
 
 const isRailwayContainer = (current?: IShippingOrder | null) => {
     return current?.transportType === "RAILWAY" && current?.terminalArea === "CONTAINER";
@@ -29,7 +29,13 @@ export const shippingOrderConfiguration: (isCreateMode: boolean) => TabsConfigur
             type: TabType.MAIN_INFO,
             component: (
                 <DataGuard whenExist={isCreateMode || shippingOrderStore.current}>
-                    {() => <ShippingOrderInfo />}
+                    {() => (
+                        <ShippingOrderInfo
+                            isReadOnly={
+                                !isCreateMode && shippingOrderStore.current?.orderStatus !== "DRAFT"
+                            }
+                        />
+                    )}
                 </DataGuard>
             ),
         },
@@ -48,6 +54,10 @@ export const shippingOrderConfiguration: (isCreateMode: boolean) => TabsConfigur
             ),
             disabled: isCreateMode,
             visibleRule: () => isRailwayContainer(shippingOrderStore.current),
+            permission: {
+                path: "ShippingOrder.EtranInvoice",
+                type: PermissionType.FORM,
+            },
         },
         {
             label: t("ShippingOrder:tabs.railwayCarriage"),
@@ -64,6 +74,10 @@ export const shippingOrderConfiguration: (isCreateMode: boolean) => TabsConfigur
             ),
             disabled: isCreateMode,
             visibleRule: () => isRailwayContainer(shippingOrderStore.current),
+            permission: {
+                path: "ShippingOrder.RailwayCarriage",
+                type: PermissionType.FORM,
+            },
         },
         {
             label: t("ShippingOrder:tabs.transport"),
@@ -86,6 +100,10 @@ export const shippingOrderConfiguration: (isCreateMode: boolean) => TabsConfigur
             ),
             disabled: isCreateMode,
             visibleRule: () => shippingOrderStore.current?.transportType === "VEHICLE",
+            permission: {
+                path: "ShippingOrder.ShippingOrderTransport",
+                type: PermissionType.FORM,
+            },
         },
         {
             label: t("ShippingOrder:tabs.containers"),
@@ -108,29 +126,52 @@ export const shippingOrderConfiguration: (isCreateMode: boolean) => TabsConfigur
             ),
             disabled: isCreateMode,
             visibleRule: () => shippingOrderStore.current?.terminalArea === "CONTAINER",
+            permission: {
+                path: "ShippingOrder.ShippingOrderContainer",
+                type: PermissionType.FORM,
+            },
         },
         {
             label: t("ShippingOrder:tabs.goods"),
             type: TabType.LINKED_DATA,
             component: (
                 <DataGuard whenExist={shippingOrderStore.current}>
-                    {(current) =>
-                        current.terminalArea === "CONTAINER" ? (
-                            <ShippingOrderContainerItemTable
-                                store={current.shippingOrderContainerItem}
-                                shippingOrderId={shippingOrderStore.current!.id}
-                                isReadOnly={shippingOrderStore.current!.orderStatus !== "DRAFT"}
-                            />
-                        ) : (
-                            <ShippingOrderGoodTable
-                                store={current.shippingOrderGood}
-                                isReadOnly={shippingOrderStore.current!.orderStatus !== "DRAFT"}
-                            />
-                        )
-                    }
+                    {(current) => (
+                        <ShippingOrderContainerItemTable
+                            store={current.shippingOrderContainerItem}
+                            shippingOrderId={shippingOrderStore.current!.id}
+                            isReadOnly={shippingOrderStore.current!.orderStatus !== "DRAFT"}
+                        />
+                    )}
                 </DataGuard>
             ),
+            visibleRule: () => shippingOrderStore.current?.terminalArea === "CONTAINER",
             disabled: isCreateMode,
+            permission: {
+                path: "ShippingOrder.ShippingOrderContainerItem",
+                type: PermissionType.FORM,
+            },
+        },
+        {
+            label: t("ShippingOrder:tabs.goods"),
+            type: TabType.LINKED_DATA,
+            component: (
+                <DataGuard whenExist={shippingOrderStore.current}>
+                    {(current) => (
+                        <ShippingOrderGoodTable
+                            store={current.shippingOrderGood}
+                            isReadOnly={shippingOrderStore.current!.orderStatus !== "DRAFT"}
+                            client={current.client}
+                        />
+                    )}
+                </DataGuard>
+            ),
+            visibleRule: () => shippingOrderStore.current?.terminalArea === "WAREHOUSE",
+            disabled: isCreateMode,
+            permission: {
+                path: "ShippingOrder.ShippingOrderGood",
+                type: PermissionType.FORM,
+            },
         },
         {
             label: t("ShippingOrder:tabs.cargoSpaces"),
@@ -149,6 +190,10 @@ export const shippingOrderConfiguration: (isCreateMode: boolean) => TabsConfigur
             visibleRule: () =>
                 shippingOrderStore.current?.terminalArea !== "CONTAINER" &&
                 shippingOrderStore.current?.transportType === "VEHICLE",
+            permission: {
+                path: "ShippingOrder.ShippingOrderCargo",
+                type: PermissionType.FORM,
+            },
         },
         {
             label: t("ShippingOrder:tabs.operations"),
@@ -166,6 +211,10 @@ export const shippingOrderConfiguration: (isCreateMode: boolean) => TabsConfigur
                 </DataGuard>
             ),
             disabled: isCreateMode,
+            permission: {
+                path: "ShippingOrder.ShipppingOrderRequestedService",
+                type: PermissionType.FORM,
+            },
         },
         {
             label: t("ShippingOrder:tabs.presentation"),
@@ -188,13 +237,19 @@ export const shippingOrderConfiguration: (isCreateMode: boolean) => TabsConfigur
             type: TabType.LINKED_DATA,
             component: (
                 <DataGuard whenExist={shippingOrderStore.current}>
-                    {() => <ShippingOrderPrint store={shippingOrderStore} />}
+                    {() => (
+                        <ShippingOrderPrint
+                            store={shippingOrderStore}
+                            isWarehouse={shippingOrderStore.current?.terminalArea === "WAREHOUSE"}
+                            isVehicle={shippingOrderStore.current?.transportType === "VEHICLE"}
+                        />
+                    )}
                 </DataGuard>
             ),
             disabled:
                 !shippingOrderStore.current || shippingOrderStore.current!.orderStatus !== "DONE",
             permission: {
-                path: "ReceivingOrder.Report",
+                path: "ShippingOrder.Report",
                 type: PermissionType.FORM,
             },
         },

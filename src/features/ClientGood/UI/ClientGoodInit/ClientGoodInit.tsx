@@ -2,9 +2,9 @@ import { FormLabel, Grid, useTheme } from "@mui/material";
 import { observer } from "mobx-react";
 import { FunctionComponent } from "react";
 import { useTranslation } from "react-i18next";
-import { useIFieldStyles } from "src/shared/UI/iFieldItem/styles";
 import { DictionaryType } from "src/shared/hooks/useDictionary";
 import { AutocompleteSelectOfDictionary } from "src/shared/UI/AutocompleteSelectOfDictionary/AutocompleteSelectOfDictionary";
+import { useIFieldStyles } from "src/shared/UI/iFieldItem/styles";
 import { ChosenSelectObject } from "src/shared/UI/SelectOfDictionaryForm/SelectOfDictionaryForm";
 
 interface ClientGoodInitProps {
@@ -69,7 +69,6 @@ const ClientGoodInit: FunctionComponent<ClientGoodInitProps> = observer((props) 
                     <AutocompleteSelectOfDictionary
                         isDisable={false}
                         value={goodType!}
-                        renderValuePrimary="name"
                         error={isClientGoodError}
                         onValueChange={(data) => onGoodTypeChange(data!)}
                         dictionaryParams={{

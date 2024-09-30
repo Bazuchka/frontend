@@ -4,6 +4,7 @@ import { getBaseActions } from "src/shared/request/baseActions";
 import { IRole } from "../RoleStore/RoleStore";
 
 export interface ITableViewPermission {
+    rootId: string | null;
     id: string;
     path: string;
     type: string;
@@ -14,6 +15,7 @@ export interface ITableViewPermission {
 
 const getTableViewPermissions = (permission: IPermission[], depth = 0): ITableViewPermission[] => {
     return permission.map((p) => ({
+        rootId: p.id,
         id: p.permission.id,
         path: p.permission.path,
         type: p.permission.type,
@@ -40,12 +42,13 @@ export const PermissionStore = createBaseStoreWithViewMediator({
     storeMainInfoModel: Permission,
 })
     .views((self) => ({
-        get tableView() {
-            return getTableViewPermissions(self.dataArray);
+        get dataArray() {
+            return getTableViewPermissions(self.data);
         },
     }))
     .actions((self) => {
-        const getTree = flow(function* () {
+        const fetch = flow(function* () {
+            self.state.isFetching = true;
             const response = yield getBaseActions(
                 `/role/${(getParent(self) as IRole).id}/permission/tree`
             ).get(
@@ -56,11 +59,52 @@ export const PermissionStore = createBaseStoreWithViewMediator({
                     },
                 }
             );
-
+            self.state.isFetching = false;
             self.data = response.data;
         });
+
+        const update = flow(function* (data: ITableViewPermission) {
+            self.state.isUpdating = true;
+            let result;
+            if (data.rootId === null) {
+                result = yield getBaseActions().create(
+                    {
+                        roleId: (getParent(self) as IRole).id,
+                        permissionId: data.id,
+                        level: data.level,
+                    },
+                    {
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        serviceUrl: `/role/${(getParent(self) as IRole).id}/permission`,
+                    }
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                ) as any;
+            } else {
+                result = yield getBaseActions(
+                    `/role/${(getParent(self) as IRole).id}/permission`
+                ).update(
+                    data.rootId,
+                    {
+                        roleId: (getParent(self) as IRole).id,
+                        permissionId: data.id,
+                        level: data.level,
+                        id: data.rootId,
+                    },
+                    {
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                    }
+                );
+            }
+            self.state.isUpdating = false;
+            return result;
+        });
         return {
-            getTree,
+            fetch,
+            update,
         };
     });
 

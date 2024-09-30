@@ -12,6 +12,9 @@ export const ClientGoodShort = types.model("ClientGoodShort", {
     unitOfMeasure: ForeignKey,
     tempRegime: types.maybeNull(ForeignKey),
     dangerClass: ForeignKey,
+    price: types.maybeNull(types.number),
+    item: types.maybeNull(types.string),
+    isVariable: types.boolean,
 });
 
 export const ShippingOrderGood = types.model("ShippingOrderGood", {
@@ -44,3 +47,4 @@ export const ShippingOrderGoodStore = types
 
 export interface IShippingOrderGoodStore extends Instance<typeof ShippingOrderGood> {}
 export interface IFullShippingOrderGood extends Instance<typeof ShippingOrderGood> {}
+export interface IClientGoodShort extends Instance<typeof ClientGoodShort> {}

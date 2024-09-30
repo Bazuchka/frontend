@@ -1,11 +1,11 @@
-import { FunctionComponent } from "react";
 import { Control, Controller, FieldValues, RegisterOptions } from "react-hook-form";
 import {
     AutocompleteSelectOfDictionary,
     AutocompleteSelectOfDictionaryProps,
 } from "src/shared/UI/AutocompleteSelectOfDictionary/AutocompleteSelectOfDictionary";
+import { ChosenSelectObject } from "src/shared/UI/SelectOfDictionaryForm/SelectOfDictionaryForm";
 
-interface ControlledAutoCompleteProps {
+interface ControlledAutoCompleteProps<T extends ChosenSelectObject> {
     name: string;
     control: Control;
     rules:
@@ -14,15 +14,15 @@ interface ControlledAutoCompleteProps {
               "valueAsNumber" | "valueAsDate" | "setValueAs" | "disabled"
           >
         | undefined;
-    autoCompleteProps: Partial<AutocompleteSelectOfDictionaryProps>;
+    autoCompleteProps: Partial<AutocompleteSelectOfDictionaryProps<T>>;
 }
 
-const ControlledAutoComplete: FunctionComponent<ControlledAutoCompleteProps> = ({
+const ControlledAutoComplete = <T extends ChosenSelectObject>({
     name,
     control,
     rules,
     autoCompleteProps,
-}) => {
+}: ControlledAutoCompleteProps<T>) => {
     return (
         <Controller
             name={name}

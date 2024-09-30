@@ -11,9 +11,11 @@ import receivingOrderStore from "../../store/ReceivingOrderStore";
 import { fieldsConfiguration } from "./configs";
 import { mapFormToCreateDTO, mapFormToUpdateDTO } from "./mapper";
 
-interface ReceivingOrderProps {}
+interface ReceivingOrderProps {
+    isReadOnly: boolean;
+}
 
-const ReceivingOrderInfo: FC<ReceivingOrderProps> = observer((): JSX.Element => {
+const ReceivingOrderInfo: FC<ReceivingOrderProps> = observer(({ isReadOnly }): JSX.Element => {
     const { id } = useParams();
     const {
         isCreate,
@@ -94,20 +96,22 @@ const ReceivingOrderInfo: FC<ReceivingOrderProps> = observer((): JSX.Element => 
                 }}
             />
             <Footer
-                buttons={(classes) => (
-                    <EditFormButtons
-                        isEditMode={isEditFormMode}
-                        isSaveAllowed={formState.isDirty}
-                        isLoading={isLoading || receivingOrderStore.state.isLoading}
-                        onEdit={onEdit}
-                        onSave={onClickSave}
-                        onCancel={onFormEditCancel}
-                        onNext={onNextClick}
-                        className={classes.button}
-                        permissionPath={"ReceivingOrder"}
-                        withNavigation
-                    />
-                )}
+                buttons={(classes) =>
+                    !isReadOnly && (
+                        <EditFormButtons
+                            isEditMode={isEditFormMode}
+                            isSaveAllowed={formState.isDirty}
+                            isLoading={isLoading || receivingOrderStore.state.isLoading}
+                            onEdit={onEdit}
+                            onSave={onClickSave}
+                            onCancel={onFormEditCancel}
+                            onNext={onNextClick}
+                            className={classes.button}
+                            permissionPath={"ReceivingOrder"}
+                            withNavigation
+                        />
+                    )
+                }
             />
             {PromptElements}
         </>

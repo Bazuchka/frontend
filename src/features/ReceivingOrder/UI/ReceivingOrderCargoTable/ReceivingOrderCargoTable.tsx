@@ -34,7 +34,8 @@ const ReceivingOrderCargoTable: FunctionComponent<ReceivingOrderCargoTableProps>
                 store={store}
                 onBeforeCreateModelTransform={(formModel: FieldValues) => ({
                     ...formModel,
-                    packageQuantity: parseInt(formModel.packageQuantity, 10),
+                    packageQuantity: parseFloat(formModel.packageQuantity),
+                    conversionQuantity: parseFloat(formModel.conversionQuantity),
                     receivingOrder: {
                         id: receivingOrderStore.current!.id,
                     },
@@ -43,6 +44,9 @@ const ReceivingOrderCargoTable: FunctionComponent<ReceivingOrderCargoTableProps>
                     height: parseFloat(formModel.dimensions?.height ?? 0),
                     volume: parseFloat(formModel.dimensions?.volume ?? 0),
                     weight: parseFloat(formModel.dimensions?.weight ?? 0),
+                    totalQuantity:
+                        parseFloat(formModel.packageQuantity) *
+                        parseFloat(formModel.conversionQuantity),
                 })}
                 onBeforeUpdateModelTransform={(formModel: FieldValues) => {
                     const dimensions = formModel.dimensions
@@ -56,7 +60,10 @@ const ReceivingOrderCargoTable: FunctionComponent<ReceivingOrderCargoTableProps>
                         : {};
                     return {
                         ...formModel,
-                        packageQuantity: parseInt(formModel.packageQuantity, 10),
+                        packageQuantity: parseFloat(formModel.packageQuantity),
+                        totalQuantity:
+                            parseFloat(formModel.packageQuantity) *
+                            parseFloat(formModel.conversionQuantity),
                         receivingOrder: {
                             id: receivingOrderStore.current!.id,
                         },

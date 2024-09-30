@@ -2,7 +2,7 @@
 /* eslint-disable no-dupe-else-if */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Autocomplete, AutocompleteRenderInputParams, Grid, TextField } from "@mui/material";
-import React, { FC, useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAutocompleteDictionary } from "src/shared/hooks/useAutocompleteDictionary";
 import { DictionaryType } from "src/shared/hooks/useDictionary";
@@ -14,7 +14,7 @@ import { AutocompleteInputChangeReason } from "src/shared/UI/AutocompleteSelectO
 import { ChosenSelectObject } from "../SelectOfDictionaryForm/SelectOfDictionaryForm";
 import { getOptionLabel } from "./lib";
 
-export interface AutocompleteSelectOfDictionaryProps {
+export interface AutocompleteSelectOfDictionaryProps<T extends ChosenSelectObject> {
     dictionaryType?: DictionaryType | null;
     dictionaryParams?: DictionaryParams;
     nullableValueChanger?: IdCode;
@@ -27,10 +27,10 @@ export interface AutocompleteSelectOfDictionaryProps {
     useDefaultFilter?: boolean;
     renderValuePrimary?: string;
     renderValueSecondary?: string;
-    onValueChange: (value: ChosenSelectObject | null) => void;
+    onValueChange: (value: T | null) => void;
     onExternalSelectedValueChange?: (value: object | null) => void;
     externalSelectedValue?: object | null;
-    value?: ChosenSelectObject;
+    value?: T;
     externalValue?: Record<string, string | null> | null | undefined;
     fieldName?: string;
     error?: boolean;
@@ -39,9 +39,12 @@ export interface AutocompleteSelectOfDictionaryProps {
     renderInput?: (params: AutocompleteRenderInputParams) => React.ReactNode;
     testFieldName?: string;
     placeholder?: string;
+    useRenderValuePattern?: boolean;
 }
 
-export const AutocompleteSelectOfDictionary: FC<AutocompleteSelectOfDictionaryProps> = (props) => {
+export const AutocompleteSelectOfDictionary = <T extends ChosenSelectObject>(
+    props: AutocompleteSelectOfDictionaryProps<T>
+) => {
     const {
         isDisable,
         translatePath,
@@ -67,6 +70,7 @@ export const AutocompleteSelectOfDictionary: FC<AutocompleteSelectOfDictionaryPr
         isMock = false,
         useDefaultFilter,
         placeholder,
+        useRenderValuePattern,
     } = props;
 
     const variablesParams = dictionaryType ? { type: dictionaryType } : dictionaryParams;
@@ -153,6 +157,7 @@ export const AutocompleteSelectOfDictionary: FC<AutocompleteSelectOfDictionaryPr
                     renderValuePrimary,
                     renderValueSecondary,
                     defaultNullValue,
+                    useRenderValuePattern,
                 })}
             </Grid>
         </li>
@@ -160,7 +165,7 @@ export const AutocompleteSelectOfDictionary: FC<AutocompleteSelectOfDictionaryPr
 
     const handleValueChange = (value: object | null) => {
         updateSelectedValue(value as ChosenSelectObject);
-        onValueChange ? onValueChange(value as ChosenSelectObject | null) : "";
+        onValueChange ? onValueChange(value as T | null) : "";
     };
 
     return (

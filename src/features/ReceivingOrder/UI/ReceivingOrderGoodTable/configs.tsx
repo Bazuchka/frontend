@@ -9,17 +9,21 @@ import { AlisForm, CreateButton } from "src/features/common/AlisForm";
 import { AutocompleteSelectOfDictionary } from "src/shared/UI/AutocompleteSelectOfDictionary/AutocompleteSelectOfDictionary";
 import { WithGridRowId } from "src/shared/UI/TSBaseTable/types";
 import { FieldItemType } from "src/shared/UI/iFieldItem/const";
+import { IForeignKey } from "src/shared/entities/ForeignKey";
 import { DictionaryType } from "src/shared/hooks/useDictionary";
-import { IFullReceivingOrderGood } from "../../store/ReceivingOrderGood/ReceivingOrderGood";
+import {
+    IClientGoodShort,
+    IFullReceivingOrderGood,
+} from "../../store/ReceivingOrderGood/ReceivingOrderGood";
 import { ReceivingOrderGoodBatchForm } from "./ReceivingOrderGoodBatchForm";
 
 const columnHelper = createColumnHelper<WithGridRowId<IFullReceivingOrderGood>>();
 
-export const getColumns = () => {
+export const getColumns = (client: IForeignKey) => {
     return [
         columnHelper.accessor("clientGood", {
             cell: (params) => {
-                return params.getValue()?.code;
+                return params.getValue()?.item;
             },
             header: t("ReceivingOrderGood:properties.good.article"),
             meta: {
@@ -34,20 +38,21 @@ export const getColumns = () => {
                                     field: { onChange, value },
                                     fieldState: { invalid },
                                 }) => (
-                                    <AutocompleteSelectOfDictionary
+                                    <AutocompleteSelectOfDictionary<IClientGoodShort>
                                         isDisable={false}
                                         error={invalid}
                                         value={value}
-                                        renderValuePrimary="code"
-                                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                                        onValueChange={(data: any) => {
+                                        renderValuePrimary="item"
+                                        renderValueSecondary="code"
+                                        useRenderValuePattern
+                                        onValueChange={(data) => {
                                             setValue("price", data?.price ?? 0);
                                             setValue("unitOfMeasure", data?.unitOfMeasure);
                                             setValue("goodVariant", null);
                                             setValue("batch", null);
                                             setValue(
                                                 "totalPrice",
-                                                data?.price * getValue("plannedQuantity")
+                                                data?.price ?? 0 * getValue("plannedQuantity")
                                             );
                                             onChange(data);
                                         }}
@@ -55,6 +60,7 @@ export const getColumns = () => {
                                             type: DictionaryType.CLIENT_GOOD,
                                             filter: {
                                                 active: true,
+                                                client,
                                             },
                                         }}
                                     />
@@ -88,16 +94,23 @@ export const getColumns = () => {
                             <Controller
                                 name="goodVariant"
                                 control={control}
+                                rules={{
+                                    required: !!(getValue("clientGood") as IClientGoodShort)
+                                        ?.isVariable,
+                                }}
                                 render={({
                                     field: { onChange, value },
                                     fieldState: { invalid },
                                 }) => (
                                     <AutocompleteSelectOfDictionary
-                                        isDisable={!getValue("clientGood")}
                                         error={invalid}
                                         value={value}
                                         renderValuePrimary="code"
                                         onValueChange={onChange}
+                                        isDisable={
+                                            !(getValue("clientGood") as IClientGoodShort)
+                                                ?.isVariable
+                                        }
                                         dictionaryParams={{
                                             type: DictionaryType.GOOD_VARIANT,
                                             filter: {

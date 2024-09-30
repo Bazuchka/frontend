@@ -1,4 +1,5 @@
 import { createBrowserRouter, createRoutesFromElements, Navigate, Route } from "react-router-dom";
+import { Role, RoleTable } from "src/features/Administration/Role";
 import { User, UserTable } from "src/features/Administration/Users";
 import { Client, ClientTable } from "src/features/Client";
 import { ClientDriverTable } from "src/features/ClientDriverTable";
@@ -8,7 +9,6 @@ import { ClientRelatedEntityTable } from "src/features/ClientRelatedEntityTable"
 import { ClientVehicleTable } from "src/features/ClientVehicle";
 import { LegalEntity, LegalEntityTable } from "src/features/LegalEntity";
 import { ReceivingOrder, ReceivingOrderTable } from "src/features/ReceivingOrder";
-import { Role, RoleTable } from "src/features/Role";
 import { Service, ServicesTable } from "src/features/Service";
 import { ShippingOrder, ShippingOrderTable } from "src/features/ShippingOrder";
 import { TermOfService } from "src/features/TermOfService";

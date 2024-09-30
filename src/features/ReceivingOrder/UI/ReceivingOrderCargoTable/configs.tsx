@@ -2,7 +2,6 @@
 import { TextField } from "@mui/material";
 import { createColumnHelper } from "@tanstack/react-table";
 import { t } from "i18next";
-import { ChangeEvent } from "react";
 import { Control, Controller, FieldValues, UseFormSetValue } from "react-hook-form";
 import { DimensionsLink } from "src/features/common/DimensionsLink";
 import { GoodPackageColumn } from "src/features/common/GoodPackage";
@@ -112,7 +111,7 @@ export const getColumns = (receivingOrderId: string) => () => {
             header: t("ReceivingOrderCargo:properties.packageQuantity"),
             meta: {
                 editableCell: {
-                    component: ({ register, error, row: { setValue, getValue } }) => {
+                    component: ({ register, error }) => {
                         return (
                             <TextField
                                 size="small"
@@ -120,13 +119,6 @@ export const getColumns = (receivingOrderId: string) => () => {
                                 {...register("packageQuantity", {
                                     required: true,
                                     min: 0,
-                                    onChange: (e: ChangeEvent<HTMLInputElement>) => {
-                                        setValue(
-                                            "totalQuantity",
-                                            parseFloat(e.target.value) *
-                                                getValue("conversionQuantity")
-                                        );
-                                    },
                                 })}
                                 error={!!error}
                             />
@@ -143,7 +135,7 @@ export const getColumns = (receivingOrderId: string) => () => {
             meta: {
                 isComputed: true,
                 editableCell: {
-                    component: ({ register, error, row: { getValue, setValue } }) => {
+                    component: ({ register, error }) => {
                         return (
                             <TextField
                                 size="small"
@@ -151,12 +143,6 @@ export const getColumns = (receivingOrderId: string) => () => {
                                 {...register("conversionQuantity", {
                                     required: true,
                                     min: 0,
-                                    onChange: (e: ChangeEvent<HTMLInputElement>) => {
-                                        setValue(
-                                            "totalQuantity",
-                                            parseFloat(e.target.value) * getValue("packageQuantity")
-                                        );
-                                    },
                                 })}
                                 error={!!error}
                             />
@@ -168,24 +154,13 @@ export const getColumns = (receivingOrderId: string) => () => {
             },
         }),
         columnHelper.accessor("totalQuantity", {
-            cell: (params) => params.getValue(),
+            cell: ({ row }) =>
+                (row.getValue("packageQuantity")
+                    ? parseFloat(row.getValue("packageQuantity") as string)
+                    : 0) * parseFloat(row.getValue("conversionQuantity") as string),
             header: t("ReceivingOrderCargo:properties.totalQuantity"),
             meta: {
                 isComputed: true,
-                editableCell: {
-                    component: ({ register, error }) => {
-                        return (
-                            <TextField
-                                size="small"
-                                type="number"
-                                {...register("totalQuantity", { required: true, min: 0 })}
-                                error={!!error}
-                            />
-                        );
-                    },
-                    defaultValue: "",
-                    fieldType: FieldItemType.INPUT_NUMBER,
-                },
             },
         }),
         columnHelper.accessor("dimensions", {

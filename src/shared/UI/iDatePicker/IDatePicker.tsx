@@ -4,7 +4,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import i18next from "i18next";
 import React from "react";
 import {
-    // DATE_PICKER_LOCALE_CONFIGURATION,
+    DATE_PICKER_LOCALE_CONFIGURATION,
     DATE_PICKER_TEXT_LOCALE_CONFIGURATION,
 } from "src/shared/types/types";
 import { DatePickerProps } from "./types";
@@ -22,7 +22,7 @@ const IDatePicker: React.FC<DatePickerProps> = ({
     return (
         <LocalizationProvider
             dateAdapter={AdapterDateFns}
-            // adapterLocale={DATE_PICKER_LOCALE_CONFIGURATION[currentLocale]}
+            adapterLocale={DATE_PICKER_LOCALE_CONFIGURATION[currentLocale]}
             localeText={DATE_PICKER_TEXT_LOCALE_CONFIGURATION[currentLocale]}>
             <DatePicker
                 value={date}

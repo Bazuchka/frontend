@@ -19,7 +19,7 @@ interface TableWithInlineEditingProps {
     store: Instance<ReturnType<typeof createBaseStore>>;
     permissionPath: string;
     messages: {
-        createSuccess: string;
+        createSuccess?: string;
         editSuccess?: string;
         deleteSuccess?: string;
     };
@@ -40,6 +40,7 @@ interface TableWithInlineEditingProps {
     };
     isReadOnly?: boolean;
     disabledFieldsOnUpdate?: string[];
+    expandable?: boolean;
 }
 
 const TableWithInlineEditing = ({

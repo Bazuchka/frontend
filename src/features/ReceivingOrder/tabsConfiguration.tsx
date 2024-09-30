@@ -29,7 +29,14 @@ export const receivingOrderConfiguration: (isCreateMode: boolean) => TabsConfigu
             type: TabType.MAIN_INFO,
             component: (
                 <DataGuard whenExist={isCreateMode || receivingOrderStore.current}>
-                    {() => <ReceivingOrderInfo />}
+                    {() => (
+                        <ReceivingOrderInfo
+                            isReadOnly={
+                                !isCreateMode &&
+                                receivingOrderStore.current?.orderStatus !== "DRAFT"
+                            }
+                        />
+                    )}
                 </DataGuard>
             ),
         },
@@ -48,6 +55,10 @@ export const receivingOrderConfiguration: (isCreateMode: boolean) => TabsConfigu
             ),
             disabled: isCreateMode,
             visibleRule: () => isRailwayContainer(receivingOrderStore.current),
+            permission: {
+                path: "ReceivingOrder.EtranInvoice",
+                type: PermissionType.FORM,
+            },
         },
         {
             label: t("ReceivingOrder:tabs.railwayCarriage"),
@@ -64,6 +75,10 @@ export const receivingOrderConfiguration: (isCreateMode: boolean) => TabsConfigu
             ),
             disabled: isCreateMode,
             visibleRule: () => isRailwayContainer(receivingOrderStore.current),
+            permission: {
+                path: "ReceivingOrder.RailwayCarriage",
+                type: PermissionType.FORM,
+            },
         },
         {
             label: t("ReceivingOrder:tabs.transport"),
@@ -86,6 +101,10 @@ export const receivingOrderConfiguration: (isCreateMode: boolean) => TabsConfigu
             ),
             disabled: isCreateMode,
             visibleRule: () => receivingOrderStore.current?.transportType === "VEHICLE",
+            permission: {
+                path: "ReceivingOrder.ReceivingOrderTransport",
+                type: PermissionType.FORM,
+            },
         },
         {
             label: t("ReceivingOrder:tabs.containers"),
@@ -108,29 +127,52 @@ export const receivingOrderConfiguration: (isCreateMode: boolean) => TabsConfigu
             ),
             disabled: isCreateMode,
             visibleRule: () => receivingOrderStore.current?.terminalArea === "CONTAINER",
+            permission: {
+                path: "ReceivingOrder.ReceivingOrderContainer",
+                type: PermissionType.FORM,
+            },
         },
         {
             label: t("ReceivingOrder:tabs.goods"),
             type: TabType.LINKED_DATA,
             component: (
                 <DataGuard whenExist={receivingOrderStore.current}>
-                    {(current) =>
-                        receivingOrderStore.current?.terminalArea === "CONTAINER" ? (
-                            <ReceivingOrderContainerItemTable
-                                store={current.receivingOrderContainerItem}
-                                receivingOrderId={receivingOrderStore.current!.id}
-                                isReadOnly={receivingOrderStore.current!.orderStatus !== "DRAFT"}
-                            />
-                        ) : (
-                            <ReceivingOrderGoodTable
-                                store={current.receivingOrderGood}
-                                isReadOnly={receivingOrderStore.current!.orderStatus !== "DRAFT"}
-                            />
-                        )
-                    }
+                    {(current) => (
+                        <ReceivingOrderContainerItemTable
+                            store={current.receivingOrderContainerItem}
+                            receivingOrderId={receivingOrderStore.current!.id}
+                            isReadOnly={receivingOrderStore.current!.orderStatus !== "DRAFT"}
+                        />
+                    )}
                 </DataGuard>
             ),
             disabled: isCreateMode,
+            visibleRule: () => receivingOrderStore.current?.terminalArea === "CONTAINER",
+            permission: {
+                path: "ReceivingOrder.ReceivingOrderContainerItem",
+                type: PermissionType.FORM,
+            },
+        },
+        {
+            label: t("ReceivingOrder:tabs.goods"),
+            type: TabType.LINKED_DATA,
+            component: (
+                <DataGuard whenExist={receivingOrderStore.current}>
+                    {(current) => (
+                        <ReceivingOrderGoodTable
+                            store={current.receivingOrderGood}
+                            isReadOnly={receivingOrderStore.current!.orderStatus !== "DRAFT"}
+                            client={current.client}
+                        />
+                    )}
+                </DataGuard>
+            ),
+            disabled: isCreateMode,
+            visibleRule: () => receivingOrderStore.current?.terminalArea === "WAREHOUSE",
+            permission: {
+                path: "ReceivingOrder.ReceivingOrderGood",
+                type: PermissionType.FORM,
+            },
         },
         {
             label: t("ReceivingOrder:tabs.cargoSpaces"),
@@ -149,6 +191,10 @@ export const receivingOrderConfiguration: (isCreateMode: boolean) => TabsConfigu
             visibleRule: () =>
                 receivingOrderStore.current?.terminalArea !== "CONTAINER" &&
                 receivingOrderStore.current?.transportType === "VEHICLE",
+            permission: {
+                path: "ReceivingOrder.ReceivingOrderCargo",
+                type: PermissionType.FORM,
+            },
         },
         {
             label: t("ReceivingOrder:tabs.operations"),
@@ -165,6 +211,10 @@ export const receivingOrderConfiguration: (isCreateMode: boolean) => TabsConfigu
                 </DataGuard>
             ),
             disabled: isCreateMode,
+            permission: {
+                path: "ReceivingOrder.ReceivingOrderRequestedService",
+                type: PermissionType.FORM,
+            },
         },
         {
             label: t("ReceivingOrder:tabs.presentation"),
@@ -189,7 +239,12 @@ export const receivingOrderConfiguration: (isCreateMode: boolean) => TabsConfigu
             type: TabType.LINKED_DATA,
             component: (
                 <DataGuard whenExist={receivingOrderStore.current}>
-                    {() => <ReceivingOrderPrint store={receivingOrderStore} />}
+                    {() => (
+                        <ReceivingOrderPrint
+                            store={receivingOrderStore}
+                            isWarehouse={receivingOrderStore.current?.terminalArea === "WAREHOUSE"}
+                        />
+                    )}
                 </DataGuard>
             ),
             disabled:

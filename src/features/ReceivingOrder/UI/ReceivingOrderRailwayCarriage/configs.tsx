@@ -98,6 +98,7 @@ export const getColumns = (receivingOrderId: string, clientId: string) => () => 
                                                         client: {
                                                             id: clientId,
                                                         },
+                                                        notUsedInReceivingOrder: receivingOrderId,
                                                     },
                                                 }}
                                             />

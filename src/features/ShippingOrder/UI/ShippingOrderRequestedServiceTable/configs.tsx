@@ -13,6 +13,10 @@ export const getPlannedQuantity = (
     requestedService: ITermOfRequestedService | undefined,
     cargoCount: number
 ) => {
+    if (!requestedService?.calculationMethod) {
+        return null;
+    }
+
     if (requestedService?.calculationMethod === "REQUEST") {
         return 1;
     } else {
@@ -53,7 +57,7 @@ export const getColumns = (cargoCount: number) => {
                                                 ? getPlannedQuantity(
                                                       data as ITermOfRequestedService,
                                                       cargoCount
-                                                  ) * data?.rate
+                                                  ) ?? 0 * data?.rate
                                                 : 0;
                                             setValue("priceWithoutVAT", withoutVat);
                                             setValue("priceWithVAT", withoutVat * 1.2);
@@ -81,10 +85,14 @@ export const getColumns = (cargoCount: number) => {
             },
         }),
         columnHelper.accessor("plannedQuantity", {
-            cell: ({ row: { getValue } }) => {
-                return getPlannedQuantity(
-                    getValue("termOfRequestedService") as ITermOfRequestedService,
-                    cargoCount
+            cell: ({ row: { getValue: editableValue }, getValue }) => {
+                return (
+                    getValue?.() ??
+                    getPlannedQuantity(
+                        editableValue("termOfRequestedService") as ITermOfRequestedService,
+                        cargoCount
+                    ) ??
+                    editableValue("plannedQuantity")
                 );
             },
             header: t("ShippingOrderRequestedService:properties.plannedQuantity"),

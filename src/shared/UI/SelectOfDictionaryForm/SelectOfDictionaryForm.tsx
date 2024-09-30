@@ -11,7 +11,7 @@ export interface ChosenSelectObject {
     active?: boolean;
     code?: string;
     id: string;
-    name?: string;
+    name?: string | null;
 }
 
 interface SelectOfDictionaryFormProps {

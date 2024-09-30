@@ -15,6 +15,13 @@ export default function containerCargoFields(
             readOnly: true,
         },
         {
+            label: t("ReceivingOrderPreview:properties.railwayCarriageQuantity"),
+            name: "railwayCarriageQuantity",
+            type: FieldItemType.INPUT,
+            value: data.railwayCarriageQuantity?.toString(),
+            readOnly: true,
+        },
+        {
             label: t("ReceivingOrderPreview:properties.weight"),
             name: "totalWeight",
             type: FieldItemType.INPUT,

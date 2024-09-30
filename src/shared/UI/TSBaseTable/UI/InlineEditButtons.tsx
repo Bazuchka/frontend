@@ -15,7 +15,7 @@ interface InlinetEditButtonsProps {
     isSaveAllowed?: boolean;
     editableRowIsValid: boolean;
     isRowSelected: boolean;
-    onCreate: () => void;
+    onCreate?: () => void;
     onEdit?: (() => void) | undefined;
     onSave: (navigateNext?: boolean) => void;
     onNext?: () => void;
@@ -52,19 +52,21 @@ const InlinetEditButtons: FunctionComponent<InlinetEditButtonsProps> = ({
                 level: PermissionLevel.WRITE,
                 type: PermissionType.FORM,
             }}>
-            <WithPermission
-                permission={{
-                    path: permissionPath,
-                    level: PermissionLevel.CREATE,
-                    type: PermissionType.FORM,
-                }}>
-                <Button
-                    disabled={tableState.isLoading || isEditMode}
-                    className={className}
-                    onClick={onCreate}>
-                    {label?.create ?? t("Action:create")}
-                </Button>
-            </WithPermission>
+            {onCreate && (
+                <WithPermission
+                    permission={{
+                        path: permissionPath,
+                        level: PermissionLevel.CREATE,
+                        type: PermissionType.FORM,
+                    }}>
+                    <Button
+                        disabled={tableState.isLoading || isEditMode}
+                        className={className}
+                        onClick={onCreate}>
+                        {label?.create ?? t("Action:create")}
+                    </Button>
+                </WithPermission>
+            )}
             {onEdit && (
                 <Button
                     disabled={tableState.isLoading || !isRowSelected || isEditMode}

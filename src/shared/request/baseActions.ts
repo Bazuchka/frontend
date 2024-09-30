@@ -2,7 +2,7 @@ import { GridRowId } from "@mui/x-data-grid";
 import { request } from "src/shared/request";
 import { BaseActionOptions } from "./types";
 
-export const getBaseActions = <GetParams, SetParams>(URL: string, mock?: boolean) => {
+export const getBaseActions = <GetParams, SetParams>(URL?: string, mock?: boolean) => {
     const baseURL = mock ? window._env_.ALIS_BACKEND_MOCK__SERVER_URL : undefined;
 
     return {

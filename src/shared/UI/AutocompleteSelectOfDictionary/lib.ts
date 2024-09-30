@@ -8,13 +8,28 @@ interface GetOptionLabelProps {
     renderValuePrimary?: string;
     renderValueSecondary?: string;
     defaultNullValue?: string;
+    useRenderValuePattern?: boolean;
 }
 
 export const getOptionLabel = (props: GetOptionLabelProps): string => {
-    const { option, translatePath, renderValuePrimary, renderValueSecondary, defaultNullValue } =
-        props;
-    const code = option.code || option[renderValuePrimary as keyof ChosenSelectObject] || "";
-    const name = option.name || option[renderValueSecondary as keyof ChosenSelectObject] || "";
+    const {
+        option,
+        translatePath,
+        renderValuePrimary,
+        renderValueSecondary,
+        defaultNullValue,
+        useRenderValuePattern,
+    } = props;
+
+    let code, name;
+
+    if (useRenderValuePattern) {
+        code = option[renderValuePrimary as keyof ChosenSelectObject] || option.code || "";
+        name = option[renderValueSecondary as keyof ChosenSelectObject] || option.name || "";
+    } else {
+        code = option.code || option[renderValuePrimary as keyof ChosenSelectObject] || "";
+        name = option.name || option[renderValueSecondary as keyof ChosenSelectObject] || "";
+    }
 
     if (!option.code && !option.name && defaultNullValue) {
         return defaultNullValue;

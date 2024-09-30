@@ -33,7 +33,7 @@ interface ColumnProps {
 export const getColumns = ({ clientId, isRailway, receivingOrderId }: ColumnProps) => {
     return [
         isRailway
-            ? columnHelper.accessor("railwayCarriage", {
+            ? columnHelper.accessor("receivingOrderRailwayCarriage", {
                   cell: (params) => params.getValue()?.code,
                   header: t("ReceivingOrderContainer:properties.railwayCarriageId"),
                   size: 240,
@@ -42,7 +42,7 @@ export const getColumns = ({ clientId, isRailway, receivingOrderId }: ColumnProp
                           component: ({ control }) => {
                               return (
                                   <Controller
-                                      name="railwayCarriage"
+                                      name="receivingOrderRailwayCarriage"
                                       control={control}
                                       rules={{ required: true }}
                                       render={({

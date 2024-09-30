@@ -66,7 +66,7 @@ const ReceivingOrderContainerItemTable: FunctionComponent<ReceivingOrderContaine
                         id: receivingOrderStore.current?.id,
                     },
                 }}
-                permissionPath="ReceivingOrder" // TODO Permission
+                permissionPath="ReceivingOrder.ReceivingOrderContainerItem"
                 footerSettings={{
                     useNextButton: true,
                     label: {

@@ -22,7 +22,7 @@ const Header: FC = observer(() => {
 
     const filtersDisabled = useMemo(() => {
         return (
-            location.pathname != "" &&
+            location.pathname !== "/" &&
             !getObjectByPath(menuConfiguration(viewStore.menuParams), location.pathname)?.filterable
         );
     }, [location.pathname]);

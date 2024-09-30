@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { TableCell, TableRow, Typography } from "@mui/material";
-import type { AccessorKeyColumnDef, ColumnDef } from "@tanstack/react-table";
+import type { AccessorKeyColumnDef, ColumnDef, Row } from "@tanstack/react-table";
 import {
     ForwardedRef,
     forwardRef,
@@ -16,7 +16,7 @@ import { FieldItemType } from "../../iFieldItem/const";
 
 type EditableRowProps<T> = {
     columns: ColumnDef<T, unknown>[];
-    row?: T;
+    row?: Row<T>;
     onSubmit?: (data: FieldValues) => void;
     onRowStateChange?: (formState: {
         errors: FieldErrors<Record<string, T>>;
@@ -30,15 +30,17 @@ export type SubmitHandle = {
 };
 
 const getDefaultRow = <T,>(columns: ColumnDef<T, unknown>[]) => {
-    return columns.reduce((prev, curr) => {
-        return {
-            ...prev,
-            [(curr as AccessorKeyColumnDef<T>).accessorKey!]:
-                typeof curr.meta?.editableCell === "function"
-                    ? curr.meta?.editableCell(null)?.defaultValue
-                    : curr.meta?.editableCell?.defaultValue,
-        };
-    }, {});
+    return {
+        original: columns.reduce((prev, curr) => {
+            return {
+                ...prev,
+                [(curr as AccessorKeyColumnDef<T>).accessorKey!]:
+                    typeof curr.meta?.editableCell === "function"
+                        ? curr.meta?.editableCell(null)?.defaultValue
+                        : curr.meta?.editableCell?.defaultValue,
+            };
+        }, {}),
+    };
 };
 
 // eslint-disable-next-line react/display-name
@@ -52,11 +54,11 @@ const EditableRowForwarded = <T,>(props: EditableRowProps<T>, ref: ForwardedRef<
         control,
         setValue,
     } = useForm({
-        defaultValues: row as DefaultValues<T>,
+        defaultValues: row.original as DefaultValues<T>,
         mode: "onSubmit",
     });
 
-    const [values, setValues] = useState<FieldValues>(row as FieldValues);
+    const [values, setValues] = useState<FieldValues>(row.original as FieldValues);
 
     useEffect(() => {
         const subscription = watch((value) => {
@@ -84,7 +86,7 @@ const EditableRowForwarded = <T,>(props: EditableRowProps<T>, ref: ForwardedRef<
             getValue: (key: string) => values[key],
             setValue: (key: string, value: any) =>
                 setValue(key, value, { shouldDirty: value !== values[key] }),
-            original: row,
+            original: row.original,
         };
     }, [row, values, setValue]);
 
@@ -104,7 +106,7 @@ const EditableRowForwarded = <T,>(props: EditableRowProps<T>, ref: ForwardedRef<
             {columns.map((cell) => {
                 const isEditableCell =
                     typeof cell.meta?.editableCell === "function"
-                        ? !!cell.meta?.editableCell(row)
+                        ? !!cell.meta?.editableCell(row.original)
                         : !!cell.meta?.editableCell;
 
                 if (isEditableCell) {
@@ -112,12 +114,12 @@ const EditableRowForwarded = <T,>(props: EditableRowProps<T>, ref: ForwardedRef<
                         <TableCell
                             style={cellStyles(
                                 typeof cell.meta?.editableCell === "function"
-                                    ? cell.meta.editableCell(row)?.fieldType
+                                    ? cell.meta.editableCell(row.original)?.fieldType
                                     : cell.meta?.editableCell?.fieldType
                             )}
                             key={cell.id}>
                             {typeof cell.meta?.editableCell === "function"
-                                ? cell.meta?.editableCell(row)?.component({
+                                ? cell.meta?.editableCell(row.original)?.component({
                                       row: formRow,
                                       register,
                                       control,
@@ -144,6 +146,7 @@ const EditableRowForwarded = <T,>(props: EditableRowProps<T>, ref: ForwardedRef<
                 return (
                     <TableCell key={cell.id}>
                         {(cell.cell as any)?.({
+                            row,
                             getValue: () =>
                                 (row as any)[(cell as AccessorKeyColumnDef<T>).accessorKey],
                         })}

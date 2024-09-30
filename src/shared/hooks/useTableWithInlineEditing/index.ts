@@ -1,5 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { GridRowId } from "@mui/x-data-grid";
-import { ColumnDef, RowSelectionState, useReactTable } from "@tanstack/react-table";
+import {
+    ColumnDef,
+    getExpandedRowModel,
+    RowSelectionState,
+    useReactTable,
+} from "@tanstack/react-table";
 import { Instance } from "mobx-state-tree";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { FieldErrors, FieldValues } from "react-hook-form";
@@ -7,6 +13,7 @@ import { useBeforeUnload, useSearchParams } from "react-router-dom";
 import { viewStore } from "src/app/store";
 import { ShowPromptHandle } from "src/shared/UI/DialogPrompt";
 import { PaginationProps } from "src/shared/UI/TSBaseTable/UI/Pagination";
+import { WithGridRowId } from "src/shared/UI/TSBaseTable/types";
 import { DEFAULT_TANSTACK_CONFIG } from "src/shared/configs/table.conf";
 import { createBaseStore } from "src/shared/entities/BaseStore";
 import { DIALOG_ACTION } from "src/shared/enums/enums";
@@ -14,11 +21,10 @@ import { BaseActionOptions } from "src/shared/request/types";
 import { v4 as uuidv4 } from "uuid";
 
 export interface IUseTableWithInlineEditingParams {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     getColumns: (disabledFieldsOnUpdate?: string[]) => ColumnDef<{ id: GridRowId }, any>[];
     store: Instance<ReturnType<typeof createBaseStore>>;
     messages: {
-        createSuccess: string;
+        createSuccess?: string;
         editSuccess?: string;
         deleteSuccess?: string;
     };
@@ -31,7 +37,13 @@ export interface IUseTableWithInlineEditingParams {
     actionOptions?: BaseActionOptions;
     fetchParams?: Record<string, unknown>;
     disabledFieldsOnUpdate?: string[];
+    expandable?: boolean;
 }
+
+const ExpandableOptions = {
+    getSubRows: (row: WithGridRowId<any>) => row.children,
+    getExpandedRowModel: getExpandedRowModel(),
+};
 
 export const useTableWithInlineEditing = ({
     getColumns,
@@ -43,6 +55,7 @@ export const useTableWithInlineEditing = ({
     fetchParams,
     actionOptions,
     disabledFieldsOnUpdate,
+    expandable,
 }: IUseTableWithInlineEditingParams) => {
     const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
     const [isEditMode, setIsEditMode] = useState<boolean>(false);
@@ -76,7 +89,7 @@ export const useTableWithInlineEditing = ({
         onChange: store.pagination.setUserPagination,
     };
 
-    const table = useReactTable({
+    let tableOptions = {
         ...DEFAULT_TANSTACK_CONFIG,
         columns,
         data: store.dataArray,
@@ -84,7 +97,13 @@ export const useTableWithInlineEditing = ({
         state: {
             rowSelection,
         },
-    });
+    };
+
+    if (expandable) {
+        tableOptions = { ...tableOptions, ...ExpandableOptions };
+    }
+
+    const table = useReactTable(tableOptions);
 
     const handleRowClick = (id: GridRowId) => () => {
         if (isEditMode) {
@@ -105,10 +124,12 @@ export const useTableWithInlineEditing = ({
         }
     };
 
-    const handleCreateClick = () => {
-        setRowSelection({});
-        setIsEditMode(true);
-    };
+    const handleCreateClick = messages.createSuccess
+        ? () => {
+              setRowSelection({});
+              setIsEditMode(true);
+          }
+        : undefined;
 
     const handleEditClick = messages.editSuccess
         ? () => {

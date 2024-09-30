@@ -1,4 +1,5 @@
 import { t } from "i18next";
+import { PermissionType } from "src/shared/services/PermissionService/types";
 import { TabsConfiguration, TabType } from "src/shared/UI/BaseTabs/types";
 import DataGuard from "src/shared/UI/DataGuard/DataGuard";
 import { termOfServiceStore } from "./store/TermOfServiceStore";
@@ -28,6 +29,10 @@ export const termOfServiceConfiguration: (isCreateMode: boolean) => TabsConfigur
                 </DataGuard>
             ),
             disabled: isCreateMode,
+            permission: {
+                path: "TermOfService.TermOfPeriodicService",
+                type: PermissionType.FORM,
+            },
         },
         {
             label: t("TermOfService:tabs.requestedServices"),
@@ -38,6 +43,10 @@ export const termOfServiceConfiguration: (isCreateMode: boolean) => TabsConfigur
                 </DataGuard>
             ),
             disabled: isCreateMode,
+            permission: {
+                path: "TermOfService.TermOfRequestedService",
+                type: PermissionType.FORM,
+            },
         },
     ],
 });

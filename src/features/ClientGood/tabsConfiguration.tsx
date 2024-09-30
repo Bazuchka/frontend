@@ -1,4 +1,6 @@
 import { t } from "i18next";
+import { Instance } from "mobx-state-tree";
+import { ClientGoodType } from "src/features/ClientGoodTypeTable/store/ClientGoodTypeStore";
 import { PermissionType } from "src/shared/services/PermissionService/types";
 import { TabsConfiguration, TabType } from "src/shared/UI/BaseTabs/types";
 import DataGuard from "src/shared/UI/DataGuard/DataGuard";
@@ -7,8 +9,6 @@ import { ClientGoodInfo } from "./UI/ClientGoodInfo";
 import { GoodPackageBarcodeTable } from "./UI/GoodPackageBarcodeTable";
 import { GoodPackageTable } from "./UI/GoodPackageTable";
 import { GoodVariantTable } from "./UI/GoodVariant/Table";
-import { ClientGoodType } from "src/features/ClientGoodTypeTable/store/ClientGoodTypeStore";
-import { Instance } from "mobx-state-tree";
 
 export const clientGoodConfiguration: (isCreateMode: boolean) => TabsConfiguration = (
     isCreateMode: boolean
@@ -67,7 +67,7 @@ export const clientGoodConfiguration: (isCreateMode: boolean) => TabsConfigurati
                 </DataGuard>
             ),
             permission: {
-                path: "ClientGood.GoodPackage",
+                path: "ClientGood.GoodVariant",
                 type: PermissionType.FORM,
             },
             disabled: isCreateMode,

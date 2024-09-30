@@ -37,6 +37,7 @@ export const fieldsConfiguration = ({
                     type: FieldItemType.AUTOCOMPLETE,
                     value: defaultModel?.client,
                     required: true,
+                    isDisable: !!defaultModel,
                     requestParams: {
                         type: DictionaryType.CLIENT,
                         filter: {

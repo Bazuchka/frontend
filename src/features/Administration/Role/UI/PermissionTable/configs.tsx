@@ -2,6 +2,10 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import { createColumnHelper } from "@tanstack/react-table";
 import { t, TFunction } from "i18next";
+import { Controller } from "react-hook-form";
+import { PermissionLevel } from "src/shared/types";
+import { FieldItemType } from "src/shared/UI/iFieldItem/const";
+import { SelectOfEnum } from "src/shared/UI/SelectOfEnum";
 import { WithGridRowId } from "src/shared/UI/TSBaseTable/types";
 import { ITableViewPermission } from "../../store/PermissionStore/PermissionStore";
 
@@ -69,11 +73,40 @@ export const getColumns = () => {
                     </>
                 );
             },
-            header: t("Permission:properties.path"),
+            header: t("Permissions:properties.form"),
+            enableSorting: false,
         }),
         columnHelper.accessor("level", {
-            cell: (params) => params.getValue(),
-            header: t("Permission:properties.level"),
+            cell: (params) => t(`Permissions:types.${params.getValue()}`),
+            header: t("Permissions:properties.permission"),
+            meta: {
+                editableCell: {
+                    component: ({ control }) => {
+                        return (
+                            <Controller
+                                name="level"
+                                control={control}
+                                rules={{ required: true }}
+                                render={({
+                                    field: { onChange, value },
+                                    fieldState: { invalid },
+                                }) => (
+                                    <SelectOfEnum
+                                        isDisable={false}
+                                        error={invalid}
+                                        value={value}
+                                        options={Object.values(PermissionLevel)}
+                                        onChange={onChange}
+                                        translatePath={"Permissions:types"}
+                                    />
+                                )}
+                            />
+                        );
+                    },
+                    fieldType: FieldItemType.AUTOCOMPLETE,
+                },
+            },
+            enableSorting: false,
         }),
     ];
 };

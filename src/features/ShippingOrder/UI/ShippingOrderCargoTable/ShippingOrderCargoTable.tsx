@@ -31,7 +31,8 @@ const ShippingOrderCargoTable: FunctionComponent<ShippingOrderCargoTableProps> =
                 store={store}
                 onBeforeCreateModelTransform={(formModel: FieldValues) => ({
                     ...formModel,
-                    packageQuantity: parseInt(formModel.packageQuantity, 10),
+                    packageQuantity: parseFloat(formModel.packageQuantity),
+                    conversionQuantity: parseFloat(formModel.conversionQuantity),
                     shippingOrder: {
                         id: shippingOrderStore.current!.id,
                     },
@@ -40,6 +41,9 @@ const ShippingOrderCargoTable: FunctionComponent<ShippingOrderCargoTableProps> =
                     height: parseFloat(formModel.dimensions?.height ?? 0),
                     volume: parseFloat(formModel.dimensions?.volume ?? 0),
                     weight: parseFloat(formModel.dimensions?.weight ?? 0),
+                    totalQuantity:
+                        parseFloat(formModel.packageQuantity) *
+                        parseFloat(formModel.conversionQuantity),
                 })}
                 onBeforeUpdateModelTransform={(formModel: FieldValues) => {
                     const dimensions = formModel.dimensions
@@ -53,7 +57,8 @@ const ShippingOrderCargoTable: FunctionComponent<ShippingOrderCargoTableProps> =
                         : {};
                     return {
                         ...formModel,
-                        packageQuantity: parseInt(formModel.packageQuantity, 10),
+                        packageQuantity: parseFloat(formModel.packageQuantity),
+                        conversionQuantity: parseFloat(formModel.conversionQuantity),
                         shippingOrder: {
                             id: shippingOrderStore.current!.id,
                         },
@@ -62,6 +67,9 @@ const ShippingOrderCargoTable: FunctionComponent<ShippingOrderCargoTableProps> =
                         height: parseFloat(formModel.dimensions.height),
                         volume: parseFloat(formModel.dimensions.volume),
                         weight: parseFloat(formModel.dimensions.weight),
+                        totalQuantity:
+                            parseFloat(formModel.packageQuantity) *
+                            parseFloat(formModel.conversionQuantity),
                         ...dimensions,
                     };
                 }}
