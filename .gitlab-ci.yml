@@ -94,6 +94,7 @@ deploy-dev:
     - docker compose -f docker-compose.yml stop
     - docker compose -f docker-compose.yml rm -f
     - docker compose -f docker-compose.yml up -d
+    - docker restart nginx-proxy
   environment:
     name: development
   when: on_success
