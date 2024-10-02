@@ -1,5 +1,4 @@
 import {
-    Button,
     Dialog,
     DialogActions,
     DialogContent,
@@ -8,6 +7,7 @@ import {
 } from "@mui/material";
 import { FC, ReactElement } from "react";
 
+import { Button } from "../Button";
 import { useStyles } from "./styles";
 import { DialogAction } from "./types";
 
@@ -39,12 +39,10 @@ const IModal: FC<IModalProps> = (props) => {
 
     const renderActions = (action: DialogAction) => {
         return (
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            //@ts-ignore
             <Button
                 key={action.label}
                 type={action.type ? action.type : "button"}
-                form={action.form ? action.form : null}
+                form={action.form}
                 onClick={action.onClick}>
                 {action.label}
             </Button>
@@ -52,7 +50,7 @@ const IModal: FC<IModalProps> = (props) => {
     };
 
     return (
-        <Dialog {...defaultSetting} open={open}>
+        <Dialog {...defaultSetting} open={open} data-key-id="dialog">
             {title && <DialogTitle>{title}</DialogTitle>}
             <DialogContentText className={classes.textContent}>{contentText}</DialogContentText>
             <DialogContent>{content}</DialogContent>

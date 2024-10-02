@@ -1,12 +1,12 @@
 import { flow, Instance, types } from "mobx-state-tree";
+import { ClientGoodType } from "src/features/ClientGoodTypeTable/store/ClientGoodTypeStore";
 import { ForeignKey } from "src/shared/entities";
 import { createBaseStoreWithViewMediator } from "src/shared/entities/BaseStore";
 import { getBaseActions } from "src/shared/request/baseActions";
+import { ChosenSelectObject } from "src/shared/UI/SelectOfDictionaryForm/SelectOfDictionaryForm";
 import { GoodPackageBarcodeStore } from "../GoodPackageBarcodeStore";
 import { GoodPackageStore } from "../GoodPackageStore";
 import { GoodVariantStore } from "../GoodVariantStore";
-import { ClientGoodType } from "src/features/ClientGoodTypeTable/store/ClientGoodTypeStore";
-import { ChosenSelectObject } from "src/shared/UI/SelectOfDictionaryForm/SelectOfDictionaryForm";
 
 export type ClientGoodUploadResult = {
     errors: string[];
@@ -38,6 +38,7 @@ export const FullClientGood = types.compose(
             name: types.maybeNull(types.string),
             tempRegime: types.maybeNull(ForeignKey),
             syncId: types.string,
+            usedInOrders: types.boolean,
             packages: types.optional(GoodPackageStore, {
                 state: {},
                 data: [],
@@ -100,6 +101,7 @@ const ClientGoodStore = createBaseStoreWithViewMediator({
                 serialAccountingType: "",
                 syncId: "",
                 active: false,
+                usedInOrders: false,
             });
         } catch (err) {
             self.state.isError = true;

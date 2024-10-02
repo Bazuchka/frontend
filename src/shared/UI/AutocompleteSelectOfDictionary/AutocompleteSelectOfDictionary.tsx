@@ -222,7 +222,7 @@ export const AutocompleteSelectOfDictionary = <T extends ChosenSelectObject>(
                     style,
                 }),
             }}
-            data-test-id={`value:${testFieldName ?? fieldName}`}
+            data-test-id={`autocomplete:${testFieldName ?? fieldName}`}
             // Disables default filtering and makes it possible to throw the mask we need
             filterOptions={(options) => options}
         />

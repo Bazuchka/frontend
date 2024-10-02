@@ -87,7 +87,7 @@ const SelectOfDictionaryForm: FC<SelectOfDictionaryFormProps> = ({
                         MenuProps={{
                             style: { height: "205px", padding: "15px" },
                         }}
-                        data-test-id={`value:${testFieldName ?? fieldName}`}>
+                        data-test-id={`select:${testFieldName ?? fieldName}`}>
                         {data.map(renderMenuItem)}
                     </Select>
                 </FormControl>

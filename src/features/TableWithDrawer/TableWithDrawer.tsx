@@ -1,4 +1,3 @@
-import { Button } from "@mui/material";
 import { GridRowId } from "@mui/x-data-grid";
 import { ColumnDef } from "@tanstack/react-table";
 import { observer } from "mobx-react";
@@ -10,6 +9,7 @@ import { useTableWithDrawer } from "src/shared/hooks/useTableWithDrawer";
 import { WithPermission } from "src/shared/services/PermissionService";
 import { PermissionType } from "src/shared/services/PermissionService/types";
 import { PermissionLevel } from "src/shared/types";
+import { Button } from "src/shared/UI/Button";
 import { DialogPrompt } from "src/shared/UI/DialogPrompt";
 import { ICard } from "src/shared/UI/iCard";
 import { IDrawer } from "src/shared/UI/IDrawer";

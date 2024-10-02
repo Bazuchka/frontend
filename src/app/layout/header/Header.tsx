@@ -35,7 +35,11 @@ const Header: FC = observer(() => {
                     <Box className={classes.logoPanel}>
                         <Box className={classes.logoWrap}>
                             <Link to="/">
-                                <img src="/images/logo.png" alt="img" className={classes.logo} />
+                                <img
+                                    src="/images/logo.png"
+                                    alt="alis-logo"
+                                    className={classes.logo}
+                                />
                             </Link>
                         </Box>
                     </Box>
@@ -72,6 +76,7 @@ const Header: FC = observer(() => {
                                 }}
                                 placeholder={t("Shared:filters.client")}
                                 isDisable={filtersDisabled}
+                                testFieldName="global-filter-client"
                             />
                         </Grid>
                         <Grid item sx={{ background: "white", width: 200 }}>
@@ -91,6 +96,7 @@ const Header: FC = observer(() => {
                                 }}
                                 placeholder={t("Shared:filters.legalEntity")}
                                 isDisable={filtersDisabled}
+                                testFieldName="global-filter-legal-entity"
                             />
                         </Grid>
                     </Grid>

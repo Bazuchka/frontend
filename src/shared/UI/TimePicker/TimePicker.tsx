@@ -36,7 +36,7 @@ const ITimePicker: React.FC<TimePickerProps> = ({
                 ampm={false}
                 format="HH:mm"
                 disabled={disableCondition}
-                data-test-id={`value:${testFieldName ?? fieldName}`}
+                data-test-id={`timepicker:${testFieldName ?? fieldName}`}
             />
         </LocalizationProvider>
     );

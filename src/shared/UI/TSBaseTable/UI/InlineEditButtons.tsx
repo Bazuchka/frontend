@@ -1,9 +1,9 @@
 import LoadingButton from "@mui/lab/LoadingButton";
-import { Button } from "@mui/material";
 import { t } from "i18next";
 import { FunctionComponent } from "react";
 import { WithPermission } from "src/shared/services/PermissionService";
 import { PermissionLevel, PermissionType } from "src/shared/services/PermissionService/types";
+import { Button } from "../../Button";
 
 interface InlinetEditButtonsProps {
     tableState: {

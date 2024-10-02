@@ -1,12 +1,12 @@
-import { FC } from "react";
+import CloseIcon from "@mui/icons-material/Close";
 import { MenuItem, Select, SelectChangeEvent } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
+import { FC } from "react";
 import { ValueOption, enumsConfig } from "src/shared/hooks/useDictionary/config";
 import { DictionaryParams } from "src/shared/hooks/useDictionary/types";
-import { addEmptyValue, getTranslatedValue } from "./utils/utils";
 import { styles } from "./style";
 import { SelectOfEnumProps } from "./types";
+import { addEmptyValue, getTranslatedValue } from "./utils/utils";
 
 const SelectOfEnum: FC<SelectOfEnumProps> = (props) => {
     const {
@@ -69,7 +69,7 @@ const SelectOfEnum: FC<SelectOfEnumProps> = (props) => {
                     </IconButton>
                 )
             }
-            data-test-id={`value:${testFieldName ?? fieldName}`}>
+            data-test-id={`select:${testFieldName ?? fieldName}`}>
             {data.map(renderMenuItem)}
         </Select>
     );

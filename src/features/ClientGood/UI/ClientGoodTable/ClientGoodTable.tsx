@@ -1,4 +1,3 @@
-import { Button } from "@mui/material";
 import { GridRowId } from "@mui/x-data-grid";
 import { ColumnDef } from "@tanstack/react-table";
 import { observer } from "mobx-react";
@@ -10,6 +9,7 @@ import { TableWithNavigation } from "src/features/TableWithNavigation";
 import { WithPermission } from "src/shared/services/PermissionService";
 import { PermissionType } from "src/shared/services/PermissionService/types";
 import { PermissionLevel } from "src/shared/types";
+import { Button } from "src/shared/UI/Button";
 import clientGoodStore, { IClientGood } from "../../store/ClientGoodStore";
 import { getColumns } from "./configs";
 

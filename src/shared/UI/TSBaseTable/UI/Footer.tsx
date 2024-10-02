@@ -19,7 +19,7 @@ export const Footer = observer(({ paginator, isButtonsHide, buttons }: FooterPro
     const classes = useStyles({ theme });
 
     return (
-        <Box className={classes.footer}>
+        <Box className={classes.footer} data-test-id="table-footer">
             {!isButtonsHide && buttons && (
                 <Stack className={classes.buttonGroup} spacing={2} direction="row">
                     {buttons(classes)}

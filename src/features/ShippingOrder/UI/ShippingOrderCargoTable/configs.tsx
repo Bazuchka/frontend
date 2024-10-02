@@ -154,9 +154,8 @@ export const getColumns = (shippingOrderId: string) => () => {
         }),
         columnHelper.accessor("totalQuantity", {
             cell: ({ row }) =>
-                (row.getValue("packageQuantity")
-                    ? parseFloat(row.getValue("packageQuantity") as string)
-                    : 0) * parseFloat(row.getValue("conversionQuantity") as string),
+                parseFloat(row.getValue("packageQuantity") || ("0" as string)) *
+                parseFloat(row.getValue("conversionQuantity") || ("0" as string)),
             header: t("ShippingOrderCargo:properties.totalQuantity"),
             meta: {
                 isComputed: true,

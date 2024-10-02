@@ -78,7 +78,9 @@ export const TSBaseTableUI = observer(
 
         return (
             <Box className={classes.wrapper} style={style}>
-                {isLoading && <LinearProgress className={classes.progress} />}
+                {isLoading && (
+                    <LinearProgress className={classes.progress} data-test-id="progress" />
+                )}
                 <TableContainer className={classes.tableContainer} id="tableContainer">
                     <ColumnManagmentModal
                         table={table}

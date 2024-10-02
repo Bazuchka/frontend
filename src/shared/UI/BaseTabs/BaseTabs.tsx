@@ -65,7 +65,14 @@ const BaseTabs: FC<BaseTabsProps> = observer((props) => {
     };
 
     const renderTabHeader = (tab: TabItem, index: number): ReactNode => {
-        return <Tab key={`${tab.label}-${index}`} label={tab.label} disabled={tab.disabled} />;
+        return (
+            <Tab
+                key={`${tab.label}-${index}`}
+                label={tab.label}
+                disabled={tab.disabled}
+                data-test-id={`tab-header:${tab.label}`}
+            />
+        );
     };
 
     const renderTabContent = (item: TabItem, key: number) => {

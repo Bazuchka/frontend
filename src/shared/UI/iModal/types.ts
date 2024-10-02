@@ -1,7 +1,7 @@
 export interface DialogAction {
     label: string;
     onClick: () => void;
-    type?: string;
+    type?: "submit" | "reset" | "button";
     form?: string;
     loading?: boolean;
     disabled?: boolean;

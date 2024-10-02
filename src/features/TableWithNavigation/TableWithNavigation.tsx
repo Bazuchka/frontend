@@ -1,9 +1,9 @@
-import { Button } from "@mui/material";
 import { GridRowId } from "@mui/x-data-grid";
 import { ColumnDef } from "@tanstack/react-table";
 import { observer } from "mobx-react";
 import { Instance } from "mobx-state-tree";
 import { useTranslation } from "react-i18next";
+import { Button } from "src/shared/UI/Button";
 import { TSBaseTableUI } from "src/shared/UI/TSBaseTable/TSBaseTableUI";
 import { Footer } from "src/shared/UI/TSBaseTable/UI/Footer";
 import { ICard } from "src/shared/UI/iCard";

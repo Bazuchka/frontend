@@ -33,3 +33,8 @@ envConfig.js
 
 .eslintcache
 .vscode
+/test-results/
+/playwright-report/
+/playwright/.auth
+/blob-report/
+/playwright/.cache/

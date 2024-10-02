@@ -8,7 +8,13 @@ interface ButtonProps extends MuiButtonProps {}
 const Button: FunctionComponent<ButtonProps> = (props) => {
     const theme = useTheme();
     const classes = useStyles({ theme });
-    return <MuiButton {...props} className={classNames([props.className, classes.button])} />;
+    return (
+        <MuiButton
+            {...props}
+            className={classNames([props.className, classes.button])}
+            data-test-id={`button:${props.children}`}
+        />
+    );
 };
 
 export default Button;

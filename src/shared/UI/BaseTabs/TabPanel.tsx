@@ -23,6 +23,7 @@ const TabPanel: FC<TabPanelProps> = (props: TabPanelProps) => {
             role="tabpanel"
             hidden={value !== index}
             id={`simple-tabpanel-${index}`}
+            data-test-id={`simple-tabpanel-${index}`}
             aria-labelledby={`simple-tab-${index}`}
             style={{ flex: 1, height: "100%", ...styles }}
             {...other}>
