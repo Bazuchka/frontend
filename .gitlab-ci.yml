@@ -43,12 +43,12 @@ fullscreen-build-npm-frontend:
       - build/
     expire_in: 1 hour
   environment:
-    name: development
+    name: testing
   when: on_success
   only:
     - master
   tags:
-    - dev-alis-runner
+    - test-alis-runner
 
 fullscreen-create-docker-image:
   stage: build_image
@@ -70,38 +70,38 @@ fullscreen-create-docker-image:
     - docker push ${DOCKER_IMAGE_NAME}:${CI_COMMIT_SHORT_SHA}
     - docker push ${DOCKER_IMAGE_NAME}:latest
   environment:
-    name: development
+    name: testing
   when: on_success
   only:
     - master
   tags:
-    - dev-alis-runner
+    - test-alis-runner
 
-deploy-dev:
-  stage: deploy
-  image: docker:24.0.5
-  variables:
-    DOCKER_IMAGE_NAME: ${CI_REGISTRY_IMAGE}/${CI_COMMIT_REF_SLUG}
-    DOCKER_OPTS: "--insecure-registry=${CI_REGISTRY}"
-    EXTERNAL_IP_ADDRESS: http://185.149.50.37:55880
-    LOCAL_IP_ADDRESS: https://dev-alis-exsim.alabuga.ru
-  before_script:
-    - echo "${BUILD_VERSION} | ${CI_REGISTRY}"
-    - docker info
-    - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY_IMAGE -u $CI_REGISTRY_USER  --password-stdin
-  script:
-    - docker pull $DOCKER_IMAGE_NAME:latest
-    - docker compose -f docker-compose.yml stop
-    - docker compose -f docker-compose.yml rm -f
-    - docker compose -f docker-compose.yml up -d
-    - docker restart nginx-proxy
-  environment:
-    name: development
-  when: on_success
-  only:
-    - master
-  tags:
-    - dev-alis-runner
+# deploy-dev:
+#   stage: deploy
+#   image: docker:24.0.5
+#   variables:
+#     DOCKER_IMAGE_NAME: ${CI_REGISTRY_IMAGE}/${CI_COMMIT_REF_SLUG}
+#     DOCKER_OPTS: "--insecure-registry=${CI_REGISTRY}"
+#     EXTERNAL_IP_ADDRESS: http://185.149.50.37:55880
+#     LOCAL_IP_ADDRESS: https://dev-alis-exsim.alabuga.ru
+#   before_script:
+#     - echo "${BUILD_VERSION} | ${CI_REGISTRY}"
+#     - docker info
+#     - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY_IMAGE -u $CI_REGISTRY_USER  --password-stdin
+#   script:
+#     - docker pull $DOCKER_IMAGE_NAME:latest
+#     - docker compose -f docker-compose.yml stop
+#     - docker compose -f docker-compose.yml rm -f
+#     - docker compose -f docker-compose.yml up -d
+#     - docker restart nginx-proxy
+#   environment:
+#     name: development
+#   when: on_success
+#   only:
+#     - master
+#   tags:
+#     - dev-alis-runner
 
 deploy-test:
   stage: deploy
@@ -123,29 +123,29 @@ deploy-test:
     - docker restart nginx-proxy
   environment:
     name: testing
-  when: manual
+  when: on_success
   only:
     - master
   tags:
     - test-alis-runner
 
-cleanup-dev:
-  stage: cleanup
-  image: docker:24.0.5
-  services:
-    - name: docker:24.0.5-dind
-  script:
-    - docker image prune --all --force --filter "label=build=frontend"
-    - docker system prune --volumes --force
-  environment:
-    name: testing
-  needs:
-    - deploy-dev
-  when: on_success
-  only:
-    - master
-  tags:
-    - dev-alis-runner
+# cleanup-dev:
+#   stage: cleanup
+#   image: docker:24.0.5
+#   services:
+#     - name: docker:24.0.5-dind
+#   script:
+#     - docker image prune --all --force --filter "label=build=frontend"
+#     - docker system prune --volumes --force
+#   environment:
+#     name: testing
+#   needs:
+#     - deploy-dev
+#   when: on_success
+#   only:
+#     - master
+#   tags:
+#     - dev-alis-runner
 
 cleanup-test:
   stage: cleanup
