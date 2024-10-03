@@ -292,24 +292,10 @@ export const getColumns = (client: IForeignKey) => {
             enableSorting: false,
         }),
         columnHelper.accessor("actualQuantity", {
-            cell: (params) => params.getValue(),
+            cell: ({ row }) => row.original.actualQuantity,
             header: t("ReceivingOrderGood:properties.actualQuantity"),
             meta: {
-                editableCell: {
-                    component: ({ register, error }) => {
-                        return (
-                            <TextField
-                                disabled={true}
-                                size="small"
-                                type="number"
-                                {...register("actualQuantity", { required: false })}
-                                error={!!error}
-                            />
-                        );
-                    },
-                    defaultValue: "",
-                    fieldType: FieldItemType.INPUT_NUMBER,
-                },
+                isComputed: true,
             },
         }),
     ];

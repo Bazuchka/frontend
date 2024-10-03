@@ -19,7 +19,7 @@ export const Footer = observer(({ isButtonsHide, buttons, className }: FooterPro
     const classes = useStyles({ theme });
 
     return (
-        <Box className={cn(classes.footer, className)}>
+        <Box className={cn(classes.footer, className)} data-test-id="form-footer">
             {!isButtonsHide && buttons && (
                 <Stack className={classes.buttonGroup} spacing={2} direction="row">
                     {buttons(classes)}

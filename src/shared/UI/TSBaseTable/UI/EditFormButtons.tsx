@@ -46,6 +46,7 @@ const EditFormButtons: FunctionComponent<InlineEditButtonsProps> = ({
                 disabled={!isEditMode || (isSaveAllowed !== undefined && !isSaveAllowed)}
                 className={className}
                 loading={isLoading}
+                data-test-id={`button:${t("Action:save")}`}
                 onClick={() => onSave(false)}>
                 {t("Action:save")}
             </LoadingButton>
@@ -57,6 +58,7 @@ const EditFormButtons: FunctionComponent<InlineEditButtonsProps> = ({
                 <LoadingButton
                     className={className}
                     loading={isLoading}
+                    data-test-id={`button:${t("Action:next")}`}
                     onClick={() => {
                         if (isEditMode) {
                             onSave(true);

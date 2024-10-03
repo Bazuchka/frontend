@@ -1,8 +1,18 @@
-import { expect } from "@playwright/test";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { expect, Page } from "@playwright/test";
 import { testI18n } from "../fixtures/i18n.fixture";
 
-export const hasHeaderAndBreadcrumbs = (menuName: string) => {
-    testI18n("has header and breadcumbs", async ({ page, i18nFix }) => {
+export const hasHeaderAndBreadcrumbsStep = (
+    menuName: string,
+    {
+        page,
+        i18nFix,
+    }: {
+        page: Page;
+        i18nFix: any;
+    }
+) => {
+    return testI18n.step("has header and breadcumbs", async () => {
         await expect(
             page.locator("h2").getByText(i18nFix.t(menuName), { exact: true })
         ).toBeVisible();

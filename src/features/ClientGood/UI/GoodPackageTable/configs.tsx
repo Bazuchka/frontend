@@ -26,6 +26,7 @@ export const getColumns = () => {
                                 {...register("code", { required: true })}
                                 multiline={true}
                                 error={!!error}
+                                data-test-id={"value:code"}
                             />
                         );
                     },
@@ -53,6 +54,7 @@ export const getColumns = () => {
                                         isDisable={false}
                                         error={invalid}
                                         value={value}
+                                        testFieldName="unitOfMeasure"
                                         onValueChange={(data) => onChange(data)}
                                         dictionaryParams={{ type: DictionaryType.UNIT_OF_MEASURE }}
                                     />
@@ -88,6 +90,7 @@ export const getColumns = () => {
                                         dictionaryParams={{
                                             type: DictionaryType.PROCESSING_TYPE,
                                         }}
+                                        testFieldName="processingType"
                                         translatePath={"ProcessingType:types"}
                                     />
                                 )}
@@ -110,6 +113,7 @@ export const getColumns = () => {
                                 size="small"
                                 {...register("conversionQty", { required: true })}
                                 error={!!error}
+                                data-test-id={"value:conversionQty"}
                             />
                         );
                     },
@@ -130,6 +134,7 @@ export const getColumns = () => {
                                 size="small"
                                 {...register("level", { required: true, min: 0 })}
                                 error={!!error}
+                                data-test-id={"value:level"}
                             />
                         );
                     },
@@ -150,6 +155,7 @@ export const getColumns = () => {
                                 size="small"
                                 {...register("length", { min: 0 })}
                                 error={!!error}
+                                data-test-id={"value:length"}
                             />
                         );
                     },
@@ -170,6 +176,7 @@ export const getColumns = () => {
                                 size="small"
                                 {...register("width", { min: 0 })}
                                 error={!!error}
+                                data-test-id={"value:width"}
                             />
                         );
                     },
@@ -190,6 +197,7 @@ export const getColumns = () => {
                                 size="small"
                                 {...register("height", { min: 0 })}
                                 error={!!error}
+                                data-test-id={"value:height"}
                             />
                         );
                     },
@@ -210,6 +218,7 @@ export const getColumns = () => {
                                 size="small"
                                 {...register("volume", { min: 0 })}
                                 error={!!error}
+                                data-test-id={"value:volume"}
                             />
                         );
                     },
@@ -230,6 +239,7 @@ export const getColumns = () => {
                                 size="small"
                                 {...register("weight", { min: 0 })}
                                 error={!!error}
+                                data-test-id={"value:weight"}
                             />
                         );
                     },
@@ -250,6 +260,7 @@ export const getColumns = () => {
                                 size="small"
                                 {...register("tareWeight", { min: 0 })}
                                 error={!!error}
+                                data-test-id={"value:tareWeight"}
                             />
                         );
                     },
@@ -273,6 +284,7 @@ export const getColumns = () => {
                                 {...register("active")}
                                 error={!!error}
                                 defaultChecked={row.original.active}
+                                data-test-id={"value:active"}
                             />
                         );
                     },

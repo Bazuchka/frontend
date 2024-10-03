@@ -100,6 +100,7 @@ const IAlert: FC<IAlertProps> = observer(
                 mountOnEnter
                 className={classes.wrapper}>
                 <Alert
+                    data-test-id="alert"
                     severity={mode ? mode : "success"}
                     variant={"outlined"}
                     onClose={onCloseAlertHandler}>

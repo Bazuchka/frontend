@@ -58,6 +58,7 @@ const ClientGoodInit: FunctionComponent<ClientGoodInitProps> = observer((props) 
                                 active: true,
                             },
                         }}
+                        testFieldName="clientGood-client"
                     />
                 </Grid>
                 <Grid item xs={4}>
@@ -77,6 +78,7 @@ const ClientGoodInit: FunctionComponent<ClientGoodInitProps> = observer((props) 
                                 active: true,
                             },
                         }}
+                        testFieldName="clientGood-goodType"
                     />
                 </Grid>
                 <Grid item xs={4}>
@@ -97,6 +99,7 @@ const ClientGoodInit: FunctionComponent<ClientGoodInitProps> = observer((props) 
                                 active: true,
                             },
                         }}
+                        testFieldName="clientGood-clientGoodType"
                     />
                 </Grid>
             </Grid>

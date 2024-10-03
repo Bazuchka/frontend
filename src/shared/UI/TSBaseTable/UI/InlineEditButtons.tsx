@@ -91,6 +91,7 @@ const InlinetEditButtons: FunctionComponent<InlinetEditButtonsProps> = ({
                 }
                 className={className}
                 loading={tableState.isCreating}
+                data-test-id={`button:${t("Action:save")}`}
                 onClick={() => onSave()}>
                 {t("Action:save")}
             </LoadingButton>
@@ -107,6 +108,7 @@ const InlinetEditButtons: FunctionComponent<InlinetEditButtonsProps> = ({
                     disabled={tableState.isLoading}
                     className={className}
                     loading={tableState.isCreating}
+                    data-test-id={`button:${t("Action:next")}`}
                     onClick={() => {
                         if (isEditMode) {
                             onSave(true);
