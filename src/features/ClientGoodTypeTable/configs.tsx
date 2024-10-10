@@ -26,6 +26,7 @@ export const getColumns = () => {
                                         size="small"
                                         {...register("clientSyncId", { required: true })}
                                         multiline={true}
+                                        data-test-id="value:clientSyncId"
                                         error={!!error}
                                     />
                                 );
@@ -52,7 +53,10 @@ export const getColumns = () => {
                                     name="client"
                                     control={control}
                                     rules={{ required: true }}
-                                    autoCompleteProps={{ dictionaryType: DictionaryType.CLIENT }}
+                                    autoCompleteProps={{
+                                        dictionaryType: DictionaryType.CLIENT,
+                                        testFieldName: "client",
+                                    }}
                                 />
                             );
                         },
@@ -72,6 +76,7 @@ export const getColumns = () => {
                                 size="small"
                                 {...register("code", { required: true })}
                                 error={!!error}
+                                data-test-id="value:code"
                             />
                         );
                     },
@@ -99,6 +104,7 @@ export const getColumns = () => {
                                     {...register("isVariable")}
                                     error={!!error}
                                     defaultChecked={original.isVariable}
+                                    data-test-id="value:isVariable"
                                 />
                             );
                         },
@@ -128,6 +134,7 @@ export const getColumns = () => {
                                     {...register("active")}
                                     error={!!error}
                                     defaultChecked={original.active}
+                                    data-test-id="value:active"
                                 />
                             );
                         },

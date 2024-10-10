@@ -8,7 +8,11 @@ export const ShippingOrderCargo = types
         id: types.identifier,
         code: types.maybe(types.string),
         syncId: types.maybe(types.string),
-        shippingOrderGood: ForeignKey,
+        shippingOrderGood: types.model("ShippingOrderGood", {
+            id: types.string,
+            code: types.string,
+            batch: types.maybeNull(ForeignKey),
+        }),
         barcode: types.maybeNull(ForeignKey),
         clientGood: types.maybeNull(ForeignKey),
         goodPackage: ForeignKey,

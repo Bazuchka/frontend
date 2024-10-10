@@ -169,6 +169,9 @@ export const fieldsConfiguration = ({
                         type: DictionaryType.CLIENT_DRIVER,
                         filter: {
                             active: true,
+                            client: {
+                                id: relatedData.clientId,
+                            },
                         },
                     },
                 },

@@ -38,6 +38,7 @@ const ControlledAutoComplete = <T extends ChosenSelectObject>({
                     dictionaryParams={autoCompleteProps.dictionaryParams}
                     dictionaryType={autoCompleteProps.dictionaryType}
                     error={invalid}
+                    testFieldName={autoCompleteProps.testFieldName}
                 />
             )}
         />

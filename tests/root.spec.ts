@@ -1,7 +1,9 @@
-import { clientGoods } from "./clientgoods.spec";
+import { clientRelatedEntity } from "./clientrelatedentity.spec";
 import { clients } from "./clients.spec";
 import { testI18n } from "./fixtures/i18n.fixture";
 import { legalEntities } from "./legalEntities.spec";
+import { services } from "./service.spec";
+import { unitOfMeasure } from "./unitOfMeadure.spec";
 
 export interface ISharedData {
     clientGood?: string;
@@ -16,6 +18,8 @@ testI18n.describe("Root Dictionaries Independed", async () => {
 
     clients();
     legalEntities();
+    services();
+    unitOfMeasure();
 });
 
 testI18n.describe.serial("Root Dictionaries Depended", async () => {
@@ -24,7 +28,9 @@ testI18n.describe.serial("Root Dictionaries Depended", async () => {
             waitUntil: "networkidle",
         });
     });
-    const sharedData: ISharedData = {};
+    // const sharedData: ISharedData = {};
 
-    clientGoods(sharedData);
+    // clientGoodTypes();
+    // clientGoods(sharedData);
+    clientRelatedEntity();
 });

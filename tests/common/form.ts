@@ -1,4 +1,6 @@
-import { Page } from "@playwright/test";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { expect, Page } from "@playwright/test";
+import { testI18n } from "../fixtures/i18n.fixture";
 import { autocompleteSelect } from "./autocompleteSelect";
 
 export enum FieldItemType {
@@ -73,4 +75,46 @@ export const populateForm = async (page: Page, formItems: IFormItem[]) => {
             }
         }
     }
+};
+
+export const promptVisibleWhenFieldIsDirtyOnCancel = async (
+    { page, i18nFix }: { page: Page; i18nFix: any },
+    fields: IFormItem[],
+    isEdit?: boolean
+) => {
+    await testI18n.step("all dirty fields lead to ensure prompt on cancel", async () => {
+        for (let index = 0; index < fields.length; index++) {
+            if (isEdit) {
+                await page
+                    .getByTestId("table-footer")
+                    .getByRole("button", { name: i18nFix.t("Action:edit") })
+                    .click();
+            } else {
+                await page
+                    .getByTestId("table-footer")
+                    .getByRole("button", { name: i18nFix.t("Action:create") })
+                    .click();
+            }
+
+            const field = fields[index];
+            await populateForm(page, [field]);
+            await page
+                .getByRole("button", {
+                    name: i18nFix.t("Action:cancel"),
+                })
+                .click();
+
+            const dialog = await page.getByRole("dialog");
+            await expect(dialog).toBeVisible();
+            await expect(dialog.getByText(i18nFix.t("Dialog:cancelAction"))).toBeVisible();
+
+            await dialog
+                .getByRole("button", {
+                    name: i18nFix.t("Action:yes"),
+                })
+                .click();
+
+            await expect(dialog).not.toBeVisible();
+        }
+    });
 };

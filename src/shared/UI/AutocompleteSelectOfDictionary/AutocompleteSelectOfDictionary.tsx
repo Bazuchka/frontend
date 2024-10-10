@@ -40,6 +40,8 @@ export interface AutocompleteSelectOfDictionaryProps<T extends ChosenSelectObjec
     testFieldName?: string;
     placeholder?: string;
     useRenderValuePattern?: boolean;
+    popupIcon?: React.ReactNode;
+    disablePortal?: boolean;
 }
 
 export const AutocompleteSelectOfDictionary = <T extends ChosenSelectObject>(
@@ -71,6 +73,8 @@ export const AutocompleteSelectOfDictionary = <T extends ChosenSelectObject>(
         useDefaultFilter,
         placeholder,
         useRenderValuePattern,
+        popupIcon,
+        disablePortal,
     } = props;
 
     const variablesParams = dictionaryType ? { type: dictionaryType } : dictionaryParams;
@@ -180,6 +184,8 @@ export const AutocompleteSelectOfDictionary = <T extends ChosenSelectObject>(
             isOptionEqualToValue={(option: any, value: any) => option.id === value.id}
             options={data}
             inputValue={inputValue}
+            popupIcon={popupIcon}
+            disablePortal={disablePortal}
             value={onExternalSelectedValueChange ? externalSelectedValue : selectedValue}
             onInputChange={(_, value, reason) => {
                 if (reason === AutocompleteInputChangeReason.RESET) {

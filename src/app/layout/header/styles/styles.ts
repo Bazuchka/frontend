@@ -52,4 +52,26 @@ export const useStyles = createUseStyles((theme: Theme) => ({
         width: theme.iconSize,
         height: theme.iconSize,
     },
+    select: {
+        background: "white",
+        width: 200,
+        borderRadius: "4px",
+        "& .MuiOutlinedInput-notchedOutline": {
+            border: "none",
+        },
+        "& .MuiAutocomplete-popper": {
+            top: "4px !important",
+        },
+        "& .MuiAutocomplete-root .MuiOutlinedInput-root": {
+            padding: "4px 44px 4px 8px",
+        },
+
+        "& .MuiAutocomplete-root.MuiAutocomplete-hasClearIcon .MuiOutlinedInput-root": {
+            paddingRight: "72px",
+        },
+
+        "& .MuiIconButton-sizeMedium": {
+            marginRight: "5px",
+        },
+    },
 }));

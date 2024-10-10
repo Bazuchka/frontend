@@ -10,7 +10,7 @@
     "build": "tsc && vite build && node generate-version.cjs",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "test": "jest --passWithNoTests",
+    "test": "jest --passWithNoTests --collectCoverage=false",
     "test:watch": "jest --watch",
     "coverage": "jest",
     "format": "eslint --cache --fix --ext .jsx,.js,.tsx,.ts src && prettier -w ./src",
@@ -52,6 +52,7 @@
     "web-vitals": "^4.0.1"
   },
   "devDependencies": {
+    "@jest/globals": "^29.7.0",
     "@playwright/test": "^1.47.2",
     "@testing-library/jest-dom": "^6.4.5",
     "@testing-library/react": "^15.0.7",

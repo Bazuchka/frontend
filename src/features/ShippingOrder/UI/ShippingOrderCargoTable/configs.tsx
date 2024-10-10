@@ -36,7 +36,8 @@ export const getColumns = (shippingOrderId: string) => () => {
         }),
         columnHelper.accessor("batch", {
             cell: ({ row }) =>
-                (row.getValue("shippingOrderGood") as { batch: { code: string } })?.batch?.code,
+                (row.getValue("shippingOrderGood") as { batch: { code: string } })?.batch?.code ??
+                row.original.shippingOrderGood?.batch?.code,
             header: t("ShippingOrderCargo:properties.batch"),
             meta: {
                 isComputed: true,

@@ -110,6 +110,7 @@ export const getColumns = ({ clientId, isRailway, receivingOrderId }: ColumnProp
                                                         client: {
                                                             id: clientId,
                                                         },
+                                                        notUsedInReceivingOrder: receivingOrderId,
                                                     },
                                                 }}
                                             />

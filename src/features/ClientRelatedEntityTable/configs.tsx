@@ -25,6 +25,7 @@ export const getColumns = () => {
                                 {...register("code", { required: true })}
                                 multiline={true}
                                 error={!!error}
+                                data-test-id="value:code"
                             />
                         );
                     },
@@ -54,6 +55,7 @@ export const getColumns = () => {
                                         value={value}
                                         onValueChange={(data) => onChange(data)}
                                         dictionaryParams={{ type: DictionaryType.CLIENT }}
+                                        testFieldName="client"
                                     />
                                 )}
                             />
@@ -74,6 +76,7 @@ export const getColumns = () => {
                                 size="small"
                                 {...register("inn", { maxLength: 12 })}
                                 error={!!error}
+                                data-test-id="value:inn"
                             />
                         );
                     },
@@ -93,6 +96,7 @@ export const getColumns = () => {
                                 size="small"
                                 {...register("kpp", { maxLength: 9 })}
                                 error={!!error}
+                                data-test-id="value:kpp"
                             />
                         );
                     },
@@ -116,6 +120,7 @@ export const getColumns = () => {
                                 {...register("isShipper")}
                                 error={!!error}
                                 defaultChecked={row.original.isShipper}
+                                data-test-id="value:isShipper"
                             />
                         );
                     },
@@ -139,6 +144,7 @@ export const getColumns = () => {
                                 {...register("isConsignee")}
                                 error={!!error}
                                 defaultChecked={row.original.isConsignee}
+                                data-test-id="value:isConsignee"
                             />
                         );
                     },
@@ -162,6 +168,7 @@ export const getColumns = () => {
                                 {...register("isCarrier")}
                                 error={!!error}
                                 defaultChecked={row.original.isCarrier}
+                                data-test-id="value:isCarrier"
                             />
                         );
                     },
@@ -191,6 +198,7 @@ export const getColumns = () => {
                                         value={value}
                                         onValueChange={(data) => onChange(data)}
                                         dictionaryParams={{ type: DictionaryType.LEGAL_ENTITY }}
+                                        testFieldName="legalEntity"
                                     />
                                 )}
                             />
@@ -215,6 +223,7 @@ export const getColumns = () => {
                                 {...register("active")}
                                 error={!!error}
                                 defaultChecked={row.original.active}
+                                data-test-id="value:active"
                             />
                         );
                     },

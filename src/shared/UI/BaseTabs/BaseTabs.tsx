@@ -45,6 +45,12 @@ const BaseTabs: FC<BaseTabsProps> = observer((props) => {
     const [activeTab, setActiveTab] = useState<string | number>(targetTab);
 
     useEffect(() => {
+        if (navigateUseSearchQuery && !fromQueryTab && tabs.length > 1) {
+            setSearchParams("tab=0");
+        }
+    }, []);
+
+    useEffect(() => {
         navigateUseSearchQuery && fromQueryTab && setActiveTab(parseInt(fromQueryTab, 10));
     }, [fromQueryTab]);
 

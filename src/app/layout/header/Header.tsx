@@ -1,10 +1,11 @@
-import { AppBar, Box, ButtonBase, Grid, Toolbar, useTheme } from "@mui/material";
+import { AppBar, Box, ButtonBase, Grid, SvgIcon, Toolbar, useTheme } from "@mui/material";
 import { observer } from "mobx-react";
 import { FC, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useLocation } from "react-router-dom";
 import { useStyles } from "src/app/layout/header/styles/styles";
 import { viewStore } from "src/app/store";
+import { ArrowDownIcon } from "src/assets/svg";
 import { AlertList } from "src/features/AlertList";
 import { UserBar } from "src/features/User/UserBar";
 import { IForeignKey } from "src/shared/entities/ForeignKey";
@@ -59,7 +60,7 @@ const Header: FC = observer(() => {
                     <Grid
                         container
                         sx={{ width: 420, justifyContent: "space-between", marginRight: 2 }}>
-                        <Grid item sx={{ background: "white", width: 200 }}>
+                        <Grid item className={classes.select}>
                             <AutocompleteSelectOfDictionary
                                 value={viewStore.globalFilters.client}
                                 onValueChange={(value) => {
@@ -67,6 +68,8 @@ const Header: FC = observer(() => {
                                         (value as IForeignKey) ?? undefined
                                     );
                                 }}
+                                popupIcon={<SvgIcon component={ArrowDownIcon} />}
+                                disablePortal={true}
                                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                                 dictionaryParams={{
                                     type: DictionaryType.CLIENT,
@@ -79,7 +82,7 @@ const Header: FC = observer(() => {
                                 testFieldName="global-filter-client"
                             />
                         </Grid>
-                        <Grid item sx={{ background: "white", width: 200 }}>
+                        <Grid item className={classes.select}>
                             <AutocompleteSelectOfDictionary
                                 value={viewStore.globalFilters.legalEntity}
                                 onValueChange={(value) => {
@@ -87,6 +90,8 @@ const Header: FC = observer(() => {
                                         (value as IForeignKey) ?? undefined
                                     );
                                 }}
+                                popupIcon={<SvgIcon component={ArrowDownIcon} />}
+                                disablePortal={true}
                                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                                 dictionaryParams={{
                                     type: DictionaryType.LEGAL_ENTITY,

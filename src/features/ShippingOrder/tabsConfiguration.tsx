@@ -212,7 +212,7 @@ export const shippingOrderConfiguration: (isCreateMode: boolean) => TabsConfigur
             ),
             disabled: isCreateMode,
             permission: {
-                path: "ShippingOrder.ShipppingOrderRequestedService",
+                path: "ShippingOrder.ShippingOrderRequestedService",
                 type: PermissionType.FORM,
             },
         },

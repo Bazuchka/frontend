@@ -91,7 +91,7 @@ export const clientGoods = (sharedData: ISharedData) =>
 
             await autocompleteSelect(page, {
                 autocompleteId: "clientGood-clientGoodType",
-                text: CLIENT_GOOD_TYPE.name,
+                text: CLIENT_GOOD_TYPE.code,
             });
 
             await page

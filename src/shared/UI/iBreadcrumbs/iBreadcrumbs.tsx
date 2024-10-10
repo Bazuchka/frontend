@@ -11,6 +11,7 @@ import {
 import { viewStore } from "src/app/store";
 import { useIBreadcrumbsStyles } from "./style/style";
 import { getObjectByPath } from "./utils";
+import { lsKeys, useLocalStorage } from "src/shared/hooks/useLocalStorage";
 
 const IBreadcrumbs: FC = observer((): JSX.Element => {
     const theme = useTheme();
@@ -33,8 +34,10 @@ const IBreadcrumbs: FC = observer((): JSX.Element => {
         return null;
     };
 
+    const lsBreadCrumbs = useLocalStorage<MenuConfiguration | null>(lsKeys.breadKrumbs);
+
     useEffect(() => {
-        let usingBreadCrumbs = JSON.parse(localStorage.getItem("breadCrumbs") as string);
+        let usingBreadCrumbs = lsBreadCrumbs.lsData;
 
         if (Array.isArray(usingBreadCrumbs)) {
             usingBreadCrumbs = usingBreadCrumbs.filter((path: MenuItem | null) => !!path);
@@ -48,24 +51,11 @@ const IBreadcrumbs: FC = observer((): JSX.Element => {
 
             if (newWay !== null) {
                 setNewWay(null);
-                localStorage.setItem("breadCrumbs", "null");
+                lsBreadCrumbs.setItem(null);
             }
 
             setPathName(path);
         } else {
-            if (usingBreadCrumbs && usingBreadCrumbs.filter((el: MenuItem) => el?.path === path)) {
-                const elIndex = usingBreadCrumbs.findIndex((el: MenuItem) => el?.path === path);
-                const lastId = usingBreadCrumbs[elIndex]?.id;
-
-                if (lastId) {
-                    localStorage.setItem("lastId", lastId);
-
-                    delete usingBreadCrumbs[elIndex].id;
-
-                    localStorage.setItem("breadCrumbs", JSON.stringify(usingBreadCrumbs));
-                }
-            }
-
             const newItem =
                 getObjectByPath(menuConfiguration(menuParams), path) ||
                 getObjectByPath(menuConfiguration(menuParams), "/" + findLastBetweenSlashes(path));
@@ -78,9 +68,11 @@ const IBreadcrumbs: FC = observer((): JSX.Element => {
                 const index = usingBreadCrumbs.findIndex((el: MenuItem) => el.key === newItem?.key);
                 const newBread = [...usingBreadCrumbs].slice(0, index + 1);
 
-                newBread[index] = newItem;
+                if (newItem) {
+                    newBread[index] = newItem;
+                }
 
-                localStorage.setItem("breadCrumbs", JSON.stringify(newBread));
+                lsBreadCrumbs.setItem(newBread);
                 setNewWay(newBread);
             } else if (path && newItem && newItem.path) {
                 const newItemWithId = {
@@ -89,10 +81,7 @@ const IBreadcrumbs: FC = observer((): JSX.Element => {
                 };
 
                 const breadcrumbs = getBreadCrumbs(pathName);
-                localStorage.setItem(
-                    "breadCrumbs",
-                    JSON.stringify([...breadcrumbs, newItemWithId as MenuItem])
-                );
+                lsBreadCrumbs.setItem([...breadcrumbs, newItemWithId]);
 
                 setNewWay([...breadcrumbs, newItem as MenuItem]);
             }
