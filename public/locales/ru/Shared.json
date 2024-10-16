@@ -24,7 +24,14 @@
         "successDelete": "Запись успешно удалена",
         "notResponsive": "Сервис временно не доступен",
         "snapshotConvertion": "Модель типа {{modelName}} не была создана, т.к.  содержит некорректные данные для id: {{id}}",
-        "User already has such role assigned": "Пользователю уже назначена такая роль"
+        "User already has such role assigned": "Пользователю уже назначена такая роль",
+        "ReceivingOrder": {
+            "ItemsMissingForContainers": "Ошибка валидации заявки, внесите данные во вкладке Товары для всех контейнеров"
+        },
+        "ShippingOrder": {
+            "ItemsMissingForContainers": "Ошибка валидации заявки, внесите данные во вкладке Товары для всех контейнеров"    
+        }
+        
     },
     "Detailed": "Подробнее",
     "Reference": {

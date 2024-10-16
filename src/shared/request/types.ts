@@ -56,6 +56,7 @@ export interface Options {
 export type BaseActionOptions = Pick<Options, "preventDefaultAlert"> & {
     urlPostfix?: string;
     serviceUrl?: string;
+    customEndpoint?: string;
     method?: Method;
     headers?: Record<string, string>;
 };

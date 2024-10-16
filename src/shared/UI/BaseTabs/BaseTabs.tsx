@@ -46,7 +46,7 @@ const BaseTabs: FC<BaseTabsProps> = observer((props) => {
 
     useEffect(() => {
         if (navigateUseSearchQuery && !fromQueryTab && tabs.length > 1) {
-            setSearchParams("tab=0");
+            setSearchParams("tab=0", { replace: true });
         }
     }, []);
 

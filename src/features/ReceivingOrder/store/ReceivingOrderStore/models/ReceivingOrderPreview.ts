@@ -56,7 +56,10 @@ export const ReceivingOrderPreview = types
         const sendDraft = flow(function* () {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const { current, update, setCurrent } = getRoot<any>(self);
-            yield update({ ...current!, orderStatus: "ACCEPTED" });
+            yield update(
+                { ...current!, orderStatus: "ACCEPTED" },
+                { customEndpoint: current.id + "/accept" }
+            );
             yield setCurrent(current.id);
         });
 

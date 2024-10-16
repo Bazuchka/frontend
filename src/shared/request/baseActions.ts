@@ -25,13 +25,14 @@ export const getBaseActions = <GetParams, SetParams>(URL?: string, mock?: boolea
             });
         },
         update<T>(id: GridRowId, data: SetParams, options?: BaseActionOptions) {
+            const serviceUrl = options && options.serviceUrl;
+            const customEndpoint = options && `${URL}/${options.customEndpoint}`;
+            const customUrl = serviceUrl ? serviceUrl : customEndpoint;
+
             return request<T>({
                 method: "PUT",
                 baseURL,
-                url:
-                    options && options.serviceUrl != undefined
-                        ? options.serviceUrl
-                        : `${URL}/${id}`,
+                url: customUrl ? customUrl : `${URL}/${id}`,
                 data: data,
             });
         },
