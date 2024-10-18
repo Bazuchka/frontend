@@ -42,6 +42,7 @@ export interface AutocompleteSelectOfDictionaryProps<T extends ChosenSelectObjec
     useRenderValuePattern?: boolean;
     popupIcon?: React.ReactNode;
     disablePortal?: boolean;
+    mapDataCallback?: <T>(list: T[]) => T[];
 }
 
 export const AutocompleteSelectOfDictionary = <T extends ChosenSelectObject>(
@@ -75,6 +76,7 @@ export const AutocompleteSelectOfDictionary = <T extends ChosenSelectObject>(
         useRenderValuePattern,
         popupIcon,
         disablePortal,
+        mapDataCallback,
     } = props;
 
     const variablesParams = dictionaryType ? { type: dictionaryType } : dictionaryParams;
@@ -85,6 +87,7 @@ export const AutocompleteSelectOfDictionary = <T extends ChosenSelectObject>(
         useSorting,
         isMock,
         useDefaultFilter,
+        mapDataCallback,
     });
 
     const [inputValue, setInputValue] = useState<string>("");

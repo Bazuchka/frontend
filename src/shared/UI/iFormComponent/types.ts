@@ -32,4 +32,5 @@ export interface FormProps {
         isValid: boolean;
         isDirty: boolean;
     }) => void;
+    mapDataCallback?: (list: FieldValues[]) => FieldValues[];
 }

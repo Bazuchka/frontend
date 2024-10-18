@@ -64,6 +64,7 @@ export interface FieldItemProps {
     testFieldName?: string;
     events?: {
         onButtonClick?: (event: React.MouseEvent) => void;
+        mapDataCallback?: <T>(list: T[]) => T[];
     };
 }
 

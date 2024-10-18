@@ -134,10 +134,16 @@ export const getColumns = (client: IForeignKey) => {
                 isComputed: true,
                 editableCell: {
                     component: ({ row: { getValue, setValue }, control }) => {
+                        const isRequired = () => {
+                            return getValue("clientGood")?.batchAccountingType !== "NOT_USED";
+                        };
                         return (
                             <Controller
                                 name="batch"
                                 control={control}
+                                rules={{
+                                    required: isRequired(),
+                                }}
                                 render={({
                                     field: { onChange, value },
                                     fieldState: { invalid },

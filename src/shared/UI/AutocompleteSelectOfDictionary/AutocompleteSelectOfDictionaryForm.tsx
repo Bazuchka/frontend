@@ -18,6 +18,7 @@ interface AutocompleteSelectOfDictionaryFormProps {
     renderValueSecondary?: string;
     onClear?: () => void;
     testFieldName?: string;
+    mapDataCallback?: <T>(list: T[]) => T[];
 }
 
 const AutocompleteSelectOfDictionaryForm: FC<AutocompleteSelectOfDictionaryFormProps> = (props) => {

@@ -42,7 +42,8 @@ const createComponentByType = (
     trigger?: ITriggerType,
     min?: number,
     max?: number,
-    options?: string[] | ValueOption[]
+    options?: string[] | ValueOption[],
+    mapDataCallback?: <T>(list: T[]) => T[]
 ) => {
     switch (type) {
         case FieldItemType.CHECKBOX: {
@@ -173,6 +174,7 @@ const createComponentByType = (
                     renderValueSecondary={renderValueSecondary}
                     onClear={onClear}
                     testFieldName={testFieldName}
+                    mapDataCallback={mapDataCallback}
                 />
             );
         }

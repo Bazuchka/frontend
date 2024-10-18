@@ -35,5 +35,12 @@ export const getOptionLabel = (props: GetOptionLabelProps): string => {
         return defaultNullValue;
     }
 
+    if (option.customCode) {
+        return (
+            (translatePath ? t(`${translatePath}.${option.customCode}`) : option.customCode) +
+            (name ? `_${name}` : "")
+        );
+    }
+
     return (translatePath ? t(`${translatePath}.${code}`) : code) + (name ? `_${name}` : "");
 };

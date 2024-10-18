@@ -5,6 +5,12 @@ export const ForeignKey = types.model({
     code: types.string,
 });
 
+export const ForeignKeyWithName = types.model({
+    id: types.string,
+    code: types.string,
+    name: types.maybeNull(types.string),
+});
+
 export const ForeignKeyShort = types.model({
     id: types.string,
 });

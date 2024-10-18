@@ -1,6 +1,6 @@
 import { Instance, types } from "mobx-state-tree";
 import { EtranInvoiceStore } from "src/features/EtranInvoice/store/EtranInvoice";
-import { ForeignKey, ForeignKeyShort } from "src/shared/entities";
+import { ForeignKey, ForeignKeyShort, ForeignKeyWithName } from "src/shared/entities";
 import { createBaseStoreWithViewMediator } from "src/shared/entities/BaseStore";
 import { ViewMediator } from "src/shared/store";
 
@@ -8,8 +8,8 @@ export const EtranInvoice = types.model("EtranInvoice", {
     id: types.identifier,
     code: types.maybeNull(types.string),
     shipper: types.maybeNull(ForeignKey),
-    departureStation: types.maybeNull(ForeignKey),
-    destinationStation: types.maybeNull(ForeignKey),
+    departureStation: types.maybeNull(ForeignKeyWithName),
+    destinationStation: types.maybeNull(ForeignKeyWithName),
 });
 
 export const ReceivingOrderEtranInvoice = types.model("ReceivingOrderEtranInvoice", {
@@ -17,8 +17,8 @@ export const ReceivingOrderEtranInvoice = types.model("ReceivingOrderEtranInvoic
     etranInvoice: types.maybeNull(EtranInvoice),
     receivingOrder: ForeignKeyShort,
     shipper: types.maybeNull(ForeignKey),
-    departureStation: types.maybeNull(ForeignKey),
-    destinationStation: types.maybeNull(ForeignKey),
+    departureStation: types.maybeNull(ForeignKeyWithName),
+    destinationStation: types.maybeNull(ForeignKeyWithName),
     etranInvoiceStore: types.optional(EtranInvoiceStore, () => EtranInvoiceStore.create()),
 });
 

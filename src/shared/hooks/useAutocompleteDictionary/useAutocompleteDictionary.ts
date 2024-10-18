@@ -61,7 +61,10 @@ const useAutocompleteDictionary = (params: IUseAutocompleteDictionary) => {
                     isMock
                 )
                 .then((response) => {
-                    const newData = (response as { data: IdCode[] }).data;
+                    let newData = (response as { data: IdCode[] }).data;
+                    newData = params.mapDataCallback
+                        ? params.mapDataCallback<IdCode>(newData)
+                        : newData;
 
                     setIsDataFullyLoaded(!newData.length);
                     setData((state) => (isRequestNew ? newData : [...state, ...newData]));

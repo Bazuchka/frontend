@@ -68,6 +68,7 @@ export interface IUseAutocompleteDictionary {
     useSorting?: boolean;
     useDefaultFilter?: boolean;
     isMock?: boolean;
+    mapDataCallback?: <T>(list: T[]) => T[];
 }
 
 export interface ProcessingObjectType {

@@ -10,6 +10,7 @@ import { useDictionary } from "../../hooks/useDictionary";
 export interface ChosenSelectObject {
     active?: boolean;
     code?: string;
+    customCode?: string;
     id: string;
     name?: string | null;
 }

@@ -102,8 +102,10 @@ export const getColumns = () => {
         }),
         columnHelper.accessor("departureStation", {
             cell: ({ row: { getValue } }) => {
-                return (getValue("etranInvoice") as { departureStation: { code: string } })
-                    ?.departureStation?.code;
+                const value = getValue("etranInvoice") as {
+                    departureStation: { code: string; name: string };
+                };
+                return value?.departureStation?.name || value?.departureStation?.code;
             },
             header: t("ShippingOrderEtranInvoice:properties.departureStation"),
             meta: {
@@ -113,8 +115,10 @@ export const getColumns = () => {
         }),
         columnHelper.accessor("destinationStation", {
             cell: ({ row: { getValue } }) => {
-                return (getValue("etranInvoice") as { destinationStation: { code: string } })
-                    ?.destinationStation?.code;
+                const value = getValue("etranInvoice") as {
+                    destinationStation: { code: string; name: string };
+                };
+                return value?.destinationStation?.name || value?.destinationStation?.code;
             },
             header: t("ShippingOrderEtranInvoice:properties.destinationStation"),
             meta: {

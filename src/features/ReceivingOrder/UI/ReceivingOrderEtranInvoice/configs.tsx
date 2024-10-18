@@ -43,7 +43,6 @@ export const getColumns = () => {
                                                 renderValuePrimary="code"
                                                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                                                 onValueChange={(data: any) => {
-                                                    console.log(data);
                                                     setValue("shipper", data?.shipper);
                                                     onChange(data);
                                                 }}
@@ -102,8 +101,10 @@ export const getColumns = () => {
         }),
         columnHelper.accessor("departureStation", {
             cell: ({ row: { getValue } }) => {
-                return (getValue("etranInvoice") as { departureStation: { code: string } })
-                    ?.departureStation?.code;
+                const value = getValue("etranInvoice") as {
+                    departureStation: { code: string; name: string };
+                };
+                return value?.departureStation?.name || value?.departureStation?.code;
             },
             header: t("ReceivingOrderEtranInvoice:properties.departureStation"),
             meta: {
@@ -113,8 +114,10 @@ export const getColumns = () => {
         }),
         columnHelper.accessor("destinationStation", {
             cell: ({ row: { getValue } }) => {
-                return (getValue("etranInvoice") as { destinationStation: { code: string } })
-                    ?.destinationStation?.code;
+                const value = getValue("etranInvoice") as {
+                    departureStation: { code: string; name: string };
+                };
+                return value?.departureStation?.name || value?.departureStation?.code;
             },
             header: t("ReceivingOrderEtranInvoice:properties.destinationStation"),
             meta: {

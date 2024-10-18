@@ -30,8 +30,9 @@
         },
         "ShippingOrder": {
             "ItemsMissingForContainers": "Ошибка валидации заявки, внесите данные во вкладке Товары для всех контейнеров"    
-        }
-        
+        },
+        "Invalid BatchId": "Проверьте введенные данные",
+        "User already has such role assigned": "Пользователю уже назначена такая роль"
     },
     "Detailed": "Подробнее",
     "Reference": {

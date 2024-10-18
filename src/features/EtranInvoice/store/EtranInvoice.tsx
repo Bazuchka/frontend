@@ -1,5 +1,5 @@
 import { Instance, types } from "mobx-state-tree";
-import { ForeignKey } from "src/shared/entities";
+import { ForeignKey, ForeignKeyWithName } from "src/shared/entities";
 import { createBaseStoreWithViewMediator } from "src/shared/entities/BaseStore";
 import { ViewMediator } from "src/shared/store";
 
@@ -9,8 +9,8 @@ export const EtranInvoice = types.model("EtranInvoice", {
     active: types.boolean,
     client: ForeignKey,
     shipper: ForeignKey,
-    departureStation: ForeignKey,
-    destinationStation: ForeignKey,
+    departureStation: ForeignKeyWithName,
+    destinationStation: ForeignKeyWithName,
     isEtranCreated: types.maybeNull(types.boolean),
 });
 

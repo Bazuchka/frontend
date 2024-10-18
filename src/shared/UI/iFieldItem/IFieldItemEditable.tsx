@@ -41,6 +41,7 @@ const IFormFieldEditable: React.FC<FieldItemProps> = ({
     max,
     validate,
     testFieldName,
+    events,
 }) => {
     const { labelWidth, valueWidth } = getColumnWidths(isLabelNarrow, withDescription);
 
@@ -106,7 +107,8 @@ const IFormFieldEditable: React.FC<FieldItemProps> = ({
                                 trigger,
                                 min,
                                 max,
-                                options
+                                options,
+                                events?.mapDataCallback
                             ) as ReactElement,
                             {
                                 ...field,

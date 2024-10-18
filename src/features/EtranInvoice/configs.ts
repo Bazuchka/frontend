@@ -1,4 +1,5 @@
 import { t } from "i18next";
+import { FieldValues } from "react-hook-form";
 import etranInvoiceStore from "src/features/EtranInvoice/store";
 import { FieldItemType } from "src/shared/UI/iFieldItem/const";
 import { FieldGroup } from "src/shared/UI/iFieldItem/types";
@@ -87,8 +88,31 @@ export const fieldsConfiguration = (
                     fullLine: true,
                     requestParams: {
                         type: DictionaryType.RAILWAY_STATION,
-                        filter: {
+                        filter: (value) => ({
                             active: true,
+                            code: {
+                                type: SEARCH_TYPE.CONTAINS,
+                                content: value,
+                                byOr: true,
+                            },
+                            esrCode: {
+                                type: SEARCH_TYPE.CONTAINS,
+                                content: value,
+                                byOr: true,
+                            },
+                            name: {
+                                type: SEARCH_TYPE.CONTAINS,
+                                content: value,
+                                byOr: true,
+                            },
+                        }),
+                    },
+                    events: {
+                        mapDataCallback: (dataList: FieldValues[]) => {
+                            return dataList.map((item) => ({
+                                ...item,
+                                customCode: item.esrCode || item.code,
+                            }));
                         },
                     },
                 },
@@ -102,8 +126,31 @@ export const fieldsConfiguration = (
                     fullLine: true,
                     requestParams: {
                         type: DictionaryType.RAILWAY_STATION,
-                        filter: {
+                        filter: (value) => ({
                             active: true,
+                            code: {
+                                type: SEARCH_TYPE.CONTAINS,
+                                content: value,
+                                byOr: true,
+                            },
+                            esrCode: {
+                                type: SEARCH_TYPE.CONTAINS,
+                                content: value,
+                                byOr: true,
+                            },
+                            name: {
+                                type: SEARCH_TYPE.CONTAINS,
+                                content: value,
+                                byOr: true,
+                            },
+                        }),
+                    },
+                    events: {
+                        mapDataCallback: (dataList: FieldValues[]) => {
+                            return dataList.map((item) => ({
+                                ...item,
+                                customCode: item.esrCode || item.code,
+                            }));
                         },
                     },
                 },
