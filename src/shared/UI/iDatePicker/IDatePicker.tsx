@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { DatePicker } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -31,11 +32,11 @@ const IDatePicker: React.FC<DatePickerProps> = ({
                     textField: {
                         error: error,
                         size: "small",
-                    },
+                        "data-test-id": `value:${testFieldName ?? fieldName}`,
+                    } as any,
                 }}
                 format="dd.MM.yyyy"
                 disabled={disableCondition}
-                data-test-id={`value:${testFieldName ?? fieldName}`}
             />
         </LocalizationProvider>
     );

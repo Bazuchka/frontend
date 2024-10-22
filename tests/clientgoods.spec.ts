@@ -14,7 +14,10 @@ export const clientGoods = (sharedData: ISharedData) =>
             await expect(page.getByTestId("progress")).toHaveCount(0);
         });
 
-        hasHeaderAndBreadcrumbsStep("ClientGood:menu.all", { page, i18nFix });
+        hasHeaderAndBreadcrumbsStep(["Shared:Reference.dictionary", "ClientGood:menu.all"], {
+            page,
+            i18nFix,
+        });
 
         await testI18n.step("has table with client gooods", async () => {
             await expect(page.locator("table")).toBeVisible();

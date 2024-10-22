@@ -73,6 +73,14 @@ export const populateForm = async (page: Page, formItems: IFormItem[]) => {
                     .fill(formItem.value as string);
                 break;
             }
+
+            case FieldItemType.DATE: {
+                await page
+                    .getByTestId(`value:${formItem.name}`)
+                    .getByRole("textbox")
+                    .fill(formItem.value as string);
+                break;
+            }
         }
     }
 };

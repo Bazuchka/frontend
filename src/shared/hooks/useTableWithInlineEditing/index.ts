@@ -38,6 +38,7 @@ export interface IUseTableWithInlineEditingParams {
     fetchParams?: Record<string, unknown>;
     disabledFieldsOnUpdate?: string[];
     expandable?: boolean;
+    sortingData?: Record<string, string>;
 }
 
 const ExpandableOptions = {

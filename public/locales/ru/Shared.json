@@ -23,8 +23,10 @@
         "success": "Запись добавлена успешно",
         "successDelete": "Запись успешно удалена",
         "notResponsive": "Сервис временно не доступен",
+        "wrongParams": "Введены неверные данные",
         "snapshotConvertion": "Модель типа {{modelName}} не была создана, т.к.  содержит некорректные данные для id: {{id}}",
         "User already has such role assigned": "Пользователю уже назначена такая роль",
+        "itemWithSameIdAlreadyExist": "Запись с данными идентификатором уже существует в системе",
         "ReceivingOrder": {
             "ItemsMissingForContainers": "Ошибка валидации заявки, внесите данные во вкладке Товары для всех контейнеров"
         },

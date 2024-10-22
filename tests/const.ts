@@ -27,3 +27,11 @@ export const CLIENT_RELATED_ENTITY = {
 
 export const SERVICE_TEST_NAME = "Погрузка";
 export const UNIT_OF_MEASURE_TEST = "м";
+
+export const CLIENT_DRIVER = {
+    code: "AUTOTEST AUTOTEST AUTOTEST",
+    phoneNumber: "+79009999999",
+    POANumber: "1234567890",
+    POAValidTo: "01.01.2024",
+    active: true,
+};

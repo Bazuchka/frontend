@@ -1,5 +1,6 @@
 import { clientRelatedEntity } from "./clientrelatedentity.spec";
 import { clients } from "./clients.spec";
+import { drivers } from "./drivers.spec";
 import { testI18n } from "./fixtures/i18n.fixture";
 import { legalEntities } from "./legalEntities.spec";
 import { services } from "./service.spec";
@@ -20,6 +21,7 @@ testI18n.describe("Root Dictionaries Independed", async () => {
     legalEntities();
     services();
     unitOfMeasure();
+    drivers();
 });
 
 testI18n.describe.serial("Root Dictionaries Depended", async () => {

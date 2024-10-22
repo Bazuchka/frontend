@@ -10,34 +10,53 @@ type Request = {
 
 export type ResponseMessage = Record<string, string>;
 
+interface IAlertParams {
+    errorMessage: string;
+    throttleByMessage: boolean;
+}
+
+const getAlertParams = (
+    response: { data: { errorMessage: string }; status: number } | undefined,
+    options: Options
+): IAlertParams => {
+    const hasErrorMessage = response && response.data && response.data.errorMessage;
+    const isServerError = response === undefined || response.status >= 500;
+    const isClientError = response && response.status >= 400 && !options.preventDefaultAlert;
+
+    let errorMessage = hasErrorMessage
+        ? t(`Shared:AlertMessages.${response.data.errorMessage}`)
+        : "";
+
+    if (isServerError) {
+        errorMessage = hasErrorMessage ? errorMessage : t("Shared:AlertMessages.notResponsive");
+    } else if (isClientError) {
+        errorMessage = hasErrorMessage ? errorMessage : t("Shared:AlertMessages.wrongParams");
+    }
+
+    // todo лучше избавиться от костыля и перейти к получение конкретного errorMessage с BE
+    if (response?.status == 409) {
+        errorMessage = t("Shared:AlertMessages.itemWithSameIdAlreadyExist");
+    }
+
+    return {
+        errorMessage,
+        throttleByMessage: isServerError,
+    };
+};
+
 export const request: Request = async (options: Options) => {
     try {
         const response = await axiosInstance({ ...options });
         return response;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch ({ response }: any) {
-        if (response === undefined || response.status >= 500) {
-            viewStore.addAlert({
-                alertMode: "error",
-                message:
-                    response && response.data && response.data.errorMessage
-                        ? t(`Shared:AlertMessages.${response.data.errorMessage}`)
-                        : t("Shared:AlertMessages.notResponsive"),
-                throttleByMessage: true,
-            });
-            return Promise.reject(response);
-        }
+        const { errorMessage, throttleByMessage } = getAlertParams(response, options);
 
-        if (response.status >= 400 && !options.preventDefaultAlert) {
-            response && response.data && response.data.errorMessage
-                ? viewStore.addAlert({
-                      alertMode: "error",
-                      message: t(`Shared:AlertMessages.${response.data.errorMessage}`),
-                      context: response.data,
-                  })
-                : viewStore.addAlert({ alertMode: "error", context: response.data });
-            return Promise.reject(response);
-        }
+        viewStore.addAlert({
+            alertMode: "error",
+            message: errorMessage,
+            throttleByMessage,
+        });
 
         return Promise.reject(response);
     }

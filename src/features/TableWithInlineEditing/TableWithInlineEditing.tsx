@@ -41,6 +41,7 @@ interface TableWithInlineEditingProps {
     isReadOnly?: boolean;
     disabledFieldsOnUpdate?: string[];
     expandable?: boolean;
+    sortingData?: Record<string, string>;
 }
 
 const TableWithInlineEditing = ({
@@ -142,6 +143,7 @@ const TableWithInlineEditing = ({
                 footer={footerComponent}
                 style={style}
                 sorting={sorting}
+                sortingData={props.sortingData}
             />
             <RouterPrompt when={isEditMode && editableRowState.isDirty} />
             <DialogPrompt onProceed={handleProceedCancelEditPrompt} ref={editPromptModalRef} />

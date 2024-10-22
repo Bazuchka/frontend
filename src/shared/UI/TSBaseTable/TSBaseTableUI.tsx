@@ -39,6 +39,7 @@ type BaseTableProps<T extends BaseTableRow & GridRowModel> = {
     style?: CSSProperties;
     sorting: Sorting;
     expandedState?: ExpandedState;
+    sortingData?: Record<string, string>;
 };
 
 export const TSBaseTableUI = observer(
@@ -55,6 +56,7 @@ export const TSBaseTableUI = observer(
             onSubmit: onExternalSubmit,
             style,
             sorting,
+            sortingData,
         } = props;
 
         const theme = useTheme();
@@ -74,6 +76,10 @@ export const TSBaseTableUI = observer(
             if (isCreateMode) {
                 newRowRef.current?.submitForm();
             }
+        };
+
+        const getSortId = (id: string): string => {
+            return sortingData && sortingData[id] ? sortingData[id] : id;
         };
 
         return (
@@ -141,7 +147,7 @@ export const TSBaseTableUI = observer(
                                                 {header.column.getCanSort() && (
                                                     <SortingIcon
                                                         tsSorting={sorting}
-                                                        columnId={header.id}
+                                                        columnId={getSortId(header.id)}
                                                     />
                                                 )}
                                             </div>

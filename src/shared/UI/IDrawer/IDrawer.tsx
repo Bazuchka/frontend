@@ -11,7 +11,11 @@ interface IIDrawerProps extends DrawerProps {
 const IDrawer: FunctionComponent<IIDrawerProps> = (props) => {
     const classes = useStyles();
     return (
-        <Drawer {...props} classes={{ paper: props.cssClasses || classes.paper }} anchor="right">
+        <Drawer
+            {...props}
+            classes={{ paper: props.cssClasses || classes.paper }}
+            anchor="right"
+            data-test-id="drawer">
             <IconButton
                 size="large"
                 className={classes.closeIcon}
