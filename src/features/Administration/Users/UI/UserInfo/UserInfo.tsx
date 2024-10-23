@@ -49,6 +49,12 @@ const UserInfo: FC<UserInfoProps> = observer((): JSX.Element => {
             await userStore.update({
                 ...data,
                 id: id!,
+                /* 
+                todo потом сделать опционально:
+                передавать true, если поменялись только: Имя, Полное имя, Фамилия, пароль
+                передавать false, если поменялись любые остальные поля
+                */
+                partialUpdate: false,
             });
             await userStore.setCurrent(id!);
             viewStore.addAlert({

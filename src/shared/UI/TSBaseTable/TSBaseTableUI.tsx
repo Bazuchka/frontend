@@ -79,7 +79,7 @@ export const TSBaseTableUI = observer(
         };
 
         const getSortId = (id: string): string => {
-            return sortingData && sortingData[id] ? sortingData[id] : id;
+            return sortingData?.[id] ?? id;
         };
 
         return (

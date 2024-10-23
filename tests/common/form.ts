@@ -25,7 +25,7 @@ export enum FieldItemType {
 interface IFormItem {
     name: string;
     type: FieldItemType;
-    value: string | boolean;
+    value?: string | boolean;
 }
 
 export const populateForm = async (page: Page, formItems: IFormItem[]) => {
@@ -36,6 +36,7 @@ export const populateForm = async (page: Page, formItems: IFormItem[]) => {
                 await autocompleteSelect(page, {
                     autocompleteId: formItem.name,
                     text: formItem.value as string,
+                    chooseFirst: formItem.value === undefined,
                 });
                 break;
             }

@@ -32,10 +32,10 @@ export const fieldsConfiguration = () =>
                     required: true,
                 },
                 {
-                    label: t("User:properties.fullname"),
+                    label: t("User:properties.fullName"),
                     type: FieldItemType.INPUT,
-                    value: userStore.current?.fullname,
-                    name: "fullname",
+                    value: userStore.current?.fullName,
+                    name: "fullName",
                     fullLine: true,
                     required: false,
                 },

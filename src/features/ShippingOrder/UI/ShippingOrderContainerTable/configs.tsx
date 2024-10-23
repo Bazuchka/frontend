@@ -4,11 +4,13 @@ import { t } from "i18next";
 import { Controller } from "react-hook-form";
 import { CheckIcon, SvgXIcon } from "src/assets/svg";
 import { AlisForm, CreateButton, EditButton } from "src/features/common/AlisForm";
+import { ControlledAutoComplete } from "src/features/common/ControlledAutocomplete";
 import { AutocompleteSelectOfDictionary } from "src/shared/UI/AutocompleteSelectOfDictionary/AutocompleteSelectOfDictionary";
 import { Chips } from "src/shared/UI/Chips";
 import { AlisChip } from "src/shared/UI/Chips/Chip";
 import { WithGridRowId } from "src/shared/UI/TSBaseTable/types";
 import { FieldItemType } from "src/shared/UI/iFieldItem/const";
+import { SEARCH_TYPE } from "src/shared/enums";
 import { DictionaryType } from "src/shared/hooks/useDictionary";
 import { containerStore, IContainer } from "../../../Container/store";
 import { IShippingOrderRailwayContainer } from "../../store/ShippingOrderContainerStore/ShippingOrderContainerStore";
@@ -39,37 +41,34 @@ export const getColumns = ({ clientId, isRailway, shippingOrderId }: ColumnProps
                   size: 240,
                   meta: {
                       editableCell: {
-                          component: ({ control }) => {
-                              return (
-                                  <Controller
-                                      name="shippingOrderRailwayCarriage"
-                                      control={control}
-                                      rules={{ required: false }}
-                                      render={({
-                                          field: { onChange, value },
-                                          fieldState: { invalid },
-                                      }) => (
-                                          <AutocompleteSelectOfDictionary
-                                              isDisable={false}
-                                              error={invalid}
-                                              value={value}
-                                              onValueChange={onChange}
-                                              useSorting={false}
-                                              dictionaryParams={{
-                                                  type: DictionaryType.SHIPPING_ORDER_RAILWAY_CARRIAGES,
-                                                  filter: {
-                                                      active: true,
-                                                      deleted: false,
-                                                      shippingOrder: {
-                                                          id: shippingOrderId,
-                                                      },
+                          component: ({ control }) => (
+                              <ControlledAutoComplete
+                                  name="shippingOrderRailwayCarriage"
+                                  control={control}
+                                  rules={{ required: true }}
+                                  autoCompleteProps={{
+                                      useDefaultFilter: false,
+                                      useSorting: false,
+                                      dictionaryParams: {
+                                          type: DictionaryType.SHIPPING_ORDER_RAILWAY_CARRIAGES,
+                                          filter: (value: string) => ({
+                                              active: true,
+                                              deleted: false,
+                                              shippingOrder: {
+                                                  id: shippingOrderId,
+                                              },
+                                              railwayCarriage: {
+                                                  code: {
+                                                      type: SEARCH_TYPE.CONTAINS,
+                                                      content: value,
+                                                      byOr: true,
                                                   },
-                                              }}
-                                          />
-                                      )}
-                                  />
-                              );
-                          },
+                                              },
+                                          }),
+                                      },
+                                  }}
+                              />
+                          ),
                           fieldType: FieldItemType.AUTOCOMPLETE,
                       },
                   },

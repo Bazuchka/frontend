@@ -78,6 +78,9 @@ const ShippingOrderRailwayCarriageTable: FunctionComponent<ShippingOrderEtranInv
                     },
                 }}
                 isReadOnly={isReadOnly}
+                sortingData={{
+                    shippingOrderEtranInvoice: "etranInvoice.code",
+                }}
             />
         );
     });

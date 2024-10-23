@@ -10,7 +10,7 @@
         "username": "Логин",
         "password": "Пароль",
         "confirmPassword": "Подтвердите пароль",
-        "fullname": "Имя пользователя",
+        "fullName": "Имя пользователя",
         "type": "Тип пользователя",
         "active": "Активна",
         "firstName": "Имя",

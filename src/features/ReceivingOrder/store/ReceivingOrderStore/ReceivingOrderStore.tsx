@@ -159,25 +159,29 @@ const ReceivingOrderStore = createBaseStoreWithViewMediator({
     storeMainInfoModel: FullReceivingOrder,
 }).actions((self) => {
     const getReceivingOrderMx1Print = flow(function* () {
-        try {
-            self.state.isFetching = true;
-            const response = yield getBaseActions("ReceivingOrder".toLowerCase()).downloadFile(
-                {},
-                `/report/receivingorder/mx1/${self.current?.id}/download`,
-                "application/json"
-            );
-
-            const blob = new Blob([response.data], { type: "application/pdf" });
-            window.open(URL.createObjectURL(blob))!.print();
-        } catch (err) {
-            self.state.isError = true;
-            throw new Error(err as string);
-        } finally {
-            self.state.isFetching = false;
-        }
+        return yield getBaseActions("ReceivingOrder".toLowerCase()).downloadFile(
+            {},
+            `/report/receivingorder/mx1/${self.current?.id}/download`,
+            "application/json"
+        );
     });
+
+    const beforeDownloadCallback = () => {
+        self.state.isFetching = true;
+    };
+    const onError = (error: unknown) => {
+        self.state.isError = true;
+        throw new Error(error as string);
+    };
+    const onFinally = () => {
+        self.state.isFetching = false;
+    };
+
     return {
         getReceivingOrderMx1Print,
+        beforeDownloadCallback,
+        onError,
+        onFinally,
     };
 });
 

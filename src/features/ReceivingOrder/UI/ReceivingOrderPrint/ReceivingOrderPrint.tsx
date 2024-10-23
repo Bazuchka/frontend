@@ -10,6 +10,7 @@ import { permissionService } from "src/shared/services/PermissionService";
 import { PermissionLevel, PermissionType } from "src/shared/services/PermissionService/types";
 import { default as ReceivingOrderStore } from "../../store/ReceivingOrderStore/ReceivingOrderStore";
 import useStyles from "./styles";
+import { useFileDownload } from "src/shared/hooks/useFileDownload";
 
 interface ReceivingOrderPrintProps {
     store: Instance<typeof ReceivingOrderStore>;
@@ -20,6 +21,20 @@ const ReceivingOrderPrint: FC<ReceivingOrderPrintProps> = observer(
     ({ store, isWarehouse: isWharehouse }): JSX.Element => {
         const theme = useTheme();
         const classes = useStyles({ theme });
+
+        const successEndCallback = (url: string) => {
+            window.open(url)!.print();
+        };
+
+        const { fetchFile } = useFileDownload({
+            apiDefinition: store.getReceivingOrderMx1Print,
+            getFileName: () => "ReceivingOrderMx1Print",
+            additionalBlobData: { type: "application/pdf" },
+            beforeDownloadCallback: store.beforeDownloadCallback,
+            successEndCallback,
+            onError: store.onError,
+            onFinally: store.onFinally,
+        });
 
         return (
             <>
@@ -47,7 +62,7 @@ const ReceivingOrderPrint: FC<ReceivingOrderPrintProps> = observer(
                                     }
                                     className={classes.button}
                                     loading={store.state.isFetching}
-                                    onClick={() => store.getReceivingOrderMx1Print()}>
+                                    onClick={fetchFile}>
                                     {!store.state.isFetching && (
                                         <LocalPrintshop
                                             color="secondary"

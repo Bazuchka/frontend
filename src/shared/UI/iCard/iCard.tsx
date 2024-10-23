@@ -3,9 +3,7 @@ import { FC, ReactNode } from "react";
 import { createUseStyles } from "react-jss";
 
 interface ICardProps {
-    // @TODO need to use real type instead of any
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    children: any;
+    children: ReactNode;
     header?: ReactNode | string;
     cardSize: number;
     col?: number;

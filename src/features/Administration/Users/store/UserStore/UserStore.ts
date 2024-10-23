@@ -7,7 +7,7 @@ import { UserRoleStore } from "src/features/Administration/Users/store/UserRoleS
 export const User = types.model("User", {
     id: types.identifier,
     username: types.string,
-    fullname: types.maybeNull(types.string),
+    fullName: types.maybeNull(types.string),
     type: types.string,
     active: types.boolean,
 });

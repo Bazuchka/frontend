@@ -39,6 +39,8 @@ const ControlledAutoComplete = <T extends ChosenSelectObject>({
                     dictionaryType={autoCompleteProps.dictionaryType}
                     error={invalid}
                     testFieldName={autoCompleteProps.testFieldName}
+                    useSorting={autoCompleteProps.useSorting}
+                    useDefaultFilter={autoCompleteProps.useDefaultFilter}
                 />
             )}
         />

@@ -35,3 +35,8 @@ export const CLIENT_DRIVER = {
     POAValidTo: "01.01.2024",
     active: true,
 };
+
+export const CLIENT_VEHICLE = {
+    code: "AUTOTEST AUTOTEST AUTOTEST",
+    active: true,
+};

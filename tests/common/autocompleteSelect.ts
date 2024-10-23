@@ -6,12 +6,14 @@ export const autocompleteSelect = async (
         text: string;
         autocompleteId: string;
         isSelect?: boolean;
+        chooseFirst?: boolean;
     }
 ) => {
     await page
         .getByTestId(`${params.isSelect ? "select" : "autocomplete"}:${params.autocompleteId}`)
         .click();
-    if (!params.isSelect) {
+
+    if (!params.isSelect && !params.chooseFirst) {
         await page
             .getByTestId(`autocomplete:${params.autocompleteId}`)
             .getByRole("combobox")

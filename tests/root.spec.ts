@@ -5,6 +5,7 @@ import { testI18n } from "./fixtures/i18n.fixture";
 import { legalEntities } from "./legalEntities.spec";
 import { services } from "./service.spec";
 import { unitOfMeasure } from "./unitOfMeadure.spec";
+import { vehicles } from "./vehicle.spec";
 
 export interface ISharedData {
     clientGood?: string;
@@ -22,6 +23,7 @@ testI18n.describe("Root Dictionaries Independed", async () => {
     services();
     unitOfMeasure();
     drivers();
+    vehicles();
 });
 
 testI18n.describe.serial("Root Dictionaries Depended", async () => {

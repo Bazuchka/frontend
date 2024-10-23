@@ -13,9 +13,9 @@ export const getColumns = () => {
             cell: (params) => params.getValue(),
             header: t("User:properties.username"),
         }),
-        columnHelper.accessor("fullname", {
+        columnHelper.accessor("fullName", {
             cell: (params) => params.getValue(),
-            header: t("User:properties.fullname"),
+            header: t("User:properties.fullName"),
         }),
         columnHelper.accessor("type", {
             cell: (params) => t("User:types." + params.getValue()),

@@ -17,8 +17,17 @@ const storeToMenuKeyMap = new Map<string, string>([
 
 const ViewMediator = types
     .model()
-    .views(() => ({
+    .views((self) => ({
         get globalFilters() {
+            const snapshot = getSnapshot(viewStore.globalFilters);
+
+            // exceptions for clients and legal entities pages
+            if (getType(self).name === "ClientStore") {
+                return { ...snapshot, id: snapshot.client?.id };
+            } else if (getType(self).name === "LegalEntityStore") {
+                return { ...snapshot, id: snapshot.legalEntity?.id };
+            }
+
             return getSnapshot(viewStore.globalFilters);
         },
     }))
