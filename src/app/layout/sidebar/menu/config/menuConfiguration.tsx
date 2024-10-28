@@ -209,6 +209,31 @@ export const menuConfiguration = (params?: MenuParams): MenuConfiguration => [
         ],
     },
     {
+        label: t("Shared:Reference.remains"),
+        icon: <ConfigurationFile />,
+        key: "remains",
+        children: [
+            {
+                label: t("Remains:menu.goods"),
+                key: "remains-goods",
+                path: "/remains-goods",
+                filterable: true,
+                permission: {
+                    path: "User",
+                },
+            },
+            {
+                label: t("Remains:menu.containers"),
+                key: "remains-containers",
+                path: "/remains-containers",
+                filterable: true,
+                permission: {
+                    path: "User",
+                },
+            },
+        ],
+    },
+    {
         label: t("Shared:Reference.orders"),
         icon: <OrdersIcon />,
         key: "orders",
