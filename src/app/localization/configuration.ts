@@ -72,6 +72,7 @@ const ns = [
     "RailwayCarriage",
     "ReceivingOrderRailwayCarriage",
     "Permissions",
+    "Remains",
 ];
 
 i18n.use(Backend)

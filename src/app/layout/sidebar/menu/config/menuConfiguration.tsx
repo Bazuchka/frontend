@@ -1,6 +1,12 @@
 import { t } from "i18next";
 import { ReactNode } from "react";
-import { AdministrationIcon, ConfigurationFile, Dictionary, OrdersIcon } from "src/assets/svg";
+import {
+    AdministrationIcon,
+    ConfigurationFile,
+    Dictionary,
+    OrdersIcon,
+    Remains,
+} from "src/assets/svg";
 import { Permission } from "src/shared/services/PermissionService/types";
 
 export interface MenuItem {
@@ -204,6 +210,33 @@ export const menuConfiguration = (params?: MenuParams): MenuConfiguration => [
                 filterable: true,
                 permission: {
                     path: "UnitOfMeasure",
+                },
+            },
+        ],
+    },
+    {
+        label: t("Shared:Reference.remains"),
+        icon: <Remains />,
+        key: "remains",
+        children: [
+            {
+                label: t("Remains:menu.goods"),
+                key: "remains-goods",
+                path: "/remains-goods",
+                filterable: true,
+                permission: {
+                    // todo возможно другое название
+                    path: "ReceivingOrder",
+                },
+            },
+            {
+                label: t("Remains:menu.containers"),
+                key: "remains-containers",
+                path: "/remains-containers",
+                filterable: true,
+                permission: {
+                    // todo возможно другое название
+                    path: "ReceivingOrder",
                 },
             },
         ],
