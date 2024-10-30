@@ -1,4 +1,5 @@
+import RemainsContainersItem from "./UI/RemainsContainersItem";
+import RemainsContainersMoveTable from "./UI/RemainsContainersMoveTable";
 import RemainsContainersTable from "./UI/RemainsContainersTable";
-import RemainsGoodsTable from "./UI/RemainsGoodsTable";
 
-export { RemainsGoodsTable, RemainsContainersTable };
+export { RemainsContainersTable, RemainsContainersMoveTable, RemainsContainersItem };

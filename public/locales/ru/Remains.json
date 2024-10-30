@@ -1,6 +1,6 @@
 {
     "menu": {
-        "goods": "Товары",
-        "containers": "Контейнеры"
+        "remainsContainers": "Остатки контейнеров",
+        "remainsContainersMove": "Движение контейнеров"
     }
 }

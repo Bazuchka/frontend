@@ -196,6 +196,16 @@ export const menuConfiguration = (params?: MenuParams): MenuConfiguration => [
                     path: "ClientDriver",
                 },
             },
+            {
+                label: t("Container:menu.containers"),
+                key: "containers",
+                path: "/containers",
+                filterable: true,
+                permission: {
+                    // todo возможно другое название доступа
+                    path: "ReceivingOrder",
+                },
+            },
         ],
     },
     {
@@ -220,22 +230,22 @@ export const menuConfiguration = (params?: MenuParams): MenuConfiguration => [
         key: "remains",
         children: [
             {
-                label: t("Remains:menu.goods"),
-                key: "remains-goods",
-                path: "/remains-goods",
-                filterable: true,
-                permission: {
-                    // todo возможно другое название
-                    path: "ReceivingOrder",
-                },
-            },
-            {
-                label: t("Remains:menu.containers"),
+                label: t("Remains:menu.remainsContainers"),
                 key: "remains-containers",
                 path: "/remains-containers",
                 filterable: true,
                 permission: {
-                    // todo возможно другое название
+                    // todo возможно другое название доступа
+                    path: "ReceivingOrder",
+                },
+            },
+            {
+                label: t("Remains:menu.remainsContainersMove"),
+                key: "remains-containers-move",
+                path: "/remains-containers-move",
+                filterable: true,
+                permission: {
+                    // todo возможно другое название доступа
                     path: "ReceivingOrder",
                 },
             },
