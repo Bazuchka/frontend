@@ -66,8 +66,10 @@ const IAlert: FC<IAlertProps> = observer(
 
         const getAlertMessage = () => {
             let errorMessage: string;
-            if (message || context) {
+            if (context) {
                 errorMessage = convertResponseToMessage(context as ResponseErrorType);
+            } else if (message) {
+                return t(message);
             } else {
                 errorMessage = t(
                     isDelete ? "Shared:AlertMessages.successDelete" : "Shared:AlertMessages.success"

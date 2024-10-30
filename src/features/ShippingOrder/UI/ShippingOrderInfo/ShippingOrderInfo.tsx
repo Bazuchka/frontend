@@ -1,5 +1,6 @@
 import { observer } from "mobx-react";
-import { FC, useMemo } from "react";
+import { FC, useCallback, useMemo, useState } from "react";
+import { FieldValues } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { viewStore } from "src/app/store";
 import EditFormButtons from "src/shared/UI/TSBaseTable/UI/EditFormButtons";
@@ -69,16 +70,25 @@ const ShippingOrderInfo: FC<ShippingOrderProps> = observer(({ isReadOnly }): JSX
         contract: shippingOrderStore.current?.contract ?? null,
     });
 
+    const [terminalArea, setTerminalArea] = useState<string>();
+
     const fields = useMemo(
         () =>
             fieldsConfiguration({
                 isCreate,
-                filters,
+                filters: {
+                    ...filters,
+                    terminalArea,
+                },
                 defaultModel: shippingOrderStore.current,
             }),
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [filters, isCreate, shippingOrderStore.current]
     );
+
+    const onTerminalAreaChange = useCallback((values: FieldValues) => {
+        setTerminalArea(values.terminalArea);
+    }, []);
 
     return (
         <>
@@ -93,6 +103,7 @@ const ShippingOrderInfo: FC<ShippingOrderProps> = observer(({ isReadOnly }): JSX
                     client: onClientChange,
                     legalEntity: onLegalEntityChange,
                     contract: onContractChange,
+                    terminalArea: onTerminalAreaChange,
                 }}
             />
             <Footer

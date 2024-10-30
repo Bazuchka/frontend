@@ -12,7 +12,6 @@ interface BaseStoreProps<StoreListModel extends IAnyType, StoreModel extends IAn
     storeName: string;
     storeListModel: StoreListModel;
     storeMainInfoModel: StoreModel;
-    useMock?: boolean;
 }
 
 const StoreState = types
@@ -36,7 +35,6 @@ export const createBaseStore = <StoreListModel extends IAnyType, StoreModel exte
     storeName,
     storeListModel,
     storeMainInfoModel,
-    useMock,
 }: BaseStoreProps<StoreListModel, StoreModel>) =>
     types
         .model(`${storeName}Store`, {
@@ -65,7 +63,7 @@ export const createBaseStore = <StoreListModel extends IAnyType, StoreModel exte
         }))
         .actions((self) => {
             const getById = flow(function* (id: string) {
-                const response = yield getBaseActions(storeName.toLowerCase(), useMock).getById(id);
+                const response = yield getBaseActions(storeName.toLowerCase()).getById(id);
                 return response.data;
             });
 
@@ -83,45 +81,35 @@ export const createBaseStore = <StoreListModel extends IAnyType, StoreModel exte
 
                     self.previousFilters = requestFilters;
 
-                    const response = yield getBaseActions(
-                        useMock ? storeName.toLowerCase() : `${storeName.toLowerCase()}/page`,
-                        useMock
-                    ).fetch<Instance<typeof storeListModel>[]>(
-                        useMock
-                            ? {
-                                  _page: self.pagination.page + 1,
-                                  _per_page: self.pagination.size,
-                              }
-                            : {
-                                  pageInfo: {
-                                      size: self.pagination.size,
-                                      page: self.pagination.page,
-                                  },
-                                  filter: requestFilters,
-                              },
+                    const response = yield getBaseActions(`${storeName.toLowerCase()}/page`).fetch<
+                        Instance<typeof storeListModel>[]
+                    >(
+                        {
+                            pageInfo: {
+                                size: self.pagination.size,
+                                page: self.pagination.page,
+                            },
+                            filter: requestFilters,
+                        },
                         options
                     );
 
                     self.data.clear();
-                    response.data[useMock ? "data" : "content"].forEach(
-                        (item: Instance<typeof storeListModel>) => {
-                            try {
-                                const mobxItem = storeListModel.create(item);
-                                self.data.push(mobxItem);
-                            } catch (error) {
-                                (self as unknown as ViewMediator).onSnapshotConvertionError?.(
-                                    storeListModel.name,
-                                    item.id
-                                );
-                                console.error(`Error in mapping data: ${error}`);
-                                throw error;
-                            }
+                    response.data["content"].forEach((item: Instance<typeof storeListModel>) => {
+                        try {
+                            const mobxItem = storeListModel.create(item);
+                            self.data.push(mobxItem);
+                        } catch (error) {
+                            (self as unknown as ViewMediator).onSnapshotConvertionError?.(
+                                storeListModel.name,
+                                item.id
+                            );
+                            console.error(`Error in mapping data: ${error}`);
+                            throw error;
                         }
-                    );
+                    });
 
-                    self.pagination.setTotal(
-                        useMock ? response.data.items : response.data.totalElements
-                    );
+                    self.pagination.setTotal(response.data.totalElements);
                 } catch (err: unknown) {
                     console.error(err);
                     self.state.isError = true;
@@ -162,7 +150,7 @@ export const createBaseStore = <StoreListModel extends IAnyType, StoreModel exte
 
                 self.state.isFetching = true;
                 try {
-                    const response = yield getBaseActions(storeName.toLowerCase(), useMock).getById<
+                    const response = yield getBaseActions(storeName.toLowerCase()).getById<
                         Instance<typeof storeMainInfoModel>
                     >(id, options);
                     try {

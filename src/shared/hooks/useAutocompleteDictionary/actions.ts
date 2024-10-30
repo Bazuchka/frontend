@@ -1,8 +1,8 @@
 import { DefaultSelectOfDictionaryHTTPRequestObject, request } from "../../request";
 
 export const actions = {
-    getAll(URL: string, filters = {}, page = 0, size: number, useSorting = true, isMock = false) {
-        const baseURL = isMock ? window._env_.ALIS_BACKEND_MOCK__SERVER_URL : undefined;
+    getAll(URL: string, filters = {}, page = 0, size: number, useSorting = true) {
+        const baseURL = undefined;
         const data = {
             filter: useSorting
                 ? {
@@ -14,7 +14,7 @@ export const actions = {
         };
 
         return request({
-            method: isMock ? "GET" : "POST",
+            method: "POST",
             url: `${URL}`,
             baseURL,
             data,

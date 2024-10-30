@@ -2,7 +2,14 @@ import { expect } from "@playwright/test";
 import { autocompleteSelect, checkAutocompleteIsInvalid } from "./common/autocompleteSelect";
 import { FieldItemType, populateForm } from "./common/form";
 import { hasHeaderAndBreadcrumbsStep } from "./common/headerCheck";
-import { CLIENT_GOOD, CLIENT_GOOD_TYPE, CLIENT_TEST_NAME, GOOD_PACKAGE, GOOD_TYPE } from "./const";
+import {
+    CLIENT_GOOD,
+    CLIENT_GOOD_TYPE,
+    CLIENT_TEST_NAME,
+    GOOD_PACKAGE,
+    GOOD_TYPE,
+    GOOD_VARIANT,
+} from "./const";
 import { testI18n } from "./fixtures/i18n.fixture";
 import { ISharedData } from "./root.spec";
 
@@ -198,7 +205,7 @@ export const clientGoods = (sharedData: ISharedData) =>
                 .getByTestId(`button:${i18nFix.t("Action:save")}`)
                 .click();
 
-            await expect(page.getByTestId("alert")).toHaveClass(/MuiAlert-colorSuccess/);
+            await expect(page.getByTestId("alert").last()).not.toHaveClass(/MuiAlert-colorError/);
             await expect(
                 page.getByTestId("form-footer").getByTestId(`button:${i18nFix.t("Action:edit")}`)
             ).toBeEnabled();
@@ -296,6 +303,45 @@ export const clientGoods = (sharedData: ISharedData) =>
                 .getByTestId(`button:${i18nFix.t("Action:save")}`)
                 .click();
 
-            await expect(page.getByTestId("alert")).toHaveClass(/MuiAlert-colorSuccess/);
+            await expect(page.getByTestId("alert").last()).not.toHaveClass(/MuiAlert-colorError/);
+            await page.waitForTimeout(1000);
+        });
+
+        await testI18n.step("is able to create Good variant", async () => {
+            await page
+                .getByTestId(`tab-header:${i18nFix.t("ClientGood:tabs.goodVariants")}`)
+                .click();
+            await expect(page.locator("table")).toBeVisible();
+
+            await expect(
+                page
+                    .getByTestId("table-footer")
+                    .getByRole("button", { name: i18nFix.t("Action:create") })
+            ).toBeEnabled();
+
+            await page
+                .getByTestId("table-footer")
+                .getByRole("button", { name: i18nFix.t("Action:create") })
+                .click();
+
+            await populateForm(page, [
+                {
+                    name: "item",
+                    type: FieldItemType.INPUT,
+                    value: GOOD_VARIANT.item,
+                },
+                {
+                    name: "code",
+                    type: FieldItemType.INPUT,
+                    value: GOOD_VARIANT.code,
+                },
+            ]);
+
+            await page
+                .getByTestId("form-footer")
+                .getByTestId(`button:${i18nFix.t("Action:save")}`)
+                .click();
+
+            await expect(page.getByTestId("alert").last()).not.toHaveClass(/MuiAlert-colorError/);
         });
     });

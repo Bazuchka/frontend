@@ -52,6 +52,11 @@ const SelectOfEnum: FC<SelectOfEnumProps> = (props) => {
         onChange("");
     };
 
+    if (value && !data.some((el) => el === value || (el as ValueOption).value === value)) {
+        // reset selector
+        onChange(undefined);
+    }
+
     return (
         <Select
             className="select"

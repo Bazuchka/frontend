@@ -48,6 +48,7 @@ export const getColumns = (cargoCount: number) => {
                                         error={invalid}
                                         value={value}
                                         renderValuePrimary="code"
+                                        testFieldName="termOfRequestedService"
                                         onValueChange={(data: any) => {
                                             setValue("rate", data?.rate ?? 0);
                                             setValue("unitOfMeasure", data?.unitOfMeasure ?? null);

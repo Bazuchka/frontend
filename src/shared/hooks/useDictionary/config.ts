@@ -5,7 +5,7 @@ export interface ValueOption {
     value: string;
 }
 
-export const enumsConfig = (params: DictionaryParams): string[] | ValueOption[] => {
+export const getStore = (params: DictionaryParams): string[] | ValueOption[] => {
     switch (params.type) {
         case DictionaryType.BATCH_ACCOUNTING_TYPE:
             return dictionaryStore.batchAccountingType;
@@ -32,4 +32,13 @@ export const enumsConfig = (params: DictionaryParams): string[] | ValueOption[] 
         default:
             return [];
     }
+};
+export const enumsConfig = (params: DictionaryParams): string[] | ValueOption[] => {
+    const storeData = getStore(params);
+    if (params.filter) {
+        return storeData.filter(params.filter as (data: string | ValueOption) => boolean) as
+            | string[]
+            | ValueOption[];
+    }
+    return storeData;
 };

@@ -22,7 +22,6 @@ export interface AutocompleteSelectOfDictionaryProps<T extends ChosenSelectObjec
     defaultNullValue?: string;
     editValue?: object | string;
     isDisable?: boolean;
-    isMock?: boolean;
     useSorting?: boolean;
     useDefaultFilter?: boolean;
     renderValuePrimary?: string;
@@ -70,7 +69,6 @@ export const AutocompleteSelectOfDictionary = <T extends ChosenSelectObject>(
         renderInput,
         testFieldName,
         useSorting,
-        isMock = false,
         useDefaultFilter,
         placeholder,
         useRenderValuePattern,
@@ -85,7 +83,6 @@ export const AutocompleteSelectOfDictionary = <T extends ChosenSelectObject>(
     const { data, isLoading, update, getIsDataFullyLoaded } = useAutocompleteDictionary({
         ...variablesParams,
         useSorting,
-        isMock,
         useDefaultFilter,
         mapDataCallback,
     });

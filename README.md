@@ -6,6 +6,5 @@
 
 ## Запуск
 
-    npm run mock-server
     npm run build
     npm run start

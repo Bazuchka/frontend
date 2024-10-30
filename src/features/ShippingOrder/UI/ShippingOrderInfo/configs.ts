@@ -3,6 +3,7 @@ import { t } from "i18next";
 import { FieldItemType } from "src/shared/UI/iFieldItem/const";
 import { FieldGroup } from "src/shared/UI/iFieldItem/types";
 import { DictionaryType } from "src/shared/hooks/useDictionary";
+import { ValueOption } from "src/shared/hooks/useDictionary/config";
 import { IFullShippingOrder } from "../../store/ShippingOrderStore/ShippingOrderStore";
 import { getPossibleStatuses, isOrderStatusDisabled } from "./utils";
 
@@ -12,6 +13,7 @@ export interface IFieldsConfigurationParams {
     filters: {
         client: { id: string; code: string } | null;
         legalEntity: { id: string; code: string } | null;
+        terminalArea?: string;
     };
 }
 
@@ -126,9 +128,14 @@ export const fieldsConfiguration = ({
                     name: "transportType",
                     required: true,
                     type: FieldItemType.ENUM_SELECT,
-                    dictionaryType: DictionaryType.TRANSPORT_TYPE,
                     translatePath: "TransportType:types",
                     isDisable: !isCreate,
+                    requestParams: {
+                        type: DictionaryType.TRANSPORT_TYPE,
+                        filter: (value: string | ValueOption) => {
+                            return filters.terminalArea !== "WAREHOUSE" || value !== "RAILWAY";
+                        },
+                    },
                 },
                 {
                     label: t("ShippingOrder:properties.planShippingTimeInfo"),

@@ -1,15 +1,15 @@
-import { FC } from "react";
 import {
     GridColTypeDef,
     GridRenderEditCellParams,
     GridRowId,
-    useGridApiContext,
     GridRowModel,
+    useGridApiContext,
 } from "@mui/x-data-grid";
+import { FC } from "react";
 import { ValueOption } from "src/shared/hooks/useDictionary/config";
 import { DictionaryParams } from "src/shared/hooks/useDictionary/types";
-import { getTranslatedValue } from "./utils/utils";
 import SelectOfEnum from "./SelectOfEnum";
+import { getTranslatedValue } from "./utils/utils";
 
 import { GetSelectOfEnumProps, SelectOfEnumProps } from "./types";
 
@@ -44,7 +44,7 @@ const SelectOfEnumTable: FC<SelectOfEnumTableProps> = (props) => {
 
     const apiRef = useGridApiContext();
 
-    const onChange = (value: string | ValueOption) => {
+    const onChange = (value: string | ValueOption | undefined) => {
         apiRef.current.setEditCellValue({ id, field, value });
         apiRef.current.updateRows([{ ...row, [field]: value }]);
     };

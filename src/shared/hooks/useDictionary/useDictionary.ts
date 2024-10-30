@@ -41,7 +41,6 @@ const useDictionary = (params: DictionaryParams, disable?: boolean) => {
                             setData((response as Reponse).data as unknown as IdCode[]);
                         }
                     })
-                    //TODO mock error
                     .catch((error) => setError(error.message))
                     .finally(() => {
                         setLoading(false);

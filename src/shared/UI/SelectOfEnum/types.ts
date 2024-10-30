@@ -10,7 +10,7 @@ export interface SelectOfEnumProps {
     value?: string;
     fieldName?: string;
     error?: boolean;
-    onChange: (value: string) => void;
+    onChange: (value: string | undefined) => void;
     options?: string[] | ValueOption[];
     withEmptyValue?: boolean;
     withClearButton?: boolean;

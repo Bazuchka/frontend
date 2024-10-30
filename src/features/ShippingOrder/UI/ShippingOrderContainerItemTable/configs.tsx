@@ -33,6 +33,7 @@ export const getColumns = (shippingOrderId: string) => {
                                         isDisable={false}
                                         error={invalid}
                                         value={value}
+                                        testFieldName="shippingOrderContainer"
                                         onValueChange={(data) => onChange(data)}
                                         useDefaultFilter={false}
                                         dictionaryParams={{
@@ -63,7 +64,7 @@ export const getColumns = (shippingOrderId: string) => {
             },
         }),
         columnHelper.accessor("etsngCode", {
-            cell: (params) => params.getValue().code,
+            cell: (params) => `${params.getValue().code} (${params.getValue().name})`,
             header: t("ShippingOrderContainerItem:properties.ETSNGCode"),
             meta: {
                 editableCell: {
@@ -81,6 +82,7 @@ export const getColumns = (shippingOrderId: string) => {
                                         isDisable={false}
                                         error={invalid}
                                         value={value}
+                                        testFieldName="etsngCode"
                                         onValueChange={(data) => onChange(data)}
                                         dictionaryParams={{ type: DictionaryType.ETSNGCODE }}
                                     />
@@ -104,6 +106,7 @@ export const getColumns = (shippingOrderId: string) => {
                                 size="small"
                                 {...register("description", { required: true })}
                                 error={!!error}
+                                data-test-id="value:description"
                             />
                         );
                     },
@@ -125,6 +128,7 @@ export const getColumns = (shippingOrderId: string) => {
                                 type="number"
                                 {...register("price", { required: true })}
                                 error={!!error}
+                                data-test-id="value:price"
                             />
                         );
                     },

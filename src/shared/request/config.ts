@@ -15,10 +15,6 @@ axiosInstance.defaults.headers.post = { "Content-Type": "application/json" };
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 axiosInstance.interceptors.request.use((configuration: AxiosRequestConfig) => {
-    if (configuration.baseURL === window._env_.ALIS_BACKEND_MOCK__SERVER_URL) {
-        return Promise.resolve(configuration); // no    need Auth for mock server
-    }
-
     if (authService.isLoggedIn()) {
         const cb = () => {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment

@@ -2,17 +2,17 @@ import { GridRowId } from "@mui/x-data-grid";
 import { request } from "src/shared/request";
 import { BaseActionOptions } from "./types";
 
-export const getBaseActions = <GetParams, SetParams>(URL?: string, mock?: boolean) => {
-    const baseURL = mock ? window._env_.ALIS_BACKEND_MOCK__SERVER_URL : undefined;
+export const getBaseActions = <GetParams, SetParams>(URL?: string) => {
+    const baseURL = undefined;
 
     return {
         fetch<T>(filter?: GetParams, options?: BaseActionOptions) {
             return request<T>({
-                method: options && options.method ? options.method : mock ? "GET" : "POST",
+                method: options && options.method ? options.method : "POST",
                 baseURL,
                 url: options && options.serviceUrl != undefined ? options.serviceUrl : `${URL}`,
-                params: mock ? filter : undefined,
-                data: mock ? undefined : filter,
+                params: undefined,
+                data: filter,
                 preventDefaultAlert: options?.preventDefaultAlert,
             });
         },
@@ -67,8 +67,8 @@ export const getBaseActions = <GetParams, SetParams>(URL?: string, mock?: boolea
                 method: "GET",
                 baseURL,
                 url: options && options.serviceUrl != undefined ? options.serviceUrl : `${URL}`,
-                params: mock ? filter : undefined,
-                data: mock ? undefined : filter,
+                params: undefined,
+                data: filter,
                 preventDefaultAlert: options?.preventDefaultAlert,
                 headers: options?.headers,
             });

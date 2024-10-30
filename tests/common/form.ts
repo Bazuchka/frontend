@@ -20,12 +20,13 @@ export enum FieldItemType {
     INPUT_NUMBER,
     BUTTON,
     PASSWORD,
+    CHIPS,
 }
 
 interface IFormItem {
     name: string;
     type: FieldItemType;
-    value?: string | boolean;
+    value?: string | boolean | string[];
 }
 
 export const populateForm = async (page: Page, formItems: IFormItem[]) => {
@@ -75,12 +76,25 @@ export const populateForm = async (page: Page, formItems: IFormItem[]) => {
                 break;
             }
 
+            case FieldItemType.TIME:
             case FieldItemType.DATE: {
                 await page
                     .getByTestId(`value:${formItem.name}`)
                     .getByRole("textbox")
                     .fill(formItem.value as string);
                 break;
+            }
+
+            case FieldItemType.CHIPS: {
+                const chips = formItem.value as string[];
+                for (let i = 0; i < chips.length; i++) {
+                    await page
+                        .getByTestId(`chips:${formItem.name}`)
+                        .getByRole("combobox")
+                        .fill(chips[i]);
+
+                    await page.keyboard.press("Enter");
+                }
             }
         }
     }

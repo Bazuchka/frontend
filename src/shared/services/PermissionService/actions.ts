@@ -8,7 +8,6 @@ export const permissionServiceActions = {
             url: `${URL}/all`,
             data: {},
             headers: { "Content-Type": "application/json" },
-            useMock: false,
         });
     },
 };

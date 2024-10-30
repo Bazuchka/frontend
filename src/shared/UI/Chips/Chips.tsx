@@ -7,9 +7,10 @@ interface ChipsProps {
     value?: string[];
     onChange: (data: string[]) => void;
     invalid?: boolean;
+    testName?: string;
 }
 
-const Chips: FunctionComponent<ChipsProps> = ({ value, onChange, invalid }) => {
+const Chips: FunctionComponent<ChipsProps> = ({ value, onChange, invalid, testName }) => {
     const { t } = useTranslation();
     return (
         <Autocomplete
@@ -37,6 +38,7 @@ const Chips: FunctionComponent<ChipsProps> = ({ value, onChange, invalid }) => {
                     placeholder={value && value.length > 0 ? "" : t("Shared:chipPlaceholder")}
                     style={{ minWidth: 100 }}
                     error={invalid}
+                    data-test-id={`chips:${testName}`}
                 />
             )}
         />

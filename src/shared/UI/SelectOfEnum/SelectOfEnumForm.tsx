@@ -1,11 +1,11 @@
-import { FC, useState } from "react";
 import { FormControl } from "@mui/material";
+import { FC, useState } from "react";
 import SelectOfEnum from "./SelectOfEnum";
 import { SelectOfEnumProps } from "./types";
 
 interface SelectOfEnumFormProps extends Omit<SelectOfEnumProps, "onChange"> {
     withClearButton?: boolean;
-    onChange?: (value: string) => void;
+    onChange?: (value: string | undefined) => void;
     fieldName: string;
     testFieldName?: string;
 }
@@ -13,7 +13,7 @@ interface SelectOfEnumFormProps extends Omit<SelectOfEnumProps, "onChange"> {
 const SelectOfEnumForm: FC<SelectOfEnumFormProps> = (props) => {
     const { onChange, value, withClearButton, ...rest } = props;
     const [selectedValue, setSelectedValue] = useState(value);
-    const handleChange = (value: string) => {
+    const handleChange = (value: string | undefined) => {
         setSelectedValue(value);
         if (onChange) {
             onChange(value);

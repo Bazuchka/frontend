@@ -53,7 +53,7 @@ export const vehicles = () =>
             ).toBeEnabled();
         });
 
-        await testI18n.step("can create new driver", async () => {
+        await testI18n.step("can create new vehicle", async () => {
             await page
                 .getByTestId("table-footer")
                 .getByRole("button", { name: i18nFix.t("Action:create") })

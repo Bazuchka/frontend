@@ -214,16 +214,24 @@ const IFormComponentForwarded = (
     return (
         <Box ref={boxRef} sx={{ overflowY: "auto", overflowX: "hidden", paddingRight: "3px" }}>
             <form className={classes.form}>
-                {isLoading ? (
+                {isLoading && (
                     <Grid item xs={12} className={classes.loadContainer}>
                         <CircularProgress />
                     </Grid>
-                ) : fields && !Object.prototype.hasOwnProperty.call(fields[0], "fields") ? (
-                    <Grid container columns={12}>
+                )}
+                {fields?.length > 0 &&
+                !Object.prototype.hasOwnProperty.call(fields[0], "fields") ? (
+                    <Grid
+                        container
+                        columns={12}
+                        style={isLoading ? { display: "none" } : undefined}>
                         {fields.map((field) => getFormField(field as FieldItem))}
                     </Grid>
                 ) : (
-                    <Grid container columns={12}>
+                    <Grid
+                        container
+                        columns={12}
+                        style={isLoading ? { display: "none" } : undefined}>
                         {fields.map((field) => getFormGroup(field as FieldGroup))}
                     </Grid>
                 )}

@@ -56,7 +56,8 @@ export interface DictionaryParams {
     filter?:
         | Record<string, object | string | boolean | null>
         | string[]
-        | ((value: string) => Record<string, object | string | boolean | null>);
+        | ((value: string) => Record<string, object | string | boolean | null>)
+        | ((value: string) => boolean);
 }
 
 export interface IUseAutocompleteDictionary {
@@ -64,10 +65,10 @@ export interface IUseAutocompleteDictionary {
     filter?:
         | Record<string, object | string | boolean | null>
         | string[]
-        | ((value: string) => Record<string, object | string | boolean | null>);
+        | ((value: string) => Record<string, object | string | boolean | null>)
+        | ((value: string) => boolean);
     useSorting?: boolean;
     useDefaultFilter?: boolean;
-    isMock?: boolean;
     mapDataCallback?: <T>(list: T[]) => T[];
 }
 

@@ -49,7 +49,6 @@ export interface Options {
     // @TODO need to use real type instead of any
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     params?: any;
-    useMock?: boolean;
     preventDefaultAlert?: boolean;
 }
 

@@ -7,8 +7,8 @@ export const CLIENT_GOOD_TYPE = {
     code: "AUTOTEST_CLIENTGOODTYPE_CODE",
 };
 export const CLIENT_GOOD = {
-    item: "AUTOTEST_CLIENTGOOD_ARTICLE",
-    code: "AUTOTEST_CLIENTGOOD_CODE",
+    item: "AUTOTEST_CLIENTGOOD_ARTICLE_WITH_VARIANT",
+    code: "AUTOTEST_CLIENTGOOD_CODE_WITH_VARIANT",
     gtin: "AUTOTEST_CLIENTGOOD_GTIN",
     name: "AUTOTEST_CLIENTGOOD_NAME",
     description: "AUTOTEST_CLIENTGOOD_DESC",
@@ -17,6 +17,11 @@ export const CLIENT_GOOD = {
 
 export const GOOD_PACKAGE = {
     code: "AUTOTEST_GOODPACKAGE_CODE",
+};
+
+export const GOOD_VARIANT = {
+    item: "AUTOTEST_GOODVARIANT_ARTICLE",
+    code: "AUTOTEST_GOODVARIANT_CODE",
 };
 
 export const CLIENT_RELATED_ENTITY = {
@@ -40,3 +45,26 @@ export const CLIENT_VEHICLE = {
     code: "AUTOTEST AUTOTEST AUTOTEST",
     active: true,
 };
+
+export const RECEIVING_ORDER_VEHICLE_CONTAINER = {
+    terminalArea: "CONTAINER",
+    transportType: "VEHICLE",
+    planReceivingDate: "01.01.2024",
+    planReceivingTime: "10:00",
+};
+
+export const RECEIVING_ORDER_VEHICLE_WAREHOUSE = {
+    terminalArea: "WAREHOUSE",
+    transportType: "VEHICLE",
+    planReceivingDate: "01.01.2024",
+    planReceivingTime: "10:00",
+};
+
+export const SHIPPING_ORDER_VEHICLE_CONTAINER = {
+    terminalArea: "CONTAINER",
+    transportType: "VEHICLE",
+    planShippingDate: "01.01.2024",
+    planShippingTime: "10:00",
+};
+
+export const CONTAINER_CODE = "AMTU4003372";

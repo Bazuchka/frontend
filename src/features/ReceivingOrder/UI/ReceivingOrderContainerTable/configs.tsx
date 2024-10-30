@@ -101,6 +101,7 @@ export const getColumns = ({ clientId, isRailway, receivingOrderId }: ColumnProp
                                                 error={invalid}
                                                 value={value}
                                                 renderValuePrimary="code"
+                                                fieldName="container"
                                                 onValueChange={(data) => onChange(data)}
                                                 dictionaryParams={{
                                                     type: DictionaryType.CONTAINER,
@@ -153,11 +154,11 @@ export const getColumns = ({ clientId, isRailway, receivingOrderId }: ColumnProp
                             control={control}
                             rules={{ required: true }}
                             render={({ field, fieldState: { invalid } }) => (
-                                <Chips {...field} invalid={invalid} />
+                                <Chips {...field} invalid={invalid} testName="sealNumbers" />
                             )}
                         />
                     ),
-                    fieldType: FieldItemType.AUTOCOMPLETE,
+                    fieldType: FieldItemType.AUTOCOMPLETE, // TODO Add Chips field type
                 },
             },
         }),
@@ -199,6 +200,7 @@ export const getColumns = ({ clientId, isRailway, receivingOrderId }: ColumnProp
                                 type="number"
                                 {...register("weight", { required: true })}
                                 error={!!error}
+                                data-test-id={"value:weight"}
                             />
                         );
                     },

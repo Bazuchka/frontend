@@ -35,8 +35,10 @@ export const getColumns = (receivingOrderId: string) => {
                                         value={value}
                                         onValueChange={(data) => onChange(data)}
                                         useDefaultFilter={false}
+                                        testFieldName="receivingOrderContainer"
                                         dictionaryParams={{
                                             type: DictionaryType.RECEIVING_ORDER_CONTAINER,
+
                                             filter: (value) => ({
                                                 receivingOrder: {
                                                     id: receivingOrderId,
@@ -63,7 +65,7 @@ export const getColumns = (receivingOrderId: string) => {
             },
         }),
         columnHelper.accessor("etsngCode", {
-            cell: (params) => params.getValue().code,
+            cell: (params) => `${params.getValue().code} (${params.getValue().name})`,
             header: t("ReceivingOrderContainerItem:properties.ETSNGCode"),
             meta: {
                 editableCell: {
@@ -81,6 +83,7 @@ export const getColumns = (receivingOrderId: string) => {
                                         isDisable={false}
                                         error={invalid}
                                         value={value}
+                                        testFieldName="etsngCode"
                                         onValueChange={(data) => onChange(data)}
                                         dictionaryParams={{ type: DictionaryType.ETSNGCODE }}
                                     />
@@ -104,6 +107,7 @@ export const getColumns = (receivingOrderId: string) => {
                                 size="small"
                                 {...register("description", { required: true })}
                                 error={!!error}
+                                data-test-id="value:description"
                             />
                         );
                     },
@@ -125,6 +129,7 @@ export const getColumns = (receivingOrderId: string) => {
                                 type="number"
                                 {...register("price", { required: true })}
                                 error={!!error}
+                                data-test-id="value:price"
                             />
                         );
                     },

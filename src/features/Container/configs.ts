@@ -32,6 +32,7 @@ export const fieldsConfiguration = (defaultModel: IContainer | null, fieldOption
                     name: "code",
                     required: true,
                     fullLine: true,
+
                     validate: async (value) => {
                         const { data } = (await request({
                             method: "POST",

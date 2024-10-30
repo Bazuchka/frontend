@@ -21,7 +21,10 @@ export const hasHeaderAndBreadcrumbsStep = (
             const menuItem = path[index];
 
             await expect(
-                page.locator("header").locator("nav").getByText(i18nFix.t(menuItem))
+                page
+                    .locator("header")
+                    .locator("nav")
+                    .getByText(i18nFix.t(menuItem), { exact: true })
             ).toBeVisible();
         }
     });

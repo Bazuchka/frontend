@@ -1,9 +1,12 @@
-import { clientRelatedEntity } from "./clientrelatedentity.spec";
+import { clientGoods } from "./clientgoods.spec";
 import { clients } from "./clients.spec";
 import { drivers } from "./drivers.spec";
 import { testI18n } from "./fixtures/i18n.fixture";
 import { legalEntities } from "./legalEntities.spec";
+import { receivingOrderVehicleContainer } from "./receivingOrder/receivingOrderVehicleContainer.spec";
+import { receivingOrderVehicleWarehouse } from "./receivingOrder/receivingOrderVehicleWarehouse.spec";
 import { services } from "./service.spec";
+import { shippingOrderVehicleContainer } from "./shippingOrder/shippingOrderVehicleContainer.spec";
 import { unitOfMeasure } from "./unitOfMeadure.spec";
 import { vehicles } from "./vehicle.spec";
 
@@ -32,9 +35,23 @@ testI18n.describe.serial("Root Dictionaries Depended", async () => {
             waitUntil: "networkidle",
         });
     });
-    // const sharedData: ISharedData = {};
+    const sharedData: ISharedData = {};
 
+    // Uncoment when it runs in docker
     // clientGoodTypes();
-    // clientGoods(sharedData);
-    clientRelatedEntity();
+    // clientGoods(sharedData); // as example
+    // clientRelatedEntity();
+    clientGoods(sharedData);
+});
+
+testI18n.describe("Orders", async () => {
+    testI18n.beforeEach(async ({ page }) => {
+        await page.goto("/", {
+            waitUntil: "networkidle",
+        });
+    });
+
+    receivingOrderVehicleContainer();
+    receivingOrderVehicleWarehouse();
+    shippingOrderVehicleContainer();
 });

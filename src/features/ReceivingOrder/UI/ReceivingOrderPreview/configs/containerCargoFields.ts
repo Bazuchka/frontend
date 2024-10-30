@@ -22,7 +22,7 @@ export default function containerCargoFields(
             readOnly: true,
         },
         {
-            label: t("ReceivingOrderPreview:properties.weight"),
+            label: t("ReceivingOrderPreview:properties.weight_container"),
             name: "totalWeight",
             type: FieldItemType.INPUT,
             value: data.totalWeight?.toString(),

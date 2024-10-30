@@ -30,13 +30,14 @@ const ITimePicker: React.FC<TimePickerProps> = ({
                     textField: {
                         error: error,
                         size: "small",
-                    },
+                        "data-test-id": `value:${testFieldName ?? fieldName}`,
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    } as any,
                 }}
                 closeOnSelect={false}
                 ampm={false}
                 format="HH:mm"
                 disabled={disableCondition}
-                data-test-id={`timepicker:${testFieldName ?? fieldName}`}
             />
         </LocalizationProvider>
     );

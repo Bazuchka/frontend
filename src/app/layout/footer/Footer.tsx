@@ -52,7 +52,6 @@ const Footer: FC<FooterProps> = ({ isMenuOpen }) => {
             ? sidebarConfiguration.drawerWidth
             : sidebarConfiguration.drawerCollapsedWidth) + 20;
 
-    //TODO Mock
     return (
         <Box className={classes.footerContainer}>
             <Toolbar>

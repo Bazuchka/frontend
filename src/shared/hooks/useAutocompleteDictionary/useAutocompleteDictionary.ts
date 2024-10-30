@@ -14,7 +14,7 @@ const arePayloadsEqual = (prev: Payload, current: Pick<Payload, "page" | "value"
     JSON.stringify(prev) === JSON.stringify(current);
 
 const useAutocompleteDictionary = (params: IUseAutocompleteDictionary) => {
-    const { type, filter, useSorting, isMock, useDefaultFilter = true } = params || {};
+    const { type, filter, useSorting, useDefaultFilter = true } = params || {};
 
     const { url } = useMemo(() => getConfiguration(params), [params]);
 
@@ -57,8 +57,7 @@ const useAutocompleteDictionary = (params: IUseAutocompleteDictionary) => {
                     ),
                     page,
                     DEFAULT_LIMIT,
-                    useSorting,
-                    isMock
+                    useSorting
                 )
                 .then((response) => {
                     let newData = (response as { data: IdCode[] }).data;
@@ -69,7 +68,6 @@ const useAutocompleteDictionary = (params: IUseAutocompleteDictionary) => {
                     setIsDataFullyLoaded(!newData.length);
                     setData((state) => (isRequestNew ? newData : [...state, ...newData]));
                 })
-                //TODO mock error
                 .catch((error) => setError(error.message))
                 .finally(() => setLoading(false));
         },

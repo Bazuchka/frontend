@@ -8,7 +8,11 @@ export const ShippingOrderContainerItem = types.model("ShippingOrderContainersIt
     syncId: types.maybe(types.string),
     shippingOrder: ForeignKeyShort,
     shippingOrderContainer: ForeignKey,
-    etsngCode: ForeignKey,
+    etsngCode: types.model({
+        id: types.identifier,
+        code: types.maybe(types.string),
+        name: types.maybe(types.string),
+    }),
     description: types.string,
     price: types.number,
 });
