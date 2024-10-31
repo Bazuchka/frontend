@@ -58,6 +58,7 @@ const ns = [
     "ShippingOrderCargo",
     "ShippingOrderPreview",
     "Container",
+    "Containers",
     "ReceivingOrderContainer",
     "ContainerType",
     "ReceivingOrderContainerItem",

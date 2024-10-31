@@ -1,3 +1,3 @@
-import { Containers } from "./ContainersStore";
+import { ContainerModal } from "./ContainersStore";
 
-export { Containers };
+export { ContainerModal };

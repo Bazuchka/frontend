@@ -1,8 +1,14 @@
 import { types } from "mobx-state-tree";
-import { Container } from "src/features/Container/store/ContainerStore";
+import { ForeignKey } from "src/shared/entities";
 
 // todo тут пока выдуманные данные - ждем сущности
-export const Containers = types.model("Containers", {
+export const ContainerModal = types.model("ContainersItem", {
     id: types.identifier,
-    container: Container,
+    code: types.maybe(types.string),
+    syncId: types.maybe(types.string),
+    containerType: types.string,
+    weight: types.number,
+    refrigerator: types.boolean,
+    active: types.boolean,
+    client: ForeignKey,
 });

@@ -1,7 +1,4 @@
 {
-    "menu": {
-        "containers": "Контейнеры"
-    },
     "properties": {
         "client": "Клиент",
         "containerType": "Тип контейнера",

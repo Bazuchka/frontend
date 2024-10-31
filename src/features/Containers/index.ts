@@ -1,4 +1,4 @@
-import ContainersTable from "./UI/ContainersTable";
-import ContainersTableItem from "./UI/ContainersTableItem";
+import ContainersTable from "./UI/ContainersTable/ContainersTable";
+import ContainersTableItem from "./UI/ContainersTableItem/ContainersTableItem";
 
 export { ContainersTable, ContainersTableItem };

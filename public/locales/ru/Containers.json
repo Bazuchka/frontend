@@ -1,0 +1,24 @@
+{
+    "menu": {
+        "containers": "Контейнеры",
+        "containersItem": "Контейнер",
+        "containersItemName": "{{ containerName }} (Контейнер)"
+    },
+    "containersTable": {
+        "code": "Номер контейнера",
+        "client": "Клиент",
+        "containerType": "Тип контейнера",
+        "weight": "Масса порожняя, тн",
+        "refrigerator": "Рефрижиратор",
+        "active": "Активный"
+    },
+    "containersTableItem": {
+        "tabList": {
+            "common": "Общая информация",
+            "move": "Перемещение"
+        },
+        "common": {
+            "title": "Общая информация"
+        }
+    }
+}
