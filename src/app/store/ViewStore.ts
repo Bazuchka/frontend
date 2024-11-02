@@ -76,7 +76,6 @@ export const ViewStore = types
          * @returns {void}
          */
         addAlert(alert: AddAlertMessageProps): void {
-            console.log(alert);
             if (alert.throttleByMessage) {
                 if (
                     self.alerts.some(

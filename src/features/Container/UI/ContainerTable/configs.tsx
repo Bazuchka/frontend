@@ -1,10 +1,10 @@
 import { createColumnHelper } from "@tanstack/react-table";
 import { t } from "i18next";
 import { WithGridRowId } from "src/shared/UI/TSBaseTable/types";
-import { IContainerItem } from "../../store/ContainersStore";
 import { CheckIcon, SvgXIcon } from "src/assets/svg";
+import { IContainer } from "../../store";
 
-const columnHelper = createColumnHelper<WithGridRowId<IContainerItem>>();
+const columnHelper = createColumnHelper<WithGridRowId<IContainer>>();
 
 export const getColumns = () => {
     return [

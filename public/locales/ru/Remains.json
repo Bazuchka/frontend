@@ -2,5 +2,27 @@
     "menu": {
         "remainsContainers": "Остатки контейнеров",
         "remainsContainersMove": "Движение контейнеров"
+    },
+    "containersMoveTable": {
+        "code": "Событие",
+        "containerCode": "Номер контейнера",
+        "zone": "Зона",
+        "platform": "Платформа",
+        "good": "Номенклатура",
+        "status": "Статус",
+        "neto": "Масса нетто",
+        "date": "Дата и время движения",
+        "order": "Заявка",
+        "damageList": "Список повреждений"
+    },
+    "containersTable": {
+        "code": "Номер контейнера",
+        "transport": "Тип ТС",
+        "transportCode": "Номер ТС / Платформы",
+        "good": "Номенклатура",
+        "date": "Дата и время события",
+        "order": "Заявка",
+        "orderStatus": "Статус заявки",
+        "client": "Клиент"
     }
 }

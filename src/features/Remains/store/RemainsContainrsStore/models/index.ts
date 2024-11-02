@@ -1,3 +1,3 @@
-import { RemainsContainers } from "./RemainsContainers";
+import { IRemainsContainersItem, RemainsContainersItem } from "./RemainsContainersItem";
 
-export { RemainsContainers };
+export { RemainsContainersItem, type IRemainsContainersItem };

@@ -14,13 +14,10 @@ import { ShippingOrder, ShippingOrderTable } from "src/features/ShippingOrder";
 import { TermOfService } from "src/features/TermOfService";
 import TermsOfServiceTable from "src/features/TermOfService/UI/TermsOfServiceTable";
 import { UnitOfMeasureTable } from "src/features/UnitOfMeasure";
-import {
-    RemainsContainersTable,
-    RemainsContainersMoveTable,
-    RemainsContainersItem,
-} from "src/features/Remains";
+import { RemainsContainers } from "src/features/Remains";
 import { PermissionRoute } from "src/shared/services/PermissionService";
-import { ContainersTable, ContainersTableItem } from "src/features/Containers";
+import { ContainerTable, ContainerTableItem } from "src/features/Container";
+import { ContainersMovement } from "src/features/ContainerMovement";
 
 import { MainLayout } from "../layout/mainLayout";
 
@@ -68,14 +65,16 @@ export const MainRoutes = createBrowserRouter(
             </Route>
 
             <Route element={<PermissionRoute path={"ReceivingOrder"} />}>
-                <Route path="/containers" element={<ContainersTable />} />
-                <Route path="/containers/:id" element={<ContainersTableItem />} />
+                <Route path="/container" element={<ContainerTable />} />
+                <Route path="/container/:id" element={<ContainerTableItem />} />
             </Route>
 
             <Route element={<PermissionRoute path={"ReceivingOrder"} />}>
-                <Route path="/remains-containers" element={<RemainsContainersTable />} />
-                <Route path="/remains-containers/:id" element={<RemainsContainersItem />} />
-                <Route path="/remains-containers-move" element={<RemainsContainersMoveTable />} />
+                <Route path="/container-movement" element={<ContainersMovement />} />
+            </Route>
+
+            <Route element={<PermissionRoute path={"ReceivingOrder"} />}>
+                <Route path="/remains-containers" element={<RemainsContainers />} />
             </Route>
 
             <Route element={<PermissionRoute path={"ClientVehicle"} />}>

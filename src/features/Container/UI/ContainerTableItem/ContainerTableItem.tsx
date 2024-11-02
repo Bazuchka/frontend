@@ -4,19 +4,23 @@ import { useParams } from "react-router-dom";
 import { usePermissionService } from "src/shared/services/PermissionService";
 import { BaseTabs } from "src/shared/UI/BaseTabs";
 import { ICard } from "src/shared/UI/iCard";
-import { containersStore } from "../../store";
+import { containerStore } from "../../store";
 import { containersTableItemConfiguration } from "./tabsConfiguration";
 
-const ContainersTableItem = observer((): JSX.Element => {
+const ContainerTableItem = observer((): JSX.Element => {
     const { id } = useParams();
     const { getAccessGrantedObjects } = usePermissionService();
 
     useLayoutEffect(() => {
-        containersStore.setCurrent(id!);
+        containerStore.setCurrent(id);
+
+        return () => {
+            containerStore.setCurrent(null);
+        };
     }, [id]);
 
     const configuration = {
-        items: getAccessGrantedObjects(containersTableItemConfiguration().items),
+        items: getAccessGrantedObjects(containersTableItemConfiguration(id as string).items),
     };
     return (
         <ICard cardSize={12} col={10}>
@@ -25,4 +29,4 @@ const ContainersTableItem = observer((): JSX.Element => {
     );
 });
 
-export default ContainersTableItem;
+export default ContainerTableItem;

@@ -3,22 +3,22 @@ import { observer } from "mobx-react";
 import { TableWithNavigation } from "src/features/TableWithNavigation";
 import { getColumns } from "./configs";
 import { ColumnDef } from "@tanstack/react-table";
-import { containersStore, IContainerItem } from "../../store";
+import { containerStore, type IContainer } from "../../store";
 
-const ContainersTable = observer(() => {
+const ContainerTable = observer(() => {
     return (
         <TableWithNavigation
-            getColumns={getColumns as () => ColumnDef<{ id: GridRowId }, IContainerItem>[]}
-            store={containersStore}
+            getColumns={getColumns as () => ColumnDef<{ id: GridRowId }, IContainer>[]}
+            store={containerStore}
             navigationPaths={{
-                info: "/containers",
+                info: "/container",
             }}
             // todo заменить на верный доступ с бека
             permissionPath="ReceivingOrder"
-            isLoading={containersStore.state.isLoading}
+            isLoading={containerStore.state.isLoading}
             footerSettings={{ hasCreateButton: false }}
         />
     );
 });
 
-export default ContainersTable;
+export default ContainerTable;

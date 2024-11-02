@@ -1,12 +1,11 @@
-import { Instance } from "mobx-state-tree";
 import { createBaseStoreWithViewMediator } from "src/shared/entities/BaseStore";
-import { RemainsContainers } from "./models";
+import { RemainsContainersItem } from "./models";
 
-export const RemainsContainersStore = createBaseStoreWithViewMediator({
+const RemainsContainersStore = createBaseStoreWithViewMediator({
     storeName: "RemainsContainers",
-    storeListModel: RemainsContainers,
-    storeMainInfoModel: RemainsContainers,
+    storeListModel: RemainsContainersItem,
+    storeMainInfoModel: RemainsContainersItem,
     useMock: true,
 });
 
-export interface IRemainsContainersStore extends Instance<typeof RemainsContainers> {}
+export const remainsContainersStore = RemainsContainersStore.create();

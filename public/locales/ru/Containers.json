@@ -15,10 +15,26 @@
     "containersTableItem": {
         "tabList": {
             "common": "Общая информация",
-            "move": "Перемещение"
+            "move": "История"
         },
         "common": {
-            "title": "Общая информация"
+            "title": "Общая информация",
+            "name": "Номер контейнера",
+            "type": "Тип",
+            "client": "Клиент",
+            "weightTara": "Масса порожняя, тн",
+            "refrigirator": "Рефрежиратор",
+            "active": "Активный"
+        },
+        "move": {
+            "code": "",
+            "transportType": "",
+            "transportCode": "",
+            "etsngCode": "",
+            "date": "",
+            "orderId": "",
+            "orderStatus": "",
+            "client": ""
         }
     }
 }
