@@ -4,16 +4,15 @@
         "remainsContainersMove": "Движение контейнеров"
     },
     "containersMoveTable": {
-        "code": "Событие",
+        "eventCode": "Событие",
         "containerCode": "Номер контейнера",
-        "zone": "Зона",
-        "platform": "Платформа",
-        "good": "Номенклатура",
-        "status": "Статус",
-        "neto": "Масса нетто",
-        "date": "Дата и время движения",
-        "order": "Заявка",
-        "damageList": "Список повреждений"
+        "transportType": "Тип ТС",
+        "transportNumber": "Номер ТС / Платформы",
+        "etsngCode": "Код ЕТСНГ",
+        "eventDateTime": "Дата и время события",
+        "orderNumber": "Заявка",
+        "orderStatus": "Статус заявки",
+        "clientCode": "Клиент"
     },
     "containersTable": {
         "code": "Номер контейнера",

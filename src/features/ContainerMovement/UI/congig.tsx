@@ -7,46 +7,41 @@ const columnHelper = createColumnHelper<WithGridRowId<IContainerMovement>>();
 
 export const getColumns = () => {
     return [
-        columnHelper.accessor("code", {
+        columnHelper.accessor("eventCode", {
             cell: (params) => params.getValue(),
-            header: t("Remains:containersMoveTable.code"),
+            header: t("Remains:containersMoveTable.eventCode"),
         }),
         columnHelper.accessor("containerCode", {
             cell: (params) => params.getValue(),
             header: t("Remains:containersMoveTable.containerCode"),
         }),
-        columnHelper.accessor("zone", {
+        columnHelper.accessor("transportType", {
             cell: (params) => params.getValue(),
-            header: t("Remains:containersMoveTable.zone"),
+            header: t("Remains:containersMoveTable.transportType"),
         }),
-        columnHelper.accessor("platform", {
+        columnHelper.accessor("transportNumber", {
             cell: (params) => params.getValue(),
-            header: t("Remains:containersMoveTable.platform"),
+            header: t("Remains:containersMoveTable.transportNumber"),
         }),
-        columnHelper.accessor("good", {
+        columnHelper.accessor("etsngCode", {
             cell: (params) => params.getValue(),
-            header: t("Remains:containersMoveTable.good"),
+            header: t("Remains:containersMoveTable.etsngCode"),
         }),
-        columnHelper.accessor("status", {
+        columnHelper.accessor("eventDateTime", {
             cell: (params) => params.getValue(),
-            header: t("Remains:containersMoveTable.status"),
+            header: t("Remains:containersMoveTable.eventDateTime"),
         }),
-        columnHelper.accessor("neto", {
+        columnHelper.accessor("orderNumber", {
             cell: (params) => params.getValue(),
-            header: t("Remains:containersMoveTable.neto"),
+            header: t("Remains:containersMoveTable.orderNumber"),
         }),
-        columnHelper.accessor("date", {
+        columnHelper.accessor("orderStatus", {
             cell: (params) => params.getValue(),
-            header: t("Remains:containersMoveTable.date"),
+            header: t("Remains:containersMoveTable.orderStatus"),
         }),
-        columnHelper.accessor("order", {
+        columnHelper.accessor("clientCode", {
             cell: (params) => params.getValue(),
-            header: t("Remains:containersMoveTable.order"),
-        }),
-        columnHelper.accessor("damageList", {
-            cell: (params) =>
-                params.getValue().reduce((result, damage) => result + damage + ", ", ""),
-            header: t("Remains:containersMoveTable.damageList"),
+            header: t("Remains:containersMoveTable.clientCode"),
         }),
     ];
 };

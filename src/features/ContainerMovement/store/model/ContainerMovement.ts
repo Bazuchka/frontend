@@ -1,17 +1,16 @@
 import { Instance, types } from "mobx-state-tree";
 
 export const ContainerMovement = types.model("ContainerMovement", {
-    id: types.string,
-    code: types.string,
+    eventCode: types.string,
     containerCode: types.string,
-    zone: types.string,
-    platform: types.string,
-    good: types.string,
-    status: types.string,
-    neto: types.number,
-    date: types.string,
-    order: types.string,
-    damageList: types.array(types.string),
+    id: types.string,
+    transportType: types.string,
+    transportNumber: types.string,
+    etsngCode: types.string,
+    eventDateTime: types.string,
+    orderNumber: types.string,
+    orderStatus: types.string,
+    clientCode: types.string,
 });
 
 export interface IContainerMovement extends Instance<typeof ContainerMovement> {}

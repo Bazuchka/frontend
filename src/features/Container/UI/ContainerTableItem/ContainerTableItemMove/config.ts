@@ -6,44 +6,36 @@ import { WithGridRowId } from "src/shared/UI/TSBaseTable/types";
 const columnHalper = createColumnHelper<WithGridRowId<IContainerMovement>>();
 
 export const getColumns = () => [
-    columnHalper.accessor("code", {
+    columnHalper.accessor("eventCode", {
         cell: (params) => params.getValue(),
-        header: t("Containers:containersTableItem.move.code"),
+        header: t("Containers:containersTableItem.move.eventCode"),
     }),
-    columnHalper.accessor("containerCode", {
+    columnHalper.accessor("transportType", {
         cell: (params) => params.getValue(),
         header: t("Containers:containersTableItem.move.transportType"),
     }),
-    columnHalper.accessor("zone", {
+    columnHalper.accessor("transportNumber", {
         cell: (params) => params.getValue(),
-        header: t("Containers:containersTableItem.move.transportCode"),
+        header: t("Containers:containersTableItem.move.transportNumber"),
     }),
-    columnHalper.accessor("platform", {
+    columnHalper.accessor("etsngCode", {
         cell: (params) => params.getValue(),
         header: t("Containers:containersTableItem.move.etsngCode"),
     }),
-    columnHalper.accessor("good", {
+    columnHalper.accessor("eventDateTime", {
         cell: (params) => params.getValue(),
-        header: t("Containers:containersTableItem.move.date"),
+        header: t("Containers:containersTableItem.move.eventDateTime"),
     }),
-    columnHalper.accessor("status", {
+    columnHalper.accessor("orderNumber", {
         cell: (params) => params.getValue(),
-        header: t("Containers:containersTableItem.move.orderId"),
+        header: t("Containers:containersTableItem.move.orderNumber"),
     }),
-    columnHalper.accessor("neto", {
+    columnHalper.accessor("orderStatus", {
         cell: (params) => params.getValue(),
         header: t("Containers:containersTableItem.move.orderStatus"),
     }),
-    columnHalper.accessor("date", {
+    columnHalper.accessor("clientCode", {
         cell: (params) => params.getValue(),
-        header: t("Containers:containersTableItem.move.client"),
-    }),
-    columnHalper.accessor("order", {
-        cell: (params) => params.getValue(),
-        header: t("Containers:containersTableItem.move.client"),
-    }),
-    columnHalper.accessor("damageList", {
-        cell: (params) => params.getValue(),
-        header: t("Containers:containersTableItem.move.client"),
+        header: t("Containers:containersTableItem.move.clientCode"),
     }),
 ];

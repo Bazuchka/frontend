@@ -27,14 +27,14 @@
             "active": "Активный"
         },
         "move": {
-            "code": "",
-            "transportType": "",
-            "transportCode": "",
-            "etsngCode": "",
-            "date": "",
-            "orderId": "",
-            "orderStatus": "",
-            "client": ""
+            "eventCode": "Событие",
+            "transportType": "Тип ТС",
+            "transportNumber": "Номер ТС / Платформы",
+            "etsngCode": "Код ЕТСНГ",
+            "eventDateTime": "Дата и время события",
+            "orderNumber": "Заявка",
+            "orderStatus": "Статус заявки",
+            "clientCode": "Клиент"
         }
     }
 }
