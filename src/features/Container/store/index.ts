@@ -1,6 +1,5 @@
-import { ContainerStore } from "./ContainerStore";
+import { ContainerStore, IContainer } from "./ContainerStore";
 
-export { ContainerStore } from "./ContainerStore";
-export type { IContainer } from "./ContainerStore";
+const containerStore = ContainerStore.create();
 
-export const containerStore = ContainerStore.create();
+export { ContainerStore, type IContainer, containerStore };
