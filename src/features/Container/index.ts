@@ -1,1 +1,1 @@
-export { ContainerForm } from "./ContainerForm";
+export { ContainerForm, ContainerTableItem, ContainerTable } from "./UI";
