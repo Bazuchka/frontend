@@ -17,7 +17,13 @@ import {
 } from "../../store/ReceivingOrderGood/ReceivingOrderGood";
 import { ReceivingOrderGoodBatchForm } from "./ReceivingOrderGoodBatchForm";
 
-const columnHelper = createColumnHelper<WithGridRowId<IFullReceivingOrderGood>>();
+const columnHelper = createColumnHelper<
+    WithGridRowId<
+        IFullReceivingOrderGood & {
+            good: string;
+        }
+    >
+>();
 
 export const getColumns = (client: IForeignKey) => {
     return [
@@ -45,6 +51,7 @@ export const getColumns = (client: IForeignKey) => {
                                         renderValuePrimary="item"
                                         renderValueSecondary="code"
                                         useRenderValuePattern
+                                        testFieldName="clientGood"
                                         onValueChange={(data) => {
                                             setValue("price", data?.price ?? 0);
                                             setValue("unitOfMeasure", data?.unitOfMeasure);
@@ -72,7 +79,7 @@ export const getColumns = (client: IForeignKey) => {
                 },
             },
         }),
-        columnHelper.accessor("clientGood", {
+        columnHelper.accessor("good", {
             cell: ({ row: { getValue } }) => {
                 return (getValue("clientGood") as { code: string; name: string })?.code;
             },
@@ -106,6 +113,7 @@ export const getColumns = (client: IForeignKey) => {
                                         error={invalid}
                                         value={value}
                                         renderValuePrimary="code"
+                                        testFieldName="goodVariant"
                                         onValueChange={onChange}
                                         isDisable={
                                             !(getValue("clientGood") as IClientGoodShort)
@@ -158,6 +166,7 @@ export const getColumns = (client: IForeignKey) => {
                                                 error={invalid}
                                                 value={value}
                                                 renderValuePrimary="code"
+                                                testFieldName="batch"
                                                 onValueChange={(data) => onChange(data)}
                                                 dictionaryParams={{
                                                     type: DictionaryType.BATCH,
@@ -217,6 +226,7 @@ export const getColumns = (client: IForeignKey) => {
                             <TextField
                                 size="small"
                                 type="number"
+                                data-test-id="value:plannedQuantity"
                                 {...register("plannedQuantity", {
                                     required: true,
                                     min: 0,

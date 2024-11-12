@@ -1,10 +1,13 @@
 import { FieldItemType } from "../common/form";
 import {
+    BATCH,
     CLIENT_DRIVER,
+    CLIENT_GOOD,
     CLIENT_RELATED_ENTITY,
     CLIENT_TEST_NAME,
     CLIENT_VEHICLE,
     CONTRACT_TEST_NAME,
+    GOOD_VARIANT,
     LEGAL_ENTITY_TEST_NAME,
     RECEIVING_ORDER_VEHICLE_CONTAINER,
     RECEIVING_ORDER_VEHICLE_WAREHOUSE,
@@ -67,6 +70,29 @@ export const CREATE_VEHICLE_WAREHOUSE = (t: (term: string) => string) => [
         name: "transportType",
         type: FieldItemType.SELECT,
         value: t(`TransportType:types.${RECEIVING_ORDER_VEHICLE_WAREHOUSE.transportType}`),
+    },
+];
+
+export const ASSIGN_GOODS_WAREHOUSE = [
+    {
+        name: "clientGood",
+        type: FieldItemType.AUTOCOMPLETE,
+        value: CLIENT_GOOD.item,
+    },
+    {
+        name: "goodVariant",
+        type: FieldItemType.AUTOCOMPLETE,
+        value: GOOD_VARIANT.code,
+    },
+    {
+        name: "batch",
+        type: FieldItemType.AUTOCOMPLETE,
+        value: BATCH.name,
+    },
+    {
+        name: "plannedQuantity",
+        type: FieldItemType.INPUT_NUMBER,
+        value: "10",
     },
 ];
 
@@ -153,6 +179,19 @@ export const CREATE_CONTAINER_FIELDS = (t: (term: string) => string) => [
         name: "weight",
         type: FieldItemType.INPUT_NUMBER,
         value: "10",
+    },
+];
+
+export const CREATE_BATCH_FIELDS = [
+    {
+        name: "name",
+        type: FieldItemType.INPUT,
+        value: BATCH.name,
+    },
+    {
+        name: "manufactureDate",
+        type: FieldItemType.DATE,
+        value: BATCH.manufactureDate,
     },
 ];
 

@@ -9,6 +9,5 @@ export { default as OrdersIcon } from "src/assets/svg/orders.svg?react";
 export { default as PlusIcon } from "src/assets/svg/plus.svg?react";
 export { default as PencilIcon } from "src/assets/svg/pencil.svg?react";
 export { default as ArrowDownIcon } from "src/assets/svg/arrow-down.svg?react";
-export { default as Remains } from "src/assets/svg/remains.svg?react";
 
 export const SvgXIcon = () => <SvgIcon component={XIconNoStyle} style={{ marginTop: 13 }} />;

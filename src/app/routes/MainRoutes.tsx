@@ -14,14 +14,8 @@ import { ShippingOrder, ShippingOrderTable } from "src/features/ShippingOrder";
 import { TermOfService } from "src/features/TermOfService";
 import TermsOfServiceTable from "src/features/TermOfService/UI/TermsOfServiceTable";
 import { UnitOfMeasureTable } from "src/features/UnitOfMeasure";
-import { RemainsContainers } from "src/features/Remains";
 import { PermissionRoute } from "src/shared/services/PermissionService";
-import { ContainerTable, ContainerTableItem } from "src/features/Container";
-import { ContainersMovement } from "src/features/ContainerMovement";
-
 import { MainLayout } from "../layout/mainLayout";
-
-// todo заменить path для Remains на корректный
 
 export const MainRoutes = createBrowserRouter(
     createRoutesFromElements(
@@ -62,19 +56,6 @@ export const MainRoutes = createBrowserRouter(
 
             <Route element={<PermissionRoute path={"UnitOfMeasure"} />}>
                 <Route path="/units-of-measure" element={<UnitOfMeasureTable />} />
-            </Route>
-
-            <Route element={<PermissionRoute path={"ReceivingOrder"} />}>
-                <Route path="/container" element={<ContainerTable />} />
-                <Route path="/container/:id" element={<ContainerTableItem />} />
-            </Route>
-
-            <Route element={<PermissionRoute path={"ReceivingOrder"} />}>
-                <Route path="/container-movement" element={<ContainersMovement />} />
-            </Route>
-
-            <Route element={<PermissionRoute path={"ReceivingOrder"} />}>
-                <Route path="/remains-containers" element={<RemainsContainers />} />
             </Route>
 
             <Route element={<PermissionRoute path={"ClientVehicle"} />}>

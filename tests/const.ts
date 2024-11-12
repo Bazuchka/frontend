@@ -21,7 +21,7 @@ export const GOOD_PACKAGE = {
 
 export const GOOD_VARIANT = {
     item: "AUTOTEST_GOODVARIANT_ARTICLE",
-    code: "AUTOTEST_GOODVARIANT_CODE",
+    code: "VARIANT",
 };
 
 export const CLIENT_RELATED_ENTITY = {
@@ -67,4 +67,7 @@ export const SHIPPING_ORDER_VEHICLE_CONTAINER = {
     planShippingTime: "10:00",
 };
 
-export const CONTAINER_CODE = "AMTU4003372";
+export const BATCH = {
+    name: "AUTOTEST_BATCH_NAME",
+    manufactureDate: "01.01.2024",
+};

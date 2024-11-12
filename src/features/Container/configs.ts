@@ -4,7 +4,7 @@ import { FieldGroup } from "src/shared/UI/iFieldItem/types";
 import { DictionaryType } from "src/shared/hooks/useDictionary";
 import { FieldOptions } from "src/shared/hooks/useDrawerForm";
 import { request } from "src/shared/request";
-import { IContainer } from "../../store";
+import { IContainer } from "./store";
 
 export const fieldsConfiguration = (defaultModel: IContainer | null, fieldOptions?: FieldOptions) =>
     [

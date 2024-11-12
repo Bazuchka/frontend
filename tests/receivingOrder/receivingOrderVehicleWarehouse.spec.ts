@@ -1,9 +1,15 @@
 import { expect } from "@playwright/test";
-import { populateForm } from "../common/form";
+import { FieldItemType, populateForm } from "../common/form";
 import { hasHeaderAndBreadcrumbsStep } from "../common/headerCheck";
 import { loadScene } from "../common/scene";
+import { BATCH } from "../const";
 import { testI18n } from "../fixtures/i18n.fixture";
-import { CREATE_TRANSPORT_FIELDS, CREATE_VEHICLE_WAREHOUSE } from "./const";
+import {
+    ASSIGN_GOODS_WAREHOUSE,
+    CREATE_BATCH_FIELDS,
+    CREATE_TRANSPORT_FIELDS,
+    CREATE_VEHICLE_WAREHOUSE,
+} from "./const";
 
 export const receivingOrderVehicleWarehouse = () =>
     testI18n("Receiving Order (Vehicle/Warehouse)", async ({ page, i18nFix }) => {
@@ -84,120 +90,101 @@ export const receivingOrderVehicleWarehouse = () =>
             await expect(page.getByTestId("alert").last()).not.toHaveClass(/MuiAlert-colorError/);
         });
 
-        // await testI18n.step("can create new contrainer and assign to request", async () => {
-        //     await expect(page.locator("table")).toBeVisible();
-        //     await expect(
-        //         page
-        //             .getByTestId("table-footer")
-        //             .getByRole("button", { name: i18nFix.t("Action:add") })
-        //     ).toBeEnabled();
+        await testI18n.step("create new good", async () => {
+            await expect(
+                page.getByTestId(`tab-header:${i18nFix.t("ReceivingOrder:tabs.goods")}`)
+            ).toHaveAttribute("aria-selected", "true");
 
-        //     await page
-        //         .getByTestId("table-footer")
-        //         .getByRole("button", { name: i18nFix.t("Action:add") })
-        //         .click();
+            await expect(page.locator("table")).toBeVisible();
+            await expect(
+                page
+                    .getByTestId("table-footer")
+                    .getByRole("button", { name: i18nFix.t("Action:add") })
+            ).toBeEnabled();
 
-        //     await page.getByTestId("inline-button:create").click();
+            await page
+                .getByTestId("table-footer")
+                .getByRole("button", { name: i18nFix.t("Action:add") })
+                .click();
 
-        //     const conainerData = CREATE_CONTAINER_FIELDS(i18nFix.t);
-        //     await populateForm(page, conainerData);
-        //     containerNumber = conainerData[0].value;
+            await populateForm(page, [ASSIGN_GOODS_WAREHOUSE[0]]);
+            await page.getByTestId("inline-button:create").click();
 
-        //     await page
-        //         .getByTestId("form-footer")
-        //         .getByRole("button", { name: i18nFix.t("Action:save") })
-        //         .click();
+            await populateForm(page, CREATE_BATCH_FIELDS);
 
-        //     await expect(page.getByTestId("alert").last()).not.toHaveClass(/MuiAlert-colorError/);
+            await page
+                .getByTestId("form-footer")
+                .getByRole("button", { name: i18nFix.t("Action:save") })
+                .click();
 
-        //     await populateForm(page, ASSIGN_CONTAINER_FIELDS(containerNumber));
+            await expect(page.getByTestId("alert").last()).not.toHaveClass(/MuiAlert-colorError/);
 
-        //     await expect(
-        //         page
-        //             .getByTestId("table-footer")
-        //             .getByRole("button", { name: i18nFix.t("Action:save") })
-        //     ).toBeEnabled();
+            await page.waitForTimeout(5000);
+            await expect(page.locator("table")).toBeVisible();
 
-        //     await page
-        //         .getByTestId("table-footer")
-        //         .getByRole("button", { name: i18nFix.t("Action:save") })
-        //         .click();
+            await populateForm(page, [ASSIGN_GOODS_WAREHOUSE[1], ASSIGN_GOODS_WAREHOUSE[3]]);
 
-        //     await expect(page.getByTestId("alert").last()).not.toHaveClass(/MuiAlert-colorError/);
-        // });
+            await expect(
+                page
+                    .getByTestId("table-footer")
+                    .getByRole("button", { name: i18nFix.t("Action:save") })
+            ).toBeEnabled();
 
-        // await testI18n.step("assign good to container in request", async () => {
-        //     await page.getByTestId(`tab-header:${i18nFix.t("ReceivingOrder:tabs.goods")}`).click();
-        //     await expect(page.locator("table")).toBeVisible();
-        //     await expect(
-        //         page
-        //             .getByTestId("table-footer")
-        //             .getByRole("button", { name: i18nFix.t("Action:add") })
-        //     ).toBeEnabled();
+            await page
+                .getByTestId("table-footer")
+                .getByRole("button", { name: i18nFix.t("Action:next") })
+                .click();
 
-        //     await page
-        //         .getByTestId("table-footer")
-        //         .getByRole("button", { name: i18nFix.t("Action:add") })
-        //         .click();
+            await expect(page.getByTestId("alert").last()).not.toHaveClass(/MuiAlert-colorError/);
+        });
 
-        //     await populateForm(page, ASSIGN_GOODS_IN_CONTAINER_FIELDS(containerNumber));
+        await testI18n.step("can see goods", async () => {
+            await expect(page.locator("table")).toBeVisible();
+            await expect(page.getByRole("cell", { name: BATCH.name })).toBeVisible();
+        });
 
-        //     await expect(
-        //         page
-        //             .getByTestId("table-footer")
-        //             .getByRole("button", { name: i18nFix.t("Action:save") })
-        //     ).toBeEnabled();
+        await testI18n.step("assign requested service to container in request", async () => {
+            await page
+                .getByTestId(`tab-header:${i18nFix.t("ReceivingOrder:tabs.operations")}`)
+                .click();
 
-        //     await page
-        //         .getByTestId("table-footer")
-        //         .getByRole("button", { name: i18nFix.t("Action:save") })
-        //         .click();
+            await expect(page.locator("table")).toBeVisible();
 
-        //     await expect(page.getByTestId("alert").last()).not.toHaveClass(/MuiAlert-colorError/);
-        // });
+            await expect(
+                page
+                    .getByTestId("table-footer")
+                    .getByRole("button", { name: i18nFix.t("Action:add") })
+            ).toBeEnabled();
 
-        // await testI18n.step("assign requested service to container in request", async () => {
-        //     await page
-        //         .getByTestId(`tab-header:${i18nFix.t("ReceivingOrder:tabs.operations")}`)
-        //         .click();
+            await page
+                .getByTestId("table-footer")
+                .getByRole("button", { name: i18nFix.t("Action:add") })
+                .click();
 
-        //     await expect(page.locator("table")).toBeVisible();
+            await populateForm(page, [
+                {
+                    name: "termOfRequestedService",
+                    type: FieldItemType.AUTOCOMPLETE,
+                },
+            ]);
 
-        //     await expect(
-        //         page
-        //             .getByTestId("table-footer")
-        //             .getByRole("button", { name: i18nFix.t("Action:add") })
-        //     ).toBeEnabled();
+            await expect(
+                page
+                    .getByTestId("table-footer")
+                    .getByRole("button", { name: i18nFix.t("Action:save") })
+            ).toBeEnabled();
 
-        //     await page
-        //         .getByTestId("table-footer")
-        //         .getByRole("button", { name: i18nFix.t("Action:add") })
-        //         .click();
+            await page
+                .getByTestId("table-footer")
+                .getByRole("button", { name: i18nFix.t("Action:save") })
+                .click();
 
-        //     await populateForm(page, [
-        //         {
-        //             name: "termOfRequestedService",
-        //             type: FieldItemType.AUTOCOMPLETE,
-        //         },
-        //     ]);
+            await expect(page.getByTestId("alert").last()).not.toHaveClass(/MuiAlert-colorError/);
+        });
 
-        //     await expect(
-        //         page
-        //             .getByTestId("table-footer")
-        //             .getByRole("button", { name: i18nFix.t("Action:save") })
-        //     ).toBeEnabled();
-
-        //     await page
-        //         .getByTestId("table-footer")
-        //         .getByRole("button", { name: i18nFix.t("Action:save") })
-        //         .click();
-
-        //     await expect(page.getByTestId("alert").last()).not.toHaveClass(/MuiAlert-colorError/);
-        // });
-
-        // await testI18n.step("can see preview", async () => {
-        //     await page
-        //         .getByTestId(`tab-header:${i18nFix.t("ReceivingOrder:tabs.presentation")}`)
-        //         .click();
-        // });
+        await testI18n.step("can see preview", async () => {
+            await page
+                .getByTestId(`tab-header:${i18nFix.t("ReceivingOrder:tabs.presentation")}`)
+                .click();
+        });
     });
