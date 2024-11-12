@@ -12,6 +12,7 @@ interface BaseStoreProps<StoreListModel extends IAnyType, StoreModel extends IAn
     storeName: string;
     storeListModel: StoreListModel;
     storeMainInfoModel: StoreModel;
+    useMock?: boolean;
 }
 
 const StoreState = types
