@@ -1,4 +1,5 @@
 import { Instance, types } from "mobx-state-tree";
+import { ContainerMovementStore } from "src/features/ContainerMovement";
 import { ForeignKey } from "src/shared/entities";
 import { createBaseStoreWithViewMediator } from "src/shared/entities/BaseStore";
 
@@ -13,10 +14,21 @@ export const Container = types.model("Container", {
     client: ForeignKey,
 });
 
+export const FullDataContainer = types.compose(
+    "FullDataContainer",
+    Container,
+    types.model({
+        movements: types.optional(ContainerMovementStore, {
+            state: {},
+            data: [],
+        }),
+    })
+);
+
 export const ContainerStore = createBaseStoreWithViewMediator({
     storeName: "Container",
     storeListModel: Container,
-    storeMainInfoModel: Container,
+    storeMainInfoModel: FullDataContainer,
 });
 
 export interface IContainer extends Instance<typeof Container> {}
