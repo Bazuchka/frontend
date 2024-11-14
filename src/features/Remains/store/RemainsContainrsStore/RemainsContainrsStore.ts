@@ -5,7 +5,6 @@ const RemainsContainersStore = createBaseStoreWithViewMediator({
     storeName: "RemainsContainers",
     storeListModel: RemainsContainersItem,
     storeMainInfoModel: RemainsContainersItem,
-    useMock: true,
 });
 
 export const remainsContainersStore = RemainsContainersStore.create();

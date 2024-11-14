@@ -8,7 +8,7 @@ export const ContainerMovement = types.model("ContainerMovement", {
     transportNumber: types.string,
     etsngCode: types.string,
     eventDateTime: types.string,
-    orderNumber: types.string,
+    orderNumber: types.number,
     orderStatus: types.string,
     clientCode: types.string,
 });

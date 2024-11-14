@@ -245,16 +245,16 @@ export const menuConfiguration = (params?: MenuParams): MenuConfiguration => {
             icon: <Remains />,
             key: "remains",
             children: [
-                {
-                    label: t("Remains:menu.remainsContainers"),
-                    key: "remains-containers",
-                    path: "/remains-containers",
-                    filterable: true,
-                    permission: {
-                        // todo возможно другое название доступа
-                        path: "ReceivingOrder",
-                    },
-                },
+                // {
+                //     label: t("Remains:menu.remainsContainers"),
+                //     key: "remains-containers",
+                //     path: "/remains-containers",
+                //     filterable: true,
+                //     permission: {
+                //         // todo возможно другое название доступа
+                //         path: "ReceivingOrder",
+                //     },
+                // },
                 {
                     label: t("Remains:menu.remainsContainersMove"),
                     key: "container-movement",
