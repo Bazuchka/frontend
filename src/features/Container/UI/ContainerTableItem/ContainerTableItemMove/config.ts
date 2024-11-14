@@ -1,5 +1,6 @@
 import { createColumnHelper } from "@tanstack/react-table";
 import { t } from "i18next";
+import { format } from "date-fns";
 import { IContainerMovement } from "src/features/ContainerMovement/store";
 import { WithGridRowId } from "src/shared/UI/TSBaseTable/types";
 
@@ -7,11 +8,11 @@ const columnHalper = createColumnHelper<WithGridRowId<IContainerMovement>>();
 
 export const getColumns = () => [
     columnHalper.accessor("eventCode", {
-        cell: (params) => params.getValue(),
+        cell: (params) => t(`Containers:moveType.${params.getValue()}`),
         header: t("Containers:containersTableItem.move.eventCode"),
     }),
     columnHalper.accessor("transportType", {
-        cell: (params) => params.getValue(),
+        cell: (params) => t(`TransportType:types.${params.getValue()}`),
         header: t("Containers:containersTableItem.move.transportType"),
     }),
     columnHalper.accessor("transportNumber", {
@@ -23,7 +24,7 @@ export const getColumns = () => [
         header: t("Containers:containersTableItem.move.etsngCode"),
     }),
     columnHalper.accessor("eventDateTime", {
-        cell: (params) => params.getValue(),
+        cell: (params) => format(params.getValue() as Date, "dd.MM.yyyy HH:mm"),
         header: t("Containers:containersTableItem.move.eventDateTime"),
     }),
     columnHalper.accessor("orderNumber", {
@@ -31,7 +32,7 @@ export const getColumns = () => [
         header: t("Containers:containersTableItem.move.orderNumber"),
     }),
     columnHalper.accessor("orderStatus", {
-        cell: (params) => params.getValue(),
+        cell: (params) => t(`OrderStatus:types.${params.getValue()}`),
         header: t("Containers:containersTableItem.move.orderStatus"),
     }),
     columnHalper.accessor("clientCode", {

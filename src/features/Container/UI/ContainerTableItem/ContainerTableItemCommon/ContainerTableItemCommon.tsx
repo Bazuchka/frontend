@@ -22,7 +22,7 @@ const LegalEntityInfo: FC<containerItemCommonProps> = observer((): JSX.Element =
                 {
                     label: t("Containers:containersTableItem.common.type"),
                     type: FieldItemType.INPUT,
-                    value: containerStore.current?.containerType,
+                    value: t("ContainerType:types." + containerStore.current?.containerType),
                     name: "type",
                     fullLine: false,
                 },

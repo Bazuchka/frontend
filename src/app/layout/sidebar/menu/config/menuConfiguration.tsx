@@ -203,21 +203,19 @@ export const menuConfiguration = (params?: MenuParams): MenuConfiguration => {
                     path: "/container",
                     filterable: true,
                     permission: {
-                        // todo возможно другое название доступа
-                        path: "ReceivingOrder",
+                        path: "containerMovement",
                     },
                     children: [
                         {
                             breadCrumbsLabel: t("Containers:menu.containersItem"),
                             label: t("Containers:menu.containersItemName", {
-                                containerName: params?.Container?.label,
+                                containerName: params?.container?.label,
                             }),
-                            key: "container-item",
-                            path: `/container/contaierItem`,
+                            key: "containerItem",
+                            path: `/container/${params?.container?.path}`,
                             isInvisibleMenuItem: true,
                             permission: {
-                                // todo возможно другое название доступа
-                                path: "ReceivingOrder",
+                                path: "containerMovement",
                             },
                         },
                     ],

@@ -64,16 +64,16 @@ export const MainRoutes = createBrowserRouter(
                 <Route path="/units-of-measure" element={<UnitOfMeasureTable />} />
             </Route>
 
-            <Route element={<PermissionRoute path={"ReceivingOrder"} />}>
+            <Route element={<PermissionRoute path={"ContainerMovement"} />}>
                 <Route path="/container" element={<ContainerTable />} />
                 <Route path="/container/:id" element={<ContainerTableItem />} />
             </Route>
 
-            <Route element={<PermissionRoute path={"ReceivingOrder"} />}>
+            <Route element={<PermissionRoute path={"ContainerMovement"} />}>
                 <Route path="/container-movement" element={<ContainersMovement />} />
             </Route>
 
-            {/* <Route element={<PermissionRoute path={"ReceivingOrder"} />}>
+            {/* <Route element={<PermissionRoute path={"ContainerMovement"} />}>
                 <Route path="/remains-containers" element={<RemainsContainers />} />
             </Route> */}
 

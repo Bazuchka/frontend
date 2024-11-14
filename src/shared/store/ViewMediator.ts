@@ -9,6 +9,8 @@ const storeToMenuKeyMap = new Map<string, string>([
     ["ServiceStore", "service"],
     ["ClientGoodStore", "clientGood"],
     ["TermOfServiceStore", "termOfService"],
+    ["ContainerMovement", "containerMovement"],
+    ["ContainerStore", "container"],
     ["ReceivingOrderStore", "receivingOrder"],
     ["ShippingOrderStore", "shippingOrder"],
     ["UserStore", "user"],

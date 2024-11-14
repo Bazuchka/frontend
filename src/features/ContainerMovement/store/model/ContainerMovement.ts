@@ -1,4 +1,5 @@
 import { Instance, types } from "mobx-state-tree";
+import { IsoDate } from "src/shared/entities";
 
 export const ContainerMovement = types.model("ContainerMovement", {
     eventCode: types.string,
@@ -7,7 +8,7 @@ export const ContainerMovement = types.model("ContainerMovement", {
     transportType: types.string,
     transportNumber: types.string,
     etsngCode: types.string,
-    eventDateTime: types.string,
+    eventDateTime: IsoDate,
     orderNumber: types.number,
     orderStatus: types.string,
     clientCode: types.string,

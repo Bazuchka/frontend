@@ -8,7 +8,7 @@
         "dangerousCargo": "Опасный груз",
         "containerType": "Тип котейнера",
         "refrigerator": "Рефрижератор",
-        "weightEmpty": "Масса порожняя, тн",
+        "weightEmpty": "Масса тары, тн",
         "railwayCarriageId": "Номер вагона"
     },
     "dialog": {

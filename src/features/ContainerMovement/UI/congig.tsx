@@ -1,5 +1,6 @@
 import { createColumnHelper } from "@tanstack/react-table";
 import { t } from "i18next";
+import { format } from "date-fns";
 import { WithGridRowId } from "src/shared/UI/TSBaseTable/types";
 import { IContainerMovement } from "../store";
 
@@ -8,7 +9,7 @@ const columnHelper = createColumnHelper<WithGridRowId<IContainerMovement>>();
 export const getColumns = () => {
     return [
         columnHelper.accessor("eventCode", {
-            cell: (params) => params.getValue(),
+            cell: (params) => t(`Containers:moveType.${params.getValue()}`),
             header: t("Remains:containersMoveTable.eventCode"),
         }),
         columnHelper.accessor("containerCode", {
@@ -16,7 +17,7 @@ export const getColumns = () => {
             header: t("Remains:containersMoveTable.containerCode"),
         }),
         columnHelper.accessor("transportType", {
-            cell: (params) => params.getValue(),
+            cell: (params) => t(`TransportType:types.${params.getValue()}`),
             header: t("Remains:containersMoveTable.transportType"),
         }),
         columnHelper.accessor("transportNumber", {
@@ -28,7 +29,7 @@ export const getColumns = () => {
             header: t("Remains:containersMoveTable.etsngCode"),
         }),
         columnHelper.accessor("eventDateTime", {
-            cell: (params) => params.getValue(),
+            cell: (params) => format(params.getValue() as Date, "dd.MM.yyyy HH:mm"),
             header: t("Remains:containersMoveTable.eventDateTime"),
         }),
         columnHelper.accessor("orderNumber", {
@@ -36,7 +37,7 @@ export const getColumns = () => {
             header: t("Remains:containersMoveTable.orderNumber"),
         }),
         columnHelper.accessor("orderStatus", {
-            cell: (params) => params.getValue(),
+            cell: (params) => t(`OrderStatus:types.${params.getValue()}`),
             header: t("Remains:containersMoveTable.orderStatus"),
         }),
         columnHelper.accessor("clientCode", {

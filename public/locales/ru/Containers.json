@@ -2,28 +2,28 @@
     "menu": {
         "containers": "Контейнеры",
         "containersItem": "Контейнер",
-        "containersItemName": "{{ containerName }} (Контейнер)"
+        "containersItemName": "Контейнер №{{ containerName }}"
     },
     "containersTable": {
         "code": "Номер контейнера",
         "client": "Клиент",
         "containerType": "Тип контейнера",
-        "weight": "Масса порожняя, тн",
-        "refrigerator": "Рефрижиратор",
+        "weight": "Масса тары, тн",
+        "refrigerator": "Рефрижератор",
         "active": "Активный"
     },
     "containersTableItem": {
         "tabList": {
-            "common": "Общая информация",
-            "move": "История"
+            "common": "Основная информация",
+            "move": "Движения"
         },
         "common": {
             "title": "Общая информация",
             "name": "Номер контейнера",
             "type": "Тип",
             "client": "Клиент",
-            "weightTara": "Масса порожняя, тн",
-            "refrigirator": "Рефрежиратор",
+            "weightTara": "Масса тары, тн",
+            "refrigirator": "Рефрижератор",
             "active": "Активный"
         },
         "move": {
@@ -36,5 +36,9 @@
             "orderStatus": "Статус заявки",
             "clientCode": "Клиент"
         }
+    },
+    "moveType": {
+        "UNLOAD_FINISH": "Прибыл",
+        "LOAD_FINISH": "Убыл"
     }
 }

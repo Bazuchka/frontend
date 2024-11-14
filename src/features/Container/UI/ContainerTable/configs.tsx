@@ -13,7 +13,10 @@ export const getColumns = () => {
             header: t("Containers:containersTable.code"),
         }),
         columnHelper.accessor("containerType", {
-            cell: (params) => params.getValue(),
+            cell: (params) => {
+                const value = params.getValue();
+                return value ? t("ContainerType:types." + value) : value;
+            },
             header: t("Containers:containersTable.containerType"),
         }),
         columnHelper.accessor("client", {
