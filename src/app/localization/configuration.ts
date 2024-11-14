@@ -58,6 +58,7 @@ const ns = [
     "ShippingOrderCargo",
     "ShippingOrderPreview",
     "Container",
+    "Containers",
     "ReceivingOrderContainer",
     "ContainerType",
     "ReceivingOrderContainerItem",
@@ -72,6 +73,7 @@ const ns = [
     "RailwayCarriage",
     "ReceivingOrderRailwayCarriage",
     "Permissions",
+    "Remains",
 ];
 
 i18n.use(Backend)

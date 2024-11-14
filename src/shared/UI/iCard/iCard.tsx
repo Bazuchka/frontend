@@ -5,7 +5,7 @@ import { createUseStyles } from "react-jss";
 interface ICardProps {
     children: ReactNode;
     header?: ReactNode | string;
-    cardSize: number;
+    cardSize?: number;
     col?: number;
 }
 
@@ -20,7 +20,7 @@ const useStyles = createUseStyles({
     },
 });
 
-const ICard: FC<ICardProps> = ({ children, cardSize, header, col }) => {
+const ICard: FC<ICardProps> = ({ children, cardSize = 12, header, col = 10 }) => {
     const theme = useTheme();
     const classes = useStyles({ theme });
     const renderHeader = (title: ReactNode | string | undefined) => {
