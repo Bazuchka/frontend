@@ -15,13 +15,11 @@
         "clientCode": "Клиент"
     },
     "containersTable": {
-        "code": "Номер контейнера",
-        "transport": "Тип ТС",
-        "transportCode": "Номер ТС / Платформы",
-        "good": "Номенклатура",
-        "date": "Дата и время события",
-        "order": "Заявка",
+        "containerCode": "Номер контейнера",
+        "etsngCode": "Код ЕТСНГ",
+        "eventDateTime": "Дата и время события",
+        "orderNumber": "Заявка",
         "orderStatus": "Статус заявки",
-        "client": "Клиент"
+        "clientCode": "Клиент"
     }
 }

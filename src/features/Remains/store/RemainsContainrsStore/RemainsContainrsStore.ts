@@ -2,7 +2,7 @@ import { createBaseStoreWithViewMediator } from "src/shared/entities/BaseStore";
 import { RemainsContainersItem } from "./models";
 
 const RemainsContainersStore = createBaseStoreWithViewMediator({
-    storeName: "RemainsContainers",
+    storeName: "ContainerRemains",
     storeListModel: RemainsContainersItem,
     storeMainInfoModel: RemainsContainersItem,
 });

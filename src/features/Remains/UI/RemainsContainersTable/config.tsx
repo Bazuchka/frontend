@@ -2,42 +2,35 @@ import { createColumnHelper } from "@tanstack/react-table";
 import { WithGridRowId } from "src/shared/UI/TSBaseTable/types";
 import { IRemainsContainersItem } from "../../store";
 import { t } from "i18next";
+import { format } from "date-fns";
 
 const columnHalper = createColumnHelper<WithGridRowId<IRemainsContainersItem>>();
 
 export const getColumns = () => {
     return [
-        columnHalper.accessor("code", {
+        columnHalper.accessor("containerCode", {
             cell: (params) => params.getValue(),
-            header: t("Remains:containersTable.code"),
+            header: t("Remains:containersTable.containerCode"),
         }),
-        columnHalper.accessor("transport", {
+        columnHalper.accessor("etsngCode", {
             cell: (params) => params.getValue(),
-            header: t("Remains:containersTable.transport"),
+            header: t("Remains:containersTable.etsngCode"),
         }),
-        columnHalper.accessor("transportCode", {
+        columnHalper.accessor("eventDateTime", {
+            cell: (params) => format(params.getValue() as Date, "dd.MM.yyyy HH:mm"),
+            header: t("Remains:containersTable.eventDateTime"),
+        }),
+        columnHalper.accessor("orderNumber", {
             cell: (params) => params.getValue(),
-            header: t("Remains:containersTable.transportCode"),
-        }),
-        columnHalper.accessor("good", {
-            cell: (params) => params.getValue().code,
-            header: t("Remains:containersTable.good"),
-        }),
-        columnHalper.accessor("date", {
-            cell: (params) => params.getValue(),
-            header: t("Remains:containersTable.date"),
-        }),
-        columnHalper.accessor("order", {
-            cell: (params) => params.getValue(),
-            header: t("Remains:containersTable.order"),
+            header: t("Remains:containersTable.orderNumber"),
         }),
         columnHalper.accessor("orderStatus", {
-            cell: (params) => params.getValue(),
+            cell: (params) => t(`OrderStatus:types.${params.getValue()}`),
             header: t("Remains:containersTable.orderStatus"),
         }),
-        columnHalper.accessor("client", {
+        columnHalper.accessor("clientCode", {
             cell: (params) => params.getValue(),
-            header: t("Remains:containersTable.client"),
+            header: t("Remains:containersTable.clientCode"),
         }),
     ];
 };

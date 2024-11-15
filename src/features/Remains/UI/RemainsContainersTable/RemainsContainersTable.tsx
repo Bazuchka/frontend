@@ -9,6 +9,10 @@ import { DEFAULT_TANSTACK_CONFIG } from "src/shared/configs/table.conf";
 import { useReactTable } from "@tanstack/react-table";
 import { ICard } from "src/shared/UI/iCard";
 import { getColumns } from "./config";
+import { DownloadIcon } from "src/assets/svg";
+import { Box } from "@mui/material";
+import { Button } from "src/shared/UI/Button";
+import { useStyles } from "./styles";
 
 interface RemainsContainersTableProps {
     store: Instance<typeof remainsContainersStore>;
@@ -17,6 +21,7 @@ interface RemainsContainersTableProps {
 const RemainsContainersTable: FunctionComponent<RemainsContainersTableProps> = observer(
     ({ store }) => {
         const columns = useMemo(() => getColumns(), []);
+        const classes = useStyles();
 
         useEffect(() => {
             store?.fetch();
@@ -37,14 +42,19 @@ const RemainsContainersTable: FunctionComponent<RemainsContainersTableProps> = o
         });
 
         return (
-            <ICard cardSize={12} col={10}>
-                <TSBaseTableUI
-                    table={table}
-                    sorting={store.sorting}
-                    isLoading={store.state.isLoading}
-                    footer={() => <Footer paginator={pagination} />}
-                />
-            </ICard>
+            <Box component="div" className={classes.container}>
+                <Button /*onClick={fetchFile}*/ className={classes.button}>
+                    <DownloadIcon />
+                </Button>
+                <ICard cardSize={12} col={10}>
+                    <TSBaseTableUI
+                        table={table}
+                        sorting={store.sorting}
+                        isLoading={store.state.isLoading}
+                        footer={() => <Footer paginator={pagination} />}
+                    />
+                </ICard>
+            </Box>
         );
     }
 );

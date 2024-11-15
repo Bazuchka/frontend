@@ -2,10 +2,10 @@ import { t } from "i18next";
 import { ReactNode } from "react";
 import {
     AdministrationIcon,
-    ConfigurationFile,
+    ConfigurationFileIcon,
     Dictionary,
     OrdersIcon,
-    Remains,
+    RemainsIcon,
 } from "src/assets/svg";
 import { Permission } from "src/shared/services/PermissionService/types";
 
@@ -224,7 +224,7 @@ export const menuConfiguration = (params?: MenuParams): MenuConfiguration => {
         },
         {
             label: t("Shared:Reference.configuration"),
-            icon: <ConfigurationFile />,
+            icon: <ConfigurationFileIcon />,
             key: "configuration",
             children: [
                 {
@@ -240,19 +240,19 @@ export const menuConfiguration = (params?: MenuParams): MenuConfiguration => {
         },
         {
             label: t("Shared:Reference.remains"),
-            icon: <Remains />,
+            icon: <RemainsIcon />,
             key: "remains",
             children: [
-                // {
-                //     label: t("Remains:menu.remainsContainers"),
-                //     key: "remains-containers",
-                //     path: "/remains-containers",
-                //     filterable: true,
-                //     permission: {
-                //         // todo возможно другое название доступа
-                //         path: "ReceivingOrder",
-                //     },
-                // },
+                {
+                    label: t("Remains:menu.remainsContainers"),
+                    key: "remains-containers",
+                    path: "/remains-containers",
+                    filterable: true,
+                    permission: {
+                        // todo возможно другое название доступа
+                        path: "ReceivingOrder",
+                    },
+                },
                 {
                     label: t("Remains:menu.remainsContainersMove"),
                     key: "container-movement",

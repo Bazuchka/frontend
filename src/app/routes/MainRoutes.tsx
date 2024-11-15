@@ -14,7 +14,7 @@ import { ShippingOrder, ShippingOrderTable } from "src/features/ShippingOrder";
 import { TermOfService } from "src/features/TermOfService";
 import TermsOfServiceTable from "src/features/TermOfService/UI/TermsOfServiceTable";
 import { UnitOfMeasureTable } from "src/features/UnitOfMeasure";
-// import { RemainsContainers } from "src/features/Remains";
+import { RemainsContainers } from "src/features/Remains";
 import { PermissionRoute } from "src/shared/services/PermissionService";
 import { ContainerTable, ContainerTableItem } from "src/features/Container";
 import { ContainersMovement } from "src/features/ContainerMovement";
@@ -73,9 +73,9 @@ export const MainRoutes = createBrowserRouter(
                 <Route path="/container-movement" element={<ContainersMovement />} />
             </Route>
 
-            {/* <Route element={<PermissionRoute path={"ContainerMovement"} />}>
+            <Route element={<PermissionRoute path={"ContainerMovement"} />}>
                 <Route path="/remains-containers" element={<RemainsContainers />} />
-            </Route> */}
+            </Route>
 
             <Route element={<PermissionRoute path={"ClientVehicle"} />}>
                 <Route path="/client-vehicles" element={<ClientVehicleTable />} />
