@@ -2,10 +2,10 @@ import { TabsConfiguration, TabType } from "src/shared/UI/BaseTabs/types";
 import { t } from "i18next";
 import ContainerTableItemCommon from "./ContainerTableItemCommon/ContainerTableItemCommon";
 import ContainerTableItemMove from "./ContainerTableItemMove/ContainerTableItemMove";
+import DataGuard from "src/shared/UI/DataGuard/DataGuard";
+import { containerStore } from "../../store";
 
-export const containersTableItemConfiguration: (containerId: string) => TabsConfiguration = (
-    containerId
-) => ({
+export const containersTableItemConfiguration: () => TabsConfiguration = () => ({
     items: [
         {
             label: t("Containers:containersTableItem.tabList.common"),
@@ -15,7 +15,16 @@ export const containersTableItemConfiguration: (containerId: string) => TabsConf
         {
             label: t("Containers:containersTableItem.tabList.move"),
             type: TabType.MAIN_LIST,
-            component: <ContainerTableItemMove containerId={containerId} />,
+            component: (
+                <DataGuard whenExist={containerStore.current}>
+                    {(current) => (
+                        <ContainerTableItemMove
+                            store={current.movements}
+                            containerId={current.id}
+                        />
+                    )}
+                </DataGuard>
+            ),
         },
     ],
 });

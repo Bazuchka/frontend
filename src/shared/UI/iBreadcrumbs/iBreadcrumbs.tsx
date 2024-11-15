@@ -81,9 +81,18 @@ const IBreadcrumbs: FC = observer((): JSX.Element => {
                 };
 
                 const breadcrumbs = getBreadCrumbs(pathName);
-                lsBreadCrumbs.setItem([...breadcrumbs, newItemWithId]);
 
-                setNewWay([...breadcrumbs, newItem as MenuItem]);
+                const isMenuItemAlreadyExistInBreadCrumbs = breadcrumbs.some(
+                    (item: MenuItem) => item?.key === newItem?.key
+                );
+
+                const newCrumbs = isMenuItemAlreadyExistInBreadCrumbs
+                    ? breadcrumbs
+                    : [...breadcrumbs, newItemWithId];
+
+                lsBreadCrumbs.setItem(newCrumbs);
+
+                setNewWay(newCrumbs);
             }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -20,11 +20,11 @@ const ContainerTableItem = observer((): JSX.Element => {
     }, [id]);
 
     const configuration = {
-        items: getAccessGrantedObjects(containersTableItemConfiguration(id as string).items),
+        items: getAccessGrantedObjects(containersTableItemConfiguration().items),
     };
     return (
         <ICard cardSize={12} col={10}>
-            <BaseTabs configuration={configuration} />
+            <BaseTabs configuration={configuration} navigateUseSearchQuery={true} />
         </ICard>
     );
 });
