@@ -1,7 +1,8 @@
-import { Instance, types } from "mobx-state-tree";
+import { flow, Instance, types } from "mobx-state-tree";
 import { ContainerMovementStore } from "src/features/ContainerMovement";
 import { ForeignKey } from "src/shared/entities";
 import { createBaseStoreWithViewMediator } from "src/shared/entities/BaseStore";
+import { getBaseActions } from "src/shared/request/baseActions";
 
 export const Container = types.model("Container", {
     id: types.identifier,
@@ -29,6 +30,18 @@ export const ContainerStore = createBaseStoreWithViewMediator({
     storeName: "Container",
     storeListModel: Container,
     storeMainInfoModel: FullDataContainer,
+}).actions((self) => {
+    const getContainerInfoXlsx = flow(function* () {
+        return yield getBaseActions("Container".toLowerCase()).downloadFile(
+            {},
+            `/report/containermovement/${self.current?.id}/download`,
+            "application/json"
+        );
+    });
+
+    return {
+        getContainerInfoXlsx,
+    };
 });
 
 export interface IContainer extends Instance<typeof Container> {}

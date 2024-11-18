@@ -10,11 +10,30 @@ import { DownloadIcon } from "src/assets/svg";
 import { useStyles } from "./styles";
 import { Box } from "@mui/material";
 import { Button } from "src/shared/UI/Button";
+import { useFileDownload } from "src/shared/hooks/useFileDownload";
 
 const ContainerTableItem = observer((): JSX.Element => {
     const { id } = useParams();
     const { getAccessGrantedObjects } = usePermissionService();
     const classes = useStyles();
+
+    const { fetchFile } = useFileDownload({
+        apiDefinition: containerStore.getContainerInfoXlsx,
+        getFileName: () => `ContainerInfo-${id}`,
+        additionalBlobData: { type: "xlsx" },
+        beforeDownloadCallback: () => {
+            console.log("beforeDownloadCallback");
+        },
+        successEndCallback: () => {
+            console.log("successEndCallback");
+        },
+        onError: () => {
+            console.log("onError");
+        },
+        onFinally: () => {
+            console.log("onFinally");
+        },
+    });
 
     useLayoutEffect(() => {
         containerStore.setCurrent(id);
@@ -30,7 +49,7 @@ const ContainerTableItem = observer((): JSX.Element => {
 
     return (
         <Box component="div" className={classes.container}>
-            <Button /*onClick={fetchFile}*/ className={classes.button}>
+            <Button onClick={fetchFile} className={classes.button}>
                 <DownloadIcon />
             </Button>
             <ICard cardSize={12} col={10}>

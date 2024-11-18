@@ -13,6 +13,8 @@ import { DownloadIcon } from "src/assets/svg";
 import { Box } from "@mui/material";
 import { Button } from "src/shared/UI/Button";
 import { useStyles } from "./styles";
+import { ITooltype } from "src/shared/UI/iTooltype";
+import { t } from "i18next";
 
 interface RemainsContainersTableProps {
     store: Instance<typeof remainsContainersStore>;
@@ -44,8 +46,13 @@ const RemainsContainersTable: FunctionComponent<RemainsContainersTableProps> = o
         return (
             <Box component="div" className={classes.container}>
                 <Button /*onClick={fetchFile}*/ className={classes.button}>
-                    <DownloadIcon />
+                    <ITooltype
+                        id="path_download_remains_containers"
+                        item={<DownloadIcon />}
+                        label={t("Shared:download.label")}
+                    />
                 </Button>
+
                 <ICard cardSize={12} col={10}>
                     <TSBaseTableUI
                         table={table}

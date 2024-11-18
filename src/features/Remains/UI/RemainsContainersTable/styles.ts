@@ -10,10 +10,12 @@ export const useStyles = createUseStyles(() => ({
         position: "relative",
     },
     button: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
         position: "absolute",
         right: "16px",
         top: "-36px",
-        display: "flex",
         background: "none",
         minWidth: "auto",
         padding: "3px",
@@ -26,6 +28,12 @@ export const useStyles = createUseStyles(() => ({
             "& path": {
                 stroke: colorList.white,
             },
+        },
+
+        "& .MuiTypography-root": {
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
         },
     },
     buttonIcon: {
