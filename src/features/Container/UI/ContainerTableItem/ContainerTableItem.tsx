@@ -2,15 +2,14 @@ import { Box } from "@mui/material";
 import { observer } from "mobx-react";
 import { useLayoutEffect } from "react";
 import { useParams } from "react-router-dom";
-import { DownloadIcon } from "src/assets/svg";
 import { useFileDownload } from "src/shared/hooks/useFileDownload";
 import { usePermissionService } from "src/shared/services/PermissionService";
 import { BaseTabs } from "src/shared/UI/BaseTabs";
-import { Button } from "src/shared/UI/Button";
 import { ICard } from "src/shared/UI/iCard";
 import { containerStore } from "../../store";
 import { useStyles } from "./styles";
 import { containersTableItemConfiguration } from "./tabsConfiguration";
+import { TSTableDownloadButton } from "src/shared/UI/TSTableDownloadButton";
 
 const ContainerTableItem = observer((): JSX.Element => {
     const { id } = useParams();
@@ -24,9 +23,6 @@ const ContainerTableItem = observer((): JSX.Element => {
             type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         },
         beforeDownloadCallback: containerStore.beforeDownloadCallback,
-        successEndCallback: () => {
-            console.log("successEndCallback");
-        },
         onError: containerStore.onErrorDownload,
         onFinally: containerStore.onFinallyDownload,
     });
@@ -45,10 +41,12 @@ const ContainerTableItem = observer((): JSX.Element => {
 
     return (
         <Box component="div" className={classes.container}>
-            <Button onClick={fetchFile} className={classes.button}>
-                <DownloadIcon />
-            </Button>
-            <a ref={ref}></a>
+            <TSTableDownloadButton
+                id={"path_download_container_item_info"}
+                fetchFileCallback={fetchFile}
+                customClasses={classes.button}
+                linkReference={ref}
+            />
             <ICard cardSize={12} col={10}>
                 <BaseTabs configuration={configuration} navigateUseSearchQuery={true} />
             </ICard>

@@ -9,12 +9,10 @@ import { DEFAULT_TANSTACK_CONFIG } from "src/shared/configs/table.conf";
 import { useReactTable } from "@tanstack/react-table";
 import { ICard } from "src/shared/UI/iCard";
 import { getColumns } from "./config";
-import { DownloadIcon } from "src/assets/svg";
 import { Box } from "@mui/material";
-import { Button } from "src/shared/UI/Button";
 import { useStyles } from "./styles";
-import { ITooltype } from "src/shared/UI/iTooltype";
-import { t } from "i18next";
+import { useFileDownload } from "src/shared/hooks/useFileDownload";
+import { TSTableDownloadButton } from "src/shared/UI/TSTableDownloadButton";
 
 interface RemainsContainersTableProps {
     store: Instance<typeof remainsContainersStore>;
@@ -24,6 +22,17 @@ const RemainsContainersTable: FunctionComponent<RemainsContainersTableProps> = o
     ({ store }) => {
         const columns = useMemo(() => getColumns(), []);
         const classes = useStyles();
+
+        const { fetchFile, ref } = useFileDownload({
+            apiDefinition: store.getContainerRemainsInfoXlsx,
+            getFileName: () => `ContainerRemainsInfo.xlsx`,
+            additionalBlobData: {
+                type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            },
+            beforeDownloadCallback: store.beforeDownloadCallback,
+            onError: store.onErrorDownload,
+            onFinally: store.onFinallyDownload,
+        });
 
         useEffect(() => {
             store?.fetch();
@@ -45,14 +54,12 @@ const RemainsContainersTable: FunctionComponent<RemainsContainersTableProps> = o
 
         return (
             <Box component="div" className={classes.container}>
-                <Button /*onClick={fetchFile}*/ className={classes.button}>
-                    <ITooltype
-                        id="path_download_remains_containers"
-                        item={<DownloadIcon />}
-                        label={t("Shared:download.label")}
-                    />
-                </Button>
-
+                <TSTableDownloadButton
+                    id={"path_download_remains_containers"}
+                    fetchFileCallback={fetchFile}
+                    customClasses={classes.button}
+                    linkReference={ref}
+                />
                 <ICard cardSize={12} col={10}>
                     <TSBaseTableUI
                         table={table}
