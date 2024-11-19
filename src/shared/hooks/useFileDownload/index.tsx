@@ -40,7 +40,8 @@ export const useFileDownload = ({
             const { data } = await apiDefinition();
 
             // пишем данные для скачивания
-            const url = URL.createObjectURL(new Blob([data], additionalBlobData));
+            const blob = new Blob([data], additionalBlobData);
+            const url = URL.createObjectURL(blob);
             setFileUrl(url);
             setFileName(getFileName());
 

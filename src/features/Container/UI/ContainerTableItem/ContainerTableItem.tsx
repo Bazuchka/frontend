@@ -17,10 +17,12 @@ const ContainerTableItem = observer((): JSX.Element => {
     const { getAccessGrantedObjects } = usePermissionService();
     const classes = useStyles();
 
-    const { fetchFile, ref, url } = useFileDownload({
+    const { fetchFile, ref, url, name } = useFileDownload({
         apiDefinition: containerStore.getContainerInfoXlsx,
-        getFileName: () => `ContainerInfo-${id}`,
-        additionalBlobData: { type: "xlsx" },
+        getFileName: () => `ContainerInfo-${id}.xlsx`,
+        additionalBlobData: {
+            type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        },
         beforeDownloadCallback: containerStore.beforeDownloadCallback,
         successEndCallback: () => {
             console.log("successEndCallback");
@@ -46,7 +48,7 @@ const ContainerTableItem = observer((): JSX.Element => {
             <Button onClick={fetchFile} className={classes.button}>
                 <DownloadIcon />
             </Button>
-            <a href={url} download ref={ref}></a>
+            <a href={url} download={name} ref={ref}></a>
             <ICard cardSize={12} col={10}>
                 <BaseTabs configuration={configuration} navigateUseSearchQuery={true} />
             </ICard>
