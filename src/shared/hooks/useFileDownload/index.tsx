@@ -13,7 +13,7 @@ interface DownloadFileProps {
 
 interface DownloadedFileInfo {
     readonly fetchFile: () => Promise<void>;
-    readonly ref: React.MutableRefObject<HTMLElement | null>;
+    readonly ref: React.MutableRefObject<HTMLAnchorElement | null>;
     readonly name: string | undefined;
     readonly url: string | undefined;
 }
@@ -27,7 +27,7 @@ export const useFileDownload = ({
     onError,
     onFinally,
 }: DownloadFileProps): DownloadedFileInfo => {
-    const ref = useRef<HTMLElement | null>(null);
+    const ref = useRef<HTMLAnchorElement | null>(null);
     const [url, setFileUrl] = useState<string>();
     const [name, setFileName] = useState<string>();
 

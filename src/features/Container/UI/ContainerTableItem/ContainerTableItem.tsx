@@ -8,7 +8,7 @@ import { containerStore } from "../../store";
 import { containersTableItemConfiguration } from "./tabsConfiguration";
 import { DownloadIcon } from "src/assets/svg";
 import { useStyles } from "./styles";
-import { Box, Link } from "@mui/material";
+import { Box } from "@mui/material";
 import { Button } from "src/shared/UI/Button";
 import { useFileDownload } from "src/shared/hooks/useFileDownload";
 
@@ -46,7 +46,7 @@ const ContainerTableItem = observer((): JSX.Element => {
             <Button onClick={fetchFile} className={classes.button}>
                 <DownloadIcon />
             </Button>
-            <Link href={url} ref={ref}></Link>
+            <a href={url} download ref={ref}></a>
             <ICard cardSize={12} col={10}>
                 <BaseTabs configuration={configuration} navigateUseSearchQuery={true} />
             </ICard>
