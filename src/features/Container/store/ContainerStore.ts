@@ -39,8 +39,22 @@ export const ContainerStore = createBaseStoreWithViewMediator({
         );
     });
 
+    const beforeDownloadCallback = () => {
+        self.state.isFetching = true;
+    };
+    const onErrorDownload = (error: unknown) => {
+        self.state.isError = true;
+        throw new Error(error as string);
+    };
+    const onFinallyDownload = () => {
+        self.state.isFetching = false;
+    };
+
     return {
         getContainerInfoXlsx,
+        onErrorDownload,
+        beforeDownloadCallback,
+        onFinallyDownload,
     };
 });
 
