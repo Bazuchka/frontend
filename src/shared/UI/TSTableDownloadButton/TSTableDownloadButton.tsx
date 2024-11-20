@@ -18,7 +18,7 @@ export default function TSTableDownloadButton({
     linkReference,
 }: ITSTableDownloadButton) {
     const classes = useStyles();
-    const classList = customClasses ? customClasses + " " + classes.button : classes.button;
+    const classList = customClasses ? classes.button + " " + customClasses : classes.button;
 
     return (
         <>
