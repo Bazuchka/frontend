@@ -13,8 +13,7 @@ const ContainerTable = observer(() => {
             navigationPaths={{
                 info: "/container",
             }}
-            // todo заменить на верный доступ с бека
-            permissionPath="ReceivingOrder"
+            permissionPath="container"
             isLoading={containerStore.state.isLoading}
             footerSettings={{ hasCreateButton: false }}
         />

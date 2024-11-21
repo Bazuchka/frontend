@@ -1,7 +1,6 @@
 import { Instance, types } from "mobx-state-tree";
 import { IsoDate } from "src/shared/entities";
 
-// todo тут пока выдуманные данные - ждем сущности
 export const RemainsContainersItem = types.model("RemainsContainersItem", {
     id: types.string,
     containerCode: types.string,
