@@ -249,8 +249,7 @@ export const menuConfiguration = (params?: MenuParams): MenuConfiguration => {
                     path: "/remains-containers",
                     filterable: true,
                     permission: {
-                        // todo возможно другое название доступа
-                        path: "ReceivingOrder",
+                        path: "containermovement",
                     },
                 },
                 {
@@ -259,8 +258,7 @@ export const menuConfiguration = (params?: MenuParams): MenuConfiguration => {
                     path: "/container-movement",
                     filterable: true,
                     permission: {
-                        // todo возможно другое название доступа
-                        path: "ReceivingOrder",
+                        path: "containermovement",
                     },
                 },
             ],

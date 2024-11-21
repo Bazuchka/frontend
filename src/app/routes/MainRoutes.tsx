@@ -21,8 +21,6 @@ import { ContainersMovement } from "src/features/ContainerMovement";
 
 import { MainLayout } from "../layout/mainLayout";
 
-// todo заменить path для Remains на корректный
-
 export const MainRoutes = createBrowserRouter(
     createRoutesFromElements(
         <Route path="/" element={<MainLayout />}>
