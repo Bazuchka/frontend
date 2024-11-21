@@ -10,12 +10,87 @@ import { permissionService } from "src/shared/services/PermissionService";
 import { PermissionLevel, PermissionType } from "src/shared/services/PermissionService/types";
 import { default as ReceivingOrderStore } from "../../store/ShippingOrderStore/ShippingOrderStore";
 import useStyles from "./styles";
+import { useFileDownload } from "src/shared/hooks/useFileDownload";
 
 interface ShippingOrderPrintProps {
     store: Instance<typeof ReceivingOrderStore>;
     isWarehouse: boolean;
     isVehicle: boolean;
 }
+
+const Mx3DownloadButton = ({
+    store,
+    classes,
+}: {
+    store: Instance<typeof ReceivingOrderStore>;
+    classes: string;
+}) => {
+    const { fetchFile } = useFileDownload({
+        apiDefinition: store.getShippingOrderMx3Print,
+        getFileName: () => `Акт о возврате (MX-3) по заявке ${store.current?.code}`,
+        additionalBlobData: store.getAdditionalBlobData(),
+        beforeDownloadCallback: store.beforeDownloadCallback,
+        successEndCallback: store.onSuccesLoadBlobData,
+        onError: store.onErrorDownload,
+        onFinally: store.onFinallyDownload,
+    });
+
+    return (
+        <LoadingButton
+            disabled={
+                store.state.isFetching ||
+                !permissionService.check({
+                    path: "ShippingOrder.Report.MX3",
+                    level: PermissionLevel.READ,
+                    type: PermissionType.BUTTON,
+                })
+            }
+            className={classes}
+            loading={store.state.isFetching}
+            onClick={fetchFile}>
+            {!store.state.isFetching && (
+                <LocalPrintshop color="secondary" sx={{ width: "20px", height: "20px" }} />
+            )}
+        </LoadingButton>
+    );
+};
+
+const THDownloadButton = ({
+    store,
+    classes,
+}: {
+    store: Instance<typeof ReceivingOrderStore>;
+    classes: string;
+}) => {
+    const { fetchFile } = useFileDownload({
+        apiDefinition: store.getShippingOrderTHPrint,
+        getFileName: () => `Транспортная накладная по заявке ${store.current?.code}`,
+        additionalBlobData: store.getAdditionalBlobData(),
+        beforeDownloadCallback: store.beforeDownloadCallback,
+        successEndCallback: store.onSuccesLoadBlobData,
+        onError: store.onErrorDownload,
+        onFinally: store.onFinallyDownload,
+    });
+
+    return (
+        <LoadingButton
+            disabled={
+                store.state.isFetching ||
+                !permissionService.check({
+                    path: "ShippingOrder.Report.TH",
+                    level: PermissionLevel.READ,
+                    type: PermissionType.BUTTON,
+                })
+            }
+            className={classes}
+            loading={store.state.isFetching}
+            onClick={fetchFile}>
+            {!store.state.isFetching && (
+                <LocalPrintshop color="secondary" sx={{ width: "20px", height: "20px" }} />
+            )}
+        </LoadingButton>
+    );
+};
 
 const ShippingOrderPrint: FC<ShippingOrderPrintProps> = observer(
     ({ store, isWarehouse, isVehicle }): JSX.Element => {
@@ -40,25 +115,7 @@ const ShippingOrderPrint: FC<ShippingOrderPrintProps> = observer(
                                     </label>
                                 </Grid>
                                 <Grid xs={5}>
-                                    <LoadingButton
-                                        disabled={
-                                            store.state.isFetching ||
-                                            !permissionService.check({
-                                                path: "ShippingOrder.Report.MX3",
-                                                level: PermissionLevel.READ,
-                                                type: PermissionType.BUTTON,
-                                            })
-                                        }
-                                        className={classes.button}
-                                        loading={store.state.isFetching}
-                                        onClick={() => store.getShippingOrderMx3Print()}>
-                                        {!store.state.isFetching && (
-                                            <LocalPrintshop
-                                                color="secondary"
-                                                sx={{ width: "20px", height: "20px" }}
-                                            />
-                                        )}
-                                    </LoadingButton>
+                                    <Mx3DownloadButton store={store} classes={classes.button} />
                                 </Grid>
                             </Grid>
                         )}
@@ -72,25 +129,7 @@ const ShippingOrderPrint: FC<ShippingOrderPrintProps> = observer(
                                     </label>
                                 </Grid>
                                 <Grid xs={5}>
-                                    <LoadingButton
-                                        disabled={
-                                            store.state.isFetching ||
-                                            !permissionService.check({
-                                                path: "ShippingOrder.Report.TH",
-                                                level: PermissionLevel.READ,
-                                                type: PermissionType.BUTTON,
-                                            })
-                                        }
-                                        className={classes.button}
-                                        loading={store.state.isFetching}
-                                        onClick={() => store.getShippingOrderTHPrint()}>
-                                        {!store.state.isFetching && (
-                                            <LocalPrintshop
-                                                color="secondary"
-                                                sx={{ width: "20px", height: "20px" }}
-                                            />
-                                        )}
-                                    </LoadingButton>
+                                    <THDownloadButton store={store} classes={classes.button} />
                                 </Grid>
                             </Grid>
                         )}

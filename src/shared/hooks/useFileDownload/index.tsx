@@ -41,11 +41,13 @@ export const useFileDownload = ({
             const blob = new Blob([data], additionalBlobData);
             const url = URL.createObjectURL(blob);
 
-            ref.current!.href = url;
-            ref.current!.download = fileName;
+            if (ref?.current) {
+                ref.current!.href = url;
+                ref.current!.download = fileName;
 
-            // начинаем скачивание
-            ref.current?.click();
+                // начинаем скачивание
+                ref.current?.click();
+            }
 
             // выполним действия для окончания скачивания
             successEndCallback?.(url);
