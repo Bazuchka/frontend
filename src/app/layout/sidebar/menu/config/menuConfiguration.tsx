@@ -35,44 +35,111 @@ export const menuConfiguration = (params?: MenuParams): MenuConfiguration => {
             key: "dictionary",
             children: [
                 {
-                    label: t("Client:menu.clients"),
-                    key: "clients",
-                    path: "/clients",
-                    filterable: true,
-                    permission: {
-                        path: "Client",
-                    },
+                    label: t("Shared:Reference.counetrparty"),
+                    key: "counterparty",
+                    filterable: false,
                     children: [
                         {
-                            breadCrumbsLabel: t("Client:menu.client"),
-                            label: `${params?.client?.label ?? ""} (${t("Client:menu.client")})`,
-                            key: "client",
-                            path: `/client/${params?.client?.path}`,
-                            isInvisibleMenuItem: true,
+                            label: t("Client:menu.clients"),
+                            key: "clients",
+                            path: "/clients",
+                            filterable: true,
                             permission: {
                                 path: "Client",
+                            },
+                            children: [
+                                {
+                                    breadCrumbsLabel: t("Client:menu.client"),
+                                    label: `${params?.client?.label ?? ""} (${t("Client:menu.client")})`,
+                                    key: "client",
+                                    path: `/client/${params?.client?.path}`,
+                                    isInvisibleMenuItem: true,
+                                    permission: {
+                                        path: "Client",
+                                    },
+                                },
+                            ],
+                        },
+                        {
+                            label: t("LegalEntity:menu.all"),
+                            key: "legal-entities",
+                            path: "/legal-entities",
+                            filterable: true,
+                            permission: {
+                                path: "LegalEntity",
+                            },
+                            children: [
+                                {
+                                    breadCrumbsLabel: t("LegalEntity:menu.legalEntity"),
+                                    label: `${params?.legalEntity?.label ?? ""} (${t("LegalEntity:menu.legalEntity")})`,
+                                    key: "legal-entity",
+                                    path: `/legal-entity/${params?.legalEntity?.path}`,
+                                    isInvisibleMenuItem: true,
+                                    permission: {
+                                        path: "LegalEntity",
+                                    },
+                                },
+                            ],
+                        },
+                        {
+                            label: t("LegalEntity:menu.client"),
+                            key: "client-related-entities",
+                            path: "/client-related-entities",
+                            filterable: true,
+                            permission: {
+                                path: "ClientRelatedEntity",
                             },
                         },
                     ],
                 },
-
                 {
-                    label: t("LegalEntity:menu.all"),
-                    key: "legal-entities",
-                    path: "/legal-entities",
+                    label: t("Service:menu.all"),
+                    key: "services",
+                    path: "/services",
                     filterable: true,
                     permission: {
-                        path: "LegalEntity",
+                        path: "Service",
                     },
                     children: [
                         {
-                            breadCrumbsLabel: t("LegalEntity:menu.legalEntity"),
-                            label: `${params?.legalEntity?.label ?? ""} (${t("LegalEntity:menu.legalEntity")})`,
-                            key: "legal-entity",
-                            path: `/legal-entity/${params?.legalEntity?.path}`,
+                            breadCrumbsLabel: t("Service:menu.service"),
+                            label: `${params?.service?.label ?? ""} (${t("Service:menu.service")})`,
+                            key: "service",
+                            path: `/service/${params?.service?.path}`,
                             isInvisibleMenuItem: true,
                             permission: {
-                                path: "LegalEntity",
+                                path: "Service",
+                            },
+                        },
+                    ],
+                },
+                {
+                    label: t("TermOfService:menu.all"),
+                    key: "term-of-services",
+                    path: "/term-of-services",
+                    filterable: true,
+                    permission: {
+                        path: "TermOfService",
+                    },
+                    children: [
+                        {
+                            breadCrumbsLabel: t("TermOfService:menu.short"),
+                            label: `${t("Shared:menu.new.masculine")}* (${t("TermOfService:menu.short")})`,
+                            key: "term-of-service-create",
+                            path: "/term-of-service/create",
+                            isInvisibleMenuItem: true,
+                            permission: {
+                                path: "TermOfService",
+                            },
+                        },
+                        {
+                            breadCrumbsLabel: t("TermOfService:menu.short"),
+                            label: `${params?.termOfService?.label} (${t("TermOfService:menu.short")})`,
+                            key: "term-of-service-edit",
+                            path: `/term-of-service/${params?.termOfService?.path}`,
+                            isInvisibleMenuItem: true,
+                            permission: {
+                                path: "TermOfService",
                             },
                         },
                     ],
@@ -108,37 +175,6 @@ export const menuConfiguration = (params?: MenuParams): MenuConfiguration => {
                         },
                     ],
                 },
-
-                {
-                    label: t("LegalEntity:menu.client"),
-                    key: "client-related-entities",
-                    path: "/client-related-entities",
-                    filterable: true,
-                    permission: {
-                        path: "ClientRelatedEntity",
-                    },
-                },
-                {
-                    label: t("Service:menu.all"),
-                    key: "services",
-                    path: "/services",
-                    filterable: true,
-                    permission: {
-                        path: "Service",
-                    },
-                    children: [
-                        {
-                            breadCrumbsLabel: t("Service:menu.service"),
-                            label: `${params?.service?.label ?? ""} (${t("Service:menu.service")})`,
-                            key: "service",
-                            path: `/service/${params?.service?.path}`,
-                            isInvisibleMenuItem: true,
-                            permission: {
-                                path: "Service",
-                            },
-                        },
-                    ],
-                },
                 {
                     label: t("ClientGoodType:menu.all"),
                     key: "client-good-types",
@@ -146,55 +182,6 @@ export const menuConfiguration = (params?: MenuParams): MenuConfiguration => {
                     filterable: true,
                     permission: {
                         path: "ClientGoodType",
-                    },
-                },
-                {
-                    label: t("TermOfService:menu.all"),
-                    key: "term-of-services",
-                    path: "/term-of-services",
-                    filterable: true,
-                    permission: {
-                        path: "TermOfService",
-                    },
-                    children: [
-                        {
-                            breadCrumbsLabel: t("TermOfService:menu.short"),
-                            label: `${t("Shared:menu.new.masculine")}* (${t("TermOfService:menu.short")})`,
-                            key: "term-of-service-create",
-                            path: "/term-of-service/create",
-                            isInvisibleMenuItem: true,
-                            permission: {
-                                path: "TermOfService",
-                            },
-                        },
-                        {
-                            breadCrumbsLabel: t("TermOfService:menu.short"),
-                            label: `${params?.termOfService?.label} (${t("TermOfService:menu.short")})`,
-                            key: "term-of-service-edit",
-                            path: `/term-of-service/${params?.termOfService?.path}`,
-                            isInvisibleMenuItem: true,
-                            permission: {
-                                path: "TermOfService",
-                            },
-                        },
-                    ],
-                },
-                {
-                    label: t("ClientVehicle:menu"),
-                    key: "client-vehicles",
-                    path: "/client-vehicles",
-                    filterable: true,
-                    permission: {
-                        path: "ClientVehicle",
-                    },
-                },
-                {
-                    label: t("ClientDriver:menu"),
-                    key: "client-drivers",
-                    path: "/client-drivers",
-                    filterable: true,
-                    permission: {
-                        path: "ClientDriver",
                     },
                 },
                 {
@@ -219,6 +206,24 @@ export const menuConfiguration = (params?: MenuParams): MenuConfiguration => {
                             },
                         },
                     ],
+                },
+                {
+                    label: t("ClientVehicle:menu"),
+                    key: "client-vehicles",
+                    path: "/client-vehicles",
+                    filterable: true,
+                    permission: {
+                        path: "ClientVehicle",
+                    },
+                },
+                {
+                    label: t("ClientDriver:menu"),
+                    key: "client-drivers",
+                    path: "/client-drivers",
+                    filterable: true,
+                    permission: {
+                        path: "ClientDriver",
+                    },
                 },
             ],
         },
