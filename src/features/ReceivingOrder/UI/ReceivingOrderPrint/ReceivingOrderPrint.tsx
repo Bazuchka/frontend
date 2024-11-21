@@ -22,18 +22,14 @@ const ReceivingOrderPrint: FC<ReceivingOrderPrintProps> = observer(
         const theme = useTheme();
         const classes = useStyles({ theme });
 
-        const successEndCallback = (url: string) => {
-            window.open(url)!.print();
-        };
-
         const { fetchFile } = useFileDownload({
             apiDefinition: store.getReceivingOrderMx1Print,
-            getFileName: () => "ReceivingOrderMx1Print",
-            additionalBlobData: { type: "application/pdf" },
+            getFileName: () => `Акт приема-передачи (MX-1) по заявке ${store.current?.code}`,
+            additionalBlobData: store.getAdditionalBlobData(),
             beforeDownloadCallback: store.beforeDownloadCallback,
-            successEndCallback,
-            onError: store.onError,
-            onFinally: store.onFinally,
+            successEndCallback: store.onSuccesLoadBlobData,
+            onError: store.onErrorDownload,
+            onFinally: store.onFinallyDownload,
         });
 
         return (

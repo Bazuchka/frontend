@@ -169,19 +169,29 @@ const ReceivingOrderStore = createBaseStoreWithViewMediator({
     const beforeDownloadCallback = () => {
         self.state.isFetching = true;
     };
-    const onError = (error: unknown) => {
+
+    const onSuccesLoadBlobData = (url: string) => {
+        window.open(url)!.print();
+    };
+
+    const onErrorDownload = (error: unknown) => {
         self.state.isError = true;
         throw new Error(error as string);
     };
-    const onFinally = () => {
+
+    const onFinallyDownload = () => {
         self.state.isFetching = false;
     };
+
+    const getAdditionalBlobData = () => ({ type: "application/pdf" });
 
     return {
         getReceivingOrderMx1Print,
         beforeDownloadCallback,
-        onError,
-        onFinally,
+        onSuccesLoadBlobData,
+        onErrorDownload,
+        onFinallyDownload,
+        getAdditionalBlobData,
     };
 });
 

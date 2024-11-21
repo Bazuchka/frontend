@@ -149,44 +149,47 @@ const ShippingOrderStore = createBaseStoreWithViewMediator({
     storeMainInfoModel: FullShippingOrder,
 }).actions((self) => {
     const getShippingOrderMx3Print = flow(function* () {
-        try {
-            self.state.isFetching = true;
-            const response = yield getBaseActions("ShippingOrder".toLowerCase()).downloadFile(
-                {},
-                `/report/shippingorder/mx3/${self.current?.id}/download`,
-                "application/json"
-            );
-
-            const blob = new Blob([response.data], { type: "application/pdf" });
-            window.open(URL.createObjectURL(blob))!.print();
-        } catch (err) {
-            self.state.isError = true;
-            throw new Error(err as string);
-        } finally {
-            self.state.isFetching = false;
-        }
+        return yield getBaseActions("ShippingOrder".toLowerCase()).downloadFile(
+            {},
+            `/report/shippingorder/mx3/${self.current?.id}/download`,
+            "application/json"
+        );
     });
+
     const getShippingOrderTHPrint = flow(function* () {
-        try {
-            self.state.isFetching = true;
-            const response = yield getBaseActions("ShippingOrder".toLowerCase()).downloadFile(
-                {},
-                `/report/shippingorder/th/${self.current?.id}/download`,
-                "application/json"
-            );
-
-            const blob = new Blob([response.data], { type: "application/pdf" });
-            window.open(URL.createObjectURL(blob))!.print();
-        } catch (err) {
-            self.state.isError = true;
-            throw new Error(err as string);
-        } finally {
-            self.state.isFetching = false;
-        }
+        return yield getBaseActions("ShippingOrder".toLowerCase()).downloadFile(
+            {},
+            `/report/shippingorder/th/${self.current?.id}/download`,
+            "application/json"
+        );
     });
+
+    const beforeDownloadCallback = () => {
+        self.state.isFetching = true;
+    };
+
+    const onSuccesLoadBlobData = (url: string) => {
+        window.open(url)!.print();
+    };
+
+    const onErrorDownload = () => {
+        self.state.isError = true;
+    };
+
+    const onFinallyDownload = () => {
+        self.state.isFetching = false;
+    };
+
+    const getAdditionalBlobData = () => ({ type: "application/pdf" });
+
     return {
         getShippingOrderMx3Print,
         getShippingOrderTHPrint,
+        beforeDownloadCallback,
+        onSuccesLoadBlobData,
+        onErrorDownload,
+        onFinallyDownload,
+        getAdditionalBlobData,
     };
 });
 
