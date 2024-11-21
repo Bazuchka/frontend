@@ -115,9 +115,9 @@ export const getColumns = () => {
         columnHelper.accessor("destinationStation", {
             cell: ({ row: { getValue } }) => {
                 const value = getValue("etranInvoice") as {
-                    departureStation: { code: string; name: string };
+                    destinationStation: { code: string; name: string };
                 };
-                return value?.departureStation?.name || value?.departureStation?.code;
+                return value?.destinationStation?.name || value?.destinationStation?.code;
             },
             header: t("ReceivingOrderEtranInvoice:properties.destinationStation"),
             meta: {
