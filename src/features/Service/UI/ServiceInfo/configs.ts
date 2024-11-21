@@ -8,10 +8,10 @@ export const fieldsConfiguration = () =>
         {
             fields: [
                 {
-                    label: t("Service:properties.name"),
+                    label: t("Service:properties.code"),
                     type: FieldItemType.INPUT,
                     value: serviceStore.current?.code,
-                    name: "name",
+                    name: "code",
                     fullLine: false,
                 },
                 {
