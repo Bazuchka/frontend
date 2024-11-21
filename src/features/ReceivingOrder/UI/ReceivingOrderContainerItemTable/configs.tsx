@@ -50,6 +50,7 @@ export const getColumns = (receivingOrderId: string) => {
                                                         byOr: true,
                                                     },
                                                 },
+                                                empty: false,
                                                 deleted: false,
                                                 sortingColumn: "container.code",
                                                 sortingDirection: SortingDirection.ASC,
