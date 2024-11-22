@@ -104,7 +104,7 @@ export const getColumns = ({ clientId, isRailway, shippingOrderId }: ColumnProps
                                                 renderValuePrimary="code"
                                                 onValueChange={(data) => onChange(data)}
                                                 dictionaryParams={{
-                                                    type: DictionaryType.CONTAINER,
+                                                    type: DictionaryType.CONTAINER_REMAINS,
                                                     filter: {
                                                         active: true,
                                                         client: {

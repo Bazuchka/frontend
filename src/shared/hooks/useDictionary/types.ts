@@ -48,6 +48,7 @@ export enum DictionaryType {
     RAILWAY_CARRIAGE_TYPE = 48,
     SHIPPING_ORDER_RAILWAY_CARRIAGES = 49,
     RECEIVING_ORDER_ETRAN_INVOICE = 50,
+    CONTAINER_REMAINS = 51,
 }
 
 export interface DictionaryParams {
