@@ -49,6 +49,7 @@ export const getColumns = (shippingOrderId: string) => {
                                                         byOr: true,
                                                     },
                                                 },
+                                                empty: false,
                                                 deleted: false,
                                                 sortingColumn: "container.code",
                                                 sortingDirection: SortingDirection.ASC,
