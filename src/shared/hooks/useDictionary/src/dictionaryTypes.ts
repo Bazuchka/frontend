@@ -42,5 +42,6 @@ export const dictionaryTypeToUrl = () // _urlParams: Record<string, string | obj
         [DictionaryType.RECEIVING_ORDER_ETRAN_INVOICE]: `/receivingorderetraninvoice/all`,
         [DictionaryType.RAILWAY_CARRIAGE]: `/railwaycarriage/all`,
         [DictionaryType.RAILWAY_CARRIAGE_TYPE]: `/railwaycarriagetype/all`,
+        [DictionaryType.CONTAINER_REMAINS]: `/containerremains/all`,
     };
 };
