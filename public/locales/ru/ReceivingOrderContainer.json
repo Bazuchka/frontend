@@ -6,7 +6,7 @@
         "weight": "Масса с грузом, тн",
         "customsClearance": "Импортный",
         "dangerousCargo": "Опасный груз",
-        "containerType": "Тип котейнера",
+        "containerType": "Тип контейнера",
         "refrigerator": "Рефрижератор",
         "weightEmpty": "Масса тары, тн",
         "railwayCarriageId": "Номер вагона"
