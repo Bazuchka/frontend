@@ -3,7 +3,7 @@ import { createColumnHelper } from "@tanstack/react-table";
 import { t } from "i18next";
 import { Controller } from "react-hook-form";
 import { CheckIcon, SvgXIcon } from "src/assets/svg";
-import { AlisForm, CreateButton, EditButton } from "src/features/common/AlisForm";
+import { AlisForm, EditButton } from "src/features/common/AlisForm";
 import { ControlledAutoComplete } from "src/features/common/ControlledAutocomplete";
 import { AutocompleteSelectOfDictionary } from "src/shared/UI/AutocompleteSelectOfDictionary/AutocompleteSelectOfDictionary";
 import { Chips } from "src/shared/UI/Chips";
@@ -118,7 +118,6 @@ export const getColumns = ({ clientId, isRailway, shippingOrderId }: ColumnProps
                                         <Grid item xs={4}>
                                             <AlisForm
                                                 store={containerStore}
-                                                createActionComponents={CreateButton}
                                                 editActionComponents={EditButton}
                                                 allowEdit={getValue("container")?.id}
                                                 componentProps={{
