@@ -5,8 +5,11 @@ import clientGoodStore from "src/features/ClientGood/store/ClientGoodStore";
 import clientGoodTypeStore from "src/features/ClientGoodTypeTable/store";
 import clientRelatedEntityStore from "src/features/ClientRelatedEntityTable/store";
 import clientVehicleStore from "src/features/ClientVehicle/store";
+import { containerStore } from "src/features/Container/store";
+import { containerMovement } from "src/features/ContainerMovement";
 import legalEntityStore from "src/features/LegalEntity/store/LegalEntityStore";
 import receivingOrderStore from "src/features/ReceivingOrder/store/ReceivingOrderStore";
+import { remainsContainersStore } from "src/features/Remains/store";
 import serviceStore from "src/features/Service/store";
 import shippingOrderStore from "src/features/ShippingOrder/store/ShippingOrderStore";
 import { termOfServiceStore } from "src/features/TermOfService/store/TermOfServiceStore";
@@ -25,6 +28,9 @@ const stores = [
     receivingOrderStore,
     shippingOrderStore,
     termOfServiceStore,
+    containerStore,
+    containerMovement,
+    remainsContainersStore,
 ];
 
 export const addGlobalFilterReactions = () => {
