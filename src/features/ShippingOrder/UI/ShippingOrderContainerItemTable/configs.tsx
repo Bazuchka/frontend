@@ -65,7 +65,7 @@ export const getColumns = (shippingOrderId: string) => {
             },
         }),
         columnHelper.accessor("etsngCode", {
-            cell: (params) => `${params.getValue().code} (${params.getValue().name})`,
+            cell: (params) => `${params.getValue().name} (${params.getValue().code})`,
             header: t("ShippingOrderContainerItem:properties.ETSNGCode"),
             meta: {
                 editableCell: {
