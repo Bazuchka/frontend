@@ -13,6 +13,7 @@ import { Box } from "@mui/material";
 import { useStyles } from "./styles";
 import { useFileDownload } from "src/shared/hooks/useFileDownload";
 import { TSTableDownloadButton } from "src/shared/UI/TSTableDownloadButton";
+import { getNowDate } from "src/shared/helpers/dateFormatter";
 
 interface RemainsContainersTableProps {
     store: Instance<typeof remainsContainersStore>;
@@ -23,9 +24,13 @@ const RemainsContainersTable: FunctionComponent<RemainsContainersTableProps> = o
         const columns = useMemo(() => getColumns(), []);
         const classes = useStyles();
 
+        const getFileName = (): string => {
+            return `Остатки контейнеров ${getNowDate()}.xlsx`;
+        };
+
         const { fetchFile, ref } = useFileDownload({
             apiDefinition: store.getContainerRemainsInfoXlsx,
-            getFileName: () => `ContainerRemainsInfo.xlsx`,
+            getFileName,
             additionalBlobData: {
                 type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
             },
@@ -56,6 +61,7 @@ const RemainsContainersTable: FunctionComponent<RemainsContainersTableProps> = o
             <Box component="div" className={classes.container}>
                 <TSTableDownloadButton
                     id={"path_download_remains_containers"}
+                    canShowButton={!store.state.isFetching}
                     fetchFileCallback={fetchFile}
                     customClasses={classes.button}
                     linkReference={ref}
