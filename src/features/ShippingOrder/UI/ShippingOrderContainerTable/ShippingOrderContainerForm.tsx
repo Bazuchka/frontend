@@ -6,7 +6,7 @@ import { IAlisFormComponentProps } from "src/features/common/AlisForm/AlisForm";
 import shippingOrderStore from "../../store/ShippingOrderStore";
 
 export const ShippingOrderContainerForm: FC<IAlisFormComponentProps> = observer(
-    ({ onClose, onFormStateChange, componentProps }) => {
+    ({ onClose, onFormStateChange, componentProps, id }) => {
         return (
             <ContainerForm
                 onClose={(submited, data?: unknown) => {
@@ -27,6 +27,7 @@ export const ShippingOrderContainerForm: FC<IAlisFormComponentProps> = observer(
                         isUpdateDisabled: true,
                     },
                 }}
+                id={id}
             />
         );
     }
