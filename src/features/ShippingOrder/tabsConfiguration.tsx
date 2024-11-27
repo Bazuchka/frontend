@@ -235,6 +235,7 @@ export const shippingOrderConfiguration: (isCreateMode: boolean) => TabsConfigur
         {
             label: t("ShippingOrder:tabs.documentPrint"),
             type: TabType.LINKED_DATA,
+            visibleRule: () => !isRailwayContainer(shippingOrderStore.current),
             component: (
                 <DataGuard whenExist={shippingOrderStore.current}>
                     {() => (
