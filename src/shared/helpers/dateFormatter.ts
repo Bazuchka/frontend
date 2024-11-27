@@ -23,3 +23,7 @@ export const dateFormatter = (dateValue: Date) => {
 
     return format(date, dateFormat, { locale: currentLocale === Locales.ru ? ru : undefined });
 };
+
+export const getNowDate = (dateFormat = "dd-MM-yyyy_HH-mm") => {
+    return format(new Date(), dateFormat);
+};

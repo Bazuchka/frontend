@@ -14,7 +14,6 @@ interface DownloadFileProps {
 interface DownloadedFileInfo {
     readonly fetchFile: () => Promise<void>;
     readonly ref: React.MutableRefObject<HTMLAnchorElement | null>;
-    readonly fileName: string | null;
 }
 
 export const useFileDownload = ({
@@ -27,7 +26,6 @@ export const useFileDownload = ({
     onFinally,
 }: DownloadFileProps): DownloadedFileInfo => {
     const ref = useRef<HTMLAnchorElement | null>(null);
-    const fileName = getFileName();
 
     const fetchFile = async () => {
         try {
@@ -43,7 +41,7 @@ export const useFileDownload = ({
 
             if (ref?.current) {
                 ref.current!.href = url;
-                ref.current!.download = fileName;
+                ref.current!.download = getFileName();
 
                 // начинаем скачивание
                 ref.current?.click();
@@ -59,5 +57,5 @@ export const useFileDownload = ({
         }
     };
 
-    return { fetchFile, ref, fileName };
+    return { fetchFile, ref };
 };

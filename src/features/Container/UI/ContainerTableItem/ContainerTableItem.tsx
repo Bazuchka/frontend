@@ -10,15 +10,20 @@ import { containerStore } from "../../store";
 import { useStyles } from "./styles";
 import { containersTableItemConfiguration } from "./tabsConfiguration";
 import { TSTableDownloadButton } from "src/shared/UI/TSTableDownloadButton";
+import { getNowDate } from "src/shared/helpers/dateFormatter";
 
 const ContainerTableItem = observer((): JSX.Element => {
     const { id } = useParams();
     const { getAccessGrantedObjects } = usePermissionService();
     const classes = useStyles();
 
+    const getFileName = (): string => {
+        return `Контейнер №${containerStore.current?.code} ${getNowDate()}.xlsx`;
+    };
+
     const { fetchFile, ref } = useFileDownload({
         apiDefinition: containerStore.getContainerInfoXlsx,
-        getFileName: () => `ContainerInfo-${id}.xlsx`,
+        getFileName,
         additionalBlobData: {
             type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         },
@@ -43,6 +48,7 @@ const ContainerTableItem = observer((): JSX.Element => {
         <Box component="div" className={classes.container}>
             <TSTableDownloadButton
                 id={"path_download_container_item_info"}
+                canShowButton={!containerStore.state.isFetching}
                 fetchFileCallback={fetchFile}
                 customClasses={classes.button}
                 linkReference={ref}

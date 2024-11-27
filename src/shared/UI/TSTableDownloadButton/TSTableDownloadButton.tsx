@@ -6,6 +6,7 @@ import { t } from "i18next";
 
 interface ITSTableDownloadButton {
     id: string;
+    canShowButton: boolean;
     fetchFileCallback: () => Promise<void>;
     customClasses: string | null;
     linkReference: React.MutableRefObject<HTMLAnchorElement | null>;
@@ -13,6 +14,7 @@ interface ITSTableDownloadButton {
 
 export default function TSTableDownloadButton({
     id,
+    canShowButton,
     fetchFileCallback,
     customClasses,
     linkReference,
@@ -22,9 +24,11 @@ export default function TSTableDownloadButton({
 
     return (
         <>
-            <Button onClick={fetchFileCallback} className={classList}>
-                <ITooltype id={id} item={<DownloadIcon />} label={t("Shared:download.label")} />
-            </Button>
+            {canShowButton && (
+                <Button onClick={fetchFileCallback} className={classList}>
+                    <ITooltype id={id} item={<DownloadIcon />} label={t("Shared:download.label")} />
+                </Button>
+            )}
             <a ref={linkReference} />
         </>
     );
