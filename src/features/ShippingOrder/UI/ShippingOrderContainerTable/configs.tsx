@@ -117,9 +117,10 @@ export const getColumns = ({ clientId, isRailway, shippingOrderId }: ColumnProps
                                         </Grid>
                                         <Grid item xs={4}>
                                             <AlisForm
+                                                id={getValue("container")?.id}
                                                 store={containerStore}
-                                                editActionComponents={EditButton}
                                                 allowEdit={getValue("container")?.id}
+                                                editActionComponents={EditButton}
                                                 componentProps={{
                                                     setValue: setValue,
                                                     getValue: getValue,
