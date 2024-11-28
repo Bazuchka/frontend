@@ -30,6 +30,7 @@ export interface AutocompleteSelectOfDictionaryProps<T extends ChosenSelectObjec
     onExternalSelectedValueChange?: (value: object | null) => void;
     externalSelectedValue?: object | null;
     value?: T;
+    getCustomSelectedInputValue?: (value: T) => string;
     externalValue?: Record<string, string | null> | null | undefined;
     fieldName?: string;
     error?: boolean;
@@ -60,6 +61,7 @@ export const AutocompleteSelectOfDictionary = <T extends ChosenSelectObject>(
         externalSelectedValue,
         style,
         value,
+        getCustomSelectedInputValue,
         externalValue,
         fieldName,
         dictionaryParams = {},
@@ -122,7 +124,11 @@ export const AutocompleteSelectOfDictionary = <T extends ChosenSelectObject>(
         if (value?.hasOwnProperty("id") || externalValue?.hasOwnProperty("id")) {
             updateSelectedValue((value as ChosenSelectObject) || externalValue);
             if (value && !renderValuePrimary) {
-                setInputValue((value as ChosenSelectObject)?.code || "");
+                setInputValue(
+                    getCustomSelectedInputValue
+                        ? getCustomSelectedInputValue(value)
+                        : (value as ChosenSelectObject)?.code || ""
+                );
             } else if (value && renderValuePrimary) {
                 setInputValue(
                     (value[renderValuePrimary as keyof ChosenSelectObject] as string) ||

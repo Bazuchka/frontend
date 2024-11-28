@@ -86,6 +86,9 @@ export const getColumns = (receivingOrderId: string) => {
                                         value={value}
                                         testFieldName="etsngCode"
                                         onValueChange={(data) => onChange(data)}
+                                        getCustomSelectedInputValue={(value) =>
+                                            `${value.code} (${value.name})`
+                                        }
                                         dictionaryParams={{ type: DictionaryType.ETSNGCODE }}
                                     />
                                 )}
