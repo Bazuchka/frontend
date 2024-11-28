@@ -25,20 +25,17 @@ const Mx3DownloadButton = ({
     store: Instance<typeof ReceivingOrderStore>;
     classes: string;
 }) => {
-    const { fetchFile } = useFileDownload({
+    const { fetchFile, isDownloading } = useFileDownload({
         apiDefinition: store.getShippingOrderMx3Print,
         getFileName: () => `Акт о возврате (MX-3) по заявке ${store.current?.code}`,
         additionalBlobData: store.getAdditionalBlobData(),
-        beforeDownloadCallback: store.beforeDownloadCallback,
         successEndCallback: store.onSuccesLoadBlobData,
-        onError: store.onErrorDownload,
-        onFinally: store.onFinallyDownload,
     });
 
     return (
         <LoadingButton
             disabled={
-                store.state.isFetching ||
+                isDownloading ||
                 !permissionService.check({
                     path: "ShippingOrder.Report.MX3",
                     level: PermissionLevel.READ,
@@ -46,9 +43,9 @@ const Mx3DownloadButton = ({
                 })
             }
             className={classes}
-            loading={store.state.isFetching}
+            loading={isDownloading}
             onClick={fetchFile}>
-            {!store.state.isFetching && (
+            {!isDownloading && (
                 <LocalPrintshop color="secondary" sx={{ width: "20px", height: "20px" }} />
             )}
         </LoadingButton>
@@ -62,20 +59,17 @@ const THDownloadButton = ({
     store: Instance<typeof ReceivingOrderStore>;
     classes: string;
 }) => {
-    const { fetchFile } = useFileDownload({
+    const { fetchFile, isDownloading } = useFileDownload({
         apiDefinition: store.getShippingOrderTHPrint,
         getFileName: () => `Транспортная накладная по заявке ${store.current?.code}`,
         additionalBlobData: store.getAdditionalBlobData(),
-        beforeDownloadCallback: store.beforeDownloadCallback,
         successEndCallback: store.onSuccesLoadBlobData,
-        onError: store.onErrorDownload,
-        onFinally: store.onFinallyDownload,
     });
 
     return (
         <LoadingButton
             disabled={
-                store.state.isFetching ||
+                isDownloading ||
                 !permissionService.check({
                     path: "ShippingOrder.Report.TH",
                     level: PermissionLevel.READ,
@@ -83,9 +77,9 @@ const THDownloadButton = ({
                 })
             }
             className={classes}
-            loading={store.state.isFetching}
+            loading={isDownloading}
             onClick={fetchFile}>
-            {!store.state.isFetching && (
+            {!isDownloading && (
                 <LocalPrintshop color="secondary" sx={{ width: "20px", height: "20px" }} />
             )}
         </LoadingButton>

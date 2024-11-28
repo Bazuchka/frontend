@@ -22,14 +22,11 @@ const ReceivingOrderPrint: FC<ReceivingOrderPrintProps> = observer(
         const theme = useTheme();
         const classes = useStyles({ theme });
 
-        const { fetchFile } = useFileDownload({
+        const { fetchFile, isDownloading } = useFileDownload({
             apiDefinition: store.getReceivingOrderMx1Print,
             getFileName: () => `Акт приема-передачи (MX-1) по заявке ${store.current?.code}`,
             additionalBlobData: store.getAdditionalBlobData(),
-            beforeDownloadCallback: store.beforeDownloadCallback,
             successEndCallback: store.onSuccesLoadBlobData,
-            onError: store.onErrorDownload,
-            onFinally: store.onFinallyDownload,
         });
 
         return (
@@ -50,6 +47,7 @@ const ReceivingOrderPrint: FC<ReceivingOrderPrintProps> = observer(
                                 <LoadingButton
                                     disabled={
                                         store.state.isFetching ||
+                                        isDownloading ||
                                         !permissionService.check({
                                             path: "ReceivingOrder.Report.MX1",
                                             level: PermissionLevel.READ,
@@ -57,9 +55,9 @@ const ReceivingOrderPrint: FC<ReceivingOrderPrintProps> = observer(
                                         })
                                     }
                                     className={classes.button}
-                                    loading={store.state.isFetching}
+                                    loading={isDownloading}
                                     onClick={fetchFile}>
-                                    {!store.state.isFetching && (
+                                    {!isDownloading && (
                                         <LocalPrintshop
                                             color="secondary"
                                             sx={{ width: "20px", height: "20px" }}

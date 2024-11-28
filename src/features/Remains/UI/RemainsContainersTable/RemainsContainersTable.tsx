@@ -28,15 +28,12 @@ const RemainsContainersTable: FunctionComponent<RemainsContainersTableProps> = o
             return `Остатки контейнеров ${getNowDate()}.xlsx`;
         };
 
-        const { fetchFile, ref } = useFileDownload({
+        const { fetchFile, ref, isDownloading } = useFileDownload({
             apiDefinition: store.getContainerRemainsInfoXlsx,
             getFileName,
             additionalBlobData: {
                 type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
             },
-            beforeDownloadCallback: store.beforeDownloadCallback,
-            onError: store.onErrorDownload,
-            onFinally: store.onFinallyDownload,
         });
 
         useEffect(() => {
@@ -61,8 +58,8 @@ const RemainsContainersTable: FunctionComponent<RemainsContainersTableProps> = o
             <Box component="div" className={classes.container}>
                 <DownloadButton
                     id={"path_download_remains_containers"}
-                    canShowButton={!store.state.isFetching || store.state.isDownloading}
-                    isDownloading={store.state.isDownloading}
+                    canShowButton={!store.state.isFetching || isDownloading}
+                    isDownloading={isDownloading}
                     fetchFileCallback={fetchFile}
                     customClasses={classes.button}
                     linkReference={ref}

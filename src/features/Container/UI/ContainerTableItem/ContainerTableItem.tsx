@@ -21,15 +21,12 @@ const ContainerTableItem = observer((): JSX.Element => {
         return `Контейнер №${containerStore.current?.code} ${getNowDate()}.xlsx`;
     };
 
-    const { fetchFile, ref } = useFileDownload({
+    const { fetchFile, ref, isDownloading } = useFileDownload({
         apiDefinition: containerStore.getContainerInfoXlsx,
         getFileName,
         additionalBlobData: {
             type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         },
-        beforeDownloadCallback: containerStore.beforeDownloadCallback,
-        onError: containerStore.onErrorDownload,
-        onFinally: containerStore.onFinallyDownload,
     });
 
     useLayoutEffect(() => {
@@ -48,10 +45,8 @@ const ContainerTableItem = observer((): JSX.Element => {
         <Box component="div" className={classes.container}>
             <DownloadButton
                 id={"path_download_container_item_info"}
-                canShowButton={
-                    !containerStore.state.isFetching || containerStore.state.isDownloading
-                }
-                isDownloading={containerStore.state.isDownloading}
+                canShowButton={!containerStore.state.isFetching || isDownloading}
+                isDownloading={isDownloading}
                 fetchFileCallback={fetchFile}
                 customClasses={classes.button}
                 linkReference={ref}
