@@ -1,5 +1,5 @@
 import { AxiosResponse } from "axios";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 interface DownloadFileProps {
     readonly apiDefinition: () => Promise<AxiosResponse<Blob>>;
@@ -14,6 +14,8 @@ interface DownloadFileProps {
 interface DownloadedFileInfo {
     readonly fetchFile: () => Promise<void>;
     readonly ref: React.MutableRefObject<HTMLAnchorElement | null>;
+    readonly isDownloading: boolean;
+    readonly isErrorDownload: boolean;
 }
 
 export const useFileDownload = ({
@@ -26,11 +28,16 @@ export const useFileDownload = ({
     onFinally,
 }: DownloadFileProps): DownloadedFileInfo => {
     const ref = useRef<HTMLAnchorElement | null>(null);
+    const [isDownloading, setIsDownloading] = useState(false);
+    const [isErrorDownload, setErrorDownload] = useState(false);
 
     const fetchFile = async () => {
         try {
+            setErrorDownload(false);
+
             // выполняем действия до скачивания (например установим loading-state для кнопки)
             beforeDownloadCallback?.();
+            setIsDownloading(true);
 
             // получим данные для скачивания
             const { data } = await apiDefinition();
@@ -52,10 +59,14 @@ export const useFileDownload = ({
             URL.revokeObjectURL(url);
         } catch (error) {
             onError?.(error);
+            setErrorDownload(true);
+
+            throw new Error(error as string);
         } finally {
             onFinally?.();
+            setIsDownloading(false);
         }
     };
 
-    return { fetchFile, ref };
+    return { fetchFile, ref, isDownloading, isErrorDownload };
 };

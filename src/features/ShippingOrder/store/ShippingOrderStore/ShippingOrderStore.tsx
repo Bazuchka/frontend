@@ -164,20 +164,8 @@ const ShippingOrderStore = createBaseStoreWithViewMediator({
         );
     });
 
-    const beforeDownloadCallback = () => {
-        self.state.isFetching = true;
-    };
-
     const onSuccesLoadBlobData = (url: string) => {
         window.open(url)!.print();
-    };
-
-    const onErrorDownload = () => {
-        self.state.isError = true;
-    };
-
-    const onFinallyDownload = () => {
-        self.state.isFetching = false;
     };
 
     const getAdditionalBlobData = () => ({ type: "application/pdf" });
@@ -185,10 +173,7 @@ const ShippingOrderStore = createBaseStoreWithViewMediator({
     return {
         getShippingOrderMx3Print,
         getShippingOrderTHPrint,
-        beforeDownloadCallback,
         onSuccesLoadBlobData,
-        onErrorDownload,
-        onFinallyDownload,
         getAdditionalBlobData,
     };
 });

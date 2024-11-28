@@ -7,7 +7,7 @@ const RemainsContainersStore = createBaseStoreWithViewMediator({
     storeName: "ContainerRemains",
     storeListModel: RemainsContainersItem,
     storeMainInfoModel: RemainsContainersItem,
-}).actions((self) => {
+}).actions(() => {
     const getContainerRemainsInfoXlsx = flow(function* () {
         return yield getBaseActions("ContainerRemains".toLowerCase()).downloadFile(
             {},
@@ -16,22 +16,8 @@ const RemainsContainersStore = createBaseStoreWithViewMediator({
         );
     });
 
-    const beforeDownloadCallback = () => {
-        self.state.isFetching = true;
-    };
-    const onErrorDownload = (error: unknown) => {
-        self.state.isError = true;
-        throw new Error(error as string);
-    };
-    const onFinallyDownload = () => {
-        self.state.isFetching = false;
-    };
-
     return {
         getContainerRemainsInfoXlsx,
-        onErrorDownload,
-        beforeDownloadCallback,
-        onFinallyDownload,
     };
 });
 

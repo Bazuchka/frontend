@@ -9,7 +9,7 @@ import { ICard } from "src/shared/UI/iCard";
 import { containerStore } from "../../store";
 import { useStyles } from "./styles";
 import { containersTableItemConfiguration } from "./tabsConfiguration";
-import { TSTableDownloadButton } from "src/shared/UI/TSTableDownloadButton";
+import { DownloadButton } from "src/shared/UI/DownloadButton";
 import { getNowDate } from "src/shared/helpers/dateFormatter";
 
 const ContainerTableItem = observer((): JSX.Element => {
@@ -21,15 +21,12 @@ const ContainerTableItem = observer((): JSX.Element => {
         return `Контейнер №${containerStore.current?.code} ${getNowDate()}.xlsx`;
     };
 
-    const { fetchFile, ref } = useFileDownload({
+    const { fetchFile, ref, isDownloading } = useFileDownload({
         apiDefinition: containerStore.getContainerInfoXlsx,
         getFileName,
         additionalBlobData: {
             type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         },
-        beforeDownloadCallback: containerStore.beforeDownloadCallback,
-        onError: containerStore.onErrorDownload,
-        onFinally: containerStore.onFinallyDownload,
     });
 
     useLayoutEffect(() => {
@@ -46,9 +43,10 @@ const ContainerTableItem = observer((): JSX.Element => {
 
     return (
         <Box component="div" className={classes.container}>
-            <TSTableDownloadButton
+            <DownloadButton
                 id={"path_download_container_item_info"}
-                canShowButton={!containerStore.state.isFetching}
+                canShowButton={!containerStore.state.isFetching || isDownloading}
+                isDownloading={isDownloading}
                 fetchFileCallback={fetchFile}
                 customClasses={classes.button}
                 linkReference={ref}
