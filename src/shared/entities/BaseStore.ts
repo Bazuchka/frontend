@@ -18,6 +18,7 @@ const StoreState = types
     .model("StoreState", {
         isInitialized: types.optional(types.boolean, false),
         isFetching: types.optional(types.boolean, false),
+        isDownloading: types.optional(types.boolean, false),
         isUpdating: types.optional(types.boolean, false),
         isDeleting: types.optional(types.boolean, false),
         isCreating: types.optional(types.boolean, false),

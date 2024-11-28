@@ -12,7 +12,7 @@ import { getColumns } from "./config";
 import { Box } from "@mui/material";
 import { useStyles } from "./styles";
 import { useFileDownload } from "src/shared/hooks/useFileDownload";
-import { TSTableDownloadButton } from "src/shared/UI/TSTableDownloadButton";
+import { DownloadButton } from "src/shared/UI/DownloadButton";
 import { getNowDate } from "src/shared/helpers/dateFormatter";
 
 interface RemainsContainersTableProps {
@@ -59,9 +59,10 @@ const RemainsContainersTable: FunctionComponent<RemainsContainersTableProps> = o
 
         return (
             <Box component="div" className={classes.container}>
-                <TSTableDownloadButton
+                <DownloadButton
                     id={"path_download_remains_containers"}
-                    canShowButton={!store.state.isFetching}
+                    canShowButton={!store.state.isFetching || store.state.isDownloading}
+                    isDownloading={store.state.isDownloading}
                     fetchFileCallback={fetchFile}
                     customClasses={classes.button}
                     linkReference={ref}

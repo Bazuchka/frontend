@@ -40,14 +40,14 @@ export const ContainerStore = createBaseStoreWithViewMediator({
     });
 
     const beforeDownloadCallback = () => {
-        self.state.isFetching = true;
+        self.state.isDownloading = true;
     };
     const onErrorDownload = (error: unknown) => {
         self.state.isError = true;
         throw new Error(error as string);
     };
     const onFinallyDownload = () => {
-        self.state.isFetching = false;
+        self.state.isDownloading = false;
     };
 
     return {

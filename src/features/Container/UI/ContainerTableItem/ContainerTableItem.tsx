@@ -9,7 +9,7 @@ import { ICard } from "src/shared/UI/iCard";
 import { containerStore } from "../../store";
 import { useStyles } from "./styles";
 import { containersTableItemConfiguration } from "./tabsConfiguration";
-import { TSTableDownloadButton } from "src/shared/UI/TSTableDownloadButton";
+import { DownloadButton } from "src/shared/UI/DownloadButton";
 import { getNowDate } from "src/shared/helpers/dateFormatter";
 
 const ContainerTableItem = observer((): JSX.Element => {
@@ -46,9 +46,12 @@ const ContainerTableItem = observer((): JSX.Element => {
 
     return (
         <Box component="div" className={classes.container}>
-            <TSTableDownloadButton
+            <DownloadButton
                 id={"path_download_container_item_info"}
-                canShowButton={!containerStore.state.isFetching}
+                canShowButton={
+                    !containerStore.state.isFetching || containerStore.state.isDownloading
+                }
+                isDownloading={containerStore.state.isDownloading}
                 fetchFileCallback={fetchFile}
                 customClasses={classes.button}
                 linkReference={ref}

@@ -1,7 +1,6 @@
 import { createUseStyles } from "react-jss";
 
 const colorList = {
-    white: "#fff",
     blue: "#32386D",
 };
 
@@ -10,6 +9,8 @@ export const useStyles = createUseStyles(() => ({
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        width: "38px",
+        height: "38px",
         background: "none",
         minWidth: "auto",
         padding: "3px",
@@ -17,17 +18,5 @@ export const useStyles = createUseStyles(() => ({
         border: "1px solid " + colorList.blue,
         color: colorList.blue,
         transitionProperty: "all",
-
-        "&:hover": {
-            "& path": {
-                stroke: colorList.white,
-            },
-        },
-
-        "& .MuiTypography-root": {
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-        },
     },
 }));
