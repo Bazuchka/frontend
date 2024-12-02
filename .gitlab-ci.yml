@@ -1,40 +1,62 @@
 variables:
-  BUILD_VERSION: $CI_COMMIT_REF_NAME:$CI_COMMIT_SHORT_SHA
+  TEMP_BRANCH_NAME: "temp-${CI_COMMIT_REF_NAME}-${CI_PIPELINE_ID}"
+  BUILD_VERSION:  $CI_COMMIT_REF_NAME:$CI_COMMIT_SHORT_SHA
+  PACKAGE_VERSION: "1.0.0-SNAPSHOT"
+  REGISTRY_URL: registry-gitlab-devops1c.alabuga.ru/registry/images
+  MAIN_BRANCH: main
+  REALESE_BRANCH: release
+
+.checkout-before-script:
+  before_script:
+    - |
+      if [[ "$CI_PIPELINE_SOURCE" != "merge_request_event" ]]; then
+        echo "This is not a merge request. Skipping the branch creation process.";
+      else
+        echo "Checking if temporary branch ${TEMP_BRANCH_NAME} exists..."
+        git fetch origin
+        
+        if ! git branch -r | grep "origin/${TEMP_BRANCH_NAME}"; then
+          echo "Branch ${TEMP_BRANCH_NAME} doesn't exist. Creating a new one..." 
+
+          echo "$(git branch)"
+          echo "$(git status)"
+
+          git config --global user.email "$CI_REPOSITORY_USERNAME@alabuga.ru"
+          git config --global user.name "$CI_REPOSITORY_USERNAME"
+
+          git checkout -b "${TEMP_BRANCH_NAME}"
+          git merge origin/${CI_MERGE_REQUEST_TARGET_BRANCH_NAME} --no-ff --allow-unrelated-histories -m "Merge ${CI_MERGE_REQUEST_TARGET_BRANCH_NAME} into ${TEMP_BRANCH_NAME}"
+          git merge origin/${CI_MERGE_REQUEST_SOURCE_BRANCH_NAME} --no-ff --allow-unrelated-histories -m "Merge ${CI_MERGE_REQUEST_SOURCE_BRANCH_NAME} into ${TEMP_BRANCH_NAME}"
+
+          git push https://${CI_REPOSITORY_USERNAME}:${CI_REPOSITORY_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git ${TEMP_BRANCH_NAME}
+        else
+          echo "Pulling temporary branch ${TEMP_BRANCH_NAME}"
+          git remote set-url origin https://${CI_REPOSITORY_USERNAME}:${CI_REPOSITORY_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git
+          git checkout ${TEMP_BRANCH_NAME}
+        fi
+      fi
+  after_script:
+
 
 stages:
-  # - sonar
-  - build
-  - build_image
+  - prepare
+  - lint
+  - test
+  - setup
+  - end-to-end-tests
+  - clean-up
   - deploy
-  - cleanup
-  
-# sonarqube-check:
-#   stage: sonar
-#   image:
-#     name: sonarsource/sonar-scanner-cli:5.0
-#     entrypoint: [""]
-#   variables:
-#     SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar" # Defines the location of the analysis task cache
-#     GIT_DEPTH: "0" # Tells git to fetch all the branches of the project, required by the analysis task
-#   cache:
-#     key: "${CI_JOB_NAME}"
-#     paths:
-#       - .sonar/cache
-#   script:
-#     - >
-#     sonar-scanner
-#     -Dsonar.projectKey=Alis_fe
-#     -Dsonar.qualitygate.wait=true
-#     -Dsonar.exclusions=mobile/ios/**/*,mobile/android/**/*,fullscreen/src/__tests__/**/*
-#     -Dsonar.javascript.lcov.reportPaths=fullscreen/coverage/lcov.info
 
-fullscreen-build-npm-frontend:
-  stage: build
-  image: node:alpine
+.fullscreen-build-npm-frontend:
+  image: $REGISTRY_URL/node:23.3.0-alpine-git
   script:
-    - apk update && apk add git
+    - echo "BUILD_VERSION=${PACKAGE_VERSION}" >> build.env
+    - echo "BUILD_TAG=${BUILD_TAG}" >> build.env
     - npm install
     - npm run build
+    - ls -latrh
+  after_script:
+    - ls -latrh /root/.npm/_logs
   artifacts:
     when: always
     expose_as: 'npm artifact'
@@ -42,75 +64,151 @@ fullscreen-build-npm-frontend:
     paths:
       - build/
     expire_in: 1 hour
-  environment:
-    name: testing
-  when: on_success
-  only:
-    - master
-  tags:
-    - test-alis-runner
+    reports:
+      dotenv: build.env  
 
-fullscreen-create-docker-image:
-  stage: build_image
-  image: docker:24.0.5
+.fullscreen-create-docker-image:
+  image: $REGISTRY_URL/docker:24.0.5-git
   variables:
-    DOCKER_IMAGE_NAME: ${CI_REGISTRY_IMAGE}/${CI_COMMIT_REF_SLUG}
     DOCKER_OPTS: "--insecure-registry=${CI_REGISTRY}"
-  services:
-    - name: docker:24.0.5-dind
-      entrypoint: ["dockerd-entrypoint.sh", "--tls=false"]
-      command: ["--insecure-registry", $CI_REGISTRY]
-  before_script:
+    DOCKER_IMAGE_NAME: ${CI_REGISTRY_IMAGE}
+  script:
     - echo "${BUILD_VERSION} | ${CI_REGISTRY}"
     - docker info
     - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY_IMAGE -u $CI_REGISTRY_USER  --password-stdin
-  script:
+
     - docker build --build-arg build_version=${BUILD_VERSION} -t ${DOCKER_IMAGE_NAME}:${CI_COMMIT_SHORT_SHA} .
     - docker tag ${DOCKER_IMAGE_NAME}:${CI_COMMIT_SHORT_SHA} ${DOCKER_IMAGE_NAME}:latest
     - docker push ${DOCKER_IMAGE_NAME}:${CI_COMMIT_SHORT_SHA}
     - docker push ${DOCKER_IMAGE_NAME}:latest
-  environment:
-    name: testing
-  when: on_success
-  only:
-    - master
-  tags:
-    - test-alis-runner
 
-# deploy-dev:
-#   stage: deploy
-#   image: docker:24.0.5
-#   variables:
-#     DOCKER_IMAGE_NAME: ${CI_REGISTRY_IMAGE}/${CI_COMMIT_REF_SLUG}
-#     DOCKER_OPTS: "--insecure-registry=${CI_REGISTRY}"
-#     EXTERNAL_IP_ADDRESS: http://185.149.50.37:55880
-#     LOCAL_IP_ADDRESS: https://dev-alis-exsim.alabuga.ru
-#   before_script:
-#     - echo "${BUILD_VERSION} | ${CI_REGISTRY}"
-#     - docker info
-#     - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY_IMAGE -u $CI_REGISTRY_USER  --password-stdin
-#   script:
-#     - docker pull $DOCKER_IMAGE_NAME:latest
-#     - docker compose -f docker-compose.yml stop
-#     - docker compose -f docker-compose.yml rm -f
-#     - docker compose -f docker-compose.yml up -d
-#     - docker restart nginx-proxy
-#   environment:
-#     name: development
-#   when: on_success
-#   only:
-#     - master
-#   tags:
-#     - dev-alis-runner
+.deploy:
+  image: $REGISTRY_URL/docker:24.0.5-git
+  variables:
+    DOCKER_OPTS: "--insecure-registry=${CI_REGISTRY}"
+    DOCKER_IMAGE_NAME: ${CI_REGISTRY_IMAGE}
+  script:
+    - echo "${BUILD_VERSION} | ${CI_REGISTRY}"
+    - docker info
+    - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY_IMAGE -u $CI_REGISTRY_USER  --password-stdin
+
+    - docker pull $DOCKER_IMAGE_NAME:latest
+    - docker compose -f docker-compose.yml stop
+    - docker compose -f docker-compose.yml rm -f
+    - docker compose -f docker-compose.yml up -d
+
+create-temp-branch:
+  stage: prepare
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $MAIN_BRANCH || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $RELEASE_BRANCH)'
+  image: $REGISTRY_URL/bitnami/git:2.47.1
+  script:
+    - echo "Creating temporary branch ${TEMP_BRANCH_NAME}"
+    - echo "$(git branch)" 
+    - echo "$(git status)"
+    - git config --global user.email "$CI_REPOSITORY_USERNAME@alabuga.ru"
+    - git config --global user.name "$CI_REPOSITORY_USERNAME"
+    - git fetch origin
+    - git checkout -b "${TEMP_BRANCH_NAME}"
+    - git merge origin/${CI_MERGE_REQUEST_TARGET_BRANCH_NAME} --no-ff --allow-unrelated-histories -m "Merge ${CI_MERGE_REQUEST_TARGET_BRANCH_NAME} into ${TEMP_BRANCH_NAME}"
+    - git merge origin/${CI_MERGE_REQUEST_SOURCE_BRANCH_NAME} --no-ff --allow-unrelated-histories -m "Merge ${CI_MERGE_REQUEST_SOURCE_BRANCH_NAME} into ${TEMP_BRANCH_NAME}"
+    - git push https://${CI_REPOSITORY_USERNAME}:${CI_REPOSITORY_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git ${TEMP_BRANCH_NAME}
+  tags:
+    - dev-runner
+  
+run-sonarQube:
+  stage: lint
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $MAIN_BRANCH || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $RELEASE_BRANCH)'
+      needs: 
+        - create-temp-branch
+    - if: '$CI_PIPELINE_SOURCE == "schedule" && ($CI_COMMIT_REF_NAME == $MAIN_BRANCH || $CI_COMMIT_REF_NAME == $RELEASE_BRANCH)'
+  extends: 
+    - .checkout-before-script
+  image: $REGISTRY_URL/bitnami/git:2.47.1
+  script:
+    - echo "Running SonarQube on ${TEMP_BRANCH_NAME}"
+  tags:
+    - dev-runner
+
+run-unitTest:
+  stage: test
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $MAIN_BRANCH || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $RELEASE_BRANCH)'
+      needs: 
+        - create-temp-branch
+    - if: '$CI_PIPELINE_SOURCE == "schedule" && ($CI_COMMIT_REF_NAME == $MAIN_BRANCH || $CI_COMMIT_REF_NAME == $RELEASE_BRANCH)'
+  extends: 
+    - .checkout-before-script
+  image: $REGISTRY_URL/bitnami/git:2.47.1
+  script:
+    - echo "Running unit tests on ${TEMP_BRANCH_NAME}"
+  tags:
+    - dev-runner
+
+run-integrationTest:
+  stage: test
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $MAIN_BRANCH || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $RELEASE_BRANCH)'
+      needs: 
+        - create-temp-branch
+    - if: '$CI_PIPELINE_SOURCE == "schedule" && ($CI_COMMIT_REF_NAME == $MAIN_BRANCH || $CI_COMMIT_REF_NAME == $RELEASE_BRANCH)'
+  extends: 
+    - .checkout-before-script
+  image: $REGISTRY_URL/bitnami/git:2.47.1
+  script:
+    - echo "Running unit tests on ${TEMP_BRANCH_NAME}"
+  tags:
+    - dev-runner
+
+fullscreen-build-npm-frontend:
+  stage: build
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $MAIN_BRANCH || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $RELEASE_BRANCH)'
+      needs: 
+        - create-temp-branch
+    - if: '$CI_PIPELINE_SOURCE == "schedule" && ($CI_COMMIT_REF_NAME == $MAIN_BRANCH || $CI_COMMIT_REF_NAME == $RELEASE_BRANCH)'
+  extends: 
+    - .checkout-before-script
+    - .fullscreen-build-npm-frontend
+  tags:
+    - dev-runner
+
+fullscreen-create-docker-image:
+  stage: build
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $MAIN_BRANCH || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $RELEASE_BRANCH)'
+    - if: '$CI_PIPELINE_SOURCE == "schedule" && ($CI_COMMIT_REF_NAME == $MAIN_BRANCH || $CI_COMMIT_REF_NAME == $RELEASE_BRANCH)'
+  extends: 
+    - .checkout-before-script
+    - .fullscreen-create-docker-image
+  needs:
+    - fullscreen-build-npm-frontend
+  tags:
+    - dev-runner
+
+deploy-dev:
+  stage: setup
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $MAIN_BRANCH || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $RELEASE_BRANCH)'
+    - if: '$CI_PIPELINE_SOURCE == "schedule" && ($CI_COMMIT_REF_NAME == $MAIN_BRANCH || $CI_COMMIT_REF_NAME == $RELEASE_BRANCH)'
+  needs:
+    - fullscreen-create-docker-image
+  extends: 
+    - .deploy
+    - .checkout-before-script
+  tags:
+    - dev-runner
 
 deploy-test:
   stage: deploy
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == $MAIN_BRANCH'
   image: docker:24.0.5
   variables:
     DOCKER_IMAGE_NAME: ${CI_REGISTRY_IMAGE}/${CI_COMMIT_REF_SLUG}
     DOCKER_OPTS: "--insecure-registry=${CI_REGISTRY}"
-    EXTERNAL_IP_ADDRESS: http://185.149.50.37:55880
-    LOCAL_IP_ADDRESS: https://test-alis-exsim.alabuga.ru
+    BASE_URL: https://test-alis-exsim.alabuga.ru
   before_script:
     - echo "${BUILD_VERSION} | ${CI_REGISTRY}"
     - docker info
@@ -121,45 +219,9 @@ deploy-test:
     - docker compose -f docker-compose.yml rm -f
     - docker compose -f docker-compose.yml up -d
     - docker restart nginx-proxy
+  when: manual
   environment:
     name: testing
-  when: on_success
-  only:
-    - master
+    url: https://test-alis-exsim.alabuga.ru/
   tags:
-    - test-alis-runner
-
-# cleanup-dev:
-#   stage: cleanup
-#   image: docker:24.0.5
-#   services:
-#     - name: docker:24.0.5-dind
-#   script:
-#     - docker image prune --all --force --filter "label=build=frontend"
-#     - docker system prune --volumes --force
-#   environment:
-#     name: testing
-#   needs:
-#     - deploy-dev
-#   when: on_success
-#   only:
-#     - master
-#   tags:
-#     - dev-alis-runner
-
-cleanup-test:
-  stage: cleanup
-  image: docker:24.0.5
-  services:
-    - name: docker:24.0.5-dind
-  script:
-    - docker image prune --all --force --filter "label=build=frontend"
-  environment:
-    name: testing
-  needs:
-    - deploy-test
-  when: on_success
-  only:
-    - master
-  tags:
-    - test-alis-runner
+    - test-runner
