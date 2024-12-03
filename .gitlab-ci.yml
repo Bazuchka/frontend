@@ -8,6 +8,7 @@ variables:
 
 .checkout-before-script:
   before_script:
+    - git config --global --add safe.directory /builds/alis/frontend
     - |
       if [[ "$CI_PIPELINE_SOURCE" != "merge_request_event" ]]; then
         echo "This is not a merge request. Skipping the branch creation process.";
@@ -136,7 +137,6 @@ run-sonarQube:
     name: sonarsource/sonar-scanner-cli:11
     entrypoint: [""]
   script:
-    - git config --global --add safe.directory /builds/alis/frontend 
     - >
       sonar-scanner
       -Dsonar.host.url="${SONAR_HOST_URL}"
