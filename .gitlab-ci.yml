@@ -119,7 +119,7 @@ create-temp-branch:
       fi
   tags:
     - dev-runner
-  
+    
 run-sonarQube:
   stage: lint
   rules:
@@ -129,9 +129,20 @@ run-sonarQube:
     - if: '$CI_PIPELINE_SOURCE == "schedule" && ($CI_COMMIT_REF_NAME == $MAIN_BRANCH || $CI_COMMIT_REF_NAME == $RELEASE_BRANCH)'
   extends: 
     - .checkout-before-script
-  image: $REGISTRY_URL/bitnami/git:2.47.1
-  script:
-    - echo "Running SonarQube on ${TEMP_BRANCH_NAME}"
+  variables:
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"
+    GIT_DEPTH: "0"
+  image: 
+    name: sonarsource/sonar-scanner-cli:11
+    entrypoint: [""]
+  script: 
+    - >
+      sonar-scanner
+      -Dsonar.host.url="${SONAR_HOST_URL}"
+      -Dsonar.projectKey=alis_frontend_be19fff9-7cf4-47f1-a513-98a987b566e2
+      -Dsonar.qualitygate.wait=true
+      -Dsonar.exclusions=mobile/ios/**/*,mobile/android/**/*,fullscreen/src/__tests__/**/*
+      -Dsonar.javascript.lcov.reportPaths=fullscreen/coverage/lcov.info  
   tags:
     - dev-runner
 
