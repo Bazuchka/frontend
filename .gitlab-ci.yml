@@ -15,7 +15,7 @@ variables:
         echo "Checking if temporary branch ${TEMP_BRANCH_NAME} exists..."
         git fetch origin
         
-        if git show-ref --verify --quiet refs/heads/$TEMP_BRANCH_NAME || git ls-remote --heads origin $TEMP_BRANCH_NAME | grep -q "$TEMP_BRANCH_NAME"; then
+        if ! git show-ref --verify --quiet refs/heads/$TEMP_BRANCH_NAME && ! git ls-remote --heads origin $TEMP_BRANCH_NAME | grep -q "$TEMP_BRANCH_NAME"; then
           echo "Branch ${TEMP_BRANCH_NAME} doesn't exist. Creating a new one..." 
 
           echo "$(git branch)"
