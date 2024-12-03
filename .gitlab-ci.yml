@@ -101,18 +101,21 @@ create-temp-branch:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $MAIN_BRANCH || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $RELEASE_BRANCH)'
   image: $REGISTRY_URL/bitnami/git:2.47.1
   script:
-    - echo "Creating temporary branch ${TEMP_BRANCH_NAME}"
+    - echo "Checking if temporary branch ${TEMP_BRANCH_NAME} exists..."
+    - git fetch origin
     - echo "$(git branch)" 
     - echo "$(git status)"
     - git config --global user.email "$CI_REPOSITORY_USERNAME@alabuga.ru"
     - git config --global user.name "$CI_REPOSITORY_USERNAME"
-    - git fetch origin
     - |
       if ! git ls-remote --heads origin $TEMP_BRANCH_NAME | grep -q "$TEMP_BRANCH_NAME"; then
+        echo "Creating temporary branch ${TEMP_BRANCH_NAME}"
         git checkout -b "${TEMP_BRANCH_NAME}"
         git merge origin/${CI_MERGE_REQUEST_TARGET_BRANCH_NAME} --no-ff --allow-unrelated-histories -m "Merge ${CI_MERGE_REQUEST_TARGET_BRANCH_NAME} into ${TEMP_BRANCH_NAME}"
         git merge origin/${CI_MERGE_REQUEST_SOURCE_BRANCH_NAME} --no-ff --allow-unrelated-histories -m "Merge ${CI_MERGE_REQUEST_SOURCE_BRANCH_NAME} into ${TEMP_BRANCH_NAME}"
         git push https://${CI_REPOSITORY_USERNAME}:${CI_REPOSITORY_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git ${TEMP_BRANCH_NAME}
+      else
+          echo "Branch ${TEMP_BRANCH_NAME} already exist." 
       fi
   tags:
     - dev-runner
@@ -255,11 +258,16 @@ delete-branch:
     - .checkout-before-script
   image: $REGISTRY_URL/bitnami/git:2.47.1
   script:
-    - echo "Deleting branch ${TEMP_BRANCH_NAME}"
-    - git config --global user.email "$CI_REPOSITORY_USERNAME@alabuga.ru"
-    - git config --global user.name "$CI_REPOSITORY_USERNAME"
-    - git remote set-url origin https://${CI_REPOSITORY_USERNAME}:${CI_REPOSITORY_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git
-    - git push origin --delete ${TEMP_BRANCH_NAME}
+    - |
+      if git ls-remote --heads origin $TEMP_BRANCH_NAME | grep -q "$TEMP_BRANCH_NAME"; then
+        echo "Deleting branch ${TEMP_BRANCH_NAME}"
+        git config --global user.email "$CI_REPOSITORY_USERNAME@alabuga.ru"
+        git config --global user.name "$CI_REPOSITORY_USERNAME"
+        git remote set-url origin https://${CI_REPOSITORY_USERNAME}:${CI_REPOSITORY_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git
+        git push origin --delete ${TEMP_BRANCH_NAME}
+      else
+        echo "Branch ${TEMP_BRANCH_NAME} doesn't exist." 
+      fi
   when: always
   tags:
     - dev-runner
