@@ -15,7 +15,7 @@ variables:
         echo "Checking if temporary branch ${TEMP_BRANCH_NAME} exists..."
         git fetch origin
         
-        if git ls-remote --heads origin "${TEMP_BRANCH_NAME}" | grep -q "${TEMP_BRANCH_NAME}"; then
+        if git show-ref --verify --quiet refs/heads/$TEMP_BRANCH_NAME || git ls-remote --heads origin $TEMP_BRANCH_NAME | grep -q "$TEMP_BRANCH_NAME"; then
           echo "Branch ${TEMP_BRANCH_NAME} doesn't exist. Creating a new one..." 
 
           echo "$(git branch)"
@@ -107,10 +107,13 @@ create-temp-branch:
     - git config --global user.email "$CI_REPOSITORY_USERNAME@alabuga.ru"
     - git config --global user.name "$CI_REPOSITORY_USERNAME"
     - git fetch origin
-    - git checkout -b "${TEMP_BRANCH_NAME}"
-    - git merge origin/${CI_MERGE_REQUEST_TARGET_BRANCH_NAME} --no-ff --allow-unrelated-histories -m "Merge ${CI_MERGE_REQUEST_TARGET_BRANCH_NAME} into ${TEMP_BRANCH_NAME}"
-    - git merge origin/${CI_MERGE_REQUEST_SOURCE_BRANCH_NAME} --no-ff --allow-unrelated-histories -m "Merge ${CI_MERGE_REQUEST_SOURCE_BRANCH_NAME} into ${TEMP_BRANCH_NAME}"
-    - git push https://${CI_REPOSITORY_USERNAME}:${CI_REPOSITORY_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git ${TEMP_BRANCH_NAME}
+    - |
+      if ! git ls-remote --heads origin $TEMP_BRANCH_NAME | grep -q "$TEMP_BRANCH_NAME"; then
+        git checkout -b "${TEMP_BRANCH_NAME}"
+        git merge origin/${CI_MERGE_REQUEST_TARGET_BRANCH_NAME} --no-ff --allow-unrelated-histories -m "Merge ${CI_MERGE_REQUEST_TARGET_BRANCH_NAME} into ${TEMP_BRANCH_NAME}"
+        git merge origin/${CI_MERGE_REQUEST_SOURCE_BRANCH_NAME} --no-ff --allow-unrelated-histories -m "Merge ${CI_MERGE_REQUEST_SOURCE_BRANCH_NAME} into ${TEMP_BRANCH_NAME}"
+        git push https://${CI_REPOSITORY_USERNAME}:${CI_REPOSITORY_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git ${TEMP_BRANCH_NAME}
+      fi
   tags:
     - dev-runner
   
