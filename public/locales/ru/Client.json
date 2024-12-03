@@ -1,0 +1,18 @@
+{
+    "menu": {
+        "clients": "Клиенты",
+        "client": "Клиент"
+    },
+    "tabs": {
+        "client": "Клиент"
+    },
+    "properties": {
+        "contactInfo": "Контактная информация",
+        "code": "Наименование",
+        "name": "Полное наименование",
+        "active": "Активный",
+        "phoneNumber": "Телефон",
+        "address": "Адрес",
+        "email": "E-mail"
+    }
+}

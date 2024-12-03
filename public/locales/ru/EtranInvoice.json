@@ -1,0 +1,20 @@
+{
+  "drawerHeader": "Накладная ЭТРАН",
+  "properties": {
+    "code": "Номер накладной",
+    "client": "Клиент",
+    "isEtranCreated": "Создана в ЭТРАН",
+    "shipper": "Грузоотправитель",
+    "departureStation": "Станция отправления",
+    "destinationStation": "Станция назначения"
+  },
+  "default": {
+    "code": "отсутствует"
+  },
+  "groups": {},
+  "dialog": {
+    "createSuccess": "Накладная ЭТРАН успешно создана",
+    "editSuccess": "Накладная ЭТРАН успешно изменена",
+    "deleteSuccess": "Накладная ЭТРАН удалена"
+  }
+}

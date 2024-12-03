@@ -1,0 +1,23 @@
+{
+    "properties": {
+        "good": {
+            "name": "Товар",
+            "article": "Артикул"
+        },
+        "batch": "Партия",
+        "unitOfMeasure": "Ед. изм.",
+        "plannedQuantity": "Кол-во, план",
+        "price": "Цена за 1 ед. изм.",
+        "totalPrice": "Стоимость",
+        "tempRegime": "Температурный режим",
+        "dangerClass": "Класс опасности",
+        "actualQuantity": "Кол-во, факт",
+        "goodVariant": "Вариант товара"
+    },
+    "groups": {},
+    "dialog": {
+        "createSuccess": "Товар к заявке успешно добавлен",
+        "editSuccess": "Товар к заявке успешно изменен",
+        "deleteSuccess": "Товар к заявке успешно удален"
+    }
+}

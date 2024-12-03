@@ -1,0 +1,7 @@
+{
+    "types": {
+        "RECEIVING": "Поставка",
+        "SHIPMENT": "Вывоз",
+        "OPERATION": "Операция"
+    }
+}

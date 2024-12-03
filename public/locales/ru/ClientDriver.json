@@ -1,0 +1,23 @@
+{
+    "menu": "Водители",
+    "drawerHeader": "Водитель",
+    "properties": {
+        "identityDocument": "Докумен удостоверяющий личность",
+        "identityDocumentType": "Тип документа",
+        "identityDocumentNumber": "№ документа",
+        "identityDocumentIssuedBy": "Кем выдан",
+        "identityDocumentIssueDate": "Дата выдачи",
+        "poa": "Доверенность",
+        "poaNumber": "№ доверенности",
+        "poaValidTo": "Срок действия доверенности",
+        "active": "Активный",
+        "phoneNumber": "Номер телефона",
+        "code": "ФИО",
+        "name": "Полное наименование",
+        "client": "Клиент"
+    },
+    "dialog": {
+        "createSuccess": "Водитель успешно добавлен",
+        "editSuccess": "Водитель успешно изменен"
+    }
+}

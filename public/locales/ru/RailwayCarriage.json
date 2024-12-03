@@ -1,0 +1,15 @@
+{
+  "drawerHeader": "Вагон",
+  "properties": {
+    "code": "Номер вагона",
+    "client": "Клиент",
+    "type": "Род вагона",
+    "liftingCapacity": "Грузоподъемность, тн"
+  },
+  "groups": {},
+  "dialog": {
+    "createSuccess": "Вагон успешно создан",
+    "editSuccess": "Вагон успешно изменен",
+    "deleteSuccess": "Вагон успешно удален"
+  }
+}

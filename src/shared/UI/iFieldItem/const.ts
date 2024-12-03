@@ -1,0 +1,32 @@
+export enum FieldItemType {
+    CHECKBOX,
+    INPUT,
+    SELECT,
+    ENUM_SELECT,
+    DATE,
+    TIME,
+    AUTOCOMPLETE,
+    AUTOCOMPLETE_WITH_MASK,
+    AUTOCOMPLETE_MULTISELECT,
+    RATING,
+    STATIC,
+    VALIDATE_INPUT,
+    LINK,
+    INPUT_NUMBER,
+    BUTTON,
+    PASSWORD,
+}
+
+export enum FIELD_TYPE {
+    CHECKBOX,
+    PASSWORD,
+    DATE,
+    DATE_TIME,
+    TIME,
+    SELECT,
+    RATING,
+    STATIC,
+    LINK,
+    DEFAULT,
+    BUTTON,
+}

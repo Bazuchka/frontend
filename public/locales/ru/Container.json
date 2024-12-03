@@ -1,0 +1,16 @@
+{
+    "properties": {
+        "client": "Клиент",
+        "containerType": "Тип контейнера",
+        "code": "Номер контейнера",
+        "weight": "Масса тары, тн",
+        "refrigirator": "Рефрижератор",
+        "active": "Активный"
+    },
+    "dialog": {
+        "createSuccess": "Котейнер успешно создан",
+        "editSuccess": "Котейнер успешно изменен",
+        "deleteSuccess": "Контейнер успешно удален"
+    },
+    "drawerHeader": "Контейнеры"
+}

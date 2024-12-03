@@ -1,0 +1,16 @@
+{
+    "properties": {
+        "code": "Наименование услуги",
+        "unitOfMeasure": "Ед. изм.",
+        "plannedQuantity": "Кол-во, план",
+        "rate": "Тариф руб.",
+        "withoutVAT": "Стоимость без НДС, руб",
+        "withVAT": "Стоимость с НДС, руб",
+        "actualQuantity": "Кол-во, факт"
+    },
+    "dialog": {
+        "createSuccess": "Доп. операция успешно добавлена",
+        "editSuccess": "Доп. операция изменена",
+        "deleteSeccess": "Доп. операция удалена"
+    }
+}

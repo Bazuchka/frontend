@@ -1,0 +1,53 @@
+{
+    "menu": {
+        "orders": "Заявки на вывоз",
+        "order": "Заявка на вывоз"
+    },
+    "tabs": {
+        "transport": "Транспорт",
+        "goods": "Товар",
+        "cargoSpaces": "Грузоместа",
+        "operations": "Доп. операции",
+        "presentation": "Просмотр",
+        "containers": "Контейнеры",
+        "etranInvoice": "Накладные ЭТРАН",
+        "railwayCarriage": "Вагоны",
+        "documentPrint": "Печать документов"
+    },
+    "properties": {
+        "number": "Номер",
+        "client": "Клиент",
+        "contract": "Договор",
+        "legalEntityShort": "Юр. Лицо клиента",
+        "legalEntity": "Юридическое лицо клиента",
+        "orderStatus": "Статус",
+        "planShippingDate": "Дата исп.",
+        "planShippingDateInfo": "Плановая дата вывоза товара с площадки",
+        "planShippingTime": "Время исп.",
+        "planShippingTimeInfo": "Плановое время вывоза (GMT +3)",
+        "terminalArea": "Площадка",
+        "shippedTerminalArea": "Площадка, с которой будет отгружен товар",
+        "transportType": "Транспорт",
+        "shippedTransportType": "На чем заберут товар",
+        "currency": "Валюта стоимости груза",
+        "contact": {
+            "name": "Уполномоченный представитель",
+            "phone": "Телефон",
+            "email": "E-mail"
+        },
+        "comment": "Особые отметки и комментарии",
+        "createdAt": "Дата создания"
+    },
+    "groups": {
+        "orderParams": "Параметры заявки",
+        "printDocuments": "Печать документов"
+    },
+    "dialog": {
+        "createSuccess": "Заявка на вывоз успешно создана",
+        "editSuccess": "Заявка на вывоз успешно изменена"
+    },
+    "actions": {
+        "printMx3Form": "Акт о возврате (MX-3)",
+        "printThForm": "Транспортная накладная"
+    }
+}

@@ -1,0 +1,27 @@
+{
+  "drawerHeader": "Вариант",
+  "properties": {
+    "item": "Артикул",
+    "code": "Наименование",
+    "client": "Клиент",
+    "good": "Товар",
+    "unitOfMeasure": "Ед. изм.",
+    "processingType": "Тип обработки",
+    "active": "Активная",
+    "conversionQty": "Вложенность",
+    "level": "Уровень",
+    "depth": "Глубина, мм",
+    "width": "Ширина, мм",
+    "height": "Высота, мм",
+    "volume": "Объем, м3",
+    "weight": "Масса, кг",
+    "tareWeight": "Масса тары, кг"
+  },
+  "form": {
+    "characteristics": "Характеристики"
+  },
+  "dialog": {
+    "createSuccess": "Вариант успешно добавлен",
+    "editSuccess": "Вариант успешно изменен"
+  }
+}

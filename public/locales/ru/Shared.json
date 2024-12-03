@@ -1,0 +1,103 @@
+{
+    "appName": "ALabuga Information System",
+    "Reload": {
+        "label": "Обновить экран"
+    },
+    "Menu": {
+        "label": "Меню"
+    },
+    "Help": {
+        "label": "Помощь"
+    },
+    "download": {
+        "label": "Скачать"
+    },
+    "AttentionMessage": "Вы уверены, что хотите перейти на другую страницу? Введенные данные на текущей странице не будут сохранены.",
+    "RequiredValidateError": "Не заполнено обязательное поле",
+    "SecuritySettings": {
+        "menu": "Настройки безопасности"
+    },
+    "Description": "Описание",
+    "AlertMessages": {
+        "title": {
+            "success": "Успешно",
+            "error": "Ошибка"
+        },
+        "success": "Запись добавлена успешно",
+        "successDelete": "Запись успешно удалена",
+        "notResponsive": "Сервис временно не доступен",
+        "wrongParams": "Введены неверные данные",
+        "snapshotConvertion": "Модель типа {{modelName}} не была создана, т.к.  содержит некорректные данные для id: {{id}}",
+        "User already has such role assigned": "Пользователю уже назначена такая роль",
+        "itemWithSameIdAlreadyExist": "Запись с данными идентификатором уже существует в системе",
+        "ReceivingOrder": {
+            "ItemsMissingForContainers": "Ошибка валидации заявки, внесите данные во вкладке Товары для всех контейнеров",
+            "MissingRailwayCarriageEtranInvoice": "Накладные ЭТРАН отсутствуют для перевода в требуемый статус"
+        },
+        "ShippingOrder": {
+            "ItemsMissingForContainers": "Ошибка валидации заявки, внесите данные во вкладке Товары для всех контейнеров",
+            "MissingRailwayCarriageEtranInvoice": "Накладные ЭТРАН отсутствуют для перевода в требуемый статус"
+        },
+        "Invalid BatchId": "Проверьте введенные данные",
+        "User already has such role assigned": "Пользователю уже назначена такая роль"
+    },
+    "Detailed": "Подробнее",
+    "Reference": {
+        "dictionary": "Справочники",
+        "counetrparty": "Контрагенты",
+        "configuration": "Конфигурация",
+        "remains": "Остатки",
+        "orders": "Заявки",
+        "administration": "Администрирование",
+        "security": "Настройки безопасности"
+    },
+    "dateRange": {
+        "start": "С",
+        "end": "По"
+    },
+    "paginationText": "Строк на странице:",
+    "hours": "Часы",
+    "week": "Неделя",
+    "weeks": {
+        "SUNDAY": "Воскресенье",
+        "MONDAY": "Понедельник",
+        "TUESDAY": "Вторник",
+        "WEDNESDAY": "Среда",
+        "THURSDAY": "Четверг",
+        "FRIDAY": "Пятница",
+        "SATURDAY": "Суббота"
+    },
+    "search": "Поиск",
+    "noOptions": "Не найдено",
+    "loading": "Загрузка",
+    "sortingDirections": {
+        "asc": "Сортировать по возрастанию",
+        "desc": "Сортировать по убыванию",
+        "none": "Отменить сортировку"
+    },
+    "commonInfo": "Основная информация",
+    "contactInfo": "Контактная информация",
+    "menu": {
+        "new": {
+            "masculine": "Новый",
+            "feminine": "Новая",
+            "neuter": "Новое"
+        }
+    },
+    "of": "из",
+    "createdAt": "Дата создания",
+    "additionalInfo": "Дополнительная информация",
+    "chooseFile": "Выберите файл",
+    "dragAndDrop": "Переместите файл",
+    "open": "Открыть",
+    "close": "Закрыть",
+    "clean": "Очистить",
+    "add": "Добавить",
+    "createOrder": "Создать заявку",
+    "columnManagment": "Управление колонками",
+    "chipPlaceholder": "Введите значение и нажмите Enter",
+    "filters": {
+        "client": "Клиент",
+        "legalEntity": "Юр. лицо"
+    }
+}

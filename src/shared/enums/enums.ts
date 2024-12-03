@@ -1,0 +1,12 @@
+export enum SEARCH_TYPE {
+    CONTAINS = "CONTAINS",
+    EXACTLY_MATCHES = "EXACTLY_MATCHES",
+    EXACTLY_MATCHES_IGNORE_CASE = "EXACTLY_MATCHES_IGNORE_CASE",
+    LIKE = "LIKE",
+    NOT_EMPTY = "NOT_EMPTY",
+}
+
+export enum DIALOG_ACTION {
+    EDIT_CANCEL = "cancelAction",
+    DELETE = "deleteAction",
+}

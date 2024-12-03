@@ -1,0 +1,19 @@
+services:
+  frontend:
+    image: ${DOCKER_IMAGE_NAME}:latest
+    container_name: 'frontend'
+    environment:
+      ALIS_BACKEND__SERVER_URL: '${BASE_URL}/api/'
+      KEYCLOACK__AUTH_SERVER_URL: '${BASE_URL}/auth/'
+      KEYCLOACK__CLIENT_ID: 'alis-localfront-client'
+      KEYCLOACK__REALM: 'wmskorus'
+      LOGS_JSON_CONSOLE: '1'
+      WMS_BACKEND__SERVER_URL: 'https://test-yard-exsim.alabuga.ru/api/'
+    restart: unless-stopped
+    ports:
+      - '80'
+    networks:
+      - web
+
+networks:
+  web:

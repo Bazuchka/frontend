@@ -1,0 +1,105 @@
+{
+  "name": "alis-frontend",
+  "private": true,
+  "type": "module",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node generate-version.cjs && chmod +x env.sh && ./env.sh && vite",
+    "start:win": "node generate-version.cjs && cmd /c env.bat && vite",
+    "start-app": "vite",
+    "build": "tsc && vite build && node generate-version.cjs",
+    "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview",
+    "test": "jest --passWithNoTests --collectCoverage=false",
+    "test:watch": "jest --watch",
+    "coverage": "jest",
+    "format": "eslint --cache --fix --ext .jsx,.js,.tsx,.ts src && prettier -w ./src",
+    "pre-commit": "lint-staged --allow-empty"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@fontsource/roboto": "^5.0.13",
+    "@mui/icons-material": "^5.15.19",
+    "@mui/lab": "^5.0.0-alpha.170",
+    "@mui/material": "^5.15.19",
+    "@mui/styled-engine-sc": "^6.0.0-alpha.18",
+    "@mui/x-data-grid": "^7.6.1",
+    "@mui/x-date-pickers": "^7.6.1",
+    "@tabler/icons": "^3.5.0",
+    "@tanstack/react-table": "^8.17.3",
+    "axios": "^1.7.2",
+    "classnames": "^2.5.1",
+    "date-fns": "^2.29.3",
+    "i18next": "^23.11.5",
+    "i18next-browser-languagedetector": "^8.0.0",
+    "i18next-http-backend": "^2.5.2",
+    "keycloak-js": "^20.0.3",
+    "mobx": "^6.12.3",
+    "mobx-react": "^9.1.1",
+    "mobx-state-tree": "^6.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.51.5",
+    "react-i18next": "^14.1.2",
+    "react-input-mask": "3.0.0-alpha.2",
+    "react-jss": "^10.10.0",
+    "react-router-dom": "^6.23.1",
+    "styled-components": "^6.1.11",
+    "uuid": "^9.0.1",
+    "vite-tsconfig-paths": "^4.3.2",
+    "web-vitals": "^4.0.1"
+  },
+  "devDependencies": {
+    "@jest/globals": "^29.7.0",
+    "@playwright/test": "^1.47.2",
+    "@testing-library/jest-dom": "^6.4.5",
+    "@testing-library/react": "^15.0.7",
+    "@testing-library/user-event": "^14.5.2",
+    "@types/node": "^22.7.2",
+    "@types/react": "^18.2.66",
+    "@types/react-dom": "^18.2.22",
+    "@types/react-input-mask": "^3.0.5",
+    "@types/uuid": "^9.0.8",
+    "@typescript-eslint/eslint-plugin": "^7.11.0",
+    "@vitejs/plugin-react-swc": "^3.5.0",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.1.3",
+    "eslint-plugin-react": "^7.34.2",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "eslint-plugin-react-refresh": "^0.4.7",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "jsdom": "^24.1.0",
+    "lint-staged": "^15.2.5",
+    "playwright-i18next-fixture": "^1.0.0",
+    "prettier": "^3.3.0",
+    "ts-jest": "^29.1.4",
+    "typescript": "^5.2.2",
+    "vite": "^5.2.0",
+    "vite-plugin-checker": "^0.6.4",
+    "vite-plugin-svgr": "^4.2.0"
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx}": [
+      "prettier --write",
+      "eslint --fix"
+    ],
+    "*.{html,css,less,ejs}": [
+      "prettier --write"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

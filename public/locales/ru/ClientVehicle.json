@@ -1,0 +1,26 @@
+{
+    "menu": "Транспортные средства клиентов",
+    "drawerHeader": "Транспортное средство",
+    "properties": {
+        "active": "Активное",
+        "code": "Номер ТС",
+        "name": "Полное наименование",
+        "client": "Клиент",
+        "vehicleType": "Тип ТС",
+        "vehicleBrand": "Марка ТС",
+        "refrigerator": "Рефрижератор",
+        "loadingType": "Тип загрузки",
+        "withTrailer": "Наличие прицепа",
+        "trailerNumber": "Номер прицепа",
+        "insuranceNumber": "Номер страховки"
+    },
+    "form": {
+        "characteristics": "Характеристики",
+        "trailer": "Прицеп",
+        "insurance": "Страховка"
+    },
+    "dialog": {
+        "createSuccess": "Транспортное средство успешно добавлено",
+        "editSuccess": "Транспортное средство успешно изменено"
+    }
+}

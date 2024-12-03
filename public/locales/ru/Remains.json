@@ -1,0 +1,25 @@
+{
+    "menu": {
+        "remainsContainers": "Остатки контейнеров",
+        "remainsContainersMove": "Движение контейнеров"
+    },
+    "containersMoveTable": {
+        "eventCode": "Событие",
+        "containerCode": "Номер контейнера",
+        "transportType": "Тип ТС",
+        "transportNumber": "Номер ТС / Платформы",
+        "etsngCode": "Код ЕТСНГ",
+        "eventDateTime": "Дата и время события",
+        "orderNumber": "Заявка",
+        "orderStatus": "Статус заявки",
+        "clientCode": "Клиент"
+    },
+    "containersTable": {
+        "containerCode": "Номер контейнера",
+        "etsngCode": "Код ЕТСНГ",
+        "eventDateTime": "Дата и время события",
+        "orderNumber": "Заявка",
+        "orderStatus": "Статус заявки",
+        "clientCode": "Клиент"
+    }
+}
