@@ -15,7 +15,7 @@ variables:
         echo "Checking if temporary branch ${TEMP_BRANCH_NAME} exists..."
         git fetch origin
         
-        if ! git branch -r | grep "origin/${TEMP_BRANCH_NAME}"; then
+        if git ls-remote --heads origin "${TEMP_BRANCH_NAME}" | grep -q "${TEMP_BRANCH_NAME}"; then
           echo "Branch ${TEMP_BRANCH_NAME} doesn't exist. Creating a new one..." 
 
           echo "$(git branch)"
@@ -35,13 +35,12 @@ variables:
           git checkout ${TEMP_BRANCH_NAME}
         fi
       fi
-  after_script:
-
 
 stages:
   - prepare
   - lint
   - test
+  - build
   - setup
   - end-to-end-tests
   - clean-up
@@ -65,7 +64,7 @@ stages:
       - build/
     expire_in: 1 hour
     reports:
-      dotenv: build.env  
+      dotenv: build.env
 
 .fullscreen-create-docker-image:
   image: $REGISTRY_URL/docker:24.0.5-git
@@ -93,8 +92,7 @@ stages:
     - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY_IMAGE -u $CI_REGISTRY_USER  --password-stdin
 
     - docker pull $DOCKER_IMAGE_NAME:latest
-    - docker compose -f docker-compose.yml stop
-    - docker compose -f docker-compose.yml rm -f
+    - docker compose -f docker-compose.yml down
     - docker compose -f docker-compose.yml up -d
 
 create-temp-branch:
@@ -200,24 +198,80 @@ deploy-dev:
   tags:
     - dev-runner
 
+run-end-to-end-tests:
+  stage: end-to-end-tests
+  needs:
+    - deploy-dev
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $MAIN_BRANCH || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $RELEASE_BRANCH)'
+    - if: '$CI_PIPELINE_SOURCE == "schedule" && ($CI_COMMIT_REF_NAME == $MAIN_BRANCH || $CI_COMMIT_REF_NAME == $RELEASE_BRANCH)'
+  extends:
+    - .checkout-before-script
+  image: $REGISTRY_URL/bitnami/git:2.47.1
+  script:
+    - echo "Running end-to-end-tests on ${TEMP_BRANCH_NAME}"
+  tags:
+    - dev-runner
+
+stop-containers:
+  stage: clean-up
+  needs:
+    - run-end-to-end-tests
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $MAIN_BRANCH || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $RELEASE_BRANCH)'
+    - if: '$CI_PIPELINE_SOURCE == "schedule" && ($CI_COMMIT_REF_NAME == $MAIN_BRANCH || $CI_COMMIT_REF_NAME == $RELEASE_BRANCH)'
+  extends:
+    - .checkout-before-script
+  variables:
+    DOCKER_IMAGE_NAME: ${CI_REGISTRY_IMAGE}
+  image: $REGISTRY_URL/docker:24.0.5-git
+  script:
+    - echo "Running clean-up on ${TEMP_BRANCH_NAME}"
+    - echo "$BUILD_VERSION | $CI_REGISTRY"
+    - echo "DOCKER_IMAGE_NAME=$DOCKER_IMAGE_NAME"
+    - docker info
+    - docker compose -f docker-compose.yml down
+  when: always
+  tags:
+    - dev-runner
+
+delete-branch:
+  stage: clean-up
+  needs:
+    - run-sonarQube
+    - run-unitTest
+    - run-integrationTest
+    - fullscreen-build-npm-frontend
+    - fullscreen-create-docker-image
+    - deploy-dev
+    - run-end-to-end-tests
+    - stop-containers
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $MAIN_BRANCH || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $RELEASE_BRANCH)'
+  extends:
+    - .checkout-before-script
+  image: $REGISTRY_URL/bitnami/git:2.47.1
+  script:
+    - echo "Deleting branch ${TEMP_BRANCH_NAME}"
+    - git config --global user.email "$CI_REPOSITORY_USERNAME@alabuga.ru"
+    - git config --global user.name "$CI_REPOSITORY_USERNAME"
+    - git remote set-url origin https://${CI_REPOSITORY_USERNAME}:${CI_REPOSITORY_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git
+    - git push origin --delete ${TEMP_BRANCH_NAME}
+  when: always
+  tags:
+    - dev-runner
+
 deploy-test:
   stage: deploy
   rules:
     - if: '$CI_COMMIT_REF_NAME == $MAIN_BRANCH'
-  image: docker:24.0.5
+  extends: 
+    - .deploy
   variables:
     DOCKER_IMAGE_NAME: ${CI_REGISTRY_IMAGE}/${CI_COMMIT_REF_SLUG}
     DOCKER_OPTS: "--insecure-registry=${CI_REGISTRY}"
     BASE_URL: https://test-alis-exsim.alabuga.ru
-  before_script:
-    - echo "${BUILD_VERSION} | ${CI_REGISTRY}"
-    - docker info
-    - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY_IMAGE -u $CI_REGISTRY_USER  --password-stdin
-  script:
-    - docker pull $DOCKER_IMAGE_NAME:latest
-    - docker compose -f docker-compose.yml stop
-    - docker compose -f docker-compose.yml rm -f
-    - docker compose -f docker-compose.yml up -d
+  after_script:
     - docker restart nginx-proxy
   when: manual
   environment:
