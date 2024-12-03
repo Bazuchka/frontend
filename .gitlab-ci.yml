@@ -271,7 +271,7 @@ deploy-test:
   extends: 
     - .deploy
   variables:
-    DOCKER_IMAGE_NAME: ${CI_REGISTRY_IMAGE}/${CI_COMMIT_REF_SLUG}
+    DOCKER_IMAGE_NAME: ${CI_REGISTRY_IMAGE}
     DOCKER_OPTS: "--insecure-registry=${CI_REGISTRY}"
     BASE_URL: https://test-alis-exsim.alabuga.ru
   after_script:
