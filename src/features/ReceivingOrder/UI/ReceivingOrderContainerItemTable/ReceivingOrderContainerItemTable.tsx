@@ -58,7 +58,6 @@ const ReceivingOrderContainerItemTable: FunctionComponent<ReceivingOrderContaine
                         },
                     };
                 }}
-                onRowSelected={(id) => store.setCurrent(id as string)}
                 fetchParams={{
                     active: true,
                     deleted: false,

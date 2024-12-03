@@ -42,7 +42,6 @@ const UserClientTable: FunctionComponent<UserClientTableProps> = observer((props
                     userId: userStore.current?.id,
                 };
             }}
-            onRowSelected={(id) => store.setCurrent(id as string)}
             isReadOnly={isReadOnly}
             permissionPath="User.UserClient"
             fetchParams={{
