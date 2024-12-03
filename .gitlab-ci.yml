@@ -135,7 +135,8 @@ run-sonarQube:
   image: 
     name: sonarsource/sonar-scanner-cli:11
     entrypoint: [""]
-  script: 
+  script:
+    - git config --global --add safe.directory /builds/alis/frontend 
     - >
       sonar-scanner
       -Dsonar.host.url="${SONAR_HOST_URL}"
