@@ -254,6 +254,19 @@ stop-containers:
   tags:
     - dev-runner
 
+delete-images:
+  stage: clean-up
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $MAIN_BRANCH || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $RELEASE_BRANCH)'
+    - if: '$CI_PIPELINE_SOURCE == "schedule" && ($CI_COMMIT_REF_NAME == $MAIN_BRANCH || $CI_COMMIT_REF_NAME == $RELEASE_BRANCH)'
+  image: $REGISTRY_URL/docker:24.0.5-git
+  script:
+    - docker image prune --all --force --filter "label=build=backend"
+  needs:
+    - stop-containers
+  tags:
+    - dev-runner
+
 delete-branch:
   stage: clean-up
   needs:
