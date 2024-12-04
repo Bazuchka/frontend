@@ -8,6 +8,7 @@ variables:
 
 .checkout-before-script:
   before_script:
+    - git config --global --add safe.directory /builds/alis/frontend
     - |
       if [[ "$CI_PIPELINE_SOURCE" != "merge_request_event" ]]; then
         echo "This is not a merge request. Skipping the branch creation process.";
@@ -119,7 +120,7 @@ create-temp-branch:
       fi
   tags:
     - dev-runner
-  
+    
 run-sonarQube:
   stage: lint
   rules:
@@ -129,11 +130,23 @@ run-sonarQube:
     - if: '$CI_PIPELINE_SOURCE == "schedule" && ($CI_COMMIT_REF_NAME == $MAIN_BRANCH || $CI_COMMIT_REF_NAME == $RELEASE_BRANCH)'
   extends: 
     - .checkout-before-script
-  image: $REGISTRY_URL/bitnami/git:2.47.1
+  variables:
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"
+    GIT_DEPTH: "0"
+  image: 
+    name: $REGISTRY_URL/sonarsource/sonar-scanner-cli:11
+    entrypoint: [""]
   script:
-    - echo "Running SonarQube on ${TEMP_BRANCH_NAME}"
+    - >
+      sonar-scanner
+      -Dsonar.host.url="${SONAR_HOST_URL}"
+      -Dsonar.projectKey=alis_frontend_be19fff9-7cf4-47f1-a513-98a987b566e2
+      -Dsonar.qualitygate.wait=true
+      -Dsonar.exclusions=mobile/ios/**/*,mobile/android/**/*,fullscreen/src/__tests__/**/*
+      -Dsonar.javascript.lcov.reportPaths=fullscreen/coverage/lcov.info  
   tags:
     - dev-runner
+  allow_failure: true
 
 run-unitTest:
   stage: test
@@ -238,6 +251,19 @@ stop-containers:
     - docker info
     - docker compose -f docker-compose.yml down
   when: always
+  tags:
+    - dev-runner
+
+delete-images:
+  stage: clean-up
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $MAIN_BRANCH || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $RELEASE_BRANCH)'
+    - if: '$CI_PIPELINE_SOURCE == "schedule" && ($CI_COMMIT_REF_NAME == $MAIN_BRANCH || $CI_COMMIT_REF_NAME == $RELEASE_BRANCH)'
+  image: $REGISTRY_URL/docker:24.0.5-git
+  script:
+    - docker image prune --all --force --filter "label=build=frontend"
+  needs:
+    - stop-containers
   tags:
     - dev-runner
 
