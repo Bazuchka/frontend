@@ -58,7 +58,6 @@ const ShippingOrderContainerItemTable: FunctionComponent<ShippingOrderContainerI
                         },
                     };
                 }}
-                onRowSelected={(id) => store.setCurrent(id as string)}
                 fetchParams={{
                     active: true,
                     deleted: false,

@@ -56,7 +56,6 @@ const ShippingOrderGoodTable: FunctionComponent<ShippingOrderGoodTableProps> = o
                     name: formModel.clientGood.name,
                 };
             }}
-            onRowSelected={(id) => store.setCurrent(id as string)}
             fetchParams={{
                 active: true,
                 deleted: false,

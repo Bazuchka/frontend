@@ -61,7 +61,6 @@ const ReceivingOrderGoodTable: FunctionComponent<ReceivingOrderGoodTableProps> =
                         client: receivingOrderStore.current?.client,
                     };
                 }}
-                onRowSelected={(id) => store.setCurrent(id as string)}
                 fetchParams={{
                     active: true,
                     deleted: false,

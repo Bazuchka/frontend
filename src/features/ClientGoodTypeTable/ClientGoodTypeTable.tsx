@@ -36,7 +36,6 @@ const ClientGoodTypeTable: FunctionComponent<ClientGoodTypeTableProps> = observe
                         client: { id: formModel.client.id },
                     };
                 }}
-                onRowSelected={(id) => clientGoodTypeTableStore.setCurrent(id as string)}
                 permissionPath="ClientGoodType"
             />
         </ICard>

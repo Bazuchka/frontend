@@ -47,7 +47,6 @@ const ReceivingOrderEtranInvoiceTable: FunctionComponent<ReceivingOrderEtranInvo
                         ...formModel,
                     };
                 }}
-                onRowSelected={(id) => store.setCurrent(id as string)}
                 fetchParams={{
                     receivingOrder: {
                         id: receivingOrderStore.current?.id,

@@ -64,7 +64,6 @@ const ReceivingOrderRailwayCarriageTable: FunctionComponent<ReceivingOrderEtranI
                             : null,
                     };
                 }}
-                onRowSelected={(id) => store.setCurrent(id as string)}
                 fetchParams={{
                     receivingOrder: {
                         id: receivingOrderStore.current?.id,
