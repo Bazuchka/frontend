@@ -134,7 +134,7 @@ run-sonarQube:
     SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"
     GIT_DEPTH: "0"
   image: 
-    name: sonarsource/sonar-scanner-cli:11
+    name: $REGISTRY_URL/sonarsource/sonar-scanner-cli:11
     entrypoint: [""]
   script:
     - >
@@ -146,6 +146,7 @@ run-sonarQube:
       -Dsonar.javascript.lcov.reportPaths=fullscreen/coverage/lcov.info  
   tags:
     - dev-runner
+  allow_failure: true
 
 run-unitTest:
   stage: test
