@@ -261,7 +261,7 @@ delete-images:
     - if: '$CI_PIPELINE_SOURCE == "schedule" && ($CI_COMMIT_REF_NAME == $MAIN_BRANCH || $CI_COMMIT_REF_NAME == $RELEASE_BRANCH)'
   image: $REGISTRY_URL/docker:24.0.5-git
   script:
-    - docker image prune --all --force --filter "label=build=backend"
+    - docker image prune --all --force --filter "label=build=frontend"
   needs:
     - stop-containers
   tags:
