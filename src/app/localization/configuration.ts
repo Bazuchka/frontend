@@ -33,6 +33,7 @@ const ns = [
     "TermOfService",
     "TerminalArea",
     "AccrualBase",
+    "Analytics",
     "AccrualMethod",
     "TermOfPeriodicService",
     "TermOfRequestedService",

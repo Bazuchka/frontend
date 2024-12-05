@@ -2,6 +2,7 @@ import { t } from "i18next";
 import { ReactNode } from "react";
 import {
     AdministrationIcon,
+    AnalyticsIcon,
     ConfigurationFileIcon,
     Dictionary,
     OrdersIcon,
@@ -263,6 +264,23 @@ export const menuConfiguration = (params?: MenuParams): MenuConfiguration => {
                     path: "/container-movement",
                     filterable: true,
                     permission: {
+                        path: "containermovement",
+                    },
+                },
+            ],
+        },
+        {
+            label: t("Shared:Reference.analytics"),
+            icon: <AnalyticsIcon />,
+            key: "analytics",
+            children: [
+                {
+                    label: t("Analytics:menu.analyticsTable"),
+                    key: "analytics",
+                    path: "/analytics",
+                    filterable: true,
+                    permission: {
+                        // todo сделать отдельный permission, чтобы видеть могли только операторы клиентского сервиса
                         path: "containermovement",
                     },
                 },
