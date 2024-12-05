@@ -20,6 +20,7 @@ import { ContainerTable, ContainerTableItem } from "src/features/Container";
 import { ContainersMovement } from "src/features/ContainerMovement";
 
 import { MainLayout } from "../layout/mainLayout";
+import { AnalyticsTable } from "src/features/Analytics";
 
 export const MainRoutes = createBrowserRouter(
     createRoutesFromElements(
@@ -99,6 +100,9 @@ export const MainRoutes = createBrowserRouter(
                 <Route path="/roles" element={<RoleTable />} />
                 <Route path="/roles/create" element={<Role />} />
                 <Route path="/roles/:id" element={<Role />} />
+            </Route>
+            <Route element={<PermissionRoute path={"Role"} />}>
+                <Route path="/analytics" element={<AnalyticsTable />} />
             </Route>
             <Route path="*" element={<Navigate to="/" />} />
         </Route>

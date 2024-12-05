@@ -10,6 +10,10 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
+* {
+  border: none;
+}
+
 .base-Popper-root {
   z-index: 9999;
 }
