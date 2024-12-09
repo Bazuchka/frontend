@@ -14,13 +14,13 @@ import { ShippingOrder, ShippingOrderTable } from "src/features/ShippingOrder";
 import { TermOfService } from "src/features/TermOfService";
 import TermsOfServiceTable from "src/features/TermOfService/UI/TermsOfServiceTable";
 import { UnitOfMeasureTable } from "src/features/UnitOfMeasure";
-import { RemainsContainers } from "src/features/Remains";
+import { RemainsContainers, RemainsContainerTable, RemainsGoodTable } from "src/features/Remains";
 import { PermissionRoute } from "src/shared/services/PermissionService";
 import { ContainerTable, ContainerTableItem } from "src/features/Container";
 import { ContainersMovement } from "src/features/ContainerMovement";
+import { ReportsContainerMovement, ReportsGoodsMovement } from "src/features/Reports";
 
 import { MainLayout } from "../layout/mainLayout";
-import { AnalyticsTable } from "src/features/Analytics";
 
 export const MainRoutes = createBrowserRouter(
     createRoutesFromElements(
@@ -68,12 +68,17 @@ export const MainRoutes = createBrowserRouter(
                 <Route path="/container/:id" element={<ContainerTableItem />} />
             </Route>
 
+            {/* todo нужно удалить когда движения переедут в отчеты */}
             <Route element={<PermissionRoute path={"ContainerMovement"} />}>
                 <Route path="/container-movement" element={<ContainersMovement />} />
             </Route>
 
             <Route element={<PermissionRoute path={"ContainerMovement"} />}>
+                {/* todo нужно удалить когда движения переедут в отчеты */}
                 <Route path="/remains-containers" element={<RemainsContainers />} />
+
+                <Route path="/remains-container" element={<RemainsContainerTable />} />
+                <Route path="/remains-good" element={<RemainsGoodTable />} />
             </Route>
 
             <Route element={<PermissionRoute path={"ClientVehicle"} />}>
@@ -101,8 +106,11 @@ export const MainRoutes = createBrowserRouter(
                 <Route path="/roles/create" element={<Role />} />
                 <Route path="/roles/:id" element={<Role />} />
             </Route>
-            <Route element={<PermissionRoute path={"Role"} />}>
-                <Route path="/analytics" element={<AnalyticsTable />} />
+
+            {/* todo нужно поменять permition */}
+            <Route element={<PermissionRoute path={"ContainerMovement"} />}>
+                <Route path="/reports-container-movement" element={<ReportsContainerMovement />} />
+                <Route path="/reports-goods-movement" element={<ReportsGoodsMovement />} />
             </Route>
             <Route path="*" element={<Navigate to="/" />} />
         </Route>

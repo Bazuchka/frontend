@@ -157,9 +157,10 @@ run-unitTest:
     - if: '$CI_PIPELINE_SOURCE == "schedule" && ($CI_COMMIT_REF_NAME == $MAIN_BRANCH || $CI_COMMIT_REF_NAME == $RELEASE_BRANCH)'
   extends: 
     - .checkout-before-script
-  image: $REGISTRY_URL/bitnami/git:2.47.1
+  image: $REGISTRY_URL/node:23.3.0-alpine-git
   script:
-    - echo "Running unit tests on ${TEMP_BRANCH_NAME}"
+    - npm install
+    - npm run test:unit
   tags:
     - dev-runner
 
@@ -262,6 +263,7 @@ delete-images:
   image: $REGISTRY_URL/docker:24.0.5-git
   script:
     - docker image prune --all --force --filter "label=build=frontend"
+    - docker builder prune --force
   needs:
     - stop-containers
   tags:

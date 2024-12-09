@@ -2,7 +2,7 @@ import { t } from "i18next";
 import { ReactNode } from "react";
 import {
     AdministrationIcon,
-    AnalyticsIcon,
+    ReportsIcon,
     ConfigurationFileIcon,
     Dictionary,
     OrdersIcon,
@@ -267,17 +267,47 @@ export const menuConfiguration = (params?: MenuParams): MenuConfiguration => {
                         path: "containermovement",
                     },
                 },
+                {
+                    label: t("Remains:menu.remainsContainer"),
+                    key: "remains-container",
+                    path: "/remains-container",
+                    filterable: true,
+                    permission: {
+                        // todo сделать отдельный permission, чтобы видеть могли только операторы клиентского сервиса
+                        path: "containermovement",
+                    },
+                },
+                {
+                    label: t("Remains:menu.remainsGood"),
+                    key: "remains-good",
+                    path: "/remains-good",
+                    filterable: true,
+                    permission: {
+                        // todo сделать отдельный permission, чтобы видеть могли только операторы клиентского сервиса
+                        path: "containermovement",
+                    },
+                },
             ],
         },
         {
-            label: t("Shared:Reference.analytics"),
-            icon: <AnalyticsIcon />,
-            key: "analytics",
+            label: t("Shared:Reference.reports"),
+            icon: <ReportsIcon />,
+            key: "reports",
             children: [
                 {
-                    label: t("Analytics:menu.analyticsTable"),
-                    key: "analytics",
-                    path: "/analytics",
+                    label: t("Reports:menu.containerMovement"),
+                    key: "reports-container-movement",
+                    path: "/reports-container-movement",
+                    filterable: true,
+                    permission: {
+                        // todo сделать отдельный permission, чтобы видеть могли только операторы клиентского сервиса
+                        path: "containermovement",
+                    },
+                },
+                {
+                    label: t("Reports:menu.goodsMovement"),
+                    key: "reports-goods-movement",
+                    path: "/reports-goods-movement",
                     filterable: true,
                     permission: {
                         // todo сделать отдельный permission, чтобы видеть могли только операторы клиентского сервиса
