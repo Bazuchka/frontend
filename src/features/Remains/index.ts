@@ -1,3 +1,3 @@
-import { RemainsContainers } from "./UI";
+import { RemainsContainers, RemainsContainerTable, RemainsGoodTable } from "./UI";
 
-export { RemainsContainers };
+export { RemainsContainers, RemainsContainerTable, RemainsGoodTable };

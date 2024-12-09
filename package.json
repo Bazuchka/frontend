@@ -10,9 +10,7 @@
     "build": "tsc && vite build && node generate-version.cjs",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "test": "jest --passWithNoTests --collectCoverage=false",
-    "test:watch": "jest --watch",
-    "coverage": "jest",
+    "test:unit": "jest --passWithNoTests --collectCoverage=false",    
     "format": "eslint --cache --fix --ext .jsx,.js,.tsx,.ts src && prettier -w ./src",
     "pre-commit": "lint-staged --allow-empty"
   },
