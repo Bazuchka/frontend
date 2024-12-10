@@ -72,7 +72,7 @@ stages:
   variables:
     DOCKER_OPTS: "--insecure-registry=${CI_REGISTRY}"
     DOCKER_IMAGE_NAME: ${CI_REGISTRY_IMAGE}
-    DOCKER_TAG: ${CI_COMMIT_SHORT_SHA}
+    DOCKER_TAG: ${CI_COMMIT_REF_SLUG}
   script:
     - echo "${BUILD_VERSION} | ${CI_REGISTRY}"
     - echo "DOCKER_IMAGE_NAME=${DOCKER_IMAGE_NAME}"
@@ -87,7 +87,7 @@ stages:
   variables:
     DOCKER_OPTS: "--insecure-registry=${CI_REGISTRY}"
     DOCKER_IMAGE_NAME: ${CI_REGISTRY_IMAGE}
-    DOCKER_TAG: ${CI_COMMIT_SHORT_SHA}
+    DOCKER_TAG: ${CI_COMMIT_REF_SLUG}
   script:
     - echo "${BUILD_VERSION} | ${CI_REGISTRY}"
     - echo "DOCKER_IMAGE_NAME=${DOCKER_IMAGE_NAME}"
@@ -302,10 +302,9 @@ delete-branch:
 deploy-test:
   stage: deploy
   rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $MAIN_BRANCH || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $RELEASE_BRANCH)'
+    - if: '$CI_COMMIT_REF_NAME == $MAIN_BRANCH'
   extends: 
     - .deploy
-    - .checkout-before-script
   variables:
     DOCKER_IMAGE_NAME: ${CI_REGISTRY_IMAGE}
     DOCKER_OPTS: "--insecure-registry=${CI_REGISTRY}"
@@ -313,6 +312,5 @@ deploy-test:
   environment:
     name: testing
     url: https://test-alis-exsim.alabuga.ru/
-  when: manual
   tags:
     - alb-vm-lkds
