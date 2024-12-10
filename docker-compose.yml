@@ -1,6 +1,6 @@
 services:
   frontend:
-    image: ${DOCKER_IMAGE_NAME}:latest
+    image: ${DOCKER_IMAGE_NAME}:${DOCKER_TAG}
     container_name: 'frontend'
     environment:
       ALIS_BACKEND__SERVER_URL: '${BASE_URL}/api/'
