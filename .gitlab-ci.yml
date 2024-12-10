@@ -72,29 +72,32 @@ stages:
   variables:
     DOCKER_OPTS: "--insecure-registry=${CI_REGISTRY}"
     DOCKER_IMAGE_NAME: ${CI_REGISTRY_IMAGE}
+    DOCKER_TAG: ${CI_COMMIT_SHORT_SHA}
   script:
     - echo "${BUILD_VERSION} | ${CI_REGISTRY}"
+    - echo "DOCKER_IMAGE_NAME=${DOCKER_IMAGE_NAME}"
+    - echo "DOCKER_TAG=${DOCKER_TAG}"
     - docker info
     - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY_IMAGE -u $CI_REGISTRY_USER  --password-stdin
-
-    - docker build --build-arg build_version=${BUILD_VERSION} -t ${DOCKER_IMAGE_NAME}:${CI_COMMIT_SHORT_SHA} .
-    - docker tag ${DOCKER_IMAGE_NAME}:${CI_COMMIT_SHORT_SHA} ${DOCKER_IMAGE_NAME}:latest
-    - docker push ${DOCKER_IMAGE_NAME}:${CI_COMMIT_SHORT_SHA}
-    - docker push ${DOCKER_IMAGE_NAME}:latest
+    - docker build --build-arg build_version=${BUILD_VERSION} -t ${DOCKER_IMAGE_NAME}:${DOCKER_TAG} .
+    - docker push ${DOCKER_IMAGE_NAME}:${DOCKER_TAG}
 
 .deploy:
   image: $REGISTRY_URL/docker:24.0.5-git
   variables:
     DOCKER_OPTS: "--insecure-registry=${CI_REGISTRY}"
     DOCKER_IMAGE_NAME: ${CI_REGISTRY_IMAGE}
+    DOCKER_TAG: ${CI_COMMIT_SHORT_SHA}
   script:
     - echo "${BUILD_VERSION} | ${CI_REGISTRY}"
+    - echo "DOCKER_IMAGE_NAME=${DOCKER_IMAGE_NAME}"
+    - echo "DOCKER_TAG=${DOCKER_TAG}"
     - docker info
     - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY_IMAGE -u $CI_REGISTRY_USER  --password-stdin
-
-    - docker pull $DOCKER_IMAGE_NAME:latest
+    - docker pull ${DOCKER_IMAGE_NAME}:${DOCKER_TAG}
     - docker compose -f docker-compose.yml down
     - docker compose -f docker-compose.yml up -d
+    - docker restart nginx-proxy
 
 create-temp-branch:
   stage: prepare
@@ -190,7 +193,7 @@ fullscreen-build-npm-frontend:
     - .checkout-before-script
     - .fullscreen-build-npm-frontend
   tags:
-    - ALB-VM-DEV-KPI
+    - alb-vm-lkds
 
 fullscreen-create-docker-image:
   stage: build
@@ -216,8 +219,6 @@ deploy-dev:
     DOCKER_IMAGE_NAME: ${CI_REGISTRY_IMAGE}
     DOCKER_OPTS: "--insecure-registry=${CI_REGISTRY}"
     BASE_URL: https://dev-alis-exsim.alabuga.ru
-  after_script:
-    - docker restart nginx-proxy
   extends: 
     - .deploy
     - .checkout-before-script
@@ -261,6 +262,7 @@ docker-clean-up:
     - docker info
     # - docker compose -f docker-compose.yml down
     - docker image prune --all --force --filter "label=build=frontend"
+    - docker container prune --force
     # - docker builder prune --force
   when: always
   tags:
@@ -308,10 +310,9 @@ deploy-test:
     DOCKER_IMAGE_NAME: ${CI_REGISTRY_IMAGE}
     DOCKER_OPTS: "--insecure-registry=${CI_REGISTRY}"
     BASE_URL: https://test-alis-exsim.alabuga.ru
-  after_script:
-    - docker restart nginx-proxy
   environment:
     name: testing
     url: https://test-alis-exsim.alabuga.ru/
+  when: manual
   tags:
     - alb-vm-lkds
