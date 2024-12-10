@@ -119,7 +119,7 @@ create-temp-branch:
           echo "Branch ${TEMP_BRANCH_NAME} already exist." 
       fi
   tags:
-    - dev-runner
+    - ALB-VM-DEV-KPI
     
 run-sonarQube:
   stage: lint
@@ -145,7 +145,7 @@ run-sonarQube:
       -Dsonar.exclusions=mobile/ios/**/*,mobile/android/**/*,fullscreen/src/__tests__/**/*
       -Dsonar.javascript.lcov.reportPaths=fullscreen/coverage/lcov.info  
   tags:
-    - dev-runner
+    - alb-vm-lkds
   allow_failure: true
 
 run-unitTest:
@@ -162,7 +162,7 @@ run-unitTest:
     - npm install
     - npm run test:unit
   tags:
-    - dev-runner
+    - alb-vm-1cyms
 
 run-integrationTest:
   stage: test
@@ -177,7 +177,7 @@ run-integrationTest:
   script:
     - echo "Running unit tests on ${TEMP_BRANCH_NAME}"
   tags:
-    - dev-runner
+    - alb-vm-1cyms
 
 fullscreen-build-npm-frontend:
   stage: build
@@ -190,7 +190,7 @@ fullscreen-build-npm-frontend:
     - .checkout-before-script
     - .fullscreen-build-npm-frontend
   tags:
-    - dev-runner
+    - ALB-VM-DEV-KPI
 
 fullscreen-create-docker-image:
   stage: build
@@ -203,7 +203,7 @@ fullscreen-create-docker-image:
   needs:
     - fullscreen-build-npm-frontend
   tags:
-    - dev-runner
+    - ALB-VM-DEV-KPI
 
 deploy-dev:
   stage: setup
@@ -212,11 +212,20 @@ deploy-dev:
     - if: '$CI_PIPELINE_SOURCE == "schedule" && ($CI_COMMIT_REF_NAME == $MAIN_BRANCH || $CI_COMMIT_REF_NAME == $RELEASE_BRANCH)'
   needs:
     - fullscreen-create-docker-image
+  variables:
+    DOCKER_IMAGE_NAME: ${CI_REGISTRY_IMAGE}
+    DOCKER_OPTS: "--insecure-registry=${CI_REGISTRY}"
+    BASE_URL: https://dev-alis-exsim.alabuga.ru
+  after_script:
+    - docker restart nginx-proxy
   extends: 
     - .deploy
     - .checkout-before-script
+  environment:
+    name: develop
+    url: https://dev-alis-exsim.alabuga.ru/
   tags:
-    - dev-runner
+    - ALB-VM-DEV-KPI
 
 run-end-to-end-tests:
   stage: end-to-end-tests
@@ -231,9 +240,9 @@ run-end-to-end-tests:
   script:
     - echo "Running end-to-end-tests on ${TEMP_BRANCH_NAME}"
   tags:
-    - dev-runner
+    - ALB-VM-DEV-KPI
 
-stop-containers:
+docker-clean-up:
   stage: clean-up
   needs:
     - run-end-to-end-tests
@@ -250,24 +259,12 @@ stop-containers:
     - echo "$BUILD_VERSION | $CI_REGISTRY"
     - echo "DOCKER_IMAGE_NAME=$DOCKER_IMAGE_NAME"
     - docker info
-    - docker compose -f docker-compose.yml down
+    # - docker compose -f docker-compose.yml down
+    - docker image prune --all --force --filter "label=build=frontend"
+    # - docker builder prune --force
   when: always
   tags:
-    - dev-runner
-
-delete-images:
-  stage: clean-up
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $MAIN_BRANCH || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $RELEASE_BRANCH)'
-    - if: '$CI_PIPELINE_SOURCE == "schedule" && ($CI_COMMIT_REF_NAME == $MAIN_BRANCH || $CI_COMMIT_REF_NAME == $RELEASE_BRANCH)'
-  image: $REGISTRY_URL/docker:24.0.5-git
-  script:
-    - docker image prune --all --force --filter "label=build=frontend"
-    - docker builder prune --force
-  needs:
-    - stop-containers
-  tags:
-    - dev-runner
+    - ALB-VM-DEV-KPI
 
 delete-branch:
   stage: clean-up
@@ -279,7 +276,7 @@ delete-branch:
     - fullscreen-create-docker-image
     - deploy-dev
     - run-end-to-end-tests
-    - stop-containers
+    - docker-clean-up
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $MAIN_BRANCH || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $RELEASE_BRANCH)'
   extends:
@@ -298,24 +295,23 @@ delete-branch:
       fi
   when: always
   tags:
-    - dev-runner
+    - ALB-VM-DEV-KPI
 
 deploy-test:
   stage: deploy
   rules:
-    - if: '$CI_COMMIT_REF_NAME == $MAIN_BRANCH'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $MAIN_BRANCH || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $RELEASE_BRANCH)'
   extends: 
     - .deploy
+    - .checkout-before-script
   variables:
     DOCKER_IMAGE_NAME: ${CI_REGISTRY_IMAGE}
     DOCKER_OPTS: "--insecure-registry=${CI_REGISTRY}"
     BASE_URL: https://test-alis-exsim.alabuga.ru
   after_script:
     - docker restart nginx-proxy
-  when: manual
   environment:
     name: testing
     url: https://test-alis-exsim.alabuga.ru/
   tags:
-    - test-runner
-
+    - alb-vm-lkds
