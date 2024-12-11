@@ -311,6 +311,9 @@ deploy-test:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $MAIN_BRANCH || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $RELEASE_BRANCH)'
   extends: 
     - .deploy
+  after_script:
+    - docker image prune --all --force --filter "label=build=frontend"
+    - docker container prune --force
   variables:
     DOCKER_IMAGE_NAME: ${CI_REGISTRY_IMAGE}
     DOCKER_OPTS: "--insecure-registry=${CI_REGISTRY}"
