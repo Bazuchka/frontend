@@ -1,6 +1,12 @@
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TITLE =~ /^(\[Draft\]|\(Draft\)|Draft:)/
+      when: never
+    - when: always
+
 variables:
   TEMP_BRANCH_NAME: "temp-${CI_COMMIT_REF_NAME}-${CI_PIPELINE_ID}"
-  BUILD_VERSION:  $CI_COMMIT_REF_NAME:$CI_COMMIT_SHORT_SHA
+  BUILD_VERSION:  $CI_COMMIT_REF_NAME:$CI_COMMIT_REF_SLUG
   PACKAGE_VERSION: "1.0.0-SNAPSHOT"
   REGISTRY_URL: registry-gitlab-devops1c.alabuga.ru/registry/images
   MAIN_BRANCH: main
@@ -302,7 +308,7 @@ delete-branch:
 deploy-test:
   stage: deploy
   rules:
-    - if: '$CI_COMMIT_REF_NAME == $MAIN_BRANCH'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $MAIN_BRANCH || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $RELEASE_BRANCH)'
   extends: 
     - .deploy
   variables:
@@ -312,5 +318,6 @@ deploy-test:
   environment:
     name: testing
     url: https://test-alis-exsim.alabuga.ru/
+  when: manual
   tags:
     - alb-vm-lkds
