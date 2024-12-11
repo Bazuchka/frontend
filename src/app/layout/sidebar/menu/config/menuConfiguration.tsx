@@ -249,24 +249,25 @@ export const menuConfiguration = (params?: MenuParams): MenuConfiguration => {
             icon: <RemainsIcon />,
             key: "remains",
             children: [
-                {
-                    label: t("Remains:menu.remainsContainers"),
-                    key: "remains-containers",
-                    path: "/remains-containers",
-                    filterable: true,
-                    permission: {
-                        path: "containermovement",
-                    },
-                },
-                {
-                    label: t("Remains:menu.remainsContainersMove"),
-                    key: "container-movement",
-                    path: "/container-movement",
-                    filterable: true,
-                    permission: {
-                        path: "containermovement",
-                    },
-                },
+                // TODO обычные таблицы остатков и движения контейнеров (без dataLance) убрать
+                // {
+                //     label: t("Remains:menu.remainsContainers"),
+                //     key: "remains-containers",
+                //     path: "/remains-containers",
+                //     filterable: true,
+                //     permission: {
+                //         path: "containermovement",
+                //     },
+                // },
+                // {
+                //     label: t("Remains:menu.remainsContainersMove"),
+                //     key: "container-movement",
+                //     path: "/container-movement",
+                //     filterable: true,
+                //     permission: {
+                //         path: "containermovement",
+                //     },
+                // },
                 {
                     label: t("Remains:menu.remainsContainer"),
                     key: "remains-container",
