@@ -1,15 +1,14 @@
 import { Box } from "@mui/material";
 import { useCommonStyles } from "../commonStyles";
+import { IFrame } from "src/shared/UI/IFrame";
 
 const ReportsGoodsMovement = () => {
     const commonClasses = useCommonStyles();
+    const url = "https://datalens.dxlc.online/3odijjw8229kq-dvizheniya-nomenklatury";
 
     return (
         <Box component="div" className={commonClasses.container}>
-            <iframe
-                width="100%"
-                height="100%"
-                src="https://datalens.dxlc.online/3odijjw8229kq-dvizheniya-nomenklatury"></iframe>
+            <IFrame url={url} />
         </Box>
     );
 };

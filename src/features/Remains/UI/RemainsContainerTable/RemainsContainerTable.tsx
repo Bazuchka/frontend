@@ -1,15 +1,14 @@
 import { Box } from "@mui/material";
 import { useCommonStyles } from "../commonStyles";
+import { IFrame } from "src/shared/UI/IFrame";
 
 const RemainsContainerTable = () => {
     const commonClasses = useCommonStyles();
+    const url = "https://datalens.dxlc.online/h2rwpiti3by04-ostatki-konteynerov";
 
     return (
         <Box component="div" className={commonClasses.container}>
-            <iframe
-                width="100%"
-                height="100%"
-                src="https://datalens.dxlc.online/h2rwpiti3by04-ostatki-konteynerov"></iframe>
+            <IFrame url={url} />
         </Box>
     );
 };

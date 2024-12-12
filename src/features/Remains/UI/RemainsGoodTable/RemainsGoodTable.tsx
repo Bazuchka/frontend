@@ -1,15 +1,14 @@
 import { Box } from "@mui/material";
 import { useCommonStyles } from "../commonStyles";
+import { IFrame } from "src/shared/UI/IFrame";
 
 const RemainsGoodTable = () => {
     const commonClasses = useCommonStyles();
+    const url = "https://datalens.dxlc.online/j4s2qpt4tn9s6-dvizh-ostatkov-2";
 
     return (
         <Box component="div" className={commonClasses.container}>
-            <iframe
-                width="100%"
-                height="100%"
-                src="https://datalens.dxlc.online/j4s2qpt4tn9s6-dvizh-ostatkov-2"></iframe>
+            <IFrame url={url} />
         </Box>
     );
 };
