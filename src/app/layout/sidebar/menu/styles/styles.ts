@@ -4,6 +4,7 @@ import { Theme } from "@mui/material";
 export const useMenuStyles = createUseStyles((theme: Theme) => ({
     list: {
         padding: 0,
+        marginBottom: "auto",
     },
     listItem: {
         display: "list-item",

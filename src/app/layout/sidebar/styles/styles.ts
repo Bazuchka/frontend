@@ -20,9 +20,6 @@ export const useStyles = createUseStyles((theme: Theme) => ({
             duration: theme.transitions.duration.enteringScreen,
         }),
         overflowX: "hidden",
-        "&:hover": {
-            boxShadow: "0px -1px 23px 0px rgba(0, 0, 0, 0.12)",
-        },
     },
     opened: {
         width: sidebarConfiguration.drawerWidth,
@@ -59,5 +56,11 @@ export const useStyles = createUseStyles((theme: Theme) => ({
     icon: {
         width: theme.iconSize,
         height: theme.iconSize,
+    },
+    versionContainer: {
+        textAlign: "left",
+        fontSize: "0.9rem",
+        color: theme.palette.text.secondary,
+        padding: theme.spacing(1),
     },
 }));
