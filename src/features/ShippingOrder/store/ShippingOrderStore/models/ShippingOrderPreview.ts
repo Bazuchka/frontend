@@ -1,7 +1,13 @@
+import { t } from "i18next";
 import { flow, getParent, getRoot, Instance, types } from "mobx-state-tree";
+import { viewStore } from "src/app/store";
 import { ForeignKey, IsoDate, IsoUTCDate } from "src/shared/entities";
 import { IBaseStore } from "src/shared/entities/BaseStore";
 import { getBaseActions } from "src/shared/request/baseActions";
+import {
+    IShippingOrderContainer,
+    IShippingOrderRailwayContainer,
+} from "../../ShippingOrderContainerStore/ShippingOrderContainerStore";
 
 export const ShippingOrderPreview = types
     .model("ShippingOrderPreview", {
@@ -55,6 +61,81 @@ export const ShippingOrderPreview = types
         const sendDraft = flow(function* () {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const { current, update, setCurrent } = getRoot<any>(self);
+
+            const hasVehicleTransport = (): boolean => {
+                const transportInfo = current.shippingOrderTransport.current;
+
+                const hasShipper = transportInfo?.shipper?.id;
+                const hasWaybill = transportInfo?.waybill;
+                const hasCarrier = transportInfo?.carrier?.id;
+                const hasVehicle = transportInfo?.vehicleInfo?.id;
+                const hasDriver = transportInfo?.driverInfo?.id;
+
+                return Boolean(hasShipper && hasWaybill && hasCarrier && hasVehicle && hasDriver);
+            };
+
+            // проверка TOSS заявок (авто)
+            const isValidTossVehicleOrder = (): boolean => {
+                const hasContainer = Boolean(current.shippingOrderContainer.data.length);
+                const hasGoods = () => {
+                    const isEveryEmptyContainers = current.shippingOrderContainer.data.every(
+                        (item: IShippingOrderContainer) => item.empty
+                    );
+
+                    if (isEveryEmptyContainers) {
+                        return true;
+                    }
+
+                    return !!current.shippingOrderContainerItem.data.length;
+                };
+
+                return Boolean(hasVehicleTransport() && hasContainer && hasGoods());
+            };
+
+            // проверка TOSS заявок (жд)
+            const isValidTossRailwayOrder = (): boolean => {
+                const hasETRAN = !!current.shippingOrderEtranInvoice.data.length;
+                const hasReilwayCarriage = !!current.shippingOrderRailwayCarriage.data.length;
+                const hasContainer = !!current.shippingOrderRailwayContainer.data.length;
+                const hasGood = () => {
+                    const isEveryEmptyContainers = current.shippingOrderRailwayContainer.data.every(
+                        (item: IShippingOrderRailwayContainer) => item.empty
+                    );
+
+                    if (isEveryEmptyContainers) {
+                        return true;
+                    }
+
+                    return !!current.shippingOrderContainerItem.data.length;
+                };
+
+                return Boolean(hasETRAN && hasReilwayCarriage && hasContainer && hasGood());
+            };
+
+            const isValidTossOrder =
+                current.transportType === "VEHICLE"
+                    ? isValidTossVehicleOrder()
+                    : isValidTossRailwayOrder();
+
+            // проверка WMS заявок
+            const isValidWmsOrder = (): boolean => {
+                const hasGoods = !!current.shippingOrderGood.data.length;
+                const hasCargo = !!current.shippingOrderCargo.data.length;
+
+                return Boolean(hasVehicleTransport() && hasGoods && hasCargo);
+            };
+
+            const isValidOrder =
+                current.terminalArea === "WAREHOUSE" ? isValidWmsOrder() : isValidTossOrder;
+
+            if (!isValidOrder) {
+                viewStore.addAlert({
+                    alertMode: "warning",
+                    message: t("ShippingOrderPreview:error.send"),
+                });
+                return;
+            }
+
             yield update(
                 { ...current!, orderStatus: "ACCEPTED" },
                 { customEndpoint: current.id + "/accept" }
