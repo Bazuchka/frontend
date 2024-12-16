@@ -42,6 +42,7 @@ export const fieldsConfiguration = (
                     type: FieldItemType.AUTOCOMPLETE,
                     value: defaultModel?.vehicleType,
                     name: "vehicleType",
+                    required: true,
                     fullLine: true,
                     requestParams: {
                         type: DictionaryType.VEHICLE_TYPE,
