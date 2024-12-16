@@ -1,6 +1,6 @@
 import MenuIcon from "@mui/icons-material/Menu";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
-import { Box, ButtonBase, Drawer, useTheme } from "@mui/material";
+import { Box, ButtonBase, Drawer, Typography, useTheme } from "@mui/material";
 import { observer } from "mobx-react";
 import { FC, MouseEventHandler, useState } from "react";
 import { useStyles } from "src/app/layout/sidebar/styles/styles";
@@ -8,6 +8,9 @@ import { viewStore } from "src/app/store";
 import { ITooltype } from "src/shared/UI/iTooltype";
 import { Menu } from "./menu";
 import { menuConfiguration } from "./menu/config/menuConfiguration";
+
+// Предположим, что вы импортируете версию из package.json
+import packageJSON from "../../../../package.json";
 
 interface SidebarProps {
     onClick?: MouseEventHandler<HTMLButtonElement> | undefined;
@@ -69,6 +72,9 @@ const Sidebar: FC<SidebarProps> = observer(({ isMenuOpen, onClick }): JSX.Elemen
                     menuConfiguration={menuConfiguration(menuParams)}
                     isSidebarOpen={isMenuOpen}
                 />
+                <Box className={classes.versionContainer}>
+                    <Typography variant="caption">{packageJSON.version}</Typography>
+                </Box>
             </Drawer>
         </Box>
     );

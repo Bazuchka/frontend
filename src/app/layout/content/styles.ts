@@ -7,7 +7,7 @@ export const useContentStyles = createUseStyles((theme: Theme) => ({
         backgroundColor: theme.mainBackgroundColor,
         marginTop: `${sidebarConfiguration.top}px`,
         flexGrow: 1,
-        height: `calc(100vh - ${sidebarConfiguration.top}px - 64px)`,
+        height: `calc(100vh - ${sidebarConfiguration.top}px)`,
         overflow: "auto",
         transition: theme.transitions.create(["width", "margin-left"], {
             easing: theme.transitions.easing.sharp,
