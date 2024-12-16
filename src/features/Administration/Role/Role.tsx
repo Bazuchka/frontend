@@ -13,7 +13,6 @@ const Role = observer((): JSX.Element => {
 
     useLayoutEffect(() => {
         roleStore.setCurrent(id!);
-
         return () => {
             roleStore.setCurrent(null);
         };

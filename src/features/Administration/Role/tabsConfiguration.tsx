@@ -20,6 +20,7 @@ export const roleConfiguration: () => TabsConfiguration = () => ({
                 path: "Role.RolePermission",
                 type: PermissionType.FORM,
             },
+            disabled: !roleStore.current,
             component: (
                 <DataGuard whenExist={roleStore.current}>{() => <PermissionTable />}</DataGuard>
             ),
