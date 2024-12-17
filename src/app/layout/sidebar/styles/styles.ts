@@ -20,6 +20,15 @@ export const useStyles = createUseStyles((theme: Theme) => ({
             duration: theme.transitions.duration.enteringScreen,
         }),
         overflowX: "hidden",
+        overflowY: "auto",
+        "&::-webkit-scrollbar": {
+            display: "none",
+        },
+        "-ms-overflow-style": "none",
+        scrollbarWidth: "none",
+        "&:hover": {
+            boxShadow: "0px -1px 23px 0px rgba(0, 0, 0, 0.12)",
+        },
     },
     opened: {
         width: sidebarConfiguration.drawerWidth,
@@ -44,7 +53,7 @@ export const useStyles = createUseStyles((theme: Theme) => ({
         justifyContent: "flex-end",
         alignItems: "center",
         height: 40,
-        padding: "0 16px",
+        padding: "6px 16px",
     },
     toolbarClose: {
         display: "flex",
