@@ -65,13 +65,13 @@ export const ShippingOrderPreview = types
             const hasVehicleTransport = (): boolean => {
                 const transportInfo = current.shippingOrderTransport.current;
 
-                const hasShipper = transportInfo?.shipper?.id;
-                const hasWaybill = transportInfo?.waybill;
-                const hasCarrier = transportInfo?.carrier?.id;
-                const hasVehicle = transportInfo?.vehicleInfo?.id;
-                const hasDriver = transportInfo?.driverInfo?.id;
+                const hasConsignee =
+                    !!transportInfo?.consignee?.id && !!transportInfo?.consigneeAddress?.length;
+                const hasCarrier = !!transportInfo?.carrier?.id;
+                const hasVehicle = !!transportInfo?.vehicleInfo?.id;
+                const hasDriver = !!transportInfo?.driverInfo?.id;
 
-                return Boolean(hasShipper && hasWaybill && hasCarrier && hasVehicle && hasDriver);
+                return Boolean(hasConsignee && hasCarrier && hasVehicle && hasDriver);
             };
 
             // проверка TOSS заявок (авто)
