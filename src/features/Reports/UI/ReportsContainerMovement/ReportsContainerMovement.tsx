@@ -1,10 +1,14 @@
 import { Box } from "@mui/material";
 import { useCommonStyles } from "../commonStyles";
 import { IFrame } from "src/shared/UI/IFrame";
+import * as datalensConfig from "../../../../../datalens.config.json";
 
 const ReportsContainerMovement = () => {
     const commonClasses = useCommonStyles();
-    const url = "https://datalens.dxlc.online/l6mwkcrt0u5o8-dvizheniya-konteynera";
+
+    const spaceType = window._env_.SPACE_TYPE;
+    const url = (datalensConfig as Record<string, Record<string, string>>)[spaceType]
+        .reportsContainerMovement;
 
     return (
         <Box component="div" className={commonClasses.container}>
