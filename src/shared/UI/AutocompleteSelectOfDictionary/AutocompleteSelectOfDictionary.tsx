@@ -6,7 +6,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAutocompleteDictionary } from "src/shared/hooks/useAutocompleteDictionary";
 import { DictionaryType } from "src/shared/hooks/useDictionary";
-import { DictionaryParams } from "src/shared/hooks/useDictionary/types";
+import { DictionaryParams, IMapDataCalback } from "src/shared/hooks/useDictionary/types";
 import { useInfinityScroll } from "src/shared/hooks/useInfinityScroll";
 import { IdCode } from "src/shared/types";
 import { itemSelectWrapper } from "src/shared/UI/AutocompleteSelectOfDictionary/styles/styles";
@@ -42,7 +42,7 @@ export interface AutocompleteSelectOfDictionaryProps<T extends ChosenSelectObjec
     useRenderValuePattern?: boolean;
     popupIcon?: React.ReactNode;
     disablePortal?: boolean;
-    mapDataCallback?: <T>(list: T[]) => T[];
+    mapDataCallback?: IMapDataCalback;
 }
 
 export const AutocompleteSelectOfDictionary = <T extends ChosenSelectObject>(

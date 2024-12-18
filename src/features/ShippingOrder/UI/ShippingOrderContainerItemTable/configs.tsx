@@ -88,7 +88,15 @@ export const getColumns = (shippingOrderId: string) => {
                                         getCustomSelectedInputValue={(value) =>
                                             `${value.name} (${value.code})`
                                         }
-                                        dictionaryParams={{ type: DictionaryType.ETSNGCODE }}
+                                        dictionaryParams={{
+                                            type: DictionaryType.ETSNGCODE,
+                                        }}
+                                        mapDataCallback={(value) =>
+                                            value.map((item) => ({
+                                                ...item,
+                                                customValue: `${item.name} (${item.code})`,
+                                            }))
+                                        }
                                     />
                                 )}
                             />

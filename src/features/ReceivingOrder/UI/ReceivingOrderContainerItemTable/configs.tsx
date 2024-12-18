@@ -90,6 +90,12 @@ export const getColumns = (receivingOrderId: string) => {
                                             `${value.name} (${value.code})`
                                         }
                                         dictionaryParams={{ type: DictionaryType.ETSNGCODE }}
+                                        mapDataCallback={(value) =>
+                                            value.map((item) => ({
+                                                ...item,
+                                                customValue: `${item.name} (${item.code})`,
+                                            }))
+                                        }
                                     />
                                 )}
                             />
