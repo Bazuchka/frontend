@@ -8,7 +8,7 @@ const RemainsContainerTable = () => {
 
     const spaceType = window._env_.SPACE_TYPE;
     const url = (datalensConfig as Record<string, Record<string, string>>)[spaceType]
-        .reportsGoodsMovement;
+        .remainsContainer;
 
     return (
         <Box component="div" className={commonClasses.container}>
