@@ -11,6 +11,7 @@ export interface ChosenSelectObject {
     active?: boolean;
     code?: string;
     customCode?: string;
+    customValue?: string;
     id: string;
     name?: string | null;
 }

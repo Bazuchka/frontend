@@ -1,3 +1,5 @@
+import { FieldValues } from "react-hook-form";
+
 export enum DictionaryType {
     CLIENT = 1,
     UNIT_OF_MEASURE = 2,
@@ -70,8 +72,10 @@ export interface IUseAutocompleteDictionary {
         | ((value: string) => boolean);
     useSorting?: boolean;
     useDefaultFilter?: boolean;
-    mapDataCallback?: <T>(list: T[]) => T[];
+    mapDataCallback?: IMapDataCalback;
 }
+
+export type IMapDataCalback = <T extends FieldValues>(list: T[]) => T[];
 
 export interface ProcessingObjectType {
     value: string;
