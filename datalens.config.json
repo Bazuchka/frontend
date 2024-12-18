@@ -2,8 +2,8 @@
     "test": {
         "reportsContainerMovement": "https://datalens.dxlc.online/l6mwkcrt0u5o8-dvizheniya-konteynera",
         "reportsGoodsMovement": "https://datalens.dxlc.online/3odijjw8229kq-dvizheniya-nomenklatury",
-        "remainsContainer": "https://datalens.dxlc.online//h2rwpiti3by04-ostatki-konteynerov",
-        "remainsGood": "https://datalens.dxlc.online//j4s2qpt4tn9s6-dvizh-ostatkov-2"
+        "remainsContainer": "https://datalens.dxlc.online/h2rwpiti3by04-ostatki-konteynerov",
+        "remainsGood": "https://datalens.dxlc.online/j4s2qpt4tn9s6-ostatki-nomenklatury"
     },
     "prod": {
         "reportsContainerMovement": "https://datalens.dxlc.online/5rles3ugktyks-dvizheniya-konteynera",

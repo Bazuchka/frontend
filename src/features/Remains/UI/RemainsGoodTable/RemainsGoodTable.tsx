@@ -7,8 +7,7 @@ const RemainsGoodTable = () => {
     const commonClasses = useCommonStyles();
 
     const spaceType = window._env_.SPACE_TYPE;
-    const url = (datalensConfig as Record<string, Record<string, string>>)[spaceType]
-        .reportsGoodsMovement;
+    const url = (datalensConfig as Record<string, Record<string, string>>)[spaceType].remainsGood;
 
     return (
         <Box component="div" className={commonClasses.container}>
