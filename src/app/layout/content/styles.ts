@@ -4,11 +4,12 @@ import { sidebarConfiguration } from "src/app/layout/sidebar";
 
 export const useContentStyles = createUseStyles((theme: Theme) => ({
     root: {
+        display: "flex",
+        flexDirection: "column",
         backgroundColor: theme.mainBackgroundColor,
         marginTop: `${sidebarConfiguration.top}px`,
-        flexGrow: 1,
         height: `calc(100vh - ${sidebarConfiguration.top}px)`,
-        overflow: "auto",
+        overflow: "hidden",
         transition: theme.transitions.create(["width", "margin-left"], {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
@@ -24,9 +25,13 @@ export const useContentStyles = createUseStyles((theme: Theme) => ({
         fontSize: "34px",
         fontStyle: "normal",
         fontWeight: 600,
-        paddingTop: 0,
+        padding: ".83em 0 8px 16px",
         color: theme.colors.primary[800],
-        marginBottom: "8px",
-        paddingLeft: "16px",
+        margin: "0",
+    },
+    pageContent: {
+        flexGrow: "1",
+        paddingBottom: "2px",
+        overflow: "hidden",
     },
 }));

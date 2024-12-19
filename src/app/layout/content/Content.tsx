@@ -22,7 +22,7 @@ const Content: FC<ContentProps> = observer(({ children, isMenuOpen }) => {
             <Box component="h2" className={classes.pageTitle}>
                 {title}
             </Box>
-            <Box style={{ height: "calc(100% - 60px)" }}>{children}</Box>
+            <Box className={classes.pageContent}>{children}</Box>
         </Box>
     );
 });
