@@ -11,6 +11,9 @@ variables:
   REGISTRY_URL: registry-gitlab-devops1c.alabuga.ru/registry/images
   MAIN_BRANCH: main
   REALESE_BRANCH: release
+  DOCKER_IMAGE_NAME: '${CI_REGISTRY_IMAGE}'
+  DOCKER_IMAGE_TAG: '${CI_COMMIT_REF_SLUG}-${CI_COMMIT_SHORT_SHA}'
+  DOCKER_IMAGE: '${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}'
 
 .checkout-before-script:
   before_script:
@@ -77,30 +80,24 @@ stages:
   image: $REGISTRY_URL/docker:24.0.5-git
   variables:
     DOCKER_OPTS: "--insecure-registry=${CI_REGISTRY}"
-    DOCKER_IMAGE_NAME: ${CI_REGISTRY_IMAGE}
-    DOCKER_TAG: ${CI_COMMIT_REF_SLUG}
   script:
     - echo "${BUILD_VERSION} | ${CI_REGISTRY}"
-    - echo "DOCKER_IMAGE_NAME=${DOCKER_IMAGE_NAME}"
-    - echo "DOCKER_TAG=${DOCKER_TAG}"
+    - echo "DOCKER_IMAGE=${DOCKER_IMAGE}"
     - docker info
     - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY_IMAGE -u $CI_REGISTRY_USER  --password-stdin
-    - docker build --build-arg build_version=${BUILD_VERSION} -t ${DOCKER_IMAGE_NAME}:${DOCKER_TAG} .
-    - docker push ${DOCKER_IMAGE_NAME}:${DOCKER_TAG}
+    - docker build --build-arg build_version=${BUILD_VERSION} -t ${DOCKER_IMAGE} .
+    - docker push ${DOCKER_IMAGE}
 
 .deploy:
   image: $REGISTRY_URL/docker:24.0.5-git
   variables:
     DOCKER_OPTS: "--insecure-registry=${CI_REGISTRY}"
-    DOCKER_IMAGE_NAME: ${CI_REGISTRY_IMAGE}
-    DOCKER_TAG: ${CI_COMMIT_REF_SLUG}
   script:
     - echo "${BUILD_VERSION} | ${CI_REGISTRY}"
-    - echo "DOCKER_IMAGE_NAME=${DOCKER_IMAGE_NAME}"
-    - echo "DOCKER_TAG=${DOCKER_TAG}"
+    - echo "DOCKER_IMAGE_NAME=${DOCKER_IMAGE}"
     - docker info
     - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY_IMAGE -u $CI_REGISTRY_USER  --password-stdin
-    - docker pull ${DOCKER_IMAGE_NAME}:${DOCKER_TAG}
+    - docker pull ${DOCKER_IMAGE}
     - docker compose -f docker-compose.yml down
     - docker compose -f docker-compose.yml up -d
     - docker restart nginx-proxy
@@ -171,7 +168,8 @@ run-unitTest:
     - npm install
     - npm run test:unit
   tags:
-    - alb-vm-1cyms
+    # - alb-vm-1cyms
+    - alb-vm-lkds
 
 run-integrationTest:
   stage: test
@@ -186,7 +184,9 @@ run-integrationTest:
   script:
     - echo "Running unit tests on ${TEMP_BRANCH_NAME}"
   tags:
-    - alb-vm-1cyms
+    # - alb-vm-1cyms
+    # - alb-vm-lkds
+    - ALB-VM-DEV-KPI
 
 fullscreen-build-npm-frontend:
   stage: build
@@ -222,7 +222,6 @@ deploy-dev:
   needs:
     - fullscreen-create-docker-image
   variables:
-    DOCKER_IMAGE_NAME: ${CI_REGISTRY_IMAGE}
     DOCKER_OPTS: "--insecure-registry=${CI_REGISTRY}"
     BASE_URL: https://dev-alis-exsim.alabuga.ru
   extends: 
@@ -266,7 +265,6 @@ docker-clean-up:
     - echo "$BUILD_VERSION | $CI_REGISTRY"
     - echo "DOCKER_IMAGE_NAME=$DOCKER_IMAGE_NAME"
     - docker info
-    # - docker compose -f docker-compose.yml down
     - docker image prune --all --force --filter "label=build=frontend"
     - docker container prune --force
     # - docker builder prune --force
@@ -292,10 +290,10 @@ delete-branch:
   image: $REGISTRY_URL/bitnami/git:2.47.1
   script:
     - |
-      if git ls-remote --heads origin $TEMP_BRANCH_NAME | grep -q "$TEMP_BRANCH_NAME"; then
+      if git ls-remote --heads origin ${TEMP_BRANCH_NAME} | grep -q "${TEMP_BRANCH_NAME}"; then
         echo "Deleting branch ${TEMP_BRANCH_NAME}"
-        git config --global user.email "$CI_REPOSITORY_USERNAME@alabuga.ru"
-        git config --global user.name "$CI_REPOSITORY_USERNAME"
+        git config --global user.email "${CI_REPOSITORY_USERNAME}@alabuga.ru"
+        git config --global user.name "${CI_REPOSITORY_USERNAME}"
         git remote set-url origin https://${CI_REPOSITORY_USERNAME}:${CI_REPOSITORY_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git
         git push origin --delete ${TEMP_BRANCH_NAME}
       else
@@ -306,21 +304,25 @@ delete-branch:
     - ALB-VM-DEV-KPI
 
 deploy-test:
-  stage: deploy
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $MAIN_BRANCH || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $RELEASE_BRANCH)'
-  extends: 
-    - .deploy
-  after_script:
-    - docker image prune --all --force --filter "label=build=frontend"
-    - docker container prune --force
+  stage: deploy
+  image: 
+    name: $REGISTRY_URL/bitnami/kubectl:1.32.0
+    entrypoint: ['']
   variables:
-    DOCKER_IMAGE_NAME: ${CI_REGISTRY_IMAGE}
-    DOCKER_OPTS: "--insecure-registry=${CI_REGISTRY}"
     BASE_URL: https://test-alis-exsim.alabuga.ru
+  before_script:
+    - kubectl -n alis get pods
+  script:
+    - echo $DOCKER_IMAGE
+    - ls -lsa .k8s
+    - sed -i "s|__DOCKER_IMAGE__|$DOCKER_IMAGE|g" .k8s/deployment.yaml
+    - cat .k8s/deployment.yaml
+    - kubectl apply -n alis -f .k8s/
   environment:
     name: testing
     url: https://test-alis-exsim.alabuga.ru/
   when: manual
   tags:
-    - alb-vm-lkds
+    - ALB-VM-DEV-KPI

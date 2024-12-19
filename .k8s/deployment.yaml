@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  labels:
+    app: frontend
+spec:
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      imagePullSecrets:
+        - name: registry-secret
+      containers:
+      - name: frontend
+        image: __DOCKER_IMAGE__
+        imagePullPolicy: IfNotPresent
+        env:
+          - name: ALIS_BACKEND__SERVER_URL
+            valueFrom:
+              configMapKeyRef:
+                name: frontend-cm
+                key: ALIS_BACKEND__SERVER_URL
+          - name: KEYCLOACK__AUTH_SERVER_URL
+            valueFrom:
+              configMapKeyRef:
+                name: frontend-cm
+                key: KEYCLOACK__AUTH_SERVER_URL
+          - name: KEYCLOACK__CLIENT_ID
+            valueFrom:
+              configMapKeyRef:
+                name: frontend-cm
+                key: KEYCLOACK__CLIENT_ID
+          - name: KEYCLOACK__REALM
+            valueFrom:
+              configMapKeyRef:
+                name: frontend-cm
+                key: KEYCLOACK__REALM
+          - name: LOGS_JSON_CONSOLE
+            valueFrom:
+              configMapKeyRef:
+                name: frontend-cm
+                key: LOGS_JSON_CONSOLE
+          - name: WMS_BACKEND__SERVER_URL
+            valueFrom:
+              configMapKeyRef:
+                name: frontend-cm
+                key: WMS_BACKEND__SERVER_URL
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "150m"
+        ports:
+        - containerPort: 80
