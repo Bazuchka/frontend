@@ -1,3 +1,13 @@
-import { ReportsContainerMovement, ReportsGoodsMovement } from "./UI";
+import {
+    ReportsContainerMovement,
+    ReportsGoodsMovement,
+    ReportsRemainsContainerTable,
+    ReportsRemainsGoodTable,
+} from "./UI";
 
-export { ReportsContainerMovement, ReportsGoodsMovement };
+export {
+    ReportsContainerMovement,
+    ReportsGoodsMovement,
+    ReportsRemainsContainerTable,
+    ReportsRemainsGoodTable,
+};
