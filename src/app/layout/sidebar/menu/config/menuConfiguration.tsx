@@ -6,7 +6,7 @@ import {
     ConfigurationFileIcon,
     Dictionary,
     OrdersIcon,
-    RemainsIcon,
+    // RemainsIcon,
 } from "src/assets/svg";
 import { Permission } from "src/shared/services/PermissionService/types";
 
@@ -244,52 +244,32 @@ export const menuConfiguration = (params?: MenuParams): MenuConfiguration => {
                 },
             ],
         },
-        {
-            label: t("Shared:Reference.remains"),
-            icon: <RemainsIcon />,
-            key: "remains",
-            children: [
-                // TODO обычные таблицы остатков и движения контейнеров (без dataLance) убрать
-                // {
-                //     label: t("Remains:menu.remainsContainers"),
-                //     key: "remains-containers",
-                //     path: "/remains-containers",
-                //     filterable: true,
-                //     permission: {
-                //         path: "containermovement",
-                //     },
-                // },
-                // {
-                //     label: t("Remains:menu.remainsContainersMove"),
-                //     key: "container-movement",
-                //     path: "/container-movement",
-                //     filterable: true,
-                //     permission: {
-                //         path: "containermovement",
-                //     },
-                // },
-                {
-                    label: t("Remains:menu.remainsContainer"),
-                    key: "remains-container",
-                    path: "/remains-container",
-                    filterable: true,
-                    permission: {
-                        // todo сделать отдельный permission, чтобы видеть могли только операторы клиентского сервиса
-                        path: "containermovement",
-                    },
-                },
-                {
-                    label: t("Remains:menu.remainsGood"),
-                    key: "remains-good",
-                    path: "/remains-good",
-                    filterable: true,
-                    permission: {
-                        // todo сделать отдельный permission, чтобы видеть могли только операторы клиентского сервиса
-                        path: "containermovement",
-                    },
-                },
-            ],
-        },
+        // TODO обычные таблицы остатков и движения контейнеров (без dataLance) убрать
+        // {
+        //     label: t("Shared:Reference.remains"),
+        //     icon: <RemainsIcon />,
+        //     key: "remains",
+        //     children: [
+        //         {
+        //             label: t("Remains:menu.remainsContainers"),
+        //             key: "remains-containers",
+        //             path: "/remains-containers",
+        //             filterable: true,
+        //             permission: {
+        //                 path: "containermovement",
+        //             },
+        //         },
+        //         {
+        //             label: t("Remains:menu.remainsContainersMove"),
+        //             key: "container-movement",
+        //             path: "/container-movement",
+        //             filterable: true,
+        //             permission: {
+        //                 path: "containermovement",
+        //             },
+        //         },
+        //     ],
+        // },
         {
             label: t("Shared:Reference.reports"),
             icon: <ReportsIcon />,
@@ -301,7 +281,6 @@ export const menuConfiguration = (params?: MenuParams): MenuConfiguration => {
                     path: "/reports-container-movement",
                     filterable: true,
                     permission: {
-                        // todo сделать отдельный permission, чтобы видеть могли только операторы клиентского сервиса
                         path: "containermovement",
                     },
                 },
@@ -311,8 +290,25 @@ export const menuConfiguration = (params?: MenuParams): MenuConfiguration => {
                     path: "/reports-goods-movement",
                     filterable: true,
                     permission: {
-                        // todo сделать отдельный permission, чтобы видеть могли только операторы клиентского сервиса
+                        path: "goodmovement",
+                    },
+                },
+                {
+                    label: t("Reports:menu.remainsContainer"),
+                    key: "reports-remains-container",
+                    path: "/reports-remains-container",
+                    filterable: true,
+                    permission: {
                         path: "containermovement",
+                    },
+                },
+                {
+                    label: t("Reports:menu.remainsGood"),
+                    key: "reports-remains-good",
+                    path: "/reports-remains-good",
+                    filterable: true,
+                    permission: {
+                        path: "goodmovement",
                     },
                 },
             ],

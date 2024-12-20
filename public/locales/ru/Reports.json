@@ -1,6 +1,9 @@
 {
     "menu": {
         "containerMovement": "Движения контейнеров",
-        "goodsMovement": "Движение номенклатуры"
+        "goodsMovement": "Движение номенклатуры",
+        
+        "remainsContainer": "Остатки контейнеров",
+        "remainsGood": "Остатки номенклатуры"
     }
 }

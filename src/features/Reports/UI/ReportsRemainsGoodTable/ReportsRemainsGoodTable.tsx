@@ -3,12 +3,12 @@ import { useCommonStyles } from "../commonStyles";
 import { IFrame } from "src/shared/UI/IFrame";
 import * as datalensConfig from "../../../../../datalens.config.json";
 
-const RemainsContainerTable = () => {
+const ReportsRemainsGoodTable = () => {
     const commonClasses = useCommonStyles();
 
     const spaceType = window._env_.SPACE_TYPE;
     const url = (datalensConfig as Record<string, Record<string, string>>)[spaceType]
-        .remainsContainer;
+        .reportsRemainsGood;
 
     return (
         <Box component="div" className={commonClasses.container}>
@@ -17,4 +17,4 @@ const RemainsContainerTable = () => {
     );
 };
 
-export { RemainsContainerTable };
+export default ReportsRemainsGoodTable;

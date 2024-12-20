@@ -1,4 +1,11 @@
-import ReportsContainerMovement from "./ReportsContainerMovement/ReportsContainerMovement";
-import ReportsGoodsMovement from "./ReportsGoodsMovement/ReportsGoodsMovement";
+import { ReportsContainerMovement } from "./ReportsContainerMovement";
+import { ReportsGoodsMovement } from "./ReportsGoodsMovement";
+import { ReportsRemainsContainerTable } from "./ReportsRemainsContainerTable";
+import { ReportsRemainsGoodTable } from "./ReportsRemainsGoodTable";
 
-export { ReportsContainerMovement, ReportsGoodsMovement };
+export {
+    ReportsContainerMovement,
+    ReportsGoodsMovement,
+    ReportsRemainsContainerTable,
+    ReportsRemainsGoodTable,
+};

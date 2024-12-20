@@ -1,10 +1,7 @@
 {
     "menu": {
         "remainsContainers": "Остатки контейнеров",
-        "remainsContainersMove": "Движение контейнеров",
-
-        "remainsContainer": "Остатки контейнеров",
-        "remainsGood": "Остатки номенклатуры"
+        "remainsContainersMove": "Движение контейнеров"
     },
     "containersMoveTable": {
         "eventCode": "Событие",
