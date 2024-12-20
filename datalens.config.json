@@ -6,9 +6,9 @@
         "remainsGood": "https://datalens.dxlc.online/j4s2qpt4tn9s6-ostatki-nomenklatury?_theme=light"
     },
     "prod": {
-        "reportsContainerMovement": "https://datalens.dxlc.online/5rles3ugktyks-dvizheniya-konteynera?_theme=light",
-        "reportsGoodsMovement": "https://datalens.dxlc.online/9vpiobxysg8ow-dvizheniya-nomenklatury?_theme=light",
-        "remainsContainer": "https://datalens.dxlc.online/yke79p72fga6l-ostatki-konteynerov?_theme=light",
-        "remainsGood": "https://datalens.dxlc.online/e0unwkibdj7m1-ostatki-nomenklatury?_theme=light"
+        "reportsContainerMovement": "https://datalens.dxlc.online/5rles3ugktyks-dvizheniya-konteynera?_theme=light&_no_controls=1",
+        "reportsGoodsMovement": "https://datalens.dxlc.online/9vpiobxysg8ow-dvizheniya-nomenklatury?_theme=light&_no_controls=1",
+        "remainsContainer": "https://datalens.dxlc.online/yke79p72fga6l-ostatki-konteynerov?_theme=light&_no_controls=1",
+        "remainsGood": "https://datalens.dxlc.online/e0unwkibdj7m1-ostatki-nomenklatury?_theme=light&_no_controls=1"
     }
 }
