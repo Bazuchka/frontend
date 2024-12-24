@@ -12,9 +12,8 @@ import { getColumns } from "./config";
 import { Box } from "@mui/material";
 import { useStyles } from "./styles";
 import { useFileDownload } from "src/shared/hooks/useFileDownload";
-import { DownloadButton } from "src/shared/UI/DownloadButton";
 import { getNowDate } from "src/shared/helpers/dateFormatter";
-
+import { PageDownloadButton } from "src/app/layout/page";
 interface RemainsContainersTableProps {
     store: Instance<typeof remainsContainersStore>;
 }
@@ -56,12 +55,11 @@ const RemainsContainersTable: FunctionComponent<RemainsContainersTableProps> = o
 
         return (
             <Box component="div" className={classes.container}>
-                <DownloadButton
+                <PageDownloadButton
                     id={"path_download_remains_containers"}
                     canShowButton={!store.state.isFetching || isDownloading}
                     isDownloading={isDownloading}
                     fetchFileCallback={fetchFile}
-                    customClasses={classes.button}
                     linkReference={ref}
                 />
                 <ICard cardSize={12} col={10}>

@@ -5,14 +5,10 @@ import { createBaseStoreWithViewMediator } from "src/shared/entities/BaseStore";
 export const TermOfRequestedService = types.model("TermsOfRequestedService", {
     id: types.identifier,
 
-    // todo сделать обязательным, когда решится вопрос по таске: https://jira.dxlc.online/browse/TP-35
-    code: types.maybeNull(types.string),
     termOfService: ForeignKey,
     service: ForeignKey,
     rate: types.number,
 
-    // todo сделать обязательным, когда решится вопрос по таске: https://jira.dxlc.online/browse/TP-35
-    active: types.maybeNull(types.boolean),
     syncId: types.string,
     clientOrderType: types.string,
     required: types.boolean,

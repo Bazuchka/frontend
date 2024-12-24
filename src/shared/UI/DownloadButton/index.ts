@@ -1,3 +1,3 @@
-import DownloadButton from "./DownloadButton";
+import DownloadButton, { IDownloadButton } from "./DownloadButton";
 
-export { DownloadButton };
+export { DownloadButton, type IDownloadButton };
