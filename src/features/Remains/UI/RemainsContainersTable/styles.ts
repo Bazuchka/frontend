@@ -5,9 +5,4 @@ export const useStyles = createUseStyles(() => ({
         position: "relative",
         height: "100%",
     },
-    button: {
-        position: "absolute",
-        right: "16px",
-        top: "-36px",
-    },
 }));

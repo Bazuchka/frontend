@@ -19,8 +19,10 @@ const Content: FC<ContentProps> = observer(({ children, isMenuOpen }) => {
 
     return (
         <Box component="main" className={contentClass}>
-            <Box component="h2" className={classes.pageTitle}>
-                {title}
+            <Box id="pageTitleWrapper" component="div" className={classes.pageTitleWrapper}>
+                <Box component="h2" className={classes.pageTitle}>
+                    {title}
+                </Box>
             </Box>
             <Box className={classes.pageContent}>{children}</Box>
         </Box>

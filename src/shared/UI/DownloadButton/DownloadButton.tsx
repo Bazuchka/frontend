@@ -4,12 +4,12 @@ import { ITooltype } from "../iTooltype";
 import { t } from "i18next";
 import { LoadingButton } from "@mui/lab";
 
-interface IDownloadButton {
+export interface IDownloadButton {
     id: string;
     canShowButton: boolean;
     isDownloading: boolean;
     fetchFileCallback: () => Promise<void>;
-    customClasses: string | null;
+    customClasses?: string | null;
     linkReference: React.MutableRefObject<HTMLAnchorElement | null>;
 }
 

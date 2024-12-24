@@ -9,8 +9,8 @@ import { ICard } from "src/shared/UI/iCard";
 import { containerStore } from "../../store";
 import { useStyles } from "./styles";
 import { containersTableItemConfiguration } from "./tabsConfiguration";
-import { DownloadButton } from "src/shared/UI/DownloadButton";
 import { getNowDate } from "src/shared/helpers/dateFormatter";
+import { PageDownloadButton } from "src/app/layout/page";
 
 const ContainerTableItem = observer((): JSX.Element => {
     const { id } = useParams();
@@ -43,12 +43,11 @@ const ContainerTableItem = observer((): JSX.Element => {
 
     return (
         <Box component="div" className={classes.container}>
-            <DownloadButton
+            <PageDownloadButton
                 id={"path_download_container_item_info"}
                 canShowButton={!containerStore.state.isFetching || isDownloading}
                 isDownloading={isDownloading}
                 fetchFileCallback={fetchFile}
-                customClasses={classes.button}
                 linkReference={ref}
             />
             <ICard cardSize={12} col={10}>
