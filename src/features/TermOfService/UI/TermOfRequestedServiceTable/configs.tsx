@@ -2,7 +2,7 @@ import { Checkbox, SvgIcon, TextField } from "@mui/material";
 import { createColumnHelper } from "@tanstack/react-table";
 import { t } from "i18next";
 import { Controller } from "react-hook-form";
-import { CheckIcon, SvgXIcon } from "src/assets/svg";
+import { CheckIcon } from "src/assets/svg";
 import { AutocompleteSelectOfDictionary } from "src/shared/UI/AutocompleteSelectOfDictionary/AutocompleteSelectOfDictionary";
 import { SelectOfEnum } from "src/shared/UI/SelectOfEnum";
 import { WithGridRowId } from "src/shared/UI/TSBaseTable/types";
@@ -85,8 +85,6 @@ export const getColumns = () => {
             cell: (params) => {
                 if (params.getValue()) {
                     return <SvgIcon component={CheckIcon} />;
-                } else {
-                    return <SvgIcon component={SvgXIcon} />;
                 }
             },
             header: t("TermOfRequestedService:properties.required"),
