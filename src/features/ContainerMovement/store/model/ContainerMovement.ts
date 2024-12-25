@@ -7,7 +7,11 @@ export const ContainerMovement = types.model("ContainerMovement", {
     id: types.string,
     transportType: types.string,
     transportNumber: types.string,
-    etsngCode: types.string,
+    etsngCode: types.model({
+        id: types.identifier,
+        code: types.maybe(types.string),
+        name: types.maybe(types.string),
+    }),
     eventDateTime: IsoDate,
     orderNumber: types.number,
     orderStatus: types.string,

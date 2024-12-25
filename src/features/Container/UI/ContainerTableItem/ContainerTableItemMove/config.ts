@@ -20,7 +20,10 @@ export const getColumns = () => [
         header: t("Containers:containersTableItem.move.transportNumber"),
     }),
     columnHalper.accessor("etsngCode", {
-        cell: (params) => params.getValue(),
+        cell: (params) => {
+            const item = params.getValue();
+            return `${item.name} (${item.code})`;
+        },
         header: t("Containers:containersTableItem.move.etsngCode"),
     }),
     columnHalper.accessor("eventDateTime", {
