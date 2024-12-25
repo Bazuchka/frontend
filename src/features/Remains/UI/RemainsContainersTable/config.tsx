@@ -13,7 +13,10 @@ export const getColumns = () => {
             header: t("Remains:containersTable.containerCode"),
         }),
         columnHalper.accessor("etsngCode", {
-            cell: (params) => params.getValue(),
+            cell: (params) => {
+                const item = params.getValue();
+                return `${item.name} (${item.code})`;
+            },
             header: t("Remains:containersTable.etsngCode"),
         }),
         columnHalper.accessor("eventDateTime", {
