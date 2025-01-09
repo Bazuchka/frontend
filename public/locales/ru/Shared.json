@@ -36,7 +36,8 @@
         },
         "ShippingOrder": {
             "ItemsMissingForContainers": "Ошибка валидации заявки, внесите данные во вкладке Товары для всех контейнеров",
-            "MissingRailwayCarriageEtranInvoice": "Накладные ЭТРАН отсутствуют для перевода в требуемый статус"
+            "MissingRailwayCarriageEtranInvoice": "Накладные ЭТРАН отсутствуют для перевода в требуемый статус",
+            "ContainerAlreadyInUse": "Контейнер уже используется в другой заявке"
         },
         "Invalid BatchId": "Проверьте введенные данные",
         "User already has such role assigned": "Пользователю уже назначена такая роль"
