@@ -18,7 +18,8 @@ function useLocalStorage<V>(lsKey: lsKeys) {
         }
 
         localStorage.setItem(lsKey, JSON.stringify(lsData));
-    }, [lsKey, lsData]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [lsData]);
 
     const getItem = (): V | null => {
         const data = localStorage.getItem(lsKey);
