@@ -34,6 +34,7 @@ declare module "@mui/material/styles" {
 
     interface ThemeOptions {
         mainBackgroundColor?: string;
+        surfaceColor?: string;
         headerBackgroundColor?: string;
         headerTextColor?: string;
         linkColor?: string;
@@ -42,6 +43,15 @@ declare module "@mui/material/styles" {
             primary: Record<number | string, string>;
             secondary: Record<number | string, string>;
             gray: Record<number | string, string>;
+
+            error?: string;
+            success?: string;
+            accent?: Record<string, string>;
+            black?: string;
+            charcoal?: string;
+            iron?: string;
+            fossil?: string;
+            label?: Record<string, string>;
         };
         error: {
             backgroundColor: string;
@@ -55,6 +65,12 @@ declare module "@mui/material/styles" {
             border: string;
         };
     }
+}
+
+export enum ThemeList {
+    default = "theme",
+    light = "light",
+    dark = "dark",
 }
 
 export const theme = createTheme({
@@ -210,4 +226,87 @@ export const theme = createTheme({
         border: "1px solid #e0e0e0",
     },
     iconSize: "24px",
+});
+
+export const lightTheme = createTheme({
+    ...theme,
+    mainBackgroundColor: "#F9FAFC",
+    surfaceColor: "#FFFFFF",
+    colors: {
+        primary: {
+            main: "#3472ED",
+            variant: "#397CFF",
+        },
+        secondary: {
+            main: "#5D8FF2",
+            variant: "#EEF4FF",
+        },
+        error: "#E8493D",
+        success: "#16C17C",
+        accent: {
+            main: "#FF9027",
+            variant: "#6FDCE3",
+        },
+        black: "#000",
+        charcoal: "#4B4B51",
+        iron: "#76757A",
+        fossil: "#A6A5A8",
+        gray: {
+            disabled: "#F9F9F9",
+            superLightGray: "#F2F4F7",
+            greyishBlue: "#F2F7FF",
+            lightGrey: "#D8DDE3",
+        },
+        label: {
+            purple_1: "#F9F5FF",
+            purple_2: "#9E77ED",
+            purple_3: "#6941C6",
+            red_1: "#FEF3F2",
+            red_2: "#F04438",
+            red_3: "#B42318",
+            yellow_1: "#FFFAEB",
+            yellow_2: "#F79009",
+            yellow_3: "#B54708",
+            green_1: "#ECFDF3",
+            green_2: "#12B76A",
+            green_3: "#027A48",
+            blue_1: "#EFF8FF",
+            blue_2: "#2E90FA",
+            blue_3: "#175CD3",
+        },
+    },
+});
+
+/**
+ * Данные цвета не согласованы и используются в рамках эксперимента с темизацией
+ * были сконфигурированы на ресурсе https://mdigi.tools/darken-color
+ * Amount to Darken = 60%
+ */
+export const darkTheme = createTheme({
+    ...theme,
+    colors: {
+        primary: {
+            800: "#070717",
+            500: "#14162c",
+            450: "#1f2133",
+            400: "#2a2c3b",
+            200: "#36394c",
+            100: "#41455e",
+            50: "#4d556d",
+            black: "#000",
+            white: "#666666",
+            border: "#5a5a5a",
+            menuItemHover: "#242637",
+        },
+        secondary: {
+            900: "#060409",
+            800: "#343235",
+            500: "#4c494d",
+            300: "#554c60",
+            200: "#5d5071",
+        },
+        gray: {
+            300: "#554c60",
+        },
+    },
 });
