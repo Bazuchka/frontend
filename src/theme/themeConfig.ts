@@ -18,6 +18,15 @@ declare module "@mui/material/styles" {
             primary: Record<number | string, string>;
             secondary: Record<number | string, string>;
             gray: Record<number | string, string>;
+
+            error?: string;
+            success?: string;
+            accent?: Record<string, string>;
+            black?: string;
+            charcoal?: string;
+            iron?: string;
+            fossil?: string;
+            label?: Record<string, string>;
         };
         error: {
             backgroundColor: string;
@@ -240,6 +249,7 @@ export const lightTheme = createTheme({
         secondary: {
             main: "#5D8FF2",
             variant: "#EEF4FF",
+            light: "#83acff",
         },
         error: "#E8493D",
         success: "#16C17C",
