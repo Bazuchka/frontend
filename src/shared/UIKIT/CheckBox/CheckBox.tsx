@@ -1,26 +1,39 @@
-import { Checkbox, useTheme } from "@mui/material";
+import { useTheme } from "@mui/material";
 import { checkBoxStyles } from "./styles";
 import { ICheckBoxProps } from "./types";
-import { DoneToggle } from "src/assets/icons";
 
 export default function CheckBox({
+    id,
     isChecked,
-    onChange,
+    onClick,
     isDisabled,
     isRequired,
     size,
+    label,
+    labelPosition = "left",
 }: ICheckBoxProps) {
     const theme = useTheme();
-    const classes = checkBoxStyles({ theme, size })({ theme });
+    const classes = checkBoxStyles({ theme, size, labelPosition })({ theme });
+
+    const name = `checboxName_${id}`;
+
+    const onCheck = () => {
+        onClick(!isChecked);
+    };
 
     return (
-        <Checkbox
-            className={classes.input}
-            checkedIcon={<DoneToggle />}
-            onChange={onChange}
-            required={isRequired}
-            disabled={isDisabled}
-            checked={isChecked}
-        />
+        <div>
+            <input
+                id={id}
+                name={name}
+                type="checkbox"
+                className={classes.checkbox}
+                required={isRequired}
+                disabled={isDisabled}
+                checked={isChecked}></input>
+            <label onClick={onCheck} htmlFor={name}>
+                {label}
+            </label>
+        </div>
     );
 }
