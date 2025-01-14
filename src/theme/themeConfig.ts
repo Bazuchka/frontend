@@ -4,6 +4,7 @@ import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
+import "src/index.css";
 
 declare module "@mui/material/styles" {
     interface Theme {
@@ -287,6 +288,93 @@ export const lightTheme = createTheme({
             blue_1: "#EFF8FF",
             blue_2: "#2E90FA",
             blue_3: "#175CD3",
+        },
+    },
+    typography: {
+        fontFamily: '"Inter", sans-serif',
+        fontSize: 14,
+        body1: {
+            fontSize: "16px",
+            fontStyle: "normal",
+            fontWeight: 400,
+            lineHeight: "150%",
+            letterSpacing: "0.15px",
+        },
+        body2: {
+            fontSize: "14px",
+            fontStyle: "normal",
+            fontWeight: 400,
+            lineHeight: "143%",
+            letterSpacing: "0.17px",
+        },
+        subtitle1: {
+            fontSize: "16px",
+            fontStyle: "normal",
+            fontWeight: 400,
+            lineHeight: "175%",
+            letterSpacing: "0.15px",
+        },
+        subtitle2: {
+            fontSize: "14px",
+            fontStyle: "normal",
+            fontWeight: 500,
+            lineHeight: "157%",
+            letterSpacing: "0.1px",
+        },
+        overline: {
+            fontSize: "12px",
+            fontStyle: "normal",
+            fontWeight: 400,
+            lineHeight: "266%",
+            letterSpacing: "0.15px",
+            textTransform: "uppercase",
+        },
+        caption: {
+            fontSize: "12px",
+            fontStyle: "normal",
+            fontWeight: 400,
+            lineHeight: "166%",
+            letterSpacing: "0.4px",
+        },
+        h6: {
+            fontSize: "20px",
+            fontStyle: "normal",
+            fontWeight: 500,
+            lineHeight: "166%",
+            letterSpacing: "0.15px",
+        },
+        h5: {
+            fontSize: "24px",
+            fontStyle: "normal",
+            fontWeight: 400,
+            lineHeight: "133%",
+        },
+        h4: {
+            fontSize: "34px",
+            fontStyle: "normal",
+            fontWeight: 400,
+            lineHeight: "123%",
+            letterSpacing: "0.25px",
+        },
+        h3: {
+            fontSize: "48px",
+            fontStyle: "normal",
+            fontWeight: 400,
+            lineHeight: "116%",
+        },
+        h2: {
+            fontSize: "60px",
+            fontStyle: "normal",
+            fontWeight: 300,
+            lineHeight: "120%",
+            letterSpacing: "-0.5px",
+        },
+        h1: {
+            fontSize: "91px",
+            fontStyle: "normal",
+            fontWeight: 300,
+            lineHeight: "116%",
+            letterSpacing: "-1.5px",
         },
     },
 });
