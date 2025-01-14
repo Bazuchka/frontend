@@ -22,7 +22,7 @@ export const getColumns = () => [
     columnHalper.accessor("etsngCode", {
         cell: (params) => {
             const item = params.getValue();
-            return `${item.name} (${item.code})`;
+            return item ? `${item.name} (${item.code})` : "-";
         },
         header: t("Containers:containersTableItem.move.etsngCode"),
     }),
