@@ -1,3 +1,36 @@
+@font-face {
+  font-family: 'Inter';
+  src: local('Inter'),
+    url('./shared/UIKIT/fonts/Inter-VariableFont_opsz\,wght.ttf') format('truetype');
+  font-weight: 300 700;
+  font-style: normal;
+}
+
+.font-inter-light {
+  font-family: 'Inter';
+  font-weight: 300;
+}
+
+.font-inter-regular {
+  font-family: 'Inter';
+  font-weight: 400;
+}
+
+.font-inter-medium {
+  font-family: 'Inter';
+  font-weight: 500;
+}
+
+.font-inter-semibold {
+  font-family: 'Inter';
+  font-weight: 600;
+}
+
+.font-inter-bold {
+  font-family: 'Inter';
+  font-weight: 700;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
