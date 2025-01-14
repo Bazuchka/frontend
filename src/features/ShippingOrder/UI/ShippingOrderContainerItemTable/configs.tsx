@@ -118,8 +118,7 @@ export const getColumns = (shippingOrderId: string) => {
                                 size="small"
                                 {...register("description", { required: true })}
                                 error={!!error}
-                                data-test-id="value:description"
-                            />
+                                data-test-id="value:description"></TextField>
                         );
                     },
                     defaultValue: "",
