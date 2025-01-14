@@ -1,24 +1,73 @@
 import { Theme } from "@mui/material";
 import { createUseStyles } from "react-jss";
-import { CheckBoxSizeList } from ".";
+import { CommonSize } from "..";
 
-export const checkBoxStyles = ({ theme, size }: { theme: Theme; size: CheckBoxSizeList }) => {
+export const checkBoxStyles = ({
+    theme,
+    size,
+    labelPosition,
+}: {
+    theme: Theme;
+    size: CommonSize;
+    labelPosition: "top" | "left";
+}) => {
     const sizeStrList = {
-        [CheckBoxSizeList.small]: "16px",
-        [CheckBoxSizeList.medium]: "20px",
-        [CheckBoxSizeList.large]: "24px",
+        [CommonSize.Small]: "16",
+        [CommonSize.Medium]: "20",
+        [CommonSize.Large]: "24",
+        [CommonSize.Regular]: "24",
     };
 
-    return createUseStyles(() => ({
-        input: {
-            display: "flex",
-            borderColor: theme.colors.gray,
-            width: sizeStrList[size],
-            height: sizeStrList[size],
+    const iconSizeList = {
+        [CommonSize.Small]: "10",
+        [CommonSize.Medium]: "14",
+        [CommonSize.Large]: "17",
+        [CommonSize.Regular]: "17",
+    };
 
-            "&:hover": {
-                border: "solid 1px " + theme.colors.secondary,
-                color: theme.colors.secondary,
+    const isLeftLabel = labelPosition === "left";
+
+    return createUseStyles(() => ({
+        checkbox: {
+            position: "absolute",
+            zIndex: "-1",
+            opacity: "0",
+
+            "&+label": {
+                display: "inline-flex",
+                flexDirection: isLeftLabel ? "row" : "column",
+                alignItems: isLeftLabel ? "center" : "start",
+                userSelect: "none",
+                cursor: "pointer",
+            },
+
+            "&+label:after": {
+                content: "''",
+                display: "inline-block",
+                marginLeft: isLeftLabel ? "auto" : "0",
+                width: sizeStrList[size] + "px",
+                height: sizeStrList[size] + "px",
+                flexShrink: "0",
+                flexGrow: "0",
+                border: "1px solid " + theme.colors.gray.lightGrey,
+                borderRadius: "2px",
+                backgroundRepeat: "no-repeat",
+                backgroundPosition: "center center",
+                backgroundSize: iconSizeList[size] + "px",
+            },
+
+            "&+label:hover:after": {
+                borderColor: theme.colors.secondary.main,
+            },
+
+            "&:focus+label:after": {
+                boxShadow: "1px solid " + theme.colors.secondary.light,
+            },
+
+            "&:checked+label:after": {
+                borderColor: theme.colors.primary.main,
+                backgroundColor: theme.colors.primary.main,
+                backgroundImage: "url('/src/assets/icons/doneToggle.svg')",
             },
         },
     }));

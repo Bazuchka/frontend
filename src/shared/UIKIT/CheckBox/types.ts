@@ -1,16 +1,12 @@
-import { ChangeEvent } from "react";
-
-export enum CheckBoxSizeList {
-    small,
-    medium,
-    large,
-}
+import { CommonSize } from "..";
 
 export interface ICheckBoxProps {
+    id: string;
     isChecked: boolean;
-    isEditable: boolean;
     isDisabled: boolean;
     isRequired: boolean;
-    size: CheckBoxSizeList;
-    onChange: (event: ChangeEvent<HTMLInputElement>, checked: boolean) => void;
+    size: CommonSize;
+    label?: string;
+    labelPosition?: "top" | "left";
+    onClick: (newValue: boolean) => void;
 }
