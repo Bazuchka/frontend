@@ -14,6 +14,7 @@ declare module "@mui/material/styles" {
         iconSize?: string;
         tableTopHeight?: string;
         tableBottomHeight?: string;
+        surfaceColor?: string;
         colors: {
             primary: Record<number | string, string>;
             secondary: Record<number | string, string>;
@@ -242,11 +243,14 @@ export const lightTheme = createTheme({
     mainBackgroundColor: "#F9FAFC",
     surfaceColor: "#FFFFFF",
     colors: {
+        ...theme.colors,
         primary: {
+            ...theme.colors.primary,
             main: "#3472ED",
             variant: "#397CFF",
         },
         secondary: {
+            ...theme.colors.secondary,
             main: "#5D8FF2",
             variant: "#EEF4FF",
             light: "#83acff",
@@ -295,7 +299,9 @@ export const lightTheme = createTheme({
 export const darkTheme = createTheme({
     ...theme,
     colors: {
+        ...theme.colors,
         primary: {
+            ...theme.colors.primary,
             800: "#070717",
             500: "#14162c",
             450: "#1f2133",
@@ -303,12 +309,12 @@ export const darkTheme = createTheme({
             200: "#36394c",
             100: "#41455e",
             50: "#4d556d",
-            black: "#000",
             white: "#666666",
             border: "#5a5a5a",
             menuItemHover: "#242637",
         },
         secondary: {
+            ...theme.colors.secondary,
             900: "#060409",
             800: "#343235",
             500: "#4c494d",
