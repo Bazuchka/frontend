@@ -4,7 +4,7 @@ import { createUseStyles } from "react-jss";
 
 export const useIFieldStyles = createUseStyles((theme: Theme) => ({
     field: {
-        marginBottom: 32,
+        marginBottom: 28,
         alignItems: "flex-start",
     },
     label: {
