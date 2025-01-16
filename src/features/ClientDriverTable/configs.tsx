@@ -23,14 +23,13 @@ export const getColumns = () => {
             cell: getValueForTextField(),
             header: t("ClientDriver:properties.phoneNumber"),
         }),
-        columnHelper.accessor("identityDocumentType", {
-            cell: (params) =>
-                params.getValue() ? t("IdentityDocument:types." + params.getValue()) : "-",
-            header: t("ClientDriver:properties.identityDocumentType"),
+        columnHelper.accessor("passportNumber", {
+            cell: (params) => (params.getValue() ? params.getValue() : "-"),
+            header: t("ClientDriver:properties.passportNumber"),
         }),
-        columnHelper.accessor("identityDocumentNumber", {
-            cell: getValueForTextField(),
-            header: t("ClientDriver:properties.identityDocumentNumber"),
+        columnHelper.accessor("drivingLicenseNumber", {
+            cell: (params) => (params.getValue() ? params.getValue() : "-"),
+            header: t("ClientDriver:properties.drivingLicenseNumber"),
         }),
         columnHelper.accessor("POANumber", {
             cell: getValueForTextField(),
