@@ -76,6 +76,7 @@ const ReceivingOrderInfo: FC<ReceivingOrderProps> = observer(({ isReadOnly }): J
         () =>
             fieldsConfiguration({
                 isCreate,
+                isEdit: isEditFormMode,
                 filters: {
                     ...filters,
                     terminalArea,

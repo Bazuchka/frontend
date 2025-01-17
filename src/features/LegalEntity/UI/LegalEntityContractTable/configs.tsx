@@ -23,6 +23,10 @@ export const getColumns = () => {
             cell: (params) => params.getValue(),
             header: t("Contract:properties.contractNumber"),
         }),
+        columnHelper.accessor("contractType", {
+            cell: (params) => (params.getValue() ? t(`ContractType:${params.getValue()}`) : "-"),
+            header: t("Contract:properties.contractType"),
+        }),
         columnHelper.accessor("contractDate", {
             cell: (params) =>
                 params.getValue() ? format(params.getValue() as Date, "dd.MM.yyyy") : "-",

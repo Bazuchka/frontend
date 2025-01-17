@@ -22,7 +22,12 @@ export const ShippingOrderPreview = types
                 terminalArea: types.string,
                 transportType: types.string,
                 createdAt: IsoDate,
-                contract: ForeignKey,
+                contract: types.model({
+                    id: types.string,
+                    code: types.string,
+                    contractType: types.maybeNull(types.string),
+                    contractDate: types.maybeNull(types.string),
+                }),
                 currency: ForeignKey,
                 contact: types.maybeNull(
                     types.model({

@@ -44,6 +44,22 @@ export const fieldsConfiguration = (
                     type: FieldItemType.INPUT,
                     readOnly: true,
                 },
+                {
+                    label: t("ShippingOrder:properties.contractType"),
+                    value: data.contract.contractType
+                        ? t(`ContractType:${data.contract.contractType}`)
+                        : "-",
+                    name: "contractType",
+                    type: FieldItemType.INPUT,
+                    readOnly: true,
+                },
+                {
+                    label: t("ShippingOrder:properties.contractDate"),
+                    value: data.contract.contractDate,
+                    name: "contractDate",
+                    type: FieldItemType.DATE,
+                    readOnly: true,
+                },
             ],
         },
         {

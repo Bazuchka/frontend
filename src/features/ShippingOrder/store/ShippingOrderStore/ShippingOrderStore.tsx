@@ -32,7 +32,12 @@ export const FullShippingOrder = types
         ShippingOrder,
         types.model({
             code: types.maybe(types.string),
-            contract: types.maybe(ForeignKey),
+            contract: types.model({
+                id: types.string,
+                code: types.string,
+                contractType: types.maybeNull(types.string),
+                contractDate: types.maybeNull(types.string),
+            }),
             contact: types.maybeNull(
                 types.model({
                     name: types.maybeNull(types.string),

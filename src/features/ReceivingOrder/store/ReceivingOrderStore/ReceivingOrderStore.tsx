@@ -35,7 +35,12 @@ export const FullReceivingOrder = types
         ReceivingOrder,
         types.model({
             code: types.maybe(types.string),
-            contract: types.maybe(ForeignKey), // TODO remove all maybe expressions
+            contract: types.model({
+                id: types.string,
+                code: types.string,
+                contractType: types.maybeNull(types.string),
+                contractDate: types.maybeNull(types.string),
+            }),
             contact: types.maybeNull(
                 types.model({
                     name: types.maybeNull(types.string),

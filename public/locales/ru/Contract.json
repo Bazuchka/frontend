@@ -1,8 +1,9 @@
 {
     "properties": {
-        "code": "Наименование",
+        "code": "Юридическое лицо",
         "company": "Хранитель",
         "contractNumber": "Номер",
+        "contractType": "Вид договора",
         "contractDate": "Дата",
         "validFrom": "Действует с",
         "validTo": "Действует по",

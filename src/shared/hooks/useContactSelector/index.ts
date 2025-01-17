@@ -6,7 +6,11 @@ type BasicEntity = { id: string; code: string } | null;
 
 const useContractSelector = (
     isEditFormMode: boolean,
-    defaultSelectedValues?: { client: BasicEntity; legalEntity: BasicEntity; contract: BasicEntity }
+    defaultSelectedValues?: {
+        client: BasicEntity;
+        legalEntity: BasicEntity;
+        contract: BasicEntity;
+    }
 ) => {
     const [selectedData, setSelectedData] = useState<{
         legalEntity: BasicEntity;

@@ -6,23 +6,33 @@ import { DictionaryType } from "src/shared/hooks/useDictionary";
 import { ValueOption } from "src/shared/hooks/useDictionary/config";
 import { IFullReceivingOrder } from "../../store/ReceivingOrderStore/ReceivingOrderStore";
 import { getPossibleStatuses, isOrderStatusDisabled } from "./utils";
+import { FieldValues } from "react-hook-form";
 
 export interface IFieldsConfigurationParams {
     isCreate: boolean;
+    isEdit: boolean;
     defaultModel: IFullReceivingOrder | null;
     filters: {
         client: { id: string; code: string } | null;
         legalEntity: { id: string; code: string } | null;
+        contract: FieldValues | null;
         terminalArea?: string;
     };
 }
 
 export const fieldsConfiguration = ({
     isCreate,
+    isEdit,
     filters,
     defaultModel,
-}: IFieldsConfigurationParams) =>
-    [
+}: IFieldsConfigurationParams) => {
+    const isViewMode = !isCreate && !isEdit;
+    const viewContractData = defaultModel?.contract;
+    const formContractData = filters?.contract ? filters?.contract : viewContractData;
+
+    const contract = isViewMode ? viewContractData : formContractData;
+
+    return [
         {
             name: t("Shared:commonInfo"),
             fields: [
@@ -97,6 +107,20 @@ export const fieldsConfiguration = ({
                             },
                         },
                     },
+                },
+                {
+                    label: t("ReceivingOrder:properties.contractType"),
+                    type: FieldItemType.INPUT,
+                    readOnly: true,
+                    value: contract?.contractType ?? null,
+                    name: "contractType",
+                },
+                {
+                    label: t("ReceivingOrder:properties.contractDate"),
+                    type: FieldItemType.DATE,
+                    readOnly: true,
+                    value: contract?.contractDate ?? null,
+                    name: "contractDate",
                 },
             ],
         },
@@ -198,3 +222,4 @@ export const fieldsConfiguration = ({
             ],
         },
     ] as FieldGroup[];
+};
