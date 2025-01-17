@@ -19,6 +19,7 @@ const ns = [
     "Shared",
     "LegalEntity",
     "Contract",
+    "ContractType",
     "Service",
     "ClientGoodType",
     "ClientGood",

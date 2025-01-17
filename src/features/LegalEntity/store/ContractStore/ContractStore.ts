@@ -8,6 +8,7 @@ export const Contract = types.model("Contract", {
     company: types.maybe(ForeignKey),
     contractNumber: types.string,
     contractDate: types.maybeNull(IsoDate),
+    contractType: types.maybeNull(types.string),
     validFrom: types.maybeNull(IsoDate),
     validTo: types.maybeNull(IsoDate),
     legalEntity: ForeignKey,

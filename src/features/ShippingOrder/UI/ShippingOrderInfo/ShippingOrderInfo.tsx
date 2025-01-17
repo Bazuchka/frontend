@@ -76,6 +76,7 @@ const ShippingOrderInfo: FC<ShippingOrderProps> = observer(({ isReadOnly }): JSX
         () =>
             fieldsConfiguration({
                 isCreate,
+                isEdit: isEditFormMode,
                 filters: {
                     ...filters,
                     terminalArea,

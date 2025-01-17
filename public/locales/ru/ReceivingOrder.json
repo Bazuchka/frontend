@@ -18,6 +18,8 @@
         "number": "Номер",
         "client": "Клиент",
         "contract": "Договор",
+        "contractType": "Вид договора",
+        "contractDate": "Договор действует с",
         "legalEntityShort": "Юр. Лицо клиента",
         "legalEntity": "Юридическое лицо клиента",
         "orderStatus": "Статус",
