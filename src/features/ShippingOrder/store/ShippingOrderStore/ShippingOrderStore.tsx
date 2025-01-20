@@ -35,6 +35,7 @@ export const FullShippingOrder = types
             contract: types.model({
                 id: types.string,
                 code: types.string,
+                contractNumber: types.maybeNull(types.string),
                 contractType: types.maybeNull(types.string),
                 contractDate: types.maybeNull(types.string),
             }),

@@ -44,27 +44,6 @@ export const fieldsConfiguration = ({
                     readOnly: true,
                 },
                 {
-                    label: t("ShippingOrder:properties.client"),
-                    name: "client",
-                    type: FieldItemType.AUTOCOMPLETE,
-                    value: defaultModel?.client,
-                    required: true,
-                    isDisable: !!defaultModel,
-                    requestParams: {
-                        type: DictionaryType.CLIENT,
-                        filter: {
-                            active: true,
-                        },
-                    },
-                },
-                {
-                    label: t("Shared:createdAt"),
-                    name: "createdAt",
-                    type: FieldItemType.DATE,
-                    value: defaultModel?.createdAt,
-                    readOnly: true,
-                },
-                {
                     label: t("ShippingOrder:properties.legalEntity"),
                     name: "legalEntity",
                     value: defaultModel?.legalEntity,
@@ -82,14 +61,11 @@ export const fieldsConfiguration = ({
                     },
                 },
                 {
-                    label: t("ShippingOrder:properties.orderStatus"),
-                    type: FieldItemType.ENUM_SELECT,
-                    value: isCreate ? "DRAFT" : defaultModel?.orderStatus,
-                    name: "orderStatus",
-                    required: true,
-                    readOnly: isOrderStatusDisabled(defaultModel),
-                    translatePath: "OrderStatus:types",
-                    options: getPossibleStatuses(defaultModel),
+                    label: t("Shared:createdAt"),
+                    name: "createdAt",
+                    type: FieldItemType.DATE,
+                    value: defaultModel?.createdAt,
+                    readOnly: true,
                 },
                 {
                     label: t("ShippingOrder:properties.contract"),
@@ -109,11 +85,37 @@ export const fieldsConfiguration = ({
                     },
                 },
                 {
+                    label: t("ShippingOrder:properties.orderStatus"),
+                    type: FieldItemType.ENUM_SELECT,
+                    value: isCreate ? "DRAFT" : defaultModel?.orderStatus,
+                    name: "orderStatus",
+                    required: true,
+                    readOnly: isOrderStatusDisabled(defaultModel),
+                    translatePath: "OrderStatus:types",
+                    options: getPossibleStatuses(defaultModel),
+                },
+                {
                     label: t("ShippingOrder:properties.contractType"),
                     type: FieldItemType.INPUT,
                     readOnly: true,
-                    value: contract?.contractType ?? null,
+                    value: contract?.contractType
+                        ? t(`ContractType:${contract?.contractType}`)
+                        : "-",
                     name: "contractType",
+                },
+                {
+                    label: t("ShippingOrder:properties.client"),
+                    name: "client",
+                    type: FieldItemType.AUTOCOMPLETE,
+                    value: defaultModel?.client,
+                    required: true,
+                    readOnly: !!defaultModel,
+                    requestParams: {
+                        type: DictionaryType.CLIENT,
+                        filter: {
+                            active: true,
+                        },
+                    },
                 },
                 {
                     label: t("ShippingOrder:properties.contractDate"),

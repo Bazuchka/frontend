@@ -55,7 +55,7 @@ export const fieldsConfiguration = (
                 },
                 {
                     label: t("ReceivingOrder:properties.contractDate"),
-                    value: data.contract.contractDate,
+                    value: data.contract.contractDate ?? null,
                     name: "contractDate",
                     type: FieldItemType.DATE,
                     readOnly: true,
@@ -87,10 +87,10 @@ export const fieldsConfiguration = (
                     label: t("ReceivingOrder:properties.transportType"),
                     value: data.transportType,
                     name: "transportType",
-                    readOnly: true,
                     type: FieldItemType.ENUM_SELECT,
                     dictionaryType: DictionaryType.TRANSPORT_TYPE,
                     translatePath: "TransportType:types",
+                    readOnly: true,
                 },
                 {
                     label: t("ReceivingOrder:properties.planReceivingTimeInfo"),
