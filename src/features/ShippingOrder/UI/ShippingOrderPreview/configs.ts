@@ -55,7 +55,7 @@ export const fieldsConfiguration = (
                 },
                 {
                     label: t("ShippingOrder:properties.contractDate"),
-                    value: data.contract.contractDate,
+                    value: data.contract.contractDate ?? null,
                     name: "contractDate",
                     type: FieldItemType.DATE,
                     readOnly: true,
