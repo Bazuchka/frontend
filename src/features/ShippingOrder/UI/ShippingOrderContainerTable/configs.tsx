@@ -16,6 +16,8 @@ import { containerStore, IContainer } from "../../../Container/store";
 import { IShippingOrderRailwayContainer } from "../../store/ShippingOrderContainerStore/ShippingOrderContainerStore";
 import { ShippingOrderContainerForm } from "./ShippingOrderContainerForm";
 
+const INCREASED_LIMIT = 1000; // https://jira.dxlc.online/browse/TP-65
+
 const columnHelper = createColumnHelper<
     WithGridRowId<
         IShippingOrderRailwayContainer & {
@@ -113,6 +115,7 @@ export const getColumns = ({ clientId, isRailway, shippingOrderId }: ColumnProps
                                                         notUsedInShippingOrder: shippingOrderId,
                                                     },
                                                 }}
+                                                limit={INCREASED_LIMIT}
                                             />
                                         </Grid>
                                         <Grid item xs={4}>

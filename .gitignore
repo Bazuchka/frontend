@@ -38,3 +38,5 @@ envConfig.js
 /playwright/.auth
 /blob-report/
 /playwright/.cache/
+
+.env
