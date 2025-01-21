@@ -14,7 +14,7 @@ const arePayloadsEqual = (prev: Payload, current: Pick<Payload, "page" | "value"
     JSON.stringify(prev) === JSON.stringify(current);
 
 const useAutocompleteDictionary = (params: IUseAutocompleteDictionary) => {
-    const { type, filter, useSorting, useDefaultFilter = true } = params || {};
+    const { type, filter, useSorting, useDefaultFilter = true, limit } = params || {};
 
     const { url } = useMemo(() => getConfiguration(params), [params]);
 
@@ -56,7 +56,7 @@ const useAutocompleteDictionary = (params: IUseAutocompleteDictionary) => {
                         typeof filter === "function" ? filter(value) : filter
                     ),
                     page,
-                    DEFAULT_LIMIT,
+                    limit ?? DEFAULT_LIMIT,
                     useSorting
                 )
                 .then((response) => {

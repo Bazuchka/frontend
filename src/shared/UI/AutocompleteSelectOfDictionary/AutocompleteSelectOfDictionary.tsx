@@ -13,6 +13,7 @@ import { itemSelectWrapper } from "src/shared/UI/AutocompleteSelectOfDictionary/
 import { AutocompleteInputChangeReason } from "src/shared/UI/AutocompleteSelectOfDictionary/types";
 import { ChosenSelectObject } from "../SelectOfDictionaryForm/SelectOfDictionaryForm";
 import { getOptionLabel } from "./lib";
+import { createFilterOptions } from "@mui/material/Autocomplete";
 
 export interface AutocompleteSelectOfDictionaryProps<T extends ChosenSelectObject> {
     dictionaryType?: DictionaryType | null;
@@ -43,6 +44,7 @@ export interface AutocompleteSelectOfDictionaryProps<T extends ChosenSelectObjec
     popupIcon?: React.ReactNode;
     disablePortal?: boolean;
     mapDataCallback?: IMapDataCalback;
+    limit?: number;
 }
 
 export const AutocompleteSelectOfDictionary = <T extends ChosenSelectObject>(
@@ -77,6 +79,7 @@ export const AutocompleteSelectOfDictionary = <T extends ChosenSelectObject>(
         popupIcon,
         disablePortal,
         mapDataCallback,
+        limit,
     } = props;
 
     const variablesParams = dictionaryType ? { type: dictionaryType } : dictionaryParams;
@@ -87,6 +90,7 @@ export const AutocompleteSelectOfDictionary = <T extends ChosenSelectObject>(
         useSorting,
         useDefaultFilter,
         mapDataCallback,
+        limit,
     });
 
     const [inputValue, setInputValue] = useState<string>("");
@@ -151,10 +155,22 @@ export const AutocompleteSelectOfDictionary = <T extends ChosenSelectObject>(
     }, [editValue, onExternalSelectedValueChange, updateSelectedValue, value, externalValue]);
 
     useEffect(() => {
-        setSearchValue(inputValue);
+        setSearchValue(inputValue.toLowerCase().trim());
     }, [inputValue, setSearchValue]);
 
-    const renderOption = (props: React.HTMLAttributes<HTMLLIElement>, option: object) => (
+    const filterOptions = createFilterOptions({
+        matchFrom: "any",
+        stringify: (option) =>
+            getOptionLabel({
+                option: option as ChosenSelectObject,
+                translatePath,
+                renderValuePrimary,
+                renderValueSecondary,
+                defaultNullValue,
+            }),
+    });
+
+    const renderOption = (props: React.HTMLAttributes<HTMLLIElement>, option: unknown) => (
         <li
             ref={handleItemLoad}
             {...props}
@@ -211,7 +227,9 @@ export const AutocompleteSelectOfDictionary = <T extends ChosenSelectObject>(
             openText={t("Shared:open")}
             closeText={t("Shared:close")}
             clearText={t("Shared:clear")}
-            onChange={(_, value) => handleValueChange(value)}
+            onChange={(_event, selectedOption) => {
+                return handleValueChange(selectedOption as ChosenSelectObject);
+            }}
             getOptionLabel={(option) =>
                 getOptionLabel({
                     option: option as ChosenSelectObject,
@@ -235,8 +253,7 @@ export const AutocompleteSelectOfDictionary = <T extends ChosenSelectObject>(
                 }),
             }}
             data-test-id={`autocomplete:${testFieldName ?? fieldName}`}
-            // Disables default filtering and makes it possible to throw the mask we need
-            filterOptions={(options) => options}
+            filterOptions={filterOptions}
         />
     );
 };

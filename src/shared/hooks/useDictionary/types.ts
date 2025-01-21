@@ -73,6 +73,7 @@ export interface IUseAutocompleteDictionary {
     useSorting?: boolean;
     useDefaultFilter?: boolean;
     mapDataCallback?: IMapDataCalback;
+    limit?: number;
 }
 
 export type IMapDataCalback = <T extends FieldValues>(list: T[]) => T[];
