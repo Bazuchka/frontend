@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { t } from "i18next";
 import { flow, getParent, getRoot, Instance, types } from "mobx-state-tree";
 import { viewStore } from "src/app/store";
@@ -8,27 +9,16 @@ import {
     IReceivingOrderContainer,
     IReceivingOrderRailwayContainer,
 } from "../../ReceivingOrderContainerStore";
+import { ClientDriver } from "src/features/ClientDriverTable/store/ClientDriverStore";
+import { FullClientVehicle } from "src/features/ClientVehicle/store/ClientVehicleStore";
 
 export const ReceivingOrderPreview = types
     .model("ReceivingOrderPreview", {
         model: types.maybe(
             types.model({
                 id: types.identifier,
-                number: types.number,
                 client: ForeignKey,
-                legalEntity: ForeignKey,
-                orderStatus: types.string,
-                planReceivingDateTime: IsoUTCDate,
-                terminalArea: types.string,
-                transportType: types.string,
-                createdAt: IsoDate,
-                contract: types.model({
-                    id: types.string,
-                    code: types.string,
-                    contractType: types.maybeNull(types.string),
-                    contractDate: types.maybeNull(types.string),
-                }),
-                currency: ForeignKey,
+                comment: types.maybeNull(types.string),
                 contact: types.maybeNull(
                     types.model({
                         name: types.maybeNull(types.string),
@@ -36,17 +26,34 @@ export const ReceivingOrderPreview = types
                         email: types.maybeNull(types.string),
                     })
                 ),
-                comment: types.maybeNull(types.string),
+                contract: types.model({
+                    id: types.string,
+                    code: types.string,
+                    contractType: types.maybeNull(types.string),
+                    contractDate: types.maybeNull(types.string),
+                }),
+                createdAt: IsoDate,
+                clientDriver: types.maybeNull(ClientDriver),
+                clientVehicle: types.maybeNull(FullClientVehicle),
+                currency: ForeignKey,
+                legalEntity: ForeignKey,
+                number: types.number,
+                orderStatus: types.string,
+                planReceivingDateTime: IsoUTCDate,
+                storagePeriod: types.maybeNull(types.number),
+                terminalArea: types.string,
+                totalCargoQuantity: types.maybeNull(types.number),
                 totalContainerQuantity: types.maybeNull(types.number),
+                totalGoodsPrice: types.maybeNull(types.number),
+                totalNotPalletQuantity: types.maybeNull(types.number),
+                totalPalletQuantity: types.maybeNull(types.number),
                 totalRailwayCarriageQuantity: types.maybeNull(types.number),
+                totalRequestedServicePrice: types.maybeNull(types.number),
+                totalRequestedServiceQuantity: types.maybeNull(types.number),
                 totalSKUQuantity: types.maybeNull(types.number),
                 totalWeight: types.maybeNull(types.number),
-                totalCargoQuantity: types.maybeNull(types.number),
-                totalPalletQuantity: types.maybeNull(types.number),
-                totalNotPalletQuantity: types.maybeNull(types.number),
-                totalGoodsPrice: types.maybeNull(types.number),
-                totalRequestedServiceQuantity: types.maybeNull(types.number),
-                totalRequestedServicePrice: types.maybeNull(types.number),
+                transportType: types.string,
+                legalEntityInn: types.maybeNull(types.string),
             })
         ),
     })
@@ -54,7 +61,6 @@ export const ReceivingOrderPreview = types
         const getPreview = flow(function* () {
             const previewData = yield getBaseActions(
                 (getRoot(self) as unknown as IBaseStore).url
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
             ).getById((getParent(self) as any).id, { urlPostfix: "preview" });
 
             try {

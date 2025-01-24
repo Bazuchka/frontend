@@ -15,6 +15,7 @@ export enum FieldItemType {
     INPUT_NUMBER,
     BUTTON,
     PASSWORD,
+    TABLE,
 }
 
 export enum FIELD_TYPE {
@@ -29,4 +30,5 @@ export enum FIELD_TYPE {
     LINK,
     DEFAULT,
     BUTTON,
+    TABLE,
 }

@@ -58,4 +58,5 @@ export type BaseActionOptions = Pick<Options, "preventDefaultAlert"> & {
     customEndpoint?: string;
     method?: Method;
     headers?: Record<string, string>;
+    suffixUrl?: string;
 };

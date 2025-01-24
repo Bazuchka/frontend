@@ -10,6 +10,7 @@ import { IFieldItemRating } from "../iFieldItemTypes/iFieldItemRating";
 import { IFieldItemSelect } from "../iFieldItemTypes/iFieldItemSelect";
 import { IFieldItemStatic } from "../iFieldItemTypes/iFieldItemStatic";
 import { IFieldItemTime } from "../iFieldItemTypes/iFieldItemTime";
+import { IFieldItemTable } from "../iFieldItemTypes/IFieldItemTable";
 import { FieldItemProps, RenderSelectValueProps } from "../types";
 import { getColumnWidths } from "./getColumnWidths";
 import { useRenderSelectValue } from "./useRenderSelectValue";
@@ -38,7 +39,7 @@ const Component = ({
 export const getTypeMapping = (props: FieldItemProps) => {
     const {
         fullLine,
-        label,
+        label = "",
         value,
         withDescription,
         description,
@@ -198,6 +199,7 @@ export const getTypeMapping = (props: FieldItemProps) => {
                 testFieldName={testFieldName}
             />
         ),
+        [FIELD_TYPE.TABLE]: <IFieldItemTable tableComponent={component} />,
     };
 
     return typeMapping;

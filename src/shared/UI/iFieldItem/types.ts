@@ -24,7 +24,7 @@ export type ITriggerType = (
 ) => Promise<boolean>;
 
 export interface FieldItemProps {
-    label: string;
+    label?: string;
     isReadOnly: boolean;
     // @TODO need to use real type instead of any
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -69,10 +69,10 @@ export interface FieldItemProps {
 }
 
 export interface FieldItem {
-    label: string;
+    label?: string;
     // @TODO need to use real type instead of any
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    value: string | any;
+    value?: string | any;
     type: FieldItemType;
     name: string;
     id?: string | ChosenSelectObject;

@@ -6,13 +6,13 @@
         "comment": "Особые отметки и комментарии",
         "total": "Общая стоимость товаров в заявке",
         "currency": "Валюта стоимости товаров в заявке",
-        "servicesNumber": "Количество доп. операций с товаром в заявке",
-        "totalWithoutVAT": "Предварительная стоимость доп. операций без НДС, руб",
+        "servicesNumber": "Количество доп. операций с товаром  в заявке",
+        "totalWithoutVAT": "Предварительная стоимость доп. операций без НДС, руб.",
         "weight": "Общий Вес брутто товаров в заявке, кг",
         "weight_container": "Общий Вес брутто товаров в заявке, тн",
         "palletQuantity": "Прием на палетах (кол-во палет)",
         "notPalletQuantity": "Прием без палет (кол-во коробов, мешков и пр.)",
-        "containersQuantity": "Кол-во контейнеров"
+        "containersQuantity": "Количество контейнеров"
     },
     "sendButton": "Отправить заявку",
     "error": {
@@ -22,6 +22,31 @@
         "cargoParams": "Параметры груза",
         "orderPrice": "Стоимость груза",
         "services": "Дополнительные операции с товаром",
-        "additional": "Дополнительно"
+        "additional": "Дополнительно",
+        "driverAndTransport": "Информация о водителе и транспорте"
+    },
+    "driverAndTransport": {
+        "driverName": "ФИО водителя",
+        "vehicleBrand": "Марка ТС",
+        "passportNumber": "Паспортные данные водителя",
+        "vehicleNumber": "Гос. номер ТС",
+        "drivingLicenseNumber": "Номер водительского удостоверения",
+        "trailerNumber": "Гос. номер прицепа",
+        "phoneNumber": "Контактный номер водителя"
+    },
+    "cargoParams": {
+        "totalNotPalletQuantity": "Приём без паллет (кол-во коробов, мешков и пр.)",
+        "containerNumber": "Номер контейнера",
+        "containerType": "Тип контейнера",
+        "etsngCode": "Наименование ЕТСНГ",
+        "netWeight": "Масса нетто, т",
+        "grossWeight": "Масса брутто,т",
+        "etranInvoice": "Накладная этран",
+        "railwayCarriage": "Номер вагона",
+        "article": "Артикул",
+        "goodName": "Наименование товара",
+        "batch": "Партия",
+        "unitOfMeasure": "Единица учета",
+        "totalQuantity": "Кол-во ед. учета"
     }
 }

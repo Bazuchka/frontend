@@ -25,6 +25,7 @@ const IFieldItemReadOnly: React.FC<FieldItemProps> = (props) => {
         [FieldItemType.TIME]: typeMapping[FIELD_TYPE.TIME],
         [FieldItemType.BUTTON]: typeMapping[FIELD_TYPE.BUTTON],
         [FieldItemType.PASSWORD]: typeMapping[FIELD_TYPE.PASSWORD],
+        [FieldItemType.TABLE]: typeMapping[FIELD_TYPE.TABLE],
     };
 
     return fieldMapping[type] ?? typeMapping[FIELD_TYPE.DEFAULT];

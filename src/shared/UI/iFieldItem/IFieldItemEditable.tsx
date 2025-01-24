@@ -108,7 +108,8 @@ const IFormFieldEditable: React.FC<FieldItemProps> = ({
                                 min,
                                 max,
                                 options,
-                                events?.mapDataCallback
+                                events?.mapDataCallback,
+                                component
                             ) as ReactElement,
                             {
                                 ...field,

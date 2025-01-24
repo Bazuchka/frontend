@@ -15,6 +15,7 @@ import { ReceivingOrderPreview } from "./UI/ReceivingOrderPreview";
 import { ReceivingOrderRailwayCarriageTable } from "./UI/ReceivingOrderRailwayCarriage";
 import ReceivingOrderRequestedServiceTable from "./UI/ReceivingOrderRequestedServiceTable/ReceivingOrderRequestedServiceTable";
 import { ReceivingOrderTransport } from "./UI/ReceivingOrderTransport";
+import { getOrderType } from "src/shared/helpers/order";
 
 const isRailwayContainer = (current?: IReceivingOrder | null) => {
     return current?.transportType === "RAILWAY" && current?.terminalArea === "CONTAINER";
@@ -225,9 +226,10 @@ export const receivingOrderConfiguration: (isCreateMode: boolean) => TabsConfigu
                         <ReceivingOrderPreview
                             preview={current.receivingOrderPreview}
                             isDraft={current.orderStatus === "DRAFT"}
-                            showContainerInfo={
-                                receivingOrderStore.current?.terminalArea === "CONTAINER"
-                            }
+                            orderType={getOrderType({
+                                terminalArea: current.terminalArea,
+                                transportType: current.transportType,
+                            })}
                         />
                     )}
                 </DataGuard>

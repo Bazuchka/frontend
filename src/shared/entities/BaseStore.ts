@@ -44,6 +44,7 @@ export const createBaseStore = <StoreListModel extends IAnyType, StoreModel exte
             sorting: Sorting,
             current: types.maybeNull(storeMainInfoModel),
             previousFilters: types.maybe(types.frozen<Record<string, unknown>>({})),
+            suffixUrl: types.maybe(types.string),
         })
         .views((self) => ({
             get dataArray() {
@@ -80,10 +81,11 @@ export const createBaseStore = <StoreListModel extends IAnyType, StoreModel exte
                     };
 
                     self.previousFilters = requestFilters;
+                    self.suffixUrl = options?.suffixUrl ?? "/page";
 
-                    const response = yield getBaseActions(`${storeName.toLowerCase()}/page`).fetch<
-                        Instance<typeof storeListModel>[]
-                    >(
+                    const response = yield getBaseActions(
+                        storeName.toLowerCase() + self.suffixUrl
+                    ).fetch<Instance<typeof storeListModel>[]>(
                         {
                             pageInfo: {
                                 size: self.pagination.size,
@@ -120,11 +122,14 @@ export const createBaseStore = <StoreListModel extends IAnyType, StoreModel exte
             });
 
             const paginationChagned = () => {
-                fetch(self.previousFilters);
+                fetch(self.previousFilters, { suffixUrl: self.suffixUrl });
             };
 
             const sortingChanged = () => {
-                fetch({ ...self.previousFilters, ...self.sorting.sortingInfo });
+                fetch(
+                    { ...self.previousFilters, ...self.sorting.sortingInfo },
+                    { suffixUrl: self.suffixUrl }
+                );
             };
 
             const setCurrent = flow(function* (
