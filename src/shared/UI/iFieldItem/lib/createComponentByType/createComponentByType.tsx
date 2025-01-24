@@ -25,7 +25,7 @@ const createComponentByType = (
     fieldName: string,
     testFieldName: string,
     type: FieldItemType,
-    value: string | boolean | ChosenSelectObject | IdCode[] | Date | number,
+    value: string | boolean | ChosenSelectObject | IdCode[] | Date | number | React.ReactElement,
     dictionaryType?: DictionaryType | null,
     dictionaryParams?: DictionaryParams,
     isDisable?: boolean,
@@ -43,7 +43,8 @@ const createComponentByType = (
     min?: number,
     max?: number,
     options?: string[] | ValueOption[],
-    mapDataCallback?: <T>(list: T[]) => T[]
+    mapDataCallback?: <T>(list: T[]) => T[],
+    component?: React.ReactNode
 ) => {
     switch (type) {
         case FieldItemType.CHECKBOX: {
@@ -251,6 +252,9 @@ const createComponentByType = (
                     data-test-id={`value:${testFieldName}`}
                 />
             );
+        }
+        case FieldItemType.TABLE: {
+            return component;
         }
         default:
             return <>{value as string}</>;

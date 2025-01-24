@@ -2,7 +2,7 @@ import { Instance, types } from "mobx-state-tree";
 import { ForeignKey, IsoDate } from "src/shared/entities";
 import { createBaseStoreWithViewMediator } from "src/shared/entities/BaseStore";
 
-const ClientDriver = types.model("ClientRelatedEntitiy", {
+export const ClientDriver = types.model("ClientRelatedEntitiy", {
     id: types.identifier,
     code: types.string,
     client: ForeignKey,
