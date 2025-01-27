@@ -34,7 +34,7 @@ export const getColumns = () => {
                 const canShow = value?.code && value.name;
                 return canShow ? `${value.name} (${value.code})` : "-";
             },
-            header: t("ReceivingOrderPreview:cargoParams.containerType"),
+            header: t("ReceivingOrderPreview:cargoParams.etsngCode"),
         }),
         columnHelper.accessor("netWeight", {
             cell: (params) => params.getValue(),

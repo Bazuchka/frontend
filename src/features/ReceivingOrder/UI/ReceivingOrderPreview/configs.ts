@@ -432,7 +432,7 @@ export const fieldsConfiguration = ({
             }
         });
 
-        if (fieldGroup.fields.length) {
+        if (newFieldGroup.fields.length) {
             resultFieldGroupList.push(newFieldGroup);
         }
     });
