@@ -47,6 +47,7 @@ export const ShippingOrderPreviewContainerVehicleTable: FunctionComponent<Shippi
 
         return (
             <TSBaseTableUI
+                style={{ height: "auto" }}
                 table={table}
                 sorting={store.sorting}
                 isLoading={store.state.isLoading}

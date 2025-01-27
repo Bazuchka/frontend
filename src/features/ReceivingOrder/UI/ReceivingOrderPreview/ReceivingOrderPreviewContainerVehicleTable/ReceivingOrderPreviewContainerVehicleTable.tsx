@@ -47,6 +47,7 @@ export const ReceivingOrderPreviewContainerVehicleTable: FunctionComponent<Recei
 
         return (
             <TSBaseTableUI
+                style={{ height: "auto" }}
                 table={table}
                 sorting={store.sorting}
                 isLoading={store.state.isLoading}
