@@ -15,6 +15,7 @@ import { ShippingOrderRailwayCarriageTable } from "./UI/ShippingOrderRailwayCarr
 import ShippingOrderRequestedServiceTable from "./UI/ShippingOrderRequestedServiceTable/ShippingOrderRequestedServiceTable";
 import ShippingOrderTransport from "./UI/ShippingOrderTransport/ShippingOrderTransport";
 import { IShippingOrder } from "./store/ShippingOrderStore/ShippingOrderStore";
+import { getOrderType } from "src/shared/helpers/order";
 
 const isRailwayContainer = (current?: IShippingOrder | null) => {
     return current?.transportType === "RAILWAY" && current?.terminalArea === "CONTAINER";
@@ -225,7 +226,10 @@ export const shippingOrderConfiguration: (isCreateMode: boolean) => TabsConfigur
                         <ShippingOrderPreview
                             preview={current.shippingOrderPreview}
                             isDraft={current.orderStatus === "DRAFT"}
-                            showContainerInfo={current.terminalArea === "CONTAINER"}
+                            orderType={getOrderType({
+                                terminalArea: current.terminalArea,
+                                transportType: current.transportType,
+                            })}
                         />
                     )}
                 </DataGuard>

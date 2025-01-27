@@ -1,33 +1,33 @@
 import { createColumnHelper } from "@tanstack/react-table";
 import { t } from "i18next";
 import { Instance } from "mobx-state-tree";
-import { ReceivingOrderPreviewCargo } from "src/features/ReceivingOrder/store/ReceivingOrderPreviewStore/models";
+import { ShippingOrderPreviewCargo } from "src/features/ShippingOrder/store/ShippingOrderPreviewStore/models";
 import { WithGridRowId } from "src/shared/UI/TSBaseTable/types";
 
 const columnHelper =
-    createColumnHelper<WithGridRowId<Instance<typeof ReceivingOrderPreviewCargo>>>();
+    createColumnHelper<WithGridRowId<Instance<typeof ShippingOrderPreviewCargo>>>();
 
 export const getColumns = () => {
     return [
         columnHelper.accessor("clientGood", {
             cell: (params) => params.getValue()?.item ?? "-",
-            header: t("ReceivingOrderPreview:cargoParams.article"),
+            header: t("ShippingOrderPreview:cargoParams.article"),
         }),
         columnHelper.accessor("clientGood", {
             cell: (params) => params.getValue()?.code ?? "-",
-            header: t("ReceivingOrderPreview:cargoParams.goodName"),
+            header: t("ShippingOrderPreview:cargoParams.goodName"),
         }),
         columnHelper.accessor("batch", {
             cell: (params) => params.getValue()?.code ?? "-",
-            header: t("ReceivingOrderPreview:cargoParams.batch"),
+            header: t("ShippingOrderPreview:cargoParams.batch"),
         }),
         columnHelper.accessor("clientGood", {
             cell: (params) => params.getValue()?.unitOfMeasure.code ?? "-",
-            header: t("ReceivingOrderPreview:cargoParams.unitOfMeasure"),
+            header: t("ShippingOrderPreview:cargoParams.unitOfMeasure"),
         }),
         columnHelper.accessor("totalQuantity", {
             cell: (params) => params.getValue() ?? "-",
-            header: t("ReceivingOrderPreview:cargoParams.totalQuantity"),
+            header: t("ShippingOrderPreview:cargoParams.totalQuantity"),
         }),
     ];
 };

@@ -8,27 +8,16 @@ import {
     IShippingOrderContainer,
     IShippingOrderRailwayContainer,
 } from "../../ShippingOrderContainerStore/ShippingOrderContainerStore";
+import { ClientDriver } from "src/features/ClientDriverTable/store/ClientDriverStore";
+import { FullClientVehicle } from "src/features/ClientVehicle/store/ClientVehicleStore";
 
 export const ShippingOrderPreview = types
     .model("ShippingOrderPreview", {
         model: types.maybe(
             types.model({
                 id: types.identifier,
-                number: types.number,
                 client: ForeignKey,
-                legalEntity: ForeignKey,
-                orderStatus: types.string,
-                plannedShippingDateTime: IsoUTCDate,
-                terminalArea: types.string,
-                transportType: types.string,
-                createdAt: IsoDate,
-                contract: types.model({
-                    id: types.string,
-                    code: types.string,
-                    contractType: types.maybeNull(types.string),
-                    contractDate: types.maybeNull(types.string),
-                }),
-                currency: ForeignKey,
+                comment: types.maybeNull(types.string),
                 contact: types.maybeNull(
                     types.model({
                         name: types.maybeNull(types.string),
@@ -36,16 +25,34 @@ export const ShippingOrderPreview = types
                         email: types.maybeNull(types.string),
                     })
                 ),
-                comment: types.maybeNull(types.string),
-                totalSKUQuantity: types.maybeNull(types.number),
-                totalContainerQuantity: types.maybeNull(types.number),
-                totalWeight: types.maybeNull(types.number),
+                contract: types.model({
+                    id: types.string,
+                    code: types.string,
+                    contractType: types.maybeNull(types.string),
+                    contractDate: types.maybeNull(types.string),
+                }),
+                createdAt: IsoDate,
+                clientDriver: types.maybeNull(ClientDriver),
+                clientVehicle: types.maybeNull(FullClientVehicle),
+                currency: ForeignKey,
+                legalEntity: ForeignKey,
+                number: types.number,
+                orderStatus: types.string,
+                plannedShippingDateTime: IsoUTCDate,
+                storagePeriod: types.maybeNull(types.number),
+                terminalArea: types.string,
                 totalCargoQuantity: types.maybeNull(types.number),
-                totalPalletQuantity: types.maybeNull(types.number),
-                totalNotPalletQuantity: types.maybeNull(types.number),
+                totalContainerQuantity: types.maybeNull(types.number),
                 totalGoodsPrice: types.maybeNull(types.number),
-                totalRequestedServiceQuantity: types.maybeNull(types.number),
+                totalNotPalletQuantity: types.maybeNull(types.number),
+                totalPalletQuantity: types.maybeNull(types.number),
+                totalRailwayCarriageQuantity: types.maybeNull(types.number),
                 totalRequestedServicePrice: types.maybeNull(types.number),
+                totalRequestedServiceQuantity: types.maybeNull(types.number),
+                totalSKUQuantity: types.maybeNull(types.number),
+                totalWeight: types.maybeNull(types.number),
+                transportType: types.string,
+                legalEntityInn: types.maybeNull(types.string),
             })
         ),
     })

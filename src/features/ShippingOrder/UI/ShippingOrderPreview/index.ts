@@ -1,1 +1,3 @@
-export { default as ShippingOrderPreview } from "./ShippingOrderPreview";
+import ShippingOrderPreview from "./ShippingOrderPreview";
+
+export { ShippingOrderPreview };
