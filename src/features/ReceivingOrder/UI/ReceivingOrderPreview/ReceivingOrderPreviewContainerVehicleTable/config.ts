@@ -14,11 +14,18 @@ export const getColumns = () => {
             header: t("ReceivingOrderPreview:cargoParams.containerNumber"),
         }),
         columnHelper.accessor("container", {
-            cell: (params) => params.getValue()?.containerType ?? "-",
+            cell: (params) => {
+                const value = params.getValue();
+                return value?.containerType ? t("ContainerType:types." + value.containerType) : "-";
+            },
             header: t("ReceivingOrderPreview:cargoParams.containerType"),
         }),
         columnHelper.accessor("etsngCode", {
-            cell: (params) => params.getValue()?.code,
+            cell: (params) => {
+                const value = params.getValue();
+                const canShow = value?.code && value.name;
+                return canShow ? `${value.name} (${value.code})` : "-";
+            },
             header: t("ReceivingOrderPreview:cargoParams.etsngCode"),
         }),
         columnHelper.accessor("netWeight", {

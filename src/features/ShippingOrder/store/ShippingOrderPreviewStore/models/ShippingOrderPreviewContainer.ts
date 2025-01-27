@@ -1,7 +1,7 @@
 import { types } from "mobx-state-tree";
 import { ForeignKey, ForeignKeyWithName } from "src/shared/entities";
 
-const ReceivingOrderPreviewContainer = types.model("ReceivingOrderPreviewContainer", {
+const ShippingOrderPreviewContainer = types.model("ShippingOrderPreviewContainer", {
     container: types.maybeNull(
         types.model({
             id: types.string,
@@ -26,4 +26,4 @@ const ReceivingOrderPreviewContainer = types.model("ReceivingOrderPreviewContain
     ),
 });
 
-export default ReceivingOrderPreviewContainer;
+export default ShippingOrderPreviewContainer;

@@ -9,26 +9,50 @@ import { IFormComponent } from "src/shared/UI/iFormComponent";
 import { Footer } from "src/shared/UI/iFormComponent/UI/Footer";
 import { IShippingOrderPreview } from "../../store/ShippingOrderStore/models/ShippingOrderPreview";
 import { fieldsConfiguration } from "./configs";
+import { OrderType } from "src/shared/helpers/order";
+import {
+    shippingOrderPreviewCargoStore,
+    shippingOrderPreviewContainerStore,
+} from "../../store/ShippingOrderPreviewStore";
+import { ShippingOrderPreviewContainerVehicleTable } from "./ShippingOrderPreviewContainerVehicleTable/ShippingOrderPreviewContainerVehicleTable";
+import { ShippingOrderPreviewWarehouseVehicleTable } from "./ShippingOrderPreviewWarehouseVehicleTable/ShippingOrderPreviewWarehouseVehicleTable";
 
-interface ShippingOrderProps {
+interface ShippingOrderPreviewProps {
     preview: IShippingOrderPreview;
     isDraft: boolean;
-    showContainerInfo: boolean;
+    orderType: OrderType;
 }
 
-const ShippingOrderInfo: FC<ShippingOrderProps> = observer(
-    ({ preview, isDraft, showContainerInfo }): JSX.Element => {
+const ShippingOrderPreview: FC<ShippingOrderPreviewProps> = observer(
+    ({ preview, isDraft, orderType }): JSX.Element => {
         const { t } = useTranslation();
         useEffect(() => {
             preview.getPreview();
         }, [preview]);
 
+        const getFields = () => {
+            const tableComponent =
+                orderType === OrderType.containerVehicle ? (
+                    <ShippingOrderPreviewContainerVehicleTable
+                        store={shippingOrderPreviewContainerStore}
+                        orderId={preview?.model?.id}
+                    />
+                ) : (
+                    <ShippingOrderPreviewWarehouseVehicleTable
+                        store={shippingOrderPreviewCargoStore}
+                        orderId={preview?.model?.id}
+                    />
+                );
+
+            return !preview.model
+                ? []
+                : fieldsConfiguration({ data: preview.model!, tableComponent, orderType });
+        };
+
         return (
             <>
                 <IFormComponent
-                    fields={
-                        !preview.model ? [] : fieldsConfiguration(preview.model!, showContainerInfo)
-                    }
+                    fields={getFields()}
                     isLoading={!preview.model}
                     isEditMode={false}
                 />
@@ -55,4 +79,4 @@ const ShippingOrderInfo: FC<ShippingOrderProps> = observer(
     }
 );
 
-export default ShippingOrderInfo;
+export default ShippingOrderPreview;
