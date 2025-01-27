@@ -163,7 +163,7 @@ export const fieldsConfiguration = ({
             name: t("Shared:commonInfo"),
             fields: [
                 {
-                    label: t("ReceivingOrder:properties.number"),
+                    label: t("ReceivingOrderPreview:properties.orderNumber"),
                     name: "number",
                     type: FieldItemType.INPUT,
                     value: data.number,
