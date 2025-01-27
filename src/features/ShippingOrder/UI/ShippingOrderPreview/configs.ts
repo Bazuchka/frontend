@@ -119,7 +119,7 @@ export const fieldsConfiguration = ({
             name: t("Shared:commonInfo"),
             fields: [
                 {
-                    label: t("ShippingOrder:properties.number"),
+                    label: t("ShippingOrderPreview:properties.orderNumber"),
                     name: "number",
                     type: FieldItemType.INPUT,
                     value: data.number,
