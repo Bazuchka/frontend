@@ -9,7 +9,7 @@ import {
     IShippingOrderRailwayContainer,
 } from "../../ShippingOrderContainerStore/ShippingOrderContainerStore";
 import { ClientDriver } from "src/features/ClientDriverTable/store/ClientDriverStore";
-import { FullClientVehicle } from "src/features/ClientVehicle/store/ClientVehicleStore";
+import { ShortClientVehicle } from "src/features/ClientVehicle/store/ClientVehicleStore";
 
 export const ShippingOrderPreview = types
     .model("ShippingOrderPreview", {
@@ -33,7 +33,7 @@ export const ShippingOrderPreview = types
                 }),
                 createdAt: IsoDate,
                 clientDriver: types.maybeNull(ClientDriver),
-                clientVehicle: types.maybeNull(FullClientVehicle),
+                clientVehicle: types.maybeNull(ShortClientVehicle),
                 currency: ForeignKey,
                 legalEntity: ForeignKey,
                 number: types.number,
