@@ -24,6 +24,13 @@ export const FullClientVehicle = types.compose(
     })
 );
 
+export const ShortClientVehicle = types.model("ShortClientVehicle", {
+    code: types.string,
+    id: types.string,
+    vehicleBrand: ForeignKey,
+    trailerNumber: types.maybeNull(types.string),
+});
+
 const ClientVehicleStore = createBaseStoreWithViewMediator({
     storeName: "ClientVehicle",
     storeListModel: ClientVehicle,
