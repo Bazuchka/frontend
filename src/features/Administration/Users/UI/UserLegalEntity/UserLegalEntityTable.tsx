@@ -15,45 +15,52 @@ import { getColumns } from "./configs";
 
 interface UserLegalEntityTableProps {
     store: Instance<typeof UserLegalEntityStore>;
+    userId: string;
     isReadOnly: boolean;
 }
 
-const UserLegalEntityTable: FunctionComponent<UserLegalEntityTableProps> = observer((props) => {
-    const { store, isReadOnly } = props;
-    const { t } = useTranslation();
+const UserLegalEntityTable: FunctionComponent<UserLegalEntityTableProps> = observer(
+    ({ store, userId, isReadOnly }) => {
+        const { t } = useTranslation();
 
-    return (
-        <TableWithInlineEditing
-            getColumns={getColumns as () => ColumnDef<{ id: GridRowId }, IUserLegalEntity>[]}
-            store={store}
-            messages={{
-                editSuccess: t("User:dialog.legalEntity.editSuccess"),
-                createSuccess: t("User:dialog.legalEntity.createSuccess"),
-            }}
-            onBeforeCreateModelTransform={(formModel: FieldValues) => {
-                return {
-                    ...formModel,
+        const getTableColumns: () => ColumnDef<{ id: GridRowId }, IUserLegalEntity>[] = () => {
+            return getColumns(userId) as ColumnDef<{ id: GridRowId }, IUserLegalEntity>[];
+        };
+
+        return (
+            <TableWithInlineEditing
+                getColumns={getTableColumns}
+                store={store}
+                messages={{
+                    editSuccess: t("User:dialog.legalEntity.editSuccess"),
+                    createSuccess: t("User:dialog.legalEntity.createSuccess"),
+                    deleteSuccess: t("User:dialog.client.deleteSuccess"),
+                }}
+                onBeforeCreateModelTransform={(formModel: FieldValues) => {
+                    return {
+                        ...formModel,
+                        userId: userStore.current?.id,
+                    };
+                }}
+                onBeforeUpdateModelTransform={(formModel: FieldValues) => {
+                    return {
+                        ...formModel,
+                        userId: userStore.current?.id,
+                    };
+                }}
+                isReadOnly={isReadOnly}
+                permissionPath="User.UserLegalEntity"
+                fetchParams={{
                     userId: userStore.current?.id,
-                };
-            }}
-            onBeforeUpdateModelTransform={(formModel: FieldValues) => {
-                return {
-                    ...formModel,
-                    userId: userStore.current?.id,
-                };
-            }}
-            isReadOnly={isReadOnly}
-            permissionPath="User.UserLegalEntity"
-            fetchParams={{
-                userId: userStore.current?.id,
-            }}
-            footerSettings={{
-                label: {
-                    create: t("Action:add"),
-                },
-            }}
-        />
-    );
-});
+                }}
+                footerSettings={{
+                    label: {
+                        create: t("Action:add"),
+                    },
+                }}
+            />
+        );
+    }
+);
 
 export default UserLegalEntityTable;

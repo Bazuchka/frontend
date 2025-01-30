@@ -9,7 +9,7 @@ import { IUserLegalEntity } from "../../store/UserLegalEntityStore";
 
 const columnHelper = createColumnHelper<WithGridRowId<IUserLegalEntity>>();
 
-export const getColumns = () => {
+export const getColumns = (userId: string) => {
     return [
         columnHelper.accessor("legalEntity", {
             cell: (params) => {
@@ -39,6 +39,7 @@ export const getColumns = () => {
                                             type: DictionaryType.LEGAL_ENTITY,
                                             filter: {
                                                 active: true,
+                                                notUsedInUserLegalEntity: userId,
                                             },
                                         }}
                                     />

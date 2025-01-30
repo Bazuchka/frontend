@@ -9,7 +9,7 @@ import { IUserClient } from "../../store/UserClientStore";
 
 const columnHelper = createColumnHelper<WithGridRowId<IUserClient>>();
 
-export const getColumns = () => {
+export const getColumns = (userId: string) => {
     return [
         columnHelper.accessor("client", {
             cell: (params) => {
@@ -39,6 +39,7 @@ export const getColumns = () => {
                                             type: DictionaryType.CLIENT,
                                             filter: {
                                                 active: true,
+                                                notUsedInUserClient: userId,
                                             },
                                         }}
                                     />
