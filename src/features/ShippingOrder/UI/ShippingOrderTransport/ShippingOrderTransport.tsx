@@ -42,7 +42,7 @@ const ShippingOrderTransport: FC<ShippingOrderTransportProps> = observer(
             PromptElements,
             onStateFormChanged,
         } = useFormMechanics({
-            entityId: store.current?.id,
+            entityId: shippingOrderId,
             navigation: {
                 listPath: "/shipping-orders",
                 entityPath: (id) => `/shipping-order/${id}?tab=1`,
