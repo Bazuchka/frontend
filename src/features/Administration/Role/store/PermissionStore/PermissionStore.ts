@@ -96,6 +96,7 @@ export const PermissionStore = createBaseStoreWithViewMediator({
                         headers: {
                             "Content-Type": "application/json",
                         },
+                        serviceUrl: `/role/${(getParent(self) as IRole).id}/permission/${data.rootId}`,
                     }
                 );
             }
