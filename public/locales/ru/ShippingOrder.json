@@ -15,7 +15,7 @@
         "documentPrint": "Печать документов"
     },
     "properties": {
-        "number": "Номер",
+        "number": "Номер заявки",
         "client": "Клиент",
         "contract": "Договор",
         "contractType": "Вид договора",
