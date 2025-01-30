@@ -39,11 +39,13 @@
         },
         "client": {
             "createSuccess": "Клиент успешно добавлен",
-            "editSuccess": "Клиент успешно изменен"
+            "editSuccess": "Клиент успешно изменен",
+            "deleteSuccess": "Клиент успешно удален"
         },
         "legalEntity": {
             "createSuccess": "Юр. лицо успешно добавлено",
-            "editSuccess": "Юр. лицо успешно изменено"
+            "editSuccess": "Юр. лицо успешно изменено",
+            "deleteSuccess": "Юр. лицо успешно удалено"
         },
         "role": {
             "createSuccess": "Роль успешно добавлена",

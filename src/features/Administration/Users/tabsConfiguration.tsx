@@ -22,7 +22,11 @@ export const userConfiguration: (isCreateMode: boolean) => TabsConfiguration = (
             component: (
                 <DataGuard whenExist={userStore.current}>
                     {(current) => (
-                        <UserClientTable store={current.clients} isReadOnly={isCreateMode} />
+                        <UserClientTable
+                            store={current.clients}
+                            userId={current.id}
+                            isReadOnly={isCreateMode}
+                        />
                     )}
                 </DataGuard>
             ),
@@ -36,6 +40,7 @@ export const userConfiguration: (isCreateMode: boolean) => TabsConfiguration = (
                     {(current) => (
                         <UserLegalEntityTable
                             store={current.legalEntities}
+                            userId={current.id}
                             isReadOnly={isCreateMode}
                         />
                     )}

@@ -130,7 +130,7 @@ export const fieldsConfiguration = ({
             name: t("ShippingOrder:groups.orderParams"),
             fields: [
                 {
-                    label: t("ShippingOrder:properties.shippedTerminalArea"),
+                    label: t("ShippingOrder:properties.terminalArea"),
                     type: FieldItemType.ENUM_SELECT,
                     value: defaultModel?.terminalArea,
                     name: "terminalArea",
