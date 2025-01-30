@@ -28,7 +28,7 @@
         "planReceivingDateInfo": "Плановая дата поступления",
         "planReceivingTime": "Время исп.",
         "planReceivingTimeInfo": "Плановое время поступления",
-        "storagePeriod": "Срок хранения товара (месяцев)",
+        "storagePeriod": "Срок хранения товара",
         "terminalArea": "Площадка, на которую поступит товар",
         "terminalAreaShort": "Площадка",
         "transportType": "Вид транспорта",
