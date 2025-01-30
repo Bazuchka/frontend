@@ -130,7 +130,7 @@ export const fieldsConfiguration = ({
             name: t("ReceivingOrder:groups.orderParams"),
             fields: [
                 {
-                    label: t("TermOfService:properties.terminalArea"),
+                    label: t("ReceivingOrder:properties.terminalAreaShort"),
                     type: FieldItemType.ENUM_SELECT,
                     value: defaultModel?.terminalArea,
                     name: "terminalArea",
@@ -171,13 +171,6 @@ export const fieldsConfiguration = ({
                     required: true,
                 },
                 {
-                    label: t("ReceivingOrder:properties.storagePeriod"),
-                    type: FieldItemType.INPUT_NUMBER,
-                    value: defaultModel?.storagePeriod,
-                    name: "storagePeriod",
-                    min: 0,
-                },
-                {
                     label: t("ReceivingOrder:properties.currency"),
                     type: FieldItemType.AUTOCOMPLETE,
                     value: defaultModel?.currency,
@@ -186,6 +179,13 @@ export const fieldsConfiguration = ({
                     requestParams: {
                         type: DictionaryType.CURRENCY,
                     },
+                },
+                {
+                    label: t("ReceivingOrder:properties.storagePeriod"),
+                    type: FieldItemType.INPUT_NUMBER,
+                    value: defaultModel?.storagePeriod,
+                    name: "storagePeriod",
+                    min: 0,
                 },
             ],
         },
@@ -213,7 +213,7 @@ export const fieldsConfiguration = ({
             ],
         },
         {
-            name: t("Shared:additionalInfo"),
+            name: t("Shared:additionalInfoShort"),
             fields: [
                 {
                     label: t("ReceivingOrder:properties.comment"),

@@ -89,6 +89,7 @@
     "of": "из",
     "createdAt": "Дата создания",
     "additionalInfo": "Дополнительная информация",
+    "additionalInfoShort": "Дополнительно",
     "chooseFile": "Выберите файл",
     "dragAndDrop": "Переместите файл",
     "open": "Открыть",
