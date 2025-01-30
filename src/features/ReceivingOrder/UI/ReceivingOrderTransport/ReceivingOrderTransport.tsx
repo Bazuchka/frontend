@@ -42,7 +42,7 @@ const ReceivingOrderTransport: FC<ReceivingOrderTransportProps> = observer(
             PromptElements,
             onStateFormChanged,
         } = useFormMechanics({
-            entityId: store.current?.id,
+            entityId: receivingOrderId,
             navigation: {
                 listPath: "/receiving-orders",
                 entityPath: (id) => `/receiving-order/${id}?tab=1`,
