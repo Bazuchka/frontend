@@ -31,7 +31,7 @@ export const useContentStyles = createUseStyles((theme: Theme) => ({
     pageTitle: {
         fontSize: "34px",
         fontStyle: "normal",
-        fontWeight: 600,
+        fontWeight: 601,
         color: theme.colors.primary[800],
         margin: "0",
     },
